@@ -1,0 +1,78 @@
+
+# HEY! This file is used in the Snowplow dbt Web integration tests.
+# You should __NEVER__ check credentials into version control. Thanks for reading :)
+
+config:
+    send_anonymous_usage_stats: False
+    use_colors: True
+
+integration_tests:
+  target: "{{ env_var('DEFAULT_TARGET') }}"
+  outputs:
+    postgres:
+      type: postgres
+      host: "{{ env_var('POSTGRES_TEST_HOST') }}"
+      user: "{{ env_var('POSTGRES_TEST_USER') }}"
+      pass: "{{ env_var('POSTGRES_TEST_PASS') }}"
+      port: "{{ env_var('POSTGRES_TEST_PORT') | as_number }}"
+      dbname: "{{ env_var('POSTGRES_TEST_DBNAME') }}"
+      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      threads: 4
+
+    redshift:
+      type: redshift
+      host: "{{ env_var('REDSHIFT_TEST_HOST') }}"
+      user: "{{ env_var('REDSHIFT_TEST_USER') }}"
+      pass: "{{ env_var('REDSHIFT_TEST_PASS') }}"
+      dbname: "{{ env_var('REDSHIFT_TEST_DBNAME') }}"
+      port: "{{ env_var('REDSHIFT_TEST_PORT') | as_number }}"
+      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      threads: 4
+
+    bigquery:
+      type: bigquery
+      method: service-account-json
+      project: "{{ env_var('BIGQUERY_TEST_DATABASE') }}"
+      location: "{{ env_var('BIGQUERY_LOCATION') }}"
+      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      threads: 4
+      keyfile_json:
+        type: "{{ env_var('BIGQUERY_SERVICE_TYPE') }}"
+        project_id: "{{ env_var('BIGQUERY_SERVICE_PROJECT_ID') }}"
+        private_key_id: "{{ env_var('BIGQUERY_SERVICE_PRIVATE_KEY_ID') }}"
+        private_key: "{{ env_var('BIGQUERY_SERVICE_PRIVATE_KEY') }}"
+        client_email: "{{ env_var('BIGQUERY_SERVICE_CLIENT_EMAIL') }}"
+        client_id: "{{ env_var('BIGQUERY_SERVICE_CLIENT_ID') }}"
+        auth_uri: "{{ env_var('BIGQUERY_SERVICE_AUTH_URI') }}"
+        token_uri: "{{ env_var('BIGQUERY_SERVICE_TOKEN_URI') }}"
+        auth_provider_x509_cert_url: "{{ env_var('BIGQUERY_SERVICE_AUTH_PROVIDER_X509_CERT_URL') }}"
+        client_x509_cert_url: "{{ env_var('BIGQUERY_SERVICE_CLIENT_X509_CERT_URL') }}"
+
+    snowflake:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_TEST_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_TEST_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_TEST_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_TEST_ROLE') }}"
+      database: "{{ env_var('SNOWFLAKE_TEST_DATABASE') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_TEST_WAREHOUSE') }}"
+      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      threads: 4
+
+    databricks:
+      type: databricks
+      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      host: "{{ env_var('DATABRICKS_TEST_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_TEST_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TEST_TOKEN') }}"
+      threads: 4
+
+    spark:
+      type: spark
+      method: odbc
+      driver: "{{ env_var('DATABRICKS_TEST_HTTP_PATH') }}"
+      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      host: "{{ env_var('DATABRICKS_TEST_HOST') }}"
+      token: "{{ env_var('DATABRICKS_TEST_TOKEN') }}"
+      endpoint: "{{ env_var('DATABRICKS_TEST_ENDPOINT') }}"
+      threads: 4
