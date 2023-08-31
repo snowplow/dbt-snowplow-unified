@@ -2,7 +2,7 @@ name: 'snowplow_unified'
 version: '0.1.0'
 config-version: 2
 
-require-dbt-version: [">=1.5.0", "<2.0.0"]
+require-dbt-version: [">=1.6.0", "<2.0.0"]
 
 profile: 'default'
 
@@ -68,37 +68,43 @@ vars:
     snowplow__user_identifiers: [{"schema": "atomic", "field" : "domain_userid"}]
     # snowplow__user_sql: 'e.domain_userid'
     snowplow__user_stitching_id: user_id
-
-    # CONTEXTS, FILTERS, AND LOGS
+    # filter your data:
     snowplow__app_id: []
-    snowplow__enable_consent: false
-    snowplow__enable_cwv: false
-    # Setting default values for 3 enrichments below throughout package rather than here
-    # Workaround for a bug (https://github.com/dbt-labs/dbt-core/issues/3698).
-    # TODO: Return to having default values here once fixed.
-    # snowplow__enable_iab: false
-    # snowplow__enable_ua: false
-    # snowplow__enable_yauaa: false
-    # snowplow__enable_mobile_context: false
-    # snowplow__enable_geolocation_context: false
-    # snowplow__enable_application_context: false
-    # snowplow__enable_screen_context: false
-    # snowplow__enable_app_errors_module: false
+    snowplow__ua_bot_filter: true
+
+    # ADDITIONS
+    # add extra web fields:
+    snowplow__enable_yauaa: false
+    snowplow__enable_iab: false
+    snowplow__enable_ua: false
+    # add extra mobile fields:
+    snowplow__enable_mobile_context: false
+    snowplow__enable_geolocation_context: false
+    snowplow__enable_application_context: false
+    snowplow__enable_screen_context: false
+    snowplow__enable_app_errors_module: false
+    # add extra custom fields:
     snowplow__page_view_passthroughs: []
     snowplow__session_passthroughs: []
-    snowplow__ua_bot_filter: true
     snowplow__user_first_passthroughs: []
     snowplow__user_last_passthroughs: []
+    # enable custom modules:
+    snowplow__enable_consent: false
+    snowplow__enable_cwv: false
 
     # WAREHOUSE SPECIFIC
-      # Bigquery
+
+    # Bigquery:
     snowplow__derived_tstamp_partitioned: true
-      # Snowflake
+
+    # Snowflake:
     snowplow__query_tag: snowplow_dbt
-      # Databricks
+
+    # Databricks:
     # Depending on the use case it should either be the catalog (for Unity Catalog users from databricks connector 1.1.1 onwards) or the same value as your snowplow__atomic_schema (unless changed it should be 'atomic')
-    # snowplow__databricks_catalog: 'hive_metastore'
-      # Redshift/postgres
+    snowplow__databricks_catalog: 'hive_metastore'
+
+    # Redshift/postgres:
     snowplow__entities_or_sdes: []
     snowplow__enable_load_tstamp: true # set to false if you are using the postgres loader or earlier than 4.0.0 of the RDB loader
     # web only contexts
@@ -152,6 +158,7 @@ models:
           enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
         snowflake:
           enabled: "{{ target.type == 'snowflake' | as_bool() }}"
+
     optional_modules:
       consent:
         +schema: "derived"
@@ -180,6 +187,7 @@ models:
           enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
         snowflake:
           enabled: "{{ target.type == 'snowflake' | as_bool() }}"
+
     sessions:
       +schema: "derived"
       +tags: "snowplow_unified_incremental"
@@ -194,9 +202,11 @@ models:
           enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
         snowflake:
           enabled: "{{ target.type == 'snowflake' | as_bool() }}"
+
     user_mapping:
       +schema: "derived"
       +tags: "snowplow_unified_incremental"
+
     users:
       +schema: "derived"
       +tags: "snowplow_unified_incremental"
