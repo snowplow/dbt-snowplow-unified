@@ -4,8 +4,8 @@ models:
   - name: snowplow_unified_views
     description: '{{ doc("table_page_views") }}'
     columns:
-      - name: page_view_id
-        description: '{{ doc("col_page_view_id") }}'
+      - name: view_id
+        description: '{{ doc("col_view_id") }}'
         tags:
           - primary-key
         tests:
@@ -39,7 +39,7 @@ models:
         tests:
           - not_null
       - name: page_views_in_session
-        description: Distinct count of `page_view_id` within a session
+        description: Distinct count of `view_id` within a session
         tests:
           - not_null
       - name: dvce_created_tstamp

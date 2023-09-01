@@ -11,7 +11,7 @@ with prep as (
     domain_sessionid,
     count(distinct page_views_in_session) as dist_pvis_values,
     count(*) - count(distinct page_view_in_session_index)  as all_minus_dist_pvisi,
-    count(*) - count(distinct page_view_id) as all_minus_dist_pvids
+    count(*) - count(distinct view_id) as all_minus_dist_pvids
 
   from {{ ref('snowplow_unified_views') }}
   group by 1

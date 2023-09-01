@@ -288,8 +288,8 @@ models:
         description: '{{ doc("col_event_fingerprint") }}'
       - name: true_tstamp
         description: '{{ doc("col_true_tstamp") }}'
-      - name: page_view_id
-        description: '{{ doc("col_page_view_id") }}'
+      - name: view_id
+        description: '{{ doc("col_view_id") }}'
       - name: original_domain_sessionid
         description: '{{ doc("col_original_domain_sessionid") }}'
       - name: original_domain_userid

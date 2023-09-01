@@ -12,7 +12,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 }}
 
 select
-  ev.page_view_id,
+  ev.view_id,
   {% if var('snowplow__limit_page_views_to_session', true) %}
   ev.domain_sessionid,
   {% endif %}
@@ -29,6 +29,6 @@ select
 from {{ ref('snowplow_unified_base_events_this_run') }} as ev
 
 where ev.event_name = 'page_ping'
-and ev.page_view_id is not null
+and ev.view_id is not null
 
 group by 1 {% if var('snowplow__limit_page_views_to_session', true) %}, 2 {% endif %}

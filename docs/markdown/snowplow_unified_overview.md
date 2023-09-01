@@ -15,7 +15,7 @@ Welcome to the model documentation site for the Snowplow web dbt package. The pa
 This model consists of a series of modules, each producing a table which serves as the input to the next module. The 'standard' modules are:
 
 - Base: Performs the incremental logic, outputting the table `snowplow_web_base_events_this_run` which contains a de-duped data set of all events required for the current run of the model.
-- Page Views: Aggregates event level data to a page view level, `page_view_id`.
+- Page Views: Aggregates event level data to a page view level, `view_id`.
 - Sessions: Aggregates page view level data to a session level, `domain_sessionid`.
 - Users: Aggregates session level data to a users level, `domain_userid`.
 - User Mapping: Provides a mapping between user identifiers, `domain_userid` and `user_id`. This can be used for session stitching.

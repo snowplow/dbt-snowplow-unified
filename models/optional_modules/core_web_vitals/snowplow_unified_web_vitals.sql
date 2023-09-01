@@ -9,10 +9,10 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   config(
     materialized= 'incremental',
     enabled=var("snowplow__enable_cwv", false) | as_bool(),
-    unique_key='page_view_id',
+    unique_key='view_id',
     upsert_date_key='derived_tstamp',
     sort='derived_tstamp',
-    dist='page_view_id',
+    dist='view_id',
     tags=["derived"],
     partition_by = snowplow_utils.get_value_by_target_type(bigquery_val = {
       "field": "derived_tstamp",

@@ -1,6 +1,6 @@
 {% docs table_page_view_context %}
 
-This context table contains the `page_view_id` associated with a given page view.
+This context table contains the `view_id` associated with a given page view.
 
 {% enddocs %}
 

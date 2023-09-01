@@ -27,8 +27,8 @@ models:
         description: '{{ doc("col_domain_userid") }}'
       - name: user_id
         description: '{{ doc("col_user_id") }}'
-      - name: page_view_id
-        description: '{{ doc("col_page_view_id") }}'
+      - name: view_id
+        description: '{{ doc("col_view_id") }}'
       - name: domain_sessionid
         description: '{{ doc("col_domain_sessionid") }}'
       - name: collector_tstamp
@@ -125,8 +125,8 @@ models:
         description: '{{ doc("col_domain_userid") }}'
       - name: user_id
         description: '{{ doc("col_user_id") }}'
-      - name: page_view_id
-        description: '{{ doc("col_page_view_id") }}'
+      - name: view_id
+        description: '{{ doc("col_view_id") }}'
       - name: domain_sessionid
         description: '{{ doc("col_domain_sessionid") }}'
       - name: collector_tstamp

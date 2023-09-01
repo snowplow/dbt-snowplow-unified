@@ -9,21 +9,21 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   config(
     materialized='incremental',
     enabled=var('snowplow__enable_custom_example'),
-    unique_key='page_view_id',
+    unique_key='view_id',
     upsert_date_key='start_tstamp',
     sort='start_tstamp',
-    dist='page_view_id',
+    dist='view_id',
     partition_by = snowplow_utils.get_value_by_target_type(bigquery_val={
       "field": "start_tstamp",
       "data_type": "timestamp"
     }),
-    cluster_by=["page_view_id"],
+    cluster_by=["view_id"],
     snowplow_optimize=true
   )
 }}
 
 select
-  pv.page_view_id,
+  pv.view_id,
   pv.start_tstamp,
   -- Arbitary case statements and inefficient string search functions (for cross db compatibility). Do not copy.
   case

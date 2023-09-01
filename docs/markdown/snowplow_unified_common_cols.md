@@ -518,7 +518,7 @@ Hash client-set event fields e.g. AADCE520E20C2899F4CED228A79A3083
 User-set “true timestamp” for the event e.g. ‘2013-11-26 00:02:04’
 {% enddocs %}
 
-{% docs col_page_view_id %}
+{% docs col_view_id %}
 A UUID for each page view e.g. ‘c6ef3124-b53a-4b13-a233-0088f79dcbcb’
 {% enddocs %}
 

@@ -14,7 +14,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 with prep as (
 select
-  ev.page_view_id,
+  ev.view_id,
   ev.event_id,
 
   ev.app_id,
@@ -129,18 +129,18 @@ select
   left join {{ ref(var('snowplow__ga4_categories_seed')) }} c on lower(trim(ev.mkt_source)) = lower(c.source)
 
   where ev.event_name = 'page_view'
-  and ev.page_view_id is not null
+  and ev.view_id is not null
 
   {% if var("snowplow__ua_bot_filter", true) %}
      {{ filter_bots('ev') }}
   {% endif %}
 
-  qualify row_number() over (partition by ev.page_view_id order by ev.derived_tstamp, ev.dvce_created_tstamp) = 1
+  qualify row_number() over (partition by ev.view_id order by ev.derived_tstamp, ev.dvce_created_tstamp) = 1
 )
 
 , page_view_events as (
   select
-    p.page_view_id,
+    p.view_id,
     p.event_id,
 
     p.app_id,
@@ -279,14 +279,14 @@ select
   from prep p
 
   left join {{ ref('snowplow_unified_pv_engaged_time') }} t
-  on p.page_view_id = t.page_view_id {% if var('snowplow__limit_page_views_to_session', true) %} and p.domain_sessionid = t.domain_sessionid {% endif %}
+  on p.view_id = t.view_id {% if var('snowplow__limit_page_views_to_session', true) %} and p.domain_sessionid = t.domain_sessionid {% endif %}
 
   left join {{ ref('snowplow_unified_pv_scroll_depth') }} sd
-  on p.page_view_id = sd.page_view_id {% if var('snowplow__limit_page_views_to_session', true) %} and p.domain_sessionid = sd.domain_sessionid {% endif %}
+  on p.view_id = sd.view_id {% if var('snowplow__limit_page_views_to_session', true) %} and p.domain_sessionid = sd.domain_sessionid {% endif %}
 )
 
 select
-  pve.page_view_id,
+  pve.view_id,
   pve.event_id,
 
   pve.app_id,

@@ -17,7 +17,7 @@ select
   domain_userid,
   user_id,
   geo_country,
-  page_view_id,
+  view_id,
   domain_sessionid,
   derived_tstamp,
   load_tstamp,

@@ -9,7 +9,7 @@ sources:
         description: '{{ doc("table_page_view_context") }}'
         columns:
           - name: id
-            description: '{{ doc("col_page_view_id") }}'
+            description: '{{ doc("col_view_id") }}'
       - name: com_iab_snowplow_spiders_and_robots_1
         description: '{{ doc("table_iab_context") }}'
         columns:

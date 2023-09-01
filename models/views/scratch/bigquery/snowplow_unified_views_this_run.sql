@@ -13,7 +13,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 with prep as (
 select
-  ev.page_view_id,
+  ev.view_id,
   ev.event_id,
 
   ev.app_id,
@@ -128,7 +128,7 @@ select
   {%- if var('snowplow__page_view_passthroughs', []) -%}
     {%- set passthrough_names = [] -%}
     {%- for identifier in var('snowplow__page_view_passthroughs', []) %}
-    {# Check if it's a simple column or a sql+alias #}
+    {# Check if it is a simple column or a sql+alias #}
       {%- if identifier is mapping -%}
         ,{{identifier['sql']}} as {{identifier['alias']}}
         {%- do passthrough_names.append(identifier['alias']) -%}
@@ -143,19 +143,19 @@ select
   left join {{ ref(var('snowplow__ga4_categories_seed')) }} c on lower(trim(ev.mkt_source)) = lower(c.source)
 
   where ev.event_name = 'page_view'
-  and ev.page_view_id is not null
+  and ev.view_id is not null
 
   {% if var("snowplow__ua_bot_filter", true) %}
   {{ filter_bots('ev') }}
   {% endif %}
 
-  qualify row_number() over (partition by ev.page_view_id order by ev.derived_tstamp, ev.dvce_created_tstamp) = 1
+  qualify row_number() over (partition by ev.view_id order by ev.derived_tstamp, ev.dvce_created_tstamp) = 1
 )
 
 , page_view_events as (
 
   select
-    ev.page_view_id,
+    ev.view_id,
     ev.event_id,
 
     ev.app_id,
@@ -296,15 +296,15 @@ select
   from prep ev
 
   left join {{ ref('snowplow_unified_pv_engaged_time') }} t
-  on ev.page_view_id = t.page_view_id {% if var('snowplow__limit_page_views_to_session', true) %} and ev.domain_sessionid = t.domain_sessionid {% endif %}
+  on ev.view_id = t.view_id {% if var('snowplow__limit_page_views_to_session', true) %} and ev.domain_sessionid = t.domain_sessionid {% endif %}
 
   left join {{ ref('snowplow_unified_pv_scroll_depth') }} sd
-  on ev.page_view_id = sd.page_view_id {% if var('snowplow__limit_page_views_to_session', true) %} and ev.domain_sessionid = sd.domain_sessionid {% endif %}
+  on ev.view_id = sd.view_id {% if var('snowplow__limit_page_views_to_session', true) %} and ev.domain_sessionid = sd.domain_sessionid {% endif %}
 
 )
 
 select
-   ev.page_view_id,
+   ev.view_id,
     ev.event_id,
 
     ev.app_id,

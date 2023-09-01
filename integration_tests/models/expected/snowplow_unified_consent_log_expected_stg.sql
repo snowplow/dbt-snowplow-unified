@@ -17,7 +17,7 @@ select
   domain_userid,
   user_id,
   geo_country,
-  cast(page_view_id as {{ dbt.type_string() }}) as page_view_id,
+  cast(view_id as {{ dbt.type_string() }}) as view_id,
   domain_sessionid,
   cast(derived_tstamp as {{ dbt.type_timestamp() }}) as derived_tstamp,
   cast(load_tstamp as {{ dbt.type_timestamp() }}) as load_tstamp,

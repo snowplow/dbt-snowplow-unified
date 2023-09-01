@@ -8,7 +8,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 -- Removing model_tstamp
 
 select
-  page_view_id,
+  view_id,
   event_id,
 
 -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks

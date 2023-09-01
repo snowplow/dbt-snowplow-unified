@@ -13,7 +13,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 with prep as (
   select
-    ev.page_view_id,
+    ev.view_id,
     {% if var('snowplow__limit_page_views_to_session', true) %}
     ev.domain_sessionid,
     {% endif %}
@@ -37,7 +37,7 @@ with prep as (
   from {{ ref('snowplow_unified_base_events_this_run') }} as ev
 
   where ev.event_name in ('page_view', 'page_ping')
-    and ev.page_view_id is not null
+    and ev.view_id is not null
     and ev.doc_height > 0 -- exclude problematic (but rare) edge case
     and ev.doc_width > 0 -- exclude problematic (but rare) edge case
 
@@ -45,7 +45,7 @@ with prep as (
 )
 
 select
-  page_view_id,
+  view_id,
   {% if var('snowplow__limit_page_views_to_session', true) %}
   domain_sessionid,
   {% endif %}

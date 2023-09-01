@@ -23,7 +23,7 @@ with prep as (
     e.domain_userid,
     e.original_domain_userid,
     e.user_id,
-    e.page_view_id,
+    e.view_id,
     e.domain_sessionid,
     e.original_domain_sessionid,
     e.collector_tstamp,
@@ -46,7 +46,7 @@ with prep as (
     e.inp,
     e.ttfb,
     e.navigation_type,
-    row_number() over (partition by e.page_view_id order by e.derived_tstamp, e.dvce_created_tstamp, e.event_id) dedupe_index
+    row_number() over (partition by e.view_id order by e.derived_tstamp, e.dvce_created_tstamp, e.event_id) dedupe_index
 
   from {{ ref("snowplow_unified_web_vital_events_this_run") }} as e
 

@@ -52,7 +52,7 @@ select
 
     -- only adding there for the int tests to pass before I start the pageview unification feature
     {% if var('snowplow__enable_web') %}
-    a.contexts_com_snowplowanalytics_snowplow_web_page_1[0].id as page_view_id,
+    a.contexts_com_snowplowanalytics_snowplow_web_page_1[0].id as view_id,
     {% endif %}
     {% if var('snowplow__enable_mobile') %}
     a.unstruct_event_com_snowplowanalytics_mobile_screen_view_1.id::STRING as screen_view_id,

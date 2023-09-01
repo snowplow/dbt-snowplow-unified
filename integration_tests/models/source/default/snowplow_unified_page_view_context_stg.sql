@@ -8,8 +8,8 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {# CWV tests run on a different source dataset, this is an easy way to hack them together. #}
 {% if not var("snowplow__enable_cwv", false) %}
 
--- test dataset includes page_view_id as part of events table.
--- RS and PG events tables are federated so split out page_view_id into its own table
+-- test dataset includes view_id as part of events table.
+-- RS and PG events tables are federated so split out view_id into its own table
 
 with prep as (
 select

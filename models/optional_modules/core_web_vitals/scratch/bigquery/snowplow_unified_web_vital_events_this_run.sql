@@ -23,7 +23,7 @@ with prep as (
     e.domain_userid,
     e.original_domain_userid,
     e.user_id,
-    e.page_view_id,
+    e.view_id,
     e.domain_sessionid,
     e.original_domain_sessionid,
     e.collector_tstamp,
@@ -55,7 +55,7 @@ with prep as (
 
   and event_name = 'web_vitals'
 
-  and page_view_id is not null
+  and view_id is not null
 
   -- exclude bot traffic
 
@@ -79,7 +79,7 @@ select
   domain_userid,
   original_domain_userid,
   user_id,
-  page_view_id,
+  view_id,
   domain_sessionid,
   original_domain_sessionid,
   collector_tstamp,

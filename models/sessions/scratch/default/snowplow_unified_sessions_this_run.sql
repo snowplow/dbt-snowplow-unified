@@ -132,7 +132,7 @@ with session_firsts as (
 
     where
         ev.event_name in ('page_ping', 'page_view')
-        and ev.page_view_id is not null
+        and ev.view_id is not null
         {% if var("snowplow__ua_bot_filter", true) %}
             {{ filter_bots('ev') }}
         {% endif %}
@@ -163,7 +163,7 @@ session_lasts as (
         {{ ref(var('snowplow__geo_mapping_seed')) }} g on lower(ev.geo_country) = lower(g.alpha_2)
     where
         event_name in ('page_view')
-        and page_view_id is not null
+        and view_id is not null
         {% if var("snowplow__ua_bot_filter", true) %}
             {{ filter_bots() }}
         {% endif %}
@@ -187,20 +187,20 @@ session_aggs as (
         {% endif %}
         , count(*) as total_events
         -- engagement fields
-        , count(distinct case when event_name in ('page_ping', 'page_view') and page_view_id is not null then page_view_id else null end) as page_views
+        , count(distinct case when event_name in ('page_ping', 'page_view') and view_id is not null then view_id else null end) as page_views
         -- (hb * (#page pings - # distinct page view ids ON page pings)) + (# distinct page view ids ON page pings * min visit length)
         , ({{ var("snowplow__heartbeat", 10) }} * (
                 -- number of (unqiue in heartbeat increment) pages pings following a page ping (gap of heartbeat)
                 count(distinct case
-                        when event_name = 'page_ping' and page_view_id is not null then
+                        when event_name = 'page_ping' and view_id is not null then
                         -- need to get a unique list of floored time PER page view, so create a dummy surrogate key...
-                            {{ dbt.concat(['page_view_id', "cast(floor("~snowplow_utils.to_unixtstamp('dvce_created_tstamp')~"/"~var('snowplow__heartbeat', 10)~") as "~snowplow_utils.type_max_string()~")" ]) }}
+                            {{ dbt.concat(['view_id', "cast(floor("~snowplow_utils.to_unixtstamp('dvce_created_tstamp')~"/"~var('snowplow__heartbeat', 10)~") as "~snowplow_utils.type_max_string()~")" ]) }}
                         else
                             null end) -
-                    count(distinct case when event_name = 'page_ping' and page_view_id is not null then page_view_id else null end)
+                    count(distinct case when event_name = 'page_ping' and view_id is not null then view_id else null end)
                 ))  +
             -- number of page pings following a page view (or no event) (gap of min visit length)
-            (count(distinct case when event_name = 'page_ping' and page_view_id is not null then page_view_id else null end) * {{ var("snowplow__min_visit_length", 5) }}) as engaged_time_in_s
+            (count(distinct case when event_name = 'page_ping' and view_id is not null then view_id else null end) * {{ var("snowplow__min_visit_length", 5) }}) as engaged_time_in_s
         , {{ snowplow_utils.timestamp_diff('min(derived_tstamp)', 'max(derived_tstamp)', 'second') }} as absolute_time_in_s
     from {{ ref('snowplow_unified_base_events_this_run') }}
     where

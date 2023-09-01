@@ -22,7 +22,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     e.original_domain_userid,
     e.user_id,
     e.geo_country,
-    e.page_view_id,
+    e.view_id,
     e.domain_sessionid,
     e.original_domain_sessionid,
     e.derived_tstamp,

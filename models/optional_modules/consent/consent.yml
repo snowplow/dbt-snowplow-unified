@@ -25,8 +25,8 @@ models:
         description: '{{ doc("col_user_id") }}'
       - name: geo_country
         description: '{{ doc("col_geo_country") }}'
-      - name: page_view_id
-        description: '{{ doc("col_page_view_id") }}'
+      - name: view_id
+        description: '{{ doc("col_view_id") }}'
       - name: domain_sessionid
         description: '{{ doc("col_domain_sessionid") }}'
       - name: derived_tstamp
@@ -150,8 +150,8 @@ models:
         description: '{{ doc("col_event_id") }}'
       - name: domain_userid
         description: The optional userid of a user
-      - name: page_view_id
-        description: '{{ doc("col_page_view_id") }}'
+      - name: view_id
+        description: '{{ doc("col_view_id") }}'
       - name: domain_sessionid
         description: '{{ doc("col_domain_sessionid") }}'
       - name: cmp_load_time
