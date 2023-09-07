@@ -15,7 +15,7 @@ with prep as (
   select
     ev.view_id,
     {% if var('snowplow__limit_page_views_to_session', true) %}
-    ev.domain_sessionid,
+    ev.session_identifier,
     {% endif %}
 
     max(ev.doc_width) as doc_width,
@@ -34,7 +34,7 @@ with prep as (
     least(greatest(min(coalesce(ev.pp_yoffset_min, 0)), 0), max(ev.doc_height)) as vmin, -- should be zero (edge case: not zero because the pv event is missing)
     least(greatest(max(coalesce(ev.pp_yoffset_max, 0)), 0), max(ev.doc_height)) as vmax
 
-  from {{ ref('snowplow_unified_base_events_this_run') }} as ev
+  from {{ ref('snowplow_unified_events_this_run') }} as ev
 
   where ev.event_name in ('page_view', 'page_ping')
     and ev.view_id is not null
@@ -47,7 +47,7 @@ with prep as (
 select
   view_id,
   {% if var('snowplow__limit_page_views_to_session', true) %}
-  domain_sessionid,
+  session_identifier,
   {% endif %}
 
   doc_width,

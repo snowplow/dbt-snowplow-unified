@@ -20,12 +20,10 @@ with prep as (
     e.event_name,
     e.app_id,
     e.platform,
-    e.domain_userid,
-    e.original_domain_userid,
+    e.user_identifier,
     e.user_id,
     e.view_id,
-    e.domain_sessionid,
-    e.original_domain_sessionid,
+    e.session_identifier,
     e.collector_tstamp,
     e.derived_tstamp,
     e.dvce_created_tstamp,
@@ -45,7 +43,7 @@ with prep as (
     ceil(e.unstruct_event_com_snowplowanalytics_snowplow_unified_web_vitals_1:ttfb::decimal(14,4), 3) as ttfb,
     e.unstruct_event_com_snowplowanalytics_snowplow_unified_web_vitals_1:navigationType::varchar as navigation_type
 
-  from {{ ref("snowplow_unified_base_events_this_run") }} as e
+  from {{ ref("snowplow_unified_events_this_run") }} as e
 
   where {{ snowplow_utils.is_run_with_new_events('snowplow_unified') }} --returns false if run doesn't contain new events.
 
@@ -72,12 +70,10 @@ select
   event_name,
   app_id,
   platform,
-  domain_userid,
-  original_domain_userid,
+  user_identifier,
   user_id,
   view_id,
-  domain_sessionid,
-  original_domain_sessionid,
+  session_identifier,
   collector_tstamp,
   derived_tstamp,
   dvce_created_tstamp,

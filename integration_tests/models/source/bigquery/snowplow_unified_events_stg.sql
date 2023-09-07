@@ -12,20 +12,55 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   with prep as (
   select
     *
-    except(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0, unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0, unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0, contexts_com_iab_snowplow_spiders_and_robots_1_0_0, contexts_com_snowplowanalytics_snowplow_ua_parser_context_1_0_0, contexts_nl_basjes_yauaa_context_1_0_0, unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0),
+    except(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0,
+            unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0,
+            unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,
+            contexts_com_iab_snowplow_spiders_and_robots_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_ua_parser_context_1_0_0,
+            contexts_nl_basjes_yauaa_context_1_0_0,
+            unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_client_session_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0,
+            contexts_com_snowplowanalytics_mobile_application_1_0_0,
+            contexts_com_snowplowanalytics_mobile_deep_link_1_0_0,
+            com_snowplowanalytics_snowplow_browser_context_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0,
+            contexts_com_snowplowanalytics_mobile_screen_1_0_0),
     JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0) AS contexts_com_snowplowanalytics_snowplow_web_page_1_0_0,
     JSON_EXTRACT_ARRAY(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0) AS unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0,
     JSON_EXTRACT_ARRAY(unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0) AS unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,
     JSON_EXTRACT_ARRAY(contexts_com_iab_snowplow_spiders_and_robots_1_0_0) as contexts_com_iab_snowplow_spiders_and_robots_1_0_0,
     JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1_0_0) as contexts_com_snowplowanalytics_snowplow_ua_parser_context_1_0_0,
-    JSON_EXTRACT_ARRAY(contexts_nl_basjes_yauaa_context_1_0_0) as contexts_nl_basjes_yauaa_context_1_0_0
+    JSON_EXTRACT_ARRAY(contexts_nl_basjes_yauaa_context_1_0_0) as contexts_nl_basjes_yauaa_context_1_0_0,
+    JSON_EXTRACT_ARRAY(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0) as contexts_com_snowplowanalytics_snowplow_client_session_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0) as contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_mobile_application_1_0_0) as contexts_com_snowplowanalytics_mobile_application_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_mobile_deep_link_1_0_0) as contexts_com_snowplowanalytics_mobile_deep_link_1_0_0,
+    JSON_EXTRACT_ARRAY(com_snowplowanalytics_snowplow_browser_context_1_0_0) as com_snowplowanalytics_snowplow_browser_context_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0) as contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_mobile_screen_1_0_0) as contexts_com_snowplowanalytics_mobile_screen_1_0_0
+
   from {{ ref('snowplow_unified_events') }}
   )
 
   -- recreate repeated record field i.e. array of structs as is originally in BQ events table
   select
     *
-    except(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0, unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0, unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0, contexts_com_iab_snowplow_spiders_and_robots_1_0_0, contexts_com_snowplowanalytics_snowplow_ua_parser_context_1_0_0, contexts_nl_basjes_yauaa_context_1_0_0),
+    except(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0,
+            unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0,
+            unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,
+            contexts_com_iab_snowplow_spiders_and_robots_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_ua_parser_context_1_0_0,
+            contexts_nl_basjes_yauaa_context_1_0_0,
+            unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_client_session_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0,
+            contexts_com_snowplowanalytics_mobile_application_1_0_0,
+            contexts_com_snowplowanalytics_mobile_deep_link_1_0_0,
+            com_snowplowanalytics_snowplow_browser_context_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0,
+            contexts_com_snowplowanalytics_mobile_screen_1_0_0),
     array(
       select as struct
         JSON_EXTRACT_scalar(json_array,'$.id') as id
@@ -113,9 +148,107 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       ) as contexts_nl_basjes_yauaa_context_1_0_0,
 
     array(
-      select as struct '' as id, '' as name, '' as previous_id, '' as transition_type, '' as type
-      ) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0
+    select as struct JSON_EXTRACT_scalar(json_array,'$.id') as id,
+                    JSON_EXTRACT_scalar(json_array,'$.name') as name,
+                    JSON_EXTRACT_scalar(json_array,'$.previousId') as previous_id,
+                    JSON_EXTRACT_scalar(json_array,'$.previous_name') as previous_name,
+                    JSON_EXTRACT_scalar(json_array,'$.previous_type') as previous_type,
+                    JSON_EXTRACT_scalar(json_array,'$.transition_type') as transition_type,
+                    JSON_EXTRACT_scalar(json_array,'$.type') as type
+    from unnest(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0) as json_array
+    ) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
+  array(
+    select as struct JSON_EXTRACT_scalar(json_array,'$.sessionId') as session_id,
+                    JSON_EXTRACT_scalar(json_array,'$.userId') as user_id,
+                    cast(JSON_EXTRACT_scalar(json_array,'$.sessionIndex') as integer) as session_index,
+                    JSON_EXTRACT_scalar(json_array,'$.firstEventId') as first_event_id,
+                    JSON_EXTRACT_scalar(json_array,'$.previousSessionId') as previous_session_id,
+                    JSON_EXTRACT_scalar(json_array,'$.eventIndex') as event_index,
+                    JSON_EXTRACT_scalar(json_array,'$.storageMechanism') as storage_mechanism,
+                    JSON_EXTRACT_scalar(json_array,'$.firstEventTimestamp') as first_event_timestamp
+    from unnest(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0) as json_array
+    ) as contexts_com_snowplowanalytics_snowplow_client_session_1_0_0,
+  array(
+    select as struct cast(JSON_EXTRACT_scalar(json_array,'$.latitude') as FLOAT64) as latitude,
+                    cast(JSON_EXTRACT_scalar(json_array,'$.longitude') as FLOAT64) as longitude,
+                    cast(JSON_EXTRACT_scalar(json_array,'$.latitudeLongitudeAccuracy') as FLOAT64) as latitude_longitude_accuracy,
+                    cast(JSON_EXTRACT_scalar(json_array,'$.altitude') as FLOAT64) as altitude,
+                    cast(JSON_EXTRACT_scalar(json_array,'$.altitudeAccuracy')  as FLOAT64)as altitude_accuracy,
+                    cast(JSON_EXTRACT_scalar(json_array,'$.bearing')  as FLOAT64)as bearing,
+                    cast(JSON_EXTRACT_scalar(json_array,'$.speed') as FLOAT64) as speed,
+                    cast(JSON_EXTRACT_scalar(json_array,'$.timestamp') as integer) as timestamp
+    from unnest(contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0) as json_array
+    ) as contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0,
 
+    array(
+      select as struct
+        JSON_EXTRACT_scalar(json_array,'$.viewport') as viewport,
+        JSON_EXTRACT_scalar(json_array,'$.documentSize') as document_size,
+        JSON_EXTRACT_scalar(json_array,'$.resolution') as resolution,
+        cast(JSON_EXTRACT_scalar(json_array,'$.colorDepth') as integer) as color_depth,
+        cast(JSON_EXTRACT_scalar(json_array,'$.devicePixelRatio') as FLOAT64) as device_pixel_ratio,
+        cast(JSON_EXTRACT_scalar(json_array,'$.cookiesEnabled') as boolean) as cookies_enabled,
+        cast(JSON_EXTRACT_scalar(json_array,'$.online') as boolean) as online,
+        JSON_EXTRACT_scalar(json_array,'$.browserLanguage') as browser_language,
+        JSON_EXTRACT_scalar(json_array,'$.documentLanguage') as document_language,
+        cast(JSON_EXTRACT_scalar(json_array,'$.webdriver') as boolean) as webdriver,
+        cast(JSON_EXTRACT_scalar(json_array,'$.deviceMemory') as integer) as device_memory,
+        cast(JSON_EXTRACT_scalar(json_array,'$.hardwareConcurrency') as integer) as hardware_concurrency,
+        JSON_EXTRACT_scalar(json_array,'$.tab_id') as tab_id
+      from unnest(com_snowplowanalytics_snowplow_browser_context_1_0_0) as json_array
+      ) as com_snowplowanalytics_snowplow_browser_context_1_0_0,
+
+    array(
+    select as struct JSON_EXTRACT_scalar(json_array,'$.version') as version,
+                    JSON_EXTRACT_scalar(json_array,'$.build') as build
+    from unnest(contexts_com_snowplowanalytics_mobile_application_1_0_0) as json_array
+    ) as contexts_com_snowplowanalytics_mobile_application_1_0_0,
+
+    array(
+    select as struct JSON_EXTRACT_scalar(json_array,'$.url') as url,
+                    JSON_EXTRACT_scalar(json_array,'$.referrer') as referrer
+    from unnest(contexts_com_snowplowanalytics_mobile_deep_link_1_0_0) as json_array
+    ) as contexts_com_snowplowanalytics_mobile_deep_link_1_0_0,
+
+    array(
+      select as struct
+        JSON_EXTRACT_scalar(json_array,'$.deviceManufacturer') as device_manufacturer,
+        JSON_EXTRACT_scalar(json_array,'$.deviceModel') as device_model,
+        JSON_EXTRACT_scalar(json_array,'$.osType') as os_type,
+        JSON_EXTRACT_scalar(json_array,'$.osVersion') as os_version,
+        JSON_EXTRACT_scalar(json_array,'$.androidIdfa') as android_idfa,
+        JSON_EXTRACT_scalar(json_array,'$.appleIdfa') as apple_idfa,
+        JSON_EXTRACT_scalar(json_array,'$.appleIdfv') as apple_idfv,
+        JSON_EXTRACT_scalar(json_array,'$.carrier') as carrier,
+        JSON_EXTRACT_scalar(json_array,'$.openIdfa') as open_idfa,
+        JSON_EXTRACT_scalar(json_array,'$.networkTechnology') as network_technology,
+        JSON_EXTRACT_scalar(json_array,'$.networkType') as network_type,
+        JSON_EXTRACT_scalar(json_array,'$.physicalMemory') as physical_memory,
+        JSON_EXTRACT_scalar(json_array,'$.systemAvailableMemory') as system_available_memory,
+        JSON_EXTRACT_scalar(json_array,'$.appAvailableMemory') as app_available_memory,
+        JSON_EXTRACT_scalar(json_array,'$.batteryLevel') as battery_level,
+        JSON_EXTRACT_scalar(json_array,'$.availableStorage') as available_storage,
+        JSON_EXTRACT_scalar(json_array,'$.lowPowerMode') as low_power_mode,
+        JSON_EXTRACT_scalar(json_array,'$.isPortrait') as is_portrait,
+        JSON_EXTRACT_scalar(json_array,'$.resolution') as resolution,
+        JSON_EXTRACT_scalar(json_array,'$.scale') as scale,
+        JSON_EXTRACT_scalar(json_array,'$.language') as language,
+        JSON_EXTRACT_scalar(json_array,'$.appSetId') as app_set_id,
+        JSON_EXTRACT_scalar(json_array,'$.appSetIdScope') as app_set_id_scope
+
+      from unnest(contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0) as json_array
+      ) as contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0,
+
+    array(
+      select as struct JSON_EXTRACT_scalar(json_array,'$.id') as id,
+                      JSON_EXTRACT_scalar(json_array,'$.name') as name,
+                      JSON_EXTRACT_scalar(json_array,'$.activity') as activity,
+                      JSON_EXTRACT_scalar(json_array,'$.fragment') as fragment,
+                      JSON_EXTRACT_scalar(json_array,'$.topViewController') as top_view_controller,
+                      JSON_EXTRACT_scalar(json_array,'$.type') as type,
+                      JSON_EXTRACT_scalar(json_array,'$.viewController') as view_controller
+      from unnest(contexts_com_snowplowanalytics_mobile_screen_1_0_0) as json_array
+      ) as contexts_com_snowplowanalytics_mobile_screen_1_0_0,
 
   from prep
 
@@ -124,7 +257,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   with prep as (
     select
       *
-      except(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0, unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0, unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,  unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1_0_0, contexts_nl_basjes_yauaa_context_1_0_0, contexts_com_iab_snowplow_spiders_and_robots_1_0_0, unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0),
+      except(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0, unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0, unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,  unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1_0_0, contexts_nl_basjes_yauaa_context_1_0_0, contexts_com_iab_snowplow_spiders_and_robots_1_0_0),
       JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0) AS contexts_com_snowplowanalytics_snowplow_web_page_1_0_0,
       JSON_EXTRACT_ARRAY(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0) AS unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0,
       JSON_EXTRACT_ARRAY(unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0) AS unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,
@@ -203,12 +336,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
                     JSON_EXTRACT_scalar(json_array,'$.spider_or_robot') as spider_or_robot
 
       from unnest(contexts_com_iab_snowplow_spiders_and_robots_1_0_0) as json_array
-      ) as contexts_com_iab_snowplow_spiders_and_robots_1_0_0,
-
-    array(
-      select as struct '' as id, '' as name, '' as previous_id, '' as transition_type, '' as type
-      ) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0
-
+      ) as contexts_com_iab_snowplow_spiders_and_robots_1_0_0
   from prep
 
 {% endif %}

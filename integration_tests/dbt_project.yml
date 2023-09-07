@@ -46,6 +46,7 @@ vars:
     snowplow__atomic_schema: "{{target.schema ~ '_snplw_unified_int_tests'}}"
     snowplow__events_table: snowplow_unified_events_stg
     snowplow__events: "{{ ref('snowplow_unified_events_stg') }}"
+    # web only contexts
     snowplow__cwv_context: snowplow_unified_cwv_context_stg
     snowplow__page_view_context: snowplow_unified_page_view_context_stg
     snowplow__consent_cmp_visible: snowplow_unified_consent_cmp_visible_stg
@@ -53,10 +54,17 @@ vars:
     snowplow__iab_context: snowplow_unified_spider_context_stg
     snowplow__ua_parser_context: snowplow_unified_ua_context_stg
     snowplow__yauaa_context: snowplow_unified_yauaa_context_stg
-    snowplow__screen_view_events: snowplow_unified_screen_view_context_stg
+    snowplow__browser_context: snowplow_unified_browser_context_stg
+    # mobile only contexts
+    snowplow__screen_view_events: snowplow_unified_screen_view_event_stg
     snowplow__session_context: snowplow_unified_session_context_stg
     snowplow__geolocation_context: snowplow_unified_geolocation_context_stg
-    snowplow__enable_mobile_context: false
+    snowplow__mobile_context: snowplow_unified_mobile_context_stg
+    snowplow__application_context: snowplow_unified_app_context_stg
+    snowplow__screen_context: snowplow_unified_screen_context_stg
+    snowplow__deep_link_context: snowplow_unified_deep_link_context_stg
+    snowplow__app_errors_table: snowplow_unified_app_error_context_stg
+
     snowplow__start_date: "2020-07-03"
     snowplow__backfill_limit_days: 2
     snowplow__databricks_catalog: hive_metastore
@@ -68,6 +76,18 @@ vars:
     snowplow__session_passthroughs: ['event_id', {'sql': 'event_id', 'alias': 'event_id2'}]
     snowplow__user_first_passthroughs: ['event_id', {'sql': "event_id2 || '-first'", 'alias': 'first_event_id2'}]
     snowplow__user_last_passthroughs: ['event_id', {'sql': "event_id2 || '-last'", 'alias': 'last_event_id2'}]
+    # add extra web fields:
+    snowplow__enable_yauaa: true
+    snowplow__enable_iab: true
+    snowplow__enable_ua: true
+    snowplow__enable_browser_context: true
+    # add extra mobile fields:
+    snowplow__enable_mobile_context: true
+    snowplow__enable_geolocation_context: true
+    snowplow__enable_application_context: true
+    snowplow__enable_screen_context: true
+    snowplow__enable_application_errors_module: true
+    snowplow__enable_deep_link_context: true
   # These are at a full project level because they are using in both the unified and int test models to determine which columns are needed
   snowplow__enable_consent: true
   snowplow__enable_cwv: true

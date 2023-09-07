@@ -30,7 +30,7 @@ select distinct
   ) as user_id,
   max(collector_tstamp) over (partition by domain_userid) as end_tstamp
 
-from {{ ref('snowplow_unified_base_events_this_run') }}
+from {{ ref('snowplow_unified_events_this_run') }}
 
 where {{ snowplow_utils.is_run_with_new_events('snowplow_unified') }} --returns false if run doesn't contain new events.
 and {{ var('snowplow__user_stitching_id', 'user_id') }} is not null

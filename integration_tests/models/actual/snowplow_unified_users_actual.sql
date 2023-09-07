@@ -11,7 +11,7 @@ select
   -- user fields
   user_id
   ,domain_userid
-  ,original_domain_userid
+
   ,network_userid
 
   ,start_tstamp

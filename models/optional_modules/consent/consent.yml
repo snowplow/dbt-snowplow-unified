@@ -19,16 +19,16 @@ models:
           - unique
           - not_null
         description: '{{ doc("col_event_id") }}'
-      - name: domain_userid
-        description: '{{ doc("col_domain_userid") }}'
+      - name: user_identifier
+        description: '{{ doc("col_user_identifier") }}'
       - name: user_id
         description: '{{ doc("col_user_id") }}'
       - name: geo_country
         description: '{{ doc("col_geo_country") }}'
       - name: view_id
         description: '{{ doc("col_view_id") }}'
-      - name: domain_sessionid
-        description: '{{ doc("col_domain_sessionid") }}'
+      - name: session_identifier
+        description: '{{ doc("col_session_identifier") }}'
       - name: derived_tstamp
         description: '{{ doc("col_derived_tstamp") }}'
       - name: load_tstamp
@@ -54,19 +54,15 @@ models:
         description: A boolean which determines if GDPR applies based on the user's geo-location
       - name: cmp_load_time
         description: The time taken for the consent box to be shown to the screen
-      - name: original_domain_sessionid
-        description: '{{ doc("col_original_domain_sessionid") }}'
-      - name: original_domain_userid
-        description: '{{ doc("col_original_domain_userid") }}'
 
   - name: snowplow_unified_consent_users
     description: By user consent stats
     columns:
-      - name: domain_userid
+      - name: user_identifier
         tests:
             - unique
             - not_null
-        description: '{{ doc("col_domain_userid") }}'
+        description: '{{ doc("col_user_identifier") }}'
       - name: user_id
         description: '{{ doc("col_user_id") }}'
       - name: geo_country
@@ -148,12 +144,12 @@ models:
           - unique
           - not_null
         description: '{{ doc("col_event_id") }}'
-      - name: domain_userid
+      - name: user_identifier
         description: The optional userid of a user
       - name: view_id
         description: '{{ doc("col_view_id") }}'
-      - name: domain_sessionid
-        description: '{{ doc("col_domain_sessionid") }}'
+      - name: session_identifier
+        description: '{{ doc("col_session_identifier") }}'
       - name: cmp_load_time
         description: The time taken for the consent box to be shown to the screen
       - name: cmp_tstamp

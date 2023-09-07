@@ -16,13 +16,11 @@ with prep as (
 
   select
     e.event_id,
-    e.domain_userid,
-    e.original_domain_userid,
+    e.user_identifier,
     e.user_id,
     e.geo_country,
     e.view_id,
-    e.domain_sessionid,
-    e.original_domain_sessionid,
+    e.session_identifier,
     e.derived_tstamp,
     e.load_tstamp,
     e.event_name,
@@ -30,16 +28,16 @@ with prep as (
         enabled= true,
         fields=consent_fields(),
         col_prefix='unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1',
-        relation=ref('snowplow_unified_base_events_this_run'),
+        relation=ref('snowplow_unified_events_this_run'),
         relation_alias='e') }},
     {{ snowplow_utils.get_optional_fields(
         enabled= true,
         fields=[{'field': 'elapsed_time', 'dtype': 'string'}],
         col_prefix='unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1',
-        relation=ref('snowplow_unified_base_events_this_run'),
+        relation=ref('snowplow_unified_events_this_run'),
         relation_alias='e') }}
 
-    from {{ ref("snowplow_unified_base_events_this_run") }} as e
+    from {{ ref("snowplow_unified_events_this_run") }} as e
 
     where e.event_name in ('cmp_visible', 'consent_preferences')
 
@@ -52,13 +50,11 @@ with prep as (
 
 select
   p.event_id,
-  p.domain_userid,
-  p.original_domain_userid,
+  p.user_identifier,
   p.user_id,
   p.geo_country,
   p.view_id,
-  p.domain_sessionid,
-  p.original_domain_sessionid,
+  p.session_identifier,
   p.derived_tstamp,
   p.load_tstamp,
   p.event_name,

@@ -1,0 +1,102 @@
+with base as (
+
+  select
+    * {{ exclude_columns('page_referrer, page_url') }},
+    coalesce(
+      {% if var('snowplow__enable_web') %}
+        ev.page_view__id,
+      {% endif %}
+      {% if var('snowplow__enable_mobile') %}
+        ev.screen_view__id,
+      {% endif %}
+      null) as view_id,
+
+      coalesce(
+      {% if var('snowplow__enable_web') %}
+        case when ev.page_view__id is not null then 'page_view' end,
+      {% endif %}
+      {% if var('snowplow__enable_mobile') %}
+        case when ev.screen_view__id is not null then 'screen_view' end,
+      {% endif %}
+      null) as view_type,
+
+      coalesce(
+      {% if var('snowplow__enable_web') %}
+        ev.domain_sessionidx,
+      {% endif %}
+      {% if var('snowplow__enable_mobile') %}
+        ev.session__session_index,
+      {% endif %}
+      null) as session_index,
+
+    coalesce(
+      {% if var('snowplow__enable_deep_link_context') %}
+        ev.deep_link__referrer,
+      {% else %}
+        ev.page_referrer,
+      {% endif %}
+      null) as page_referrer,
+
+    coalesce(
+      {% if var('snowplow__enable_deep_link_context') %}
+        ev.deep_link__url,
+      {% else %}
+        ev.page_url,
+      {% endif %}
+      null) as page_url,
+
+    coalesce(
+      {% if var('snowplow__enable_mobile_context') %}
+        ev.mobile__resolution,
+      {% else %}
+        ev.dvce_screenwidth || 'x' || ev.dvce_screenheight,
+      {% endif %}
+      null) as screen_resolution,
+
+    coalesce(
+      {% if var('snowplow__enable_yauaa') %}
+        ev.yauaa__operating_system_name,
+      {% endif %}
+      {% if var('snowplow__enable_mobile_context') %}
+        ev.mobile__os_type,
+      {% endif %}
+      {% if var('snowplow__enable_ua') %}
+        ev.ua__os_family,
+      {% endif %}
+      null, null) as os_type,
+
+    coalesce(
+      {% if var('snowplow__enable_yauaa') %}
+        ev.yauaa__operating_system_version,
+      {% endif %}
+      {% if var('snowplow__enable_mobile_context') %}
+        ev.mobile__os_version,
+      {% endif %}
+      {% if var('snowplow__enable_ua') %}
+        ev.ua__os_version,
+      {% endif %}
+      null) as os_version
+
+
+  from {{ ref('snowplow_unified_base_events_this_run') }} as ev
+
+)
+
+select
+  *,
+  {% if var('snowplow__enable_yauaa') %}
+    {% if var('snowplow__enable_mobile') %}
+      case when view_type = 'mobile' then 'Mobile'
+      when yauaa__device_class  = 'Desktop' then 'Desktop'
+      when yauaa__device_class = 'Phone' then 'Mobile'
+      when yauaa__device_class = 'Tablet' then 'Tablet'
+      else 'Other' end as device_category
+    {%- else -%}
+      case when yauaa__device_class = 'Desktop' then 'Desktop'
+      when yauaa__device_class = 'Phone' then 'Mobile'
+      when yauaa__device_class = 'Tablet' then 'Tablet'
+      else 'Other' end as device_category
+    {%- endif %}
+  {%- endif %}
+
+from base

@@ -20,7 +20,7 @@ with session_firsts as (
 
         -- session fields
         domain_sessionid,
-        original_domain_sessionid,
+
         domain_sessionidx,
 
         {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp,
@@ -28,7 +28,6 @@ with session_firsts as (
         -- user fields
         user_id,
         domain_userid,
-        original_domain_userid,
         {% if var('snowplow__session_stitching') %}
             -- updated with mapping as part of post hook on derived sessions table
             cast(domain_userid as {{ type_string() }}) as stitched_user_id,
@@ -122,7 +121,7 @@ with session_firsts as (
             {%- endif -%}
             {% endfor -%}
         {%- endif %}
-    from {{ ref('snowplow_unified_base_events_this_run') }}  ev
+    from {{ ref('snowplow_unified_events_this_run') }}  ev
     left join
         {{ ref(var('snowplow__ga4_categories_seed')) }} c on lower(trim(ev.mkt_source)) = lower(c.source)
     left join
@@ -156,7 +155,7 @@ session_lasts as (
         br_lang as last_br_lang,
         l.name as last_br_lang_name,
         row_number() over (partition by ev.domain_sessionid order by ev.derived_tstamp desc, ev.dvce_created_tstamp desc, ev.event_id) AS page_event_in_session_index
-    from {{ ref('snowplow_unified_base_events_this_run') }} ev
+    from {{ ref('snowplow_unified_events_this_run') }} ev
     left join
         {{ ref(var('snowplow__rfc_5646_seed')) }} l on lower(ev.br_lang) = lower(l.lang_tag)
     left join
@@ -175,7 +174,7 @@ session_aggs as (
         , min(derived_tstamp) as start_tstamp
         , max(derived_tstamp) as end_tstamp
         {%- if var('snowplow__list_event_counts', false) %}
-            {% set event_names =  dbt_utils.get_column_values(ref('snowplow_unified_base_events_this_run'), 'event_name', order_by = 'event_name') %}
+            {% set event_names =  dbt_utils.get_column_values(ref('snowplow_unified_events_this_run'), 'event_name', order_by = 'event_name') %}
             {# Loop over every event_name in this run, create a json string of the name and count ONLY if there are events with that name in the session (otherwise empty string),
                 then trim off the last comma (can't use loop.first/last because first/last entry may not have any events for that session)
             #}
@@ -202,7 +201,7 @@ session_aggs as (
             -- number of page pings following a page view (or no event) (gap of min visit length)
             (count(distinct case when event_name = 'page_ping' and view_id is not null then view_id else null end) * {{ var("snowplow__min_visit_length", 5) }}) as engaged_time_in_s
         , {{ snowplow_utils.timestamp_diff('min(derived_tstamp)', 'max(derived_tstamp)', 'second') }} as absolute_time_in_s
-    from {{ ref('snowplow_unified_base_events_this_run') }}
+    from {{ ref('snowplow_unified_events_this_run') }}
     where
         1 = 1
         {% if var("snowplow__ua_bot_filter", true) %}
@@ -220,7 +219,7 @@ session_aggs as (
         {%- for conv_def in var('snowplow__conversion_events') %}
             {{ snowplow_unified.get_conversion_columns(conv_def)}}
         {%- endfor %}
-    from {{ ref('snowplow_unified_base_events_this_run') }}
+    from {{ ref('snowplow_unified_events_this_run') }}
     where
         1 = 1
         {% if var("snowplow__ua_bot_filter", true) %}
@@ -239,7 +238,7 @@ select
 
     -- session fields
     a.domain_sessionid,
-    a.original_domain_sessionid,
+
     a.domain_sessionidx,
 
     -- when the session starts with a ping we need to add the min visit length to get when the session actually started
@@ -252,7 +251,7 @@ select
     -- user fields
     a.user_id,
     a.domain_userid,
-    a.original_domain_userid,
+
     a.stitched_user_id,
     a.network_userid,
 

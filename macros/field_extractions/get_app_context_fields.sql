@@ -1,0 +1,47 @@
+{#
+Copyright (c) 2023-present Snowplow Analytics Ltd. All rights reserved.
+This program is licensed to you under the Snowplow Community License Version 1.0,
+and you may not use this file except in compliance with the Snowplow Community License Version 1.0.
+You may obtain a copy of the Snowplow Community License Version 1.0 at https://docs.snowplow.io/community-license-1.0
+#}
+
+{% macro get_app_context_fields(table_prefix = none) %}
+  {{ return(adapter.dispatch('get_app_context_fields', 'snowplow_unified')(table_prefix)) }}
+{%- endmacro -%}
+
+{% macro postgres__get_app_context_fields(table_prefix = none) %}
+{% endmacro %}
+
+{% macro bigquery__get_app_context_fields(table_prefix = none) %}
+  {% if var('snowplow__enable_application_context', false) %}
+    {{ snowplow_utils.get_optional_fields(
+          enabled=var('snowplow__enable_application_context', false),
+          col_prefix='contexts_com_snowplowanalytics_mobile_application_1_',
+          fields=app_context_fields(),
+          relation=source('atomic', 'events') if project_name != 'snowplow_unified_integration_tests' else ref('snowplow_unified_events_stg'),
+          relation_alias=table_prefix) }}
+  {% else %}
+    cast(null as {{ type_string() }}) as build,
+    cast(null as {{ type_string() }}) as version
+  {% endif %}
+{% endmacro %}
+
+{% macro spark__get_app_context_fields(table_prefix = none) %}
+  {% if var('snowplow__enable_application_context', false) %}
+      {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0].build::STRING AS app__build,
+      {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0].version::STRING AS app__version
+  {% else %}
+      cast(null as {{ type_string() }}) as build,
+      cast(null as {{ type_string() }}) as version
+  {% endif %}
+{% endmacro %}
+
+{% macro snowflake__get_app_context_fields(table_prefix = none) %}
+    {% if var('snowplow__enable_application_context', false) %}
+      {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0]:build::varchar(255) AS app__build,
+      {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0]:version::varchar(255) AS app__version
+    {% else %}
+      cast(null as {{ type_string() }}) as build,
+      cast(null as {{ type_string() }}) as version
+    {% endif %}
+{% endmacro %}

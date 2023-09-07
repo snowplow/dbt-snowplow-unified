@@ -57,15 +57,14 @@ vars:
     snowplow__lookback_window_hours: 6
     snowplow__max_session_days: 3
     snowplow__session_lookback_days: 730
-    snowplow__session_identifiers: [{"schema" : "atomic", "field" : "domain_sessionid"}]
-    # snowplow__session_sql: 'e.domain_sessionid'  # takes priority over session_identifiers
     snowplow__session_stitching: true
     snowplow__page_view_stitching: false
     snowplow__session_timestamp: collector_tstamp
     snowplow__start_date: '2020-01-01'
     # snowplow__total_all_conversions: false
     snowplow__upsert_lookback_days: 30
-    snowplow__user_identifiers: [{"schema": "atomic", "field" : "domain_userid"}]
+    snowplow__session_identifiers: []
+    snowplow__user_identifiers: []
     # snowplow__user_sql: 'e.domain_userid'
     snowplow__user_stitching_id: user_id
     # filter your data:
@@ -77,12 +76,14 @@ vars:
     snowplow__enable_yauaa: false
     snowplow__enable_iab: false
     snowplow__enable_ua: false
+    snowplow__enable_browser_context: false
     # add extra mobile fields:
     snowplow__enable_mobile_context: false
     snowplow__enable_geolocation_context: false
     snowplow__enable_application_context: false
     snowplow__enable_screen_context: false
-    snowplow__enable_app_errors_module: false
+    snowplow__enable_application_errors_module: false
+    snowplow__enable_deep_link_context: false
     # add extra custom fields:
     snowplow__page_view_passthroughs: []
     snowplow__session_passthroughs: []
@@ -110,11 +111,12 @@ vars:
     # web only contexts
     snowplow__consent_cmp_visible: com_snowplowanalytics_snowplow_cmp_visible_1
     snowplow__consent_preferences: com_snowplowanalytics_snowplow_consent_preferences_1
-    snowplow__page_view_context: com_snowplowanalytics_snowplow_unified_page_1
+    snowplow__page_view_context: com_snowplowanalytics_snowplow_web_page_1
     snowplow__iab_context: com_iab_snowplow_spiders_and_robots_1
     snowplow__ua_parser_context: com_snowplowanalytics_snowplow_ua_parser_context_1
     snowplow__yauaa_context: nl_basjes_yauaa_context_1
     snowplow__cwv_context: unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1
+    snowplow__browser_context: com_snowplowanalytics_snowplow_browser_context_1
     # mobile only contexts
     snowplow__session_context: com_snowplowanalytics_snowplow_client_session_1
     snowplow__mobile_context: com_snowplowanalytics_snowplow_mobile_context_1
@@ -123,6 +125,7 @@ vars:
     snowplow__screen_context: com_snowplowanalytics_mobile_screen_1
     snowplow__app_errors_table: com_snowplowanalytics_snowplow_application_error_1
     snowplow__screen_view_events: com_snowplowanalytics_mobile_screen_view_1
+    snowplow__deep_link_context: contexts_com_snowplowanalytics_mobile_deep_link_1
 
 # Completely or partially remove models from the manifest during run start.
 on-run-start:
@@ -150,14 +153,10 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
-        bigquery:
-          enabled: "{{ target.type == 'bigquery' | as_bool() }}"
-        databricks:
-          enabled: "{{ target.type in ['databricks', 'spark'] | as_bool() }}"
         default:
+          enabled: "{{ target.type in ['databricks', 'spark', 'snowflake', 'bigquery'] | as_bool() }}"
+        redshift_postgres:
           enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
-        snowflake:
-          enabled: "{{ target.type == 'snowflake' | as_bool() }}"
 
     optional_modules:
       consent:
@@ -179,14 +178,10 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
-        bigquery:
-          enabled: "{{ target.type == 'bigquery' | as_bool() }}"
-        databricks:
-          enabled: "{{ target.type in ['databricks', 'spark'] | as_bool() }}"
         default:
+          enabled: "{{ target.type in ['databricks', 'spark', 'snowflake', 'bigquery'] | as_bool() }}"
+        redshift_postgres:
           enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
-        snowflake:
-          enabled: "{{ target.type == 'snowflake' | as_bool() }}"
 
     sessions:
       +schema: "derived"

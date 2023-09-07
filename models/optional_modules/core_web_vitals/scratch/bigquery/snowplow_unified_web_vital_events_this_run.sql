@@ -20,12 +20,10 @@ with prep as (
     e.event_name,
     e.app_id,
     e.platform,
-    e.domain_userid,
-    e.original_domain_userid,
+    e.user_identifier,
     e.user_id,
     e.view_id,
-    e.domain_sessionid,
-    e.original_domain_sessionid,
+    e.session_identifier,
     e.collector_tstamp,
     e.derived_tstamp,
     e.dvce_created_tstamp,
@@ -39,17 +37,17 @@ with prep as (
         enabled=true,
         fields=yauaa_fields(),
         col_prefix='contexts_nl_basjes_yauaa_context_1_0_0',
-        relation=ref('snowplow_unified_base_events_this_run'),
+        relation=ref('snowplow_unified_events_this_run'),
         relation_alias='e') }},
 
     {{ snowplow_utils.get_optional_fields(
         enabled= true,
         fields=[{'field': 'lcp', 'dtype': 'string'}, {'field': 'fcp', 'dtype': 'string'}, {'field': 'fid', 'dtype': 'string'}, {'field': 'cls', 'dtype': 'string'}, {'field': 'inp', 'dtype': 'string'}, {'field': 'ttfb', 'dtype': 'string'}, {'field': 'navigation_type', 'dtype': 'string'}],
         col_prefix='unstruct_event_com_snowplowanalytics_snowplow_unified_web_vitals_1_0_0',
-        relation=ref('snowplow_unified_base_events_this_run'),
+        relation=ref('snowplow_unified_events_this_run'),
         relation_alias='e') }}
 
-  from {{ ref("snowplow_unified_base_events_this_run") }} as e
+  from {{ ref("snowplow_unified_events_this_run") }} as e
 
   where {{ snowplow_utils.is_run_with_new_events('snowplow_unified') }} --returns false if run doesn't contain new events.
 
@@ -76,12 +74,10 @@ select
   event_name,
   app_id,
   platform,
-  domain_userid,
-  original_domain_userid,
+  user_identifier,
   user_id,
   view_id,
-  domain_sessionid,
-  original_domain_sessionid,
+  session_identifier,
   collector_tstamp,
   derived_tstamp,
   dvce_created_tstamp,

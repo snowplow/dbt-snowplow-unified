@@ -18,13 +18,11 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
   select
     e.event_id,
-    e.domain_userid,
-    e.original_domain_userid,
+    e.user_identifier,
     e.user_id,
     e.geo_country,
     e.view_id,
-    e.domain_sessionid,
-    e.original_domain_sessionid,
+    e.session_identifier,
     e.derived_tstamp,
     e.load_tstamp,
     e.event_name,
@@ -37,7 +35,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     coalesce(e.consent_pref_gdpr_applies, false) as gdpr_applies,
     e.cmp_visible_elapsed_time as cmp_load_time
 
-  from {{ ref("snowplow_unified_base_events_this_run") }} as e
+  from {{ ref("snowplow_unified_events_this_run") }} as e
 
   where event_name in ('cmp_visible', 'consent_preferences')
 

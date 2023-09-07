@@ -9,9 +9,9 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   config(
     materialized='incremental',
     enabled=var("snowplow__enable_consent", false),
-    unique_key='domain_userid',
+    unique_key='user_identifier',
     sort = 'last_consent_event_tstamp',
-    dist = 'domain_userid',
+    dist = 'user_identifier',
     sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt'))
   )
 }}
@@ -26,14 +26,14 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 with base as (
 
   select
-    domain_userid,
+    user_identifier,
     user_id,
     geo_country,
     max(load_tstamp) as last_processed_event,
     count(case when event_name = 'cmp_visible' then 1 end) as cmp_events,
     count(case when event_name = 'consent_preferences' then 1 end) as consent_events,
     max(case when event_name = 'cmp_visible' then derived_tstamp end) as last_cmp_event_tstamp,
-    row_number() over(partition by domain_userid order by max(load_tstamp) desc) as latest_event_by_user_rank
+    row_number() over(partition by user_identifier order by max(load_tstamp) desc) as latest_event_by_user_rank
 
   from {{ ref('snowplow_unified_consent_log') }}
 
@@ -48,14 +48,14 @@ with base as (
 , latest_consents as (
 
   select
-    domain_userid,
+    user_identifier,
     derived_tstamp as last_consent_event_tstamp,
     event_type as last_consent_event_type,
     consent_scopes as last_consent_scopes,
     consent_version as last_consent_version,
     consent_url as last_consent_url,
     domains_applied as last_domains_applied,
-    row_number() over(partition by domain_userid order by load_tstamp desc) as latest_consent_event_by_user_rank
+    row_number() over(partition by user_identifier order by load_tstamp desc) as latest_consent_event_by_user_rank
 
   from {{ ref('snowplow_unified_consent_log') }}
 
@@ -70,7 +70,7 @@ with base as (
 {% if is_incremental() %}
 
 select
-  b.domain_userid,
+  b.user_identifier,
   b.user_id,
   b.geo_country,
   coalesce(b.cmp_events, 0) + coalesce(t.cmp_events, 0) as cmp_events,
@@ -88,21 +88,21 @@ select
 from base b
 
 left join latest_consents l
-on b.domain_userid = l.domain_userid
+on b.user_identifier = l.user_identifier
 
 left join {{ ref('snowplow_unified_consent_versions')}} v
 on v.consent_version = l.last_consent_version
 
 left join {{ this }} t
-on t.domain_userid = b.domain_userid
+on t.user_identifier = b.user_identifier
 
-where (l.latest_consent_event_by_user_rank = 1 or l.domain_userid is null)
+where (l.latest_consent_event_by_user_rank = 1 or l.user_identifier is null)
 and b.latest_event_by_user_rank = 1
 
 {% else %}
 
 select
-  b.domain_userid,
+  b.user_identifier,
   b.user_id,
   b.geo_country,
   b.cmp_events,
@@ -120,12 +120,12 @@ select
 from base b
 
 left join latest_consents l
-on b.domain_userid = l.domain_userid
+on b.user_identifier = l.user_identifier
 
 left join {{ ref('snowplow_unified_consent_versions') }} v
 on v.consent_version = l.last_consent_version
 
-where (l.latest_consent_event_by_user_rank = 1 or l.domain_userid is null)
+where (l.latest_consent_event_by_user_rank = 1 or l.user_identifier is null)
 and b.latest_event_by_user_rank = 1
 
 {% endif %}

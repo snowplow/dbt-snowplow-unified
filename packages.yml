@@ -1,5 +1,6 @@
 packages:
-  # - package: snowplow/snowplow_utils
-  #   version: [">=0.14.3", "<0.15.0"]
+  #- package: snowplow/snowplow_utils
+  #  version: fix/duplicate-identifier-schemas
   - git: https://github.com/snowplow/dbt-snowplow-utils.git
-    revision: feature/create-base-table
+    revision: fix/duplicate-identifier-schemas
+

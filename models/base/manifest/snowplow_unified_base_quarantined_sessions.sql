@@ -17,6 +17,8 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   )
 }}
 
+{{ config_check() }}
+
 {% set quarantined_query = snowplow_utils.base_create_snowplow_quarantined_sessions() %}
 
 {{ quarantined_query }}

@@ -1,31 +1,20 @@
--- test dataset includes contexts_com_snowplowanalytics_snowplow_client_session_1_0_0 due to a mutual solution covering other adapters
--- needs to be separated into its own table here
+{#
+Copyright (c) 2023-present Snowplow Analytics Ltd. All rights reserved.
+This program is licensed to you under the Snowplow Community License Version 1.0,
+and you may not use this file except in compliance with the Snowplow Community License Version 1.0.
+You may obtain a copy of the Snowplow Community License Version 1.0 at https://docs.snowplow.io/community-license-1.0
+#}
 
-with prep as (
+select
+  '6c33a6ad2bfdd4e3834eaa82587236422263213cb7c3a72c133c8c7546282d36' as root_id,
+  cast('2021-03-03 08:14:01.599' as timestamp) as root_tstamp,
+  'session_context' as schema_name,
+  1 as session_index,
+  'na' as session_id,
+  'na' as previous_session_id,
+  'na' as user_id,
+  'na' as first_event_id,
+  1 as event_index,
+  'na' as storage_mechanism,
+  cast('2021-03-03 08:14:01.599' as timestamp) as first_event_timestamp
 
-  select
-    event_id as root_id,
-    collector_tstamp as root_tstamp,
-    'session_context' as schema_name,
-
-  {%- if target.type == 'postgres' %}
-    substring(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0, position( 'session_id' in contexts_com_snowplowanalytics_snowplow_client_session_1_0_0)+ 13, 36) as session_id, -- test dataset uses json format. Extract.
-
-  {%- else -%}
-    substring(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0, position( 'session_id' in contexts_com_snowplowanalytics_snowplow_client_session_1_0_0)+ 13, 36) as session_id, -- test dataset uses json format. Extract.
-
-  {%- endif %}
-
-    case when right(substring(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0, position( 'session_index' in contexts_com_snowplowanalytics_snowplow_client_session_1_0_0)+ 16, 3), 1) = ','
-      then substring(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0, position( 'session_index' in contexts_com_snowplowanalytics_snowplow_client_session_1_0_0)+ 16, 1)
-      else substring(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0, position( 'session_index' in contexts_com_snowplowanalytics_snowplow_client_session_1_0_0)+ 16, 2)
-      end as session_index,
-    substring(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0, position( 'previous_session_id' in contexts_com_snowplowanalytics_snowplow_client_session_1_0_0)+ 22, 36) as previous_session_id,
-    substring(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0, position( 'user_id' in contexts_com_snowplowanalytics_snowplow_client_session_1_0_0)+ 10, 36) as user_id,
-    substring(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0, position( 'first_event_id' in contexts_com_snowplowanalytics_snowplow_client_session_1_0_0)+ 17, 36) as first_event_id
-
-  from {{ ref("snowplow_unified_events") }}
-
-)
-
-select * from prep

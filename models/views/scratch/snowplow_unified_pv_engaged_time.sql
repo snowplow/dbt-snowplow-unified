@@ -14,7 +14,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 select
   ev.view_id,
   {% if var('snowplow__limit_page_views_to_session', true) %}
-  ev.domain_sessionid,
+  ev.session_identifier,
   {% endif %}
   max(ev.derived_tstamp) as end_tstamp,
 
@@ -26,7 +26,7 @@ select
 
   {{ var("snowplow__heartbeat", 10) }} * (count(distinct(floor({{ snowplow_utils.to_unixtstamp('ev.dvce_created_tstamp') }}/{{ var("snowplow__heartbeat", 10) }}))) - 1) + {{ var("snowplow__min_visit_length", 5) }} as engaged_time_in_s
 
-from {{ ref('snowplow_unified_base_events_this_run') }} as ev
+from {{ ref('snowplow_unified_events_this_run') }} as ev
 
 where ev.event_name = 'page_ping'
 and ev.view_id is not null

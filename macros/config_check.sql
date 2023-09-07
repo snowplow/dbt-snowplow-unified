@@ -18,13 +18,13 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   {% endif %}
 
   {% if not var('snowplow__enable_web') %}
-    {% if var('snowplow__enable_iab') or var('snowplow__enable_ua') or var('snowplow__enable_yauaa') %}
+    {% if var('snowplow__enable_iab') or var('snowplow__enable_ua') or var('snowplow__enable_yauaa') or var('snowplow__enable_browser_context') %}
       {% do exceptions.warn("Snowplow Warning: Please note that you have web contexts enabled but those won't be processed as var('snowplow__enable_web') is currently disabled.") %}
     {% endif %}
   {% endif %}
 
   {% if not var('snowplow__enable_mobile') %}
-    {% if var('snowplow__enable_mobile_context') or var('snowplow__enable_geolocation_context') or var('snowplow__enable_application_context') or var('snowplow__enable_screen_context') or var('snowplow__enable_app_errors_module') %}
+    {% if var('snowplow__enable_mobile_context') or var('snowplow__enable_geolocation_context') or var('snowplow__enable_application_context') or var('snowplow__enable_screen_context') or var('snowplow__enable_application_errors_module') or var('snowplow__enable_deep_link_context') %}
       {% do exceptions.warn("Snowplow Warning: Please note that you have mobile contexts enabled but those won't be processed as var('snowplow__enable_mobile') is currently disabled.") %}
     {% endif %}
   {% endif %}

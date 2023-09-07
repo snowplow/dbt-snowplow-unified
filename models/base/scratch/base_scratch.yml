@@ -290,7 +290,3 @@ models:
         description: '{{ doc("col_true_tstamp") }}'
       - name: view_id
         description: '{{ doc("col_view_id") }}'
-      - name: original_domain_sessionid
-        description: '{{ doc("col_original_domain_sessionid") }}'
-      - name: original_domain_userid
-        description: '{{ doc("col_original_domain_userid") }}'

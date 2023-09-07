@@ -26,7 +26,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro default__web_cluster_by_fields_page_views() %}
 
-  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["domain_userid","domain_sessionid"], snowflake_val=["to_date(start_tstamp)"])) }}
+  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["user_identifier","session_identifier"], snowflake_val=["to_date(start_tstamp)"])) }}
 
 {% endmacro %}
 

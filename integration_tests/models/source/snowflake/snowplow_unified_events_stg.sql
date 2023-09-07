@@ -17,13 +17,57 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       parse_json(unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0) as unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1,
       parse_json(contexts_com_iab_snowplow_spiders_and_robots_1_0_0) as contexts_com_iab_snowplow_spiders_and_robots_1,
       parse_json(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1_0_0) as contexts_com_snowplowanalytics_snowplow_ua_parser_context_1,
-      parse_json(contexts_nl_basjes_yauaa_context_1_0_0) as contexts_nl_basjes_yauaa_context_1
+      parse_json(contexts_nl_basjes_yauaa_context_1_0_0) as contexts_nl_basjes_yauaa_context_1,
+      parse_json(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1,
+      parse_json(contexts_com_snowplowanalytics_snowplow_client_session_1_0_0) as contexts_com_snowplowanalytics_snowplow_client_session_1,
+      parse_json(contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0) as contexts_com_snowplowanalytics_snowplow_geolocation_context_1,
+      parse_json(contexts_com_snowplowanalytics_mobile_application_1_0_0) as contexts_com_snowplowanalytics_mobile_application_1,
+      parse_json(contexts_com_snowplowanalytics_mobile_deep_link_1_0_0) as contexts_com_snowplowanalytics_mobile_deep_link_1,
+      parse_json(com_snowplowanalytics_snowplow_browser_context_1_0_0) as com_snowplowanalytics_snowplow_browser_context_1,
+      parse_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0) as contexts_com_snowplowanalytics_snowplow_mobile_context_1,
+      parse_json(contexts_com_snowplowanalytics_mobile_screen_1_0_0) as contexts_com_snowplowanalytics_mobile_screen_1
+
     from {{ ref('snowplow_unified_events') }}
     )
 
   , flatten as (
     select
       *,
+      contexts_nl_basjes_yauaa_context_1[0].agentClass as agent_class,
+      contexts_nl_basjes_yauaa_context_1[0].agentInformationEmail as agent_information_email,
+      contexts_nl_basjes_yauaa_context_1[0].agentName as agent_name,
+      contexts_nl_basjes_yauaa_context_1[0].agentNameVersion as agent_name_version,
+      contexts_nl_basjes_yauaa_context_1[0].agentNameVersionMajor as agent_name_version_major,
+      contexts_nl_basjes_yauaa_context_1[0].agentVersion as agent_version,
+      contexts_nl_basjes_yauaa_context_1[0].agentVersionMajor as agent_version_major,
+      contexts_nl_basjes_yauaa_context_1[0].deviceBrand as device_brand,
+      contexts_nl_basjes_yauaa_context_1[0].deviceClass as device_class,
+      contexts_nl_basjes_yauaa_context_1[0].deviceCpu as device_cpu,
+      contexts_nl_basjes_yauaa_context_1[0].deviceCpuBits as device_cpu_bits,
+      contexts_nl_basjes_yauaa_context_1[0].deviceName as device_name,
+      contexts_nl_basjes_yauaa_context_1[0].deviceVersion as device_version,
+      contexts_nl_basjes_yauaa_context_1[0].layoutEngineClass as layout_engine_class,
+      contexts_nl_basjes_yauaa_context_1[0].layoutEngineName as layout_engine_name,
+      contexts_nl_basjes_yauaa_context_1[0].layoutEngineNameVersion as layout_engine_name_version,
+      contexts_nl_basjes_yauaa_context_1[0].layoutEngineNameVersionMajor as layout_engine_name_version_major,
+      contexts_nl_basjes_yauaa_context_1[0].layoutEngineVersion as layout_engine_version,
+      contexts_nl_basjes_yauaa_context_1[0].layoutEngineVersionMajor as layout_engine_version_major,
+      contexts_nl_basjes_yauaa_context_1[0].networkType as network_type,
+      contexts_nl_basjes_yauaa_context_1[0].operatingSystemClass as operating_system_class,
+      contexts_nl_basjes_yauaa_context_1[0].operatingSystemName as operating_system_name,
+      contexts_nl_basjes_yauaa_context_1[0].operatingSystemNameVersion as operating_system_name_version,
+      contexts_nl_basjes_yauaa_context_1[0].operatingSystemNameVersionMajor as operating_system_name_version_major,
+      contexts_nl_basjes_yauaa_context_1[0].operatingSystemVersion as operating_system_version,
+      contexts_nl_basjes_yauaa_context_1[0].operatingSystemVersionBuild as operating_system_version_build,
+      contexts_nl_basjes_yauaa_context_1[0].operatingSystemVersionMajor as operating_system_version_major,
+      contexts_nl_basjes_yauaa_context_1[0].webviewAppName as webview_app_name,
+      contexts_nl_basjes_yauaa_context_1[0].webviewAppNameVersionMajor as webview_app_name_version_major,
+      contexts_nl_basjes_yauaa_context_1[0].webviewAppVersion as webview_app_version,
+      contexts_nl_basjes_yauaa_context_1[0].webviewAppVersionMajor as webview_app_version_major,
+      contexts_com_iab_snowplow_spiders_and_robots_1[0].category as category,
+      contexts_com_iab_snowplow_spiders_and_robots_1[0].primaryImpact as primaryImpact,
+      contexts_com_iab_snowplow_spiders_and_robots_1[0].reason as reason,
+      contexts_com_iab_snowplow_spiders_and_robots_1[0].spiderOrRobot as spiderOrRobot,
       unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1[0].basis_for_processing as basisForProcessing,
       unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1[0].consent_scopes as consentScopes,
       unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1[0].consent_url as consentUrl,
@@ -31,7 +75,75 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1[0].domains_applied as domainsApplied,
       unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1[0].event_type as eventType,
       unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1[0].gdpr_applies as gdprApplies,
-      unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1[0]:elapsed_time as elapsedTime
+      unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1[0]:elapsed_time as elapsedTime,
+      unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0]:id::varchar AS id,
+      unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0]:name::varchar AS name,
+      unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0]:previousId::varchar AS previousId,
+      unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0]:previousName::varchar AS previousName,
+      unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0]:previousType::varchar AS previousType,
+      unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0]:transitionType::varchar AS transitionType,
+      unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0]:type::varchar AS type,
+      contexts_com_snowplowanalytics_snowplow_client_session_1[0]:firstEventId::varchar AS firstEventId,
+      contexts_com_snowplowanalytics_snowplow_client_session_1[0]:previousSessionId::varchar AS previousSessionId,
+      contexts_com_snowplowanalytics_snowplow_client_session_1[0]:sessionId::varchar AS sessionId,
+      contexts_com_snowplowanalytics_snowplow_client_session_1[0]:sessionIndex::int AS sessionIndex,
+      contexts_com_snowplowanalytics_snowplow_client_session_1[0]:userId::varchar AS userId,
+      contexts_com_snowplowanalytics_snowplow_client_session_1[0]:eventIndex::int AS eventIndex,
+      contexts_com_snowplowanalytics_snowplow_client_session_1[0]:storageMechanism::varchar AS storageMechanism,
+      contexts_com_snowplowanalytics_snowplow_client_session_1[0]:firstEventTimestamp::timestamp AS firstEventTimestamp,
+      contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:latitude::float AS latitude,
+      contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:longitude::float AS longitude,
+      contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:latitudeLongitudeAccuracy::float AS latitudeLongitudeAccuracy,
+      contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:altitude::float AS altitude,
+      contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:altitudeAccuracy::float AS altitudeAccuracy,
+      contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:bearing::float AS bearing,
+      contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:speed::float AS speed,
+      contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:timestamp::int AS timestamp,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:viewport::varchar AS viewport,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:documentSize::varchar AS documentSize,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:resolution::varchar AS resolution,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:colorDepth::int AS colorDepth,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:devicePixelRatio::float AS devicePixelRatio,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:cookiesEnabled::boolean AS cookiesEnabled,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:online::boolean AS online,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:browserLanguage::varchar AS browserLanguage,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:documentLanguage::varchar AS documentLanguage,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:webdriver::boolean AS webdriver,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:deviceMemory::int AS deviceMemory,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:hardwareConcurrency::int AS hardwareConcurrency,
+      com_snowplowanalytics_snowplow_browser_context_1[0]:tabId::varchar AS tabId,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:deviceManufacturer::varchar AS deviceManufacturer,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:deviceModel::varchar AS deviceModel,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:osType::varchar AS osType,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:osVersion::varchar AS osVersion,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:androidIdfa::varchar AS androidIdfa,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:appleIdfa::varchar AS appleIdfa,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:appleIdfv::varchar AS appleIdfv,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:carrier::varchar AS carrier,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:openIdfa::varchar AS openIdfa,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:networkTechnology::varchar AS networkTechnology,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:networkType::varchar(255) AS networkType,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].physicalMemory::int AS physicalMemory,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].systemAvailableMemory::int AS systemAvailableMemory,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].appAvailableMemory::int AS appAvailableMemory,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].batteryLevel::int AS batteryLevel,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].batteryState::string AS batteryState,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].lowPowerMode::string AS lowPowerMode,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].availableStorage::int AS availableStorage,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].totalStorage::int AS totalStorage,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].isPortrait::boolean AS isPortrait,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].resolution::string AS resolution2,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].scale::string AS scale,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].language::string AS language,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].appSetId::string AS appSetId,
+      contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].appSetIdScope::string AS appSetIdScope,
+      contexts_com_snowplowanalytics_mobile_screen_1[0].id::varchar AS id2,
+      contexts_com_snowplowanalytics_mobile_screen_1[0].name::varchar AS name2,
+      contexts_com_snowplowanalytics_mobile_screen_1[0].activity::varchar AS activity,
+      contexts_com_snowplowanalytics_mobile_screen_1[0].fragment::varchar AS fragment,
+      contexts_com_snowplowanalytics_mobile_screen_1[0].topViewController::varchar AS topViewController,
+      contexts_com_snowplowanalytics_mobile_screen_1[0].type::varchar AS type2,
+      contexts_com_snowplowanalytics_mobile_screen_1[0].viewController::varchar(255) AS viewController
 
     from prep
 
@@ -173,7 +285,14 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     contexts_com_iab_snowplow_spiders_and_robots_1,
     contexts_com_snowplowanalytics_snowplow_ua_parser_context_1,
     contexts_nl_basjes_yauaa_context_1,
-    object_construct('id', '', 'name', '', 'previousId', '', 'previousName', '', 'transitionType', '', 'type', '') as unstruct_event_com_snowplowanalytics_mobile_screen_view_1
+    object_construct('id',id,'name',name,'previousId',previousId,'previousName',previousName,'previousType',previousType,'transitionType',transitionType,'type',type) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1,
+    parse_json('[{"sessionId":"'||sessionId||'","userId":"'||userId||'", "sessionIndex":"'||sessionIndex||'", "firstEventId":"'||firstEventId||'", "previousSessionId":"'||previousSessionId||'", "eventIndex":"'||eventIndex||'", "storageMechanism":"'||storageMechanism||'", "firstEventTimestamp":"'||firstEventTimestamp||'"}]' ) as contexts_com_snowplowanalytics_snowplow_client_session_1,
+    to_variant([OBJECT_CONSTRUCT_KEEP_NULL('latitude', latitude, 'longitude', longitude, 'latitudeLongitudeAccuracy', latitudeLongitudeAccuracy, 'altitude', altitude, 'altitudeAccuracy', altitudeAccuracy, 'bearing', bearing,'speed', speed,'timestamp', timestamp)]) as contexts_com_snowplowanalytics_snowplow_geolocation_context_1,
+    contexts_com_snowplowanalytics_mobile_application_1,
+    contexts_com_snowplowanalytics_mobile_deep_link_1,
+    parse_json('[{"viewport":"'||viewport||'", "documentSize":"'||documentSize||'", "resolution":"'||resolution||'", "colorDepth":"'||colorDepth||'", "devicePixelRatio":"'||devicePixelRatio||'", "cookiesEnabled":"'||cookiesEnabled||'", "online":"'||online||'", "browserLanguage":"'||browserLanguage||'","documentLanguage":"'||documentLanguage||'", "webdriver":"'||webdriver||'", "deviceMemory":"'||deviceMemory||'", "hardwareConcurrency":"'||hardwareConcurrency||'", "tabId":"'||tabId||'"}]' ) as com_snowplowanalytics_snowplow_browser_context_1,
+    parse_json('[{"deviceManufacturer":"'||deviceManufacturer||'", "deviceModel":"'||deviceModel||'", "osType":"'||osType||'", "osVersion":"'||osVersion||'", "androidIdfa":"'||androidIdfa||'", "appleIdfa":"'||appleIdfa||'", "appleIdfv":"'||appleIdfv||'", "carrier":"'||carrier||'", "openIdfa":"'||openIdfa||'", "networkTechnology":"'||networkTechnology||'", "networkType":"'||networkType||'", "physicalMemory":"'||physicalMemory||'", "systemAvailableMemory":"'||systemAvailableMemory||'", "appAvailableMemory":"'||appAvailableMemory||'", "batteryLevel":"'||batteryLevel||'", "batteryState":"'||batteryState||'", "lowPowerMode":"'||lowPowerMode||'", "availableStorage":"'||availableStorage||'", "isPortrait":"'||isPortrait||'", "totalStorage":"'||totalStorage||'", "resolution":"'||resolution2||'", "scale":"'||scale||'", "language":"'||language||'", "appSetId":"'||appSetId||'", "appSetIdScope":"'||appSetIdScope||'"}]' ) as contexts_com_snowplowanalytics_snowplow_mobile_context_1,
+    parse_json('[{"id":"'||id2||'", "name":"'||name2||'", "activity":"'||activity||'", "fragment":"'||fragment||'", "topViewController":"'||topViewController||'", "type":"'||type2||'", "viewController":"'||viewController||'"}]' ) as contexts_com_snowplowanalytics_mobile_screen_1
 
   from flatten
 
@@ -190,7 +309,6 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       parse_json(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1_0_0) as unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1,
       parse_json(contexts_nl_basjes_yauaa_context_1_0_0) as contexts_nl_basjes_yauaa_context_1,
       parse_json(contexts_com_iab_snowplow_spiders_and_robots_1_0_0) as contexts_com_iab_snowplow_spiders_and_robots_1
-
     from {{ ref('snowplow_unified_web_vital_events') }}
 
     )
@@ -235,8 +353,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       contexts_nl_basjes_yauaa_context_1[0].operating_system_version as operatingSystemVersion,
       contexts_com_iab_snowplow_spiders_and_robots_1[0].category as category,
       contexts_com_iab_snowplow_spiders_and_robots_1[0].primary_impact as primaryImpact,
-      contexts_com_iab_snowplow_spiders_and_robots_1[0].reason as reason,
-      contexts_com_iab_snowplow_spiders_and_robots_1[0].spider_or_robot as spiderOrRobot
+      contexts_com_iab_snowplow_spiders_and_robots_1[0].reason as reason
 
     from prep
 
@@ -377,8 +494,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     object_construct_keep_null('elapsedTime', elapsedTime) as unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1,
     object_construct('cls', cls, 'fcp', fcp, 'fid', fid, 'inp', inp, 'lcp', lcp, 'navigationType', navigationType, 'ttfb', ttfb) as unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1,
     parse_json('[{"deviceClass":"'||deviceClass||'", "agentClass":"'||agentClass||'", "agentName":"'||agentName||'", "agentNameVersion":"'||agentNameVersion||'", "agentNameVersionMajor":"'||agentNameVersionMajor||'", "agentVersion":"'||agentVersion||'", "agentVersionMajor":"'||agentVersionMajor||'", "deviceBrand":"'||deviceBrand||'", "deviceName":"'||deviceName||'", "deviceVersion":"'||deviceVersion||'", "layoutEngineClass":"'||layoutEngineClass||'", "layoutEngineName":"'||layoutEngineName||'", "layoutEngineNameVersion":"'||layoutEngineNameVersion||'", "layoutEngineNameVersionMajor":"'||layoutEngineNameVersionMajor||'", "layoutEngineVersion":"'||layoutEngineVersion||'", "layoutEngineVersionMajor":"'||layoutEngineVersionMajor||'", "operatingSystemClass":"'||operatingSystemClass||'", "operatingSystemName":"'||operatingSystemName||'", "operatingSystemNameVersion":"'||operatingSystemNameVersion||'", "operatingSystemVersion":"'||operatingSystemVersion||'"}]') as contexts_nl_basjes_yauaa_context_1,
-    parse_json('[{"category":"'||category||'", "primaryImpact":"'||primaryImpact||'", "reason":"'||reason||'", "spiderOrRobot":"'||spiderOrRobot||'"}]') as contexts_com_iab_snowplow_spiders_and_robots_1,
-    object_construct('id', '', 'name', '', 'previousId', '', 'previousName', '', 'transitionType', '', 'type', '') as unstruct_event_com_snowplowanalytics_mobile_screen_view_1
+    parse_json('[{"category":"'||category||'", "primaryImpact":"'||primaryImpact||'", "reason":"'||reason||'", "spiderOrRobot":"'||spiderOrRobot||'"}]') as contexts_com_iab_snowplow_spiders_and_robots_1
 
 from prep
 

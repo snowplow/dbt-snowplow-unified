@@ -17,7 +17,7 @@ with totals as (
 
   select
     last_consent_version,
-    count(distinct domain_userid) as total_visitors,
+    count(distinct user_identifier) as total_visitors,
     count(case when last_consent_event_type ='allow_all' then 1 end) as allow_all,
     count(case when last_consent_event_type ='allow_selected' then 1 end) as allow_selected,
     count(case when last_consent_event_type IN ('allow_all', 'allow_selected') then 1 end) as allow,

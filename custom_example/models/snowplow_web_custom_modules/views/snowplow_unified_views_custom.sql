@@ -22,6 +22,6 @@ select
   ce.engagement_score,
   ce.channel
 
-from {{ ref('snowplow_web_page_views') }} pv -- Join together the two incremental production tables
-left join {{ ref('snowplow_web_pv_channel_engagement')}} ce
+from {{ ref('snowplow_unified_views') }} pv -- Join together the two incremental production tables
+left join {{ ref('snowplow_unified_pv_channel_engagement')}} ce
 on pv.view_id = ce.view_id

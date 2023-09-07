@@ -15,7 +15,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 with arrays as (
 
   select
-    u.domain_userid,
+    u.user_identifier,
     {{ snowplow_utils.get_split_to_array('last_consent_scopes', 'u', ', ') }} as scope_array
 
   from {{ ref('snowplow_unified_consent_users') }} u
@@ -26,7 +26,7 @@ with arrays as (
 
   , unnesting as (
 
-    {{ snowplow_utils.unnest('domain_userid', 'scope_array', 'consent_scope', 'arrays') }}
+    {{ snowplow_utils.unnest('user_identifier', 'scope_array', 'consent_scope', 'arrays') }}
 
   )
 

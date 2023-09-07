@@ -1,10 +1,10 @@
 version: 2
 
 models:
-  - name: snowplow_web_sessions_conversion_this_run
+  - name: snowplow_unified_sessions_conversion_this_run
     description: Table that calculates intent to convert and conversion
     columns:
-      - name: domain_sessionid
+      - name: session_identifier
         tests:
           - unique
           - not_null

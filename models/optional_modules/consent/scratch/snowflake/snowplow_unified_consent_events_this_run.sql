@@ -17,13 +17,11 @@ with prep as (
 
   select
     e.event_id,
-    e.domain_userid,
-    e.original_domain_userid,
+    e.user_identifier,
     e.user_id,
     e.geo_country,
     e.view_id,
-    e.domain_sessionid,
-    e.original_domain_sessionid,
+    e.session_identifier,
     e.derived_tstamp,
     e.load_tstamp,
     e.event_name,
@@ -36,7 +34,7 @@ with prep as (
     e.unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:gdprApplies::boolean as gdpr_applies,
     e.unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1:elapsedTime::float as cmp_load_time
 
-  from {{ ref("snowplow_unified_base_events_this_run") }} as e
+  from {{ ref("snowplow_unified_events_this_run") }} as e
 
   where event_name in ('cmp_visible', 'consent_preferences')
 
@@ -50,13 +48,11 @@ with prep as (
 
 select
   p.event_id,
-  p.domain_userid,
-  p.original_domain_userid,
+  p.user_identifier,
   p.user_id,
   p.geo_country,
   p.view_id,
-  p.domain_sessionid,
-  p.original_domain_sessionid,
+  p.session_identifier,
   p.derived_tstamp,
   p.load_tstamp,
   p.event_name,

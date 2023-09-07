@@ -8,15 +8,15 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {{
   config(
     materialized='incremental',
-    unique_key='domain_sessionid',
+    unique_key='session_identifier',
     upsert_date_key='start_tstamp',
     sort='start_tstamp',
-    dist='domain_sessionid',
+    dist='session_identifier',
     partition_by = snowplow_utils.get_value_by_target_type(bigquery_val = {
       "field": "start_tstamp",
       "data_type": "timestamp"
     }, databricks_val='start_tstamp_date'),
-    cluster_by=snowplow_web.web_cluster_by_fields_sessions(),
+    cluster_by=snowplow_unified.web_cluster_by_fields_sessions(),
     sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt')),
     snowplow_optimize= true
   )
@@ -31,8 +31,8 @@ select
   c.is_session_w_intent,
   c.is_session_w_conversion
 
-from {{ ref('snowplow_web_sessions_this_run') }} s -- join sessions_this_run to sessions_conversion_this_run to produce complete sessions table
-left join {{ ref('snowplow_web_sessions_conversion_this_run')}} c
-on s.domain_sessionid = c.domain_sessionid
+from {{ ref('snowplow_unified_sessions_this_run') }} s -- join sessions_this_run to sessions_conversion_this_run to produce complete sessions table
+left join {{ ref('snowplow_unified_sessions_conversion_this_run')}} c
+on s.session_identifier = c.session_identifier
 
-where {{ snowplow_utils.is_run_with_new_events('snowplow_web') }} --returns false if run doesn't contain new events.
+where {{ snowplow_utils.is_run_with_new_events('snowplow_unified') }} --returns false if run doesn't contain new events.
