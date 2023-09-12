@@ -39,7 +39,7 @@ macros:
         description: (Optional) Table alias to prefix the column selection with. Default none
   - name: web_cluster_by_fields_sessions_lifecycle
     description: '{{ doc("macro_web_cluster_by_X") }}'
-  - name: web_cluster_by_fields_page_views
+  - name: web_cluster_by_fields_views
     description: '{{ doc("macro_web_cluster_by_X") }}'
   - name: web_cluster_by_fields_sessions
     description: '{{ doc("macro_web_cluster_by_X") }}'

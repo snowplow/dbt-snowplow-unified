@@ -18,13 +18,13 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% endmacro %}
 
 
-{% macro web_cluster_by_fields_page_views() %}
+{% macro web_cluster_by_fields_views() %}
 
-  {{ return(adapter.dispatch('web_cluster_by_fields_page_views', 'snowplow_unified')()) }}
+  {{ return(adapter.dispatch('web_cluster_by_fields_views', 'snowplow_unified')()) }}
 
 {% endmacro %}
 
-{% macro default__web_cluster_by_fields_page_views() %}
+{% macro default__web_cluster_by_fields_views() %}
 
   {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["user_identifier","session_identifier"], snowflake_val=["to_date(start_tstamp)"])) }}
 
