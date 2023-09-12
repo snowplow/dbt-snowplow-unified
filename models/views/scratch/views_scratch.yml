@@ -253,12 +253,10 @@ models:
           column_name: "(view_id || '-' || domain_sessionid)"
           config:
             tags: primary-key
-            enabled: "{{ var('snowplow__limit_page_views_to_session', true) | as_bool }}"
       - unique:
           column_name: "view_id"
           config:
             tags: primary-key
-            enabled: "{{  var('snowplow__limit_page_views_to_session', true) is not true | as_bool }}"
     columns:
       - name: view_id
         description: '{{ doc("col_view_id") }}'
@@ -271,12 +269,10 @@ models:
           column_name: "(view_id || '-' || domain_sessionid)"
           config:
             tags: primary-key
-            enabled: "{{ var('snowplow__limit_page_views_to_session', true) | as_bool }}"
       - unique:
           column_name: "view_id"
           config:
             tags: primary-key
-            enabled: "{{  var('snowplow__limit_page_views_to_session', true) is not true | as_bool }}"
     columns:
       - name: view_id
         description: '{{ doc("col_view_id") }}'

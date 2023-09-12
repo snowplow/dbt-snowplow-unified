@@ -14,9 +14,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 with prep as (
   select
     ev.view_id,
-    {% if var('snowplow__limit_page_views_to_session', true) %}
     ev.session_identifier,
-    {% endif %}
 
     max(ev.doc_width) as doc_width,
     max(ev.doc_height) as doc_height,
@@ -41,14 +39,12 @@ with prep as (
     and ev.doc_height > 0 -- exclude problematic (but rare) edge case
     and ev.doc_width > 0 -- exclude problematic (but rare) edge case
 
-  group by 1 {% if var('snowplow__limit_page_views_to_session', true) %}, 2 {% endif %}
+  group by 1, 2
 )
 
 select
   view_id,
-  {% if var('snowplow__limit_page_views_to_session', true) %}
   session_identifier,
-  {% endif %}
 
   doc_width,
   doc_height,

@@ -455,10 +455,10 @@ with prep as (
   from prep p
 
   left join {{ ref('snowplow_unified_pv_engaged_time') }} t
-  on p.view_id = t.view_id {% if var('snowplow__limit_page_views_to_session', true) %} and p.session_identifier = t.session_identifier {% endif %}
+  on p.view_id = t.view_id and p.session_identifier = t.session_identifier
 
   left join {{ ref('snowplow_unified_pv_scroll_depth') }} sd
-  on p.view_id = sd.view_id {% if var('snowplow__limit_page_views_to_session', true) %} and p.session_identifier = sd.session_identifier {% endif %}
+  on p.view_id = sd.view_id and p.session_identifier = sd.session_identifier
 
   where view_id_dedupe_index = 1
 
