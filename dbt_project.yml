@@ -106,8 +106,6 @@ vars:
 
     # Redshift/postgres:
     snowplow__entities_or_sdes: []
-    snowplow__enable_load_tstamp: true # set to false if you are using the postgres loader or earlier than 4.0.0 of the RDB loader
-    # web only contexts
     snowplow__consent_cmp_visible: com_snowplowanalytics_snowplow_cmp_visible_1
     snowplow__consent_preferences: com_snowplowanalytics_snowplow_consent_preferences_1
     snowplow__page_view_context: com_snowplowanalytics_snowplow_web_page_1
