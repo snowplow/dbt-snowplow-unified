@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: snowplow_unified_user_mapping
+    description: A mapping table between `user_identifier` and `user_id`.
+    columns:
+      - name: user_identifier
+        description: '{{ doc("col_user_identifier") }}'
+        tags:
+          - primary-key
+        tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: '{{ doc("col_user_id") }}'
+        tests:
+          - not_null
+      - name: end_tstamp
+        description: The `collector_tstamp` when the user was last active
+        tests:
+          - not_null

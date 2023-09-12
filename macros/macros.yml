@@ -1,0 +1,102 @@
+version: 2
+
+macros:
+  - name: filter_bots
+    description: '{{ doc("macro_filter_bots") }}'
+    arguments:
+      - name: table_alias
+        type: string
+        description: (Optional) the table alias to identify the useragent column from. Default none
+  - name: stitch_user_identifiers
+    description: '{{ doc("macro_stitch_user_identifiers") }}'
+    arguments:
+      - name: enabled
+        type: boolean
+        description: If the user stitching should be done or not
+      - name: relation
+        type: string
+        description: (Optional) The model to update the `stitched_user_id` column in. Default `this`
+      - name: user_mapping_relation
+        type: string
+        description: (Optional) The model to use the `user_id` column from. Default `snowplow_unified_user_mapping`
+  - name: get_app_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_app_error_event_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_browser_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_deep_link_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_geo_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_mobile_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_screen_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_screen_view_event_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_session_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_web_page_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_iab_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_ua_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: get_yauaa_context_fields
+    description: '{{ doc("macro_field_extractions") }}'
+  - name: allow_refresh
+    description: '{{ doc("macro_allow_refresh") }}'
+  - name: channel_group_query
+    description: '{{ doc("macro_channel_group_query") }}'
+  - name: engaged_session
+    description: '{{ doc("macro_engaged_session") }}'
+  - name: core_web_vital_page_groups
+    description: '{{ doc("macro_core_web_vital_page_groups") }}'
+  - name: core_web_vital_results_query
+    description: '{{ doc("macro_core_web_vital_results_query") }}'
+  - name: core_web_vital_pass_query
+    description: '{{ doc("macro_core_web_vital_pass_query") }}'
+  - name: config_check
+    description: '{{ doc("macro_config_check") }}'
+  - name: unify_fields_query
+    description: '{{ doc("macro_unify_fields_query") }}'
+  - name: app_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: app_error_event_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: deep_link_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: geo_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: iab_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: mobile_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: mobile_only_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: platform_independent_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: screen_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: screen_view_event_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: session_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: ua_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: web_only_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: web_page_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: yauaa_context_fields
+    description: '{{ doc("macro_fields") }}'
+  - name: content_group_query
+    description: '{{ doc("macro_content_group_query") }}'
+  - name: event_counts_query
+    description: '{{ doc("macro_event_counts_query") }}'
+  - name: event_counts_string_query
+    description: '{{ doc("macro_event_counts_string_query") }}'
+  - name: get_conversion_columns
+    description: '{{ doc("macro_get_conversion_columns") }}'
+

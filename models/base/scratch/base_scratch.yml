@@ -1,0 +1,758 @@
+version: 2
+
+models:
+  - name: snowplow_unified_base_new_event_limits
+    description: '{{ doc("table_base_new_event_limits") }}'
+    columns:
+      - name: lower_limit
+        description: The lower `collector_tstamp` limit for the run
+      - name: upper_limit
+        description: The upper `collector_tstamp` limit for the run
+  - name: snowplow_unified_base_sessions_this_run
+    description: '{{ doc("table_base_sessions_this_run") }}'
+    columns:
+      - name: session_identifier
+        description: '{{ doc("col_session_identifier") }}'
+        tags:
+          - primary-key
+        tests:
+          - unique
+          - not_null
+      - name: user_identifier
+        description: '{{ doc("col_user_identifier") }}'
+      - name: start_tstamp
+        description: The `collector_tstamp` when the session began
+      - name: end_tstamp
+        description: The `collector_tstamp` when the session ended
+  - name: snowplow_unified_base_events_this_run
+    description: '{{ doc("table_base_events_this_run") }}'
+    columns:
+      - name: app_id
+        description: '{{ doc("col_app_id") }}'
+      - name: platform
+        description: '{{ doc("col_platform") }}'
+      - name: etl_tstamp
+        description: '{{ doc("col_etl_tstamp") }}'
+      - name: collector_tstamp
+        description: '{{ doc("col_collector_tstamp") }}'
+      - name: dvce_created_tstamp
+        description: '{{ doc("col_dvce_created_tstamp") }}'
+      - name: event
+        description: '{{ doc("col_event") }}'
+      - name: event_id
+        description: '{{ doc("col_event_id") }}'
+        tags:
+          - primary-key
+        tests:
+          - unique
+          - not_null
+      - name: txn_id
+        description: '{{ doc("col_txn_id") }}'
+      - name: name_tracker
+        description: '{{ doc("col_name_tracker") }}'
+      - name: v_tracker
+        description: '{{ doc("col_v_tracker") }}'
+      - name: v_collector
+        description: '{{ doc("col_v_collector") }}'
+      - name: v_etl
+        description: '{{ doc("col_v_etl") }}'
+      - name: user_id
+        description: '{{ doc("col_user_id") }}'
+      - name: user_ipaddress
+        description: '{{ doc("col_user_ipaddress") }}'
+      - name: user_fingerprint
+        description: '{{ doc("col_user_fingerprint") }}'
+      - name: user_identifier
+        description: '{{ doc("col_user_identifier") }}'
+      - name: device_session_index
+        description: '{{ doc("col_device_session_index") }}'
+      - name: network_userid
+        description: '{{ doc("col_network_userid") }}'
+      - name: geo_country
+        description: '{{ doc("col_geo_country") }}'
+      - name: geo_region
+        description: '{{ doc("col_geo_region") }}'
+      - name: geo_city
+        description: '{{ doc("col_geo_city") }}'
+      - name: geo_zipcode
+        description: '{{ doc("col_geo_zipcode") }}'
+      - name: geo_latitude
+        description: '{{ doc("col_geo_latitude") }}'
+      - name: geo_longitude
+        description: '{{ doc("col_geo_longitude") }}'
+      - name: geo_region_name
+        description: '{{ doc("col_geo_region_name") }}'
+      - name: ip_isp
+        description: '{{ doc("col_ip_isp") }}'
+      - name: ip_organization
+        description: '{{ doc("col_ip_organization") }}'
+      - name: ip_domain
+        description: '{{ doc("col_ip_domain") }}'
+      - name: ip_netspeed
+        description: '{{ doc("col_ip_netspeed") }}'
+      - name: page_url
+        description: '{{ doc("col_page_url") }}'
+      - name: page_title
+        description: '{{ doc("col_page_title") }}'
+      - name: page_referrer
+        description: '{{ doc("col_page_referrer") }}'
+      - name: page_urlscheme
+        description: '{{ doc("col_page_urlscheme") }}'
+      - name: page_urlhost
+        description: '{{ doc("col_page_urlhost") }}'
+      - name: page_urlport
+        description: '{{ doc("col_page_urlport") }}'
+      - name: page_urlpath
+        description: '{{ doc("col_page_urlpath") }}'
+      - name: page_urlquery
+        description: '{{ doc("col_page_urlquery") }}'
+      - name: page_urlfragment
+        description: '{{ doc("col_page_urlfragment") }}'
+      - name: refr_urlscheme
+        description: '{{ doc("col_refr_urlscheme") }}'
+      - name: refr_urlhost
+        description: '{{ doc("col_refr_urlhost") }}'
+      - name: refr_urlport
+        description: '{{ doc("col_refr_urlport") }}'
+      - name: refr_urlpath
+        description: '{{ doc("col_refr_urlpath") }}'
+      - name: refr_urlquery
+        description: '{{ doc("col_refr_urlquery") }}'
+      - name: refr_urlfragment
+        description: '{{ doc("col_refr_urlfragment") }}'
+      - name: refr_medium
+        description: '{{ doc("col_refr_medium") }}'
+      - name: refr_source
+        description: '{{ doc("col_refr_source") }}'
+      - name: refr_term
+        description: '{{ doc("col_refr_term") }}'
+      - name: mkt_medium
+        description: '{{ doc("col_mkt_medium") }}'
+      - name: mkt_source
+        description: '{{ doc("col_mkt_source") }}'
+      - name: mkt_term
+        description: '{{ doc("col_mkt_term") }}'
+      - name: mkt_content
+        description: '{{ doc("col_mkt_content") }}'
+      - name: mkt_campaign
+        description: '{{ doc("col_mkt_campaign") }}'
+      - name: se_category
+        description: '{{ doc("col_se_category") }}'
+      - name: se_action
+        description: '{{ doc("col_se_action") }}'
+      - name: se_label
+        description: '{{ doc("col_se_label") }}'
+      - name: se_property
+        description: '{{ doc("col_se_property") }}'
+      - name: se_value
+        description: '{{ doc("col_se_value") }}'
+      - name: tr_orderid
+        description: '{{ doc("col_tr_orderid") }}'
+      - name: tr_affiliation
+        description: '{{ doc("col_tr_affiliation") }}'
+      - name: tr_total
+        description: '{{ doc("col_tr_total") }}'
+      - name: tr_tax
+        description: '{{ doc("col_tr_tax") }}'
+      - name: tr_shipping
+        description: '{{ doc("col_tr_shipping") }}'
+      - name: tr_city
+        description: '{{ doc("col_tr_city") }}'
+      - name: tr_state
+        description: '{{ doc("col_tr_state") }}'
+      - name: tr_country
+        description: '{{ doc("col_tr_country") }}'
+      - name: ti_orderid
+        description: '{{ doc("col_ti_orderid") }}'
+      - name: ti_sku
+        description: '{{ doc("col_ti_sku") }}'
+      - name: ti_name
+        description: '{{ doc("col_ti_name") }}'
+      - name: ti_category
+        description: '{{ doc("col_ti_category") }}'
+      - name: ti_price
+        description: '{{ doc("col_ti_price") }}'
+      - name: ti_quantity
+        description: '{{ doc("col_ti_quantity") }}'
+      - name: pp_xoffset_min
+        description: '{{ doc("col_pp_xoffset_min") }}'
+      - name: pp_xoffset_max
+        description: '{{ doc("col_pp_xoffset_max") }}'
+      - name: pp_yoffset_min
+        description: '{{ doc("col_pp_yoffset_min") }}'
+      - name: pp_yoffset_max
+        description: '{{ doc("col_pp_yoffset_max") }}'
+      - name: useragent
+        description: '{{ doc("col_useragent") }}'
+      - name: br_name
+        description: '{{ doc("col_br_name") }}'
+      - name: br_family
+        description: '{{ doc("col_br_family") }}'
+      - name: br_version
+        description: '{{ doc("col_br_version") }}'
+      - name: br_type
+        description: '{{ doc("col_br_type") }}'
+      - name: br_renderengine
+        description: '{{ doc("col_br_renderengine") }}'
+      - name: br_lang
+        description: '{{ doc("col_br_lang") }}'
+      - name: br_features_pdf
+        description: '{{ doc("col_br_features_pdf") }}'
+      - name: br_features_flash
+        description: '{{ doc("col_br_features_flash") }}'
+      - name: br_features_java
+        description: '{{ doc("col_br_features_java") }}'
+      - name: br_features_director
+        description: '{{ doc("col_br_features_director") }}'
+      - name: br_features_quicktime
+        description: '{{ doc("col_br_features_quicktime") }}'
+      - name: br_features_realplayer
+        description: '{{ doc("col_br_features_realplayer") }}'
+      - name: br_features_windowsmedia
+        description: '{{ doc("col_br_features_windowsmedia") }}'
+      - name: br_features_gears
+        description: '{{ doc("col_br_features_gears") }}'
+      - name: br_features_silverlight
+        description: '{{ doc("col_br_features_silverlight") }}'
+      - name: br_cookies
+        description: '{{ doc("col_br_cookies") }}'
+      - name: br_colordepth
+        description: '{{ doc("col_br_colordepth") }}'
+      - name: br_viewwidth
+        description: '{{ doc("col_br_viewwidth") }}'
+      - name: br_viewheight
+        description: '{{ doc("col_br_viewheight") }}'
+      - name: os_name
+        description: '{{ doc("col_os_name") }}'
+      - name: os_family
+        description: '{{ doc("col_os_family") }}'
+      - name: os_manufacturer
+        description: '{{ doc("col_os_manufacturer") }}'
+      - name: os_timezone
+        description: '{{ doc("col_os_timezone") }}'
+      - name: dvce_type
+        description: '{{ doc("col_dvce_type") }}'
+      - name: dvce_ismobile
+        description: '{{ doc("col_dvce_ismobile") }}'
+      - name: dvce_screenwidth
+        description: '{{ doc("col_dvce_screenwidth") }}'
+      - name: dvce_screenheight
+        description: '{{ doc("col_dvce_screenheight") }}'
+      - name: doc_charset
+        description: '{{ doc("col_doc_charset") }}'
+      - name: doc_width
+        description: '{{ doc("col_doc_width") }}'
+      - name: doc_height
+        description: '{{ doc("col_doc_height") }}'
+      - name: tr_currency
+        description: '{{ doc("col_tr_currency") }}'
+      - name: tr_total_base
+        description: '{{ doc("col_tr_total_base") }}'
+      - name: tr_tax_base
+        description: '{{ doc("col_tr_tax_base") }}'
+      - name: tr_shipping_base
+        description: '{{ doc("col_tr_shipping_base") }}'
+      - name: ti_currency
+        description: '{{ doc("col_ti_currency") }}'
+      - name: ti_price_base
+        description: '{{ doc("col_ti_price_base") }}'
+      - name: base_currency
+        description: '{{ doc("col_base_currency") }}'
+      - name: geo_timezone
+        description: '{{ doc("col_geo_timezone") }}'
+      - name: mkt_clickid
+        description: '{{ doc("col_mkt_clickid") }}'
+      - name: mkt_network
+        description: '{{ doc("col_mkt_network") }}'
+      - name: etl_tags
+        description: '{{ doc("col_etl_tags") }}'
+      - name: dvce_sent_tstamp
+        description: '{{ doc("col_dvce_sent_tstamp") }}'
+      - name: refr_user_identifier
+        description: '{{ doc("col_refr_user_identifier") }}'
+      - name: refr_dvce_tstamp
+        description: '{{ doc("col_refr_dvce_tstamp") }}'
+      - name: session_identifier
+        description: '{{ doc("col_session_identifier") }}'
+      - name: derived_tstamp
+        description: '{{ doc("col_derived_tstamp") }}'
+      - name: event_vendor
+        description: '{{ doc("col_event_vendor") }}'
+      - name: event_name
+        description: '{{ doc("col_event_name") }}'
+      - name: event_format
+        description: '{{ doc("col_event_format") }}'
+      - name: event_version
+        description: '{{ doc("col_event_version") }}'
+      - name: event_fingerprint
+        description: '{{ doc("col_event_fingerprint") }}'
+      - name: true_tstamp
+        description: '{{ doc("col_true_tstamp") }}'
+      - name: view_id
+        description: '{{ doc("col_view_id") }}'
+      - name: page_view__id
+      - name: page_view___tstamp
+      - name: page_view___id
+      - name: iab__category
+      - name: iab__primary_impact
+      - name: iab__reason
+      - name: iab__spider_or_robot
+      - name: iab___tstamp
+      - name: iab___id
+      - name: ua__device_family
+      - name: ua__os_family
+      - name: ua__os_major
+      - name: ua__os_minor
+      - name: ua__os_patch
+      - name: ua__os_patch_minor
+      - name: ua__os_version
+      - name: ua__useragent_family
+      - name: ua__useragent_major
+      - name: ua__useragent_minor
+      - name: ua__useragent_patch
+      - name: ua__useragent_version
+      - name: ua___tstamp
+      - name: ua___id
+      - name: cmp__elapsed_time
+      - name: cmp___tstamp
+      - name: cmp___id
+      - name: consent__basis_for_processing
+      - name: consent__consent_version
+      - name: consent__consent_scopes
+      - name: consent__domains_applied
+      - name: consent__consent_url
+      - name: consent__event_type
+      - name: consent__gdpr_applies
+      - name: consent___tstamp
+      - name: consent___id
+      - name: browser__viewport
+      - name: browser__document_size
+      - name: browser__resolution
+      - name: browser__color_depth
+      - name: browser__device_pixel_ratio
+      - name: browser__cookies_enabled
+      - name: browser__online
+      - name: browser__browser_language
+      - name: browser__document_language
+      - name: browser__webdriver
+      - name: browser__device_memory
+      - name: browser__hardware_concurrency
+      - name: browser__tab_id
+      - name: browser___tstamp
+      - name: browser___id
+      - name: yauaa__agent_class
+      - name: yauaa__agent_information_email
+      - name: yauaa__agent_name
+      - name: yauaa__agent_name_version
+      - name: yauaa__agent_name_version_major
+      - name: yauaa__agent_version
+      - name: yauaa__agent_version_major
+      - name: yauaa__device_brand
+      - name: yauaa__device_class
+      - name: yauaa__device_cpu
+      - name: yauaa__device_cpu_bits
+      - name: yauaa__device_name
+      - name: yauaa__device_version
+      - name: yauaa__layout_engine_class
+      - name: yauaa__layout_engine_name
+      - name: yauaa__layout_engine_name_version
+      - name: yauaa__layout_engine_name_version_major
+      - name: yauaa__layout_engine_version
+      - name: yauaa__layout_engine_version_major
+      - name: yauaa__network_type
+      - name: yauaa__operating_system_class
+      - name: yauaa__operating_system_name
+      - name: yauaa__operating_system_name_version
+      - name: yauaa__operating_system_name_version_major
+      - name: yauaa__operating_system_version
+      - name: yauaa__operating_system_version_build
+      - name: yauaa__operating_system_version_major
+      - name: yauaa__webview_app_name
+      - name: yauaa__webview_app_name_version_major
+      - name: yauaa__webview_app_version
+      - name: yauaa__webview_app_version_major
+      - name: yauaa___tstamp
+      - name: yauaa___id
+      - name: screen_view__id
+      - name: screen_view__name
+      - name: screen_view__previous_id
+      - name: screen_view__previous_name
+      - name: screen_view__previous_type
+      - name: screen_view__transition_type
+      - name: screen_view__type
+      - name: session__session_id
+      - name: session__session_index
+      - name: session__previous_session_id
+      - name: session__user_id
+      - name: session__first_event_id
+      - name: session__event_index
+      - name: session__storage_mechanism
+      - name: session__first_event_timestamp
+      - name: mobile__device_manufacturer
+      - name: mobile__device_model
+      - name: mobile__os_type
+      - name: mobile__os_version
+      - name: mobile__android_idfa
+      - name: mobile__apple_idfa
+      - name: mobile__apple_idfv
+      - name: mobile__carrier
+      - name: mobile__open_idfa
+      - name: mobile__network_technology
+      - name: mobile__network_type
+      - name: mobile__physical_memory
+      - name: mobile__system_available_memory
+      - name: mobile__app_available_memory
+      - name: mobile__battery_level
+      - name: mobile__battery_state
+      - name: mobile__low_power_mode
+      - name: mobile__available_storage
+      - name: mobile__total_storage
+      - name: mobile__is_portrait
+      - name: mobile__resolution
+      - name: mobile__scale
+      - name: mobile__language
+      - name: mobile__app_set_id
+      - name: mobile__app_set_id_scope
+      - name: geo__latitude
+      - name: geo__longitude
+      - name: geo__latitude_longitude_accuracy
+      - name: geo__altitude
+      - name: geo__altitude_accuracy
+      - name: geo__bearing
+      - name: geo__speed
+      - name: app__build
+      - name: app__version
+      - name: screen__id
+      - name: screen__name
+      - name: screen__activity
+      - name: screen__fragment
+      - name: screen__top_view_controller
+      - name: screen__type
+      - name: screen__view_controller
+      - name: deep_link__url
+      - name: deep_link__referrer
+      - name: app_error__message
+      - name: app_error__programming_language
+      - name: app_error__class_name
+      - name: app_error__exception_name
+      - name: app_error__is_fatal
+      - name: app_error__line_number
+      - name: app_error__stack_trace
+      - name: app_error__thread_id
+      - name: app_error__thread_name
+  - name: snowplow_unified_events_this_run
+    description: '{{ doc("table_events_this_run") }}'
+    columns:
+      - name: session_identifier
+      - name: app_id
+      - name: platform
+      - name: etl_tstamp
+      - name: collector_tstamp
+      - name: dvce_created_tstamp
+      - name: event
+      - name: event_id
+        description: '{{ doc("col_event_id") }}'
+        tags:
+          - primary-key
+        tests:
+          - unique
+          - not_null
+      - name: txn_id
+      - name: name_tracker
+      - name: v_tracker
+      - name: v_collector
+      - name: v_etl
+      - name: user_id
+      - name: user_ipaddress
+      - name: user_fingerprint
+      - name: domain_userid
+      - name: domain_sessionidx
+      - name: network_userid
+      - name: geo_country
+      - name: geo_region
+      - name: geo_city
+      - name: geo_zipcode
+      - name: geo_latitude
+      - name: geo_longitude
+      - name: geo_region_name
+      - name: ip_isp
+      - name: ip_organization
+      - name: ip_domain
+      - name: ip_netspeed
+      - name: page_url
+      - name: page_title
+      - name: page_referrer
+      - name: page_urlscheme
+      - name: page_urlhost
+      - name: page_urlport
+      - name: page_urlpath
+      - name: page_urlquery
+      - name: page_urlfragment
+      - name: refr_urlscheme
+      - name: refr_urlhost
+      - name: refr_urlport
+      - name: refr_urlpath
+      - name: refr_urlquery
+      - name: refr_urlfragment
+      - name: refr_medium
+      - name: refr_source
+      - name: refr_term
+      - name: mkt_medium
+      - name: mkt_source
+      - name: mkt_term
+      - name: mkt_content
+      - name: mkt_campaign
+      - name: se_category
+      - name: se_action
+      - name: se_label
+      - name: se_property
+      - name: se_value
+      - name: tr_orderid
+      - name: tr_affiliation
+      - name: tr_total
+      - name: tr_tax
+      - name: tr_shipping
+      - name: tr_city
+      - name: tr_state
+      - name: tr_country
+      - name: ti_orderid
+      - name: ti_sku
+      - name: ti_name
+      - name: ti_category
+      - name: ti_price
+      - name: ti_quantity
+      - name: pp_xoffset_min
+      - name: pp_xoffset_max
+      - name: pp_yoffset_min
+      - name: pp_yoffset_max
+      - name: useragent
+      - name: br_name
+      - name: br_family
+      - name: br_version
+      - name: br_type
+      - name: br_renderengine
+      - name: br_lang
+      - name: br_features_pdf
+      - name: br_features_flash
+      - name: br_features_java
+      - name: br_features_director
+      - name: br_features_quicktime
+      - name: br_features_realplayer
+      - name: br_features_windowsmedia
+      - name: br_features_gears
+      - name: br_features_silverlight
+      - name: br_cookies
+      - name: br_colordepth
+      - name: br_viewwidth
+      - name: br_viewheight
+      - name: os_name
+      - name: os_family
+      - name: os_manufacturer
+      - name: os_timezone
+      - name: dvce_type
+      - name: dvce_ismobile
+      - name: dvce_screenwidth
+      - name: dvce_screenheight
+      - name: doc_charset
+      - name: doc_width
+      - name: doc_height
+      - name: tr_currency
+      - name: tr_total_base
+      - name: tr_tax_base
+      - name: tr_shipping_base
+      - name: ti_currency
+      - name: ti_price_base
+      - name: base_currency
+      - name: geo_timezone
+      - name: mkt_clickid
+      - name: mkt_network
+      - name: etl_tags
+      - name: dvce_sent_tstamp
+      - name: refr_domain_userid
+      - name: refr_dvce_tstamp
+      - name: domain_sessionid
+      - name: derived_tstamp
+      - name: event_vendor
+      - name: event_name
+      - name: event_format
+      - name: event_version
+      - name: event_fingerprint
+      - name: true_tstamp
+      - name: load_tstamp
+      - name: user_identifier
+      - name: page_view__id
+      - name: page_view___tstamp
+      - name: page_view___id
+      - name: iab__category
+      - name: iab__primary_impact
+      - name: iab__reason
+      - name: iab__spider_or_robot
+      - name: iab___tstamp
+      - name: iab___id
+      - name: ua__device_family
+      - name: ua__os_family
+      - name: ua__os_major
+      - name: ua__os_minor
+      - name: ua__os_patch
+      - name: ua__os_patch_minor
+      - name: ua__os_version
+      - name: ua__useragent_family
+      - name: ua__useragent_major
+      - name: ua__useragent_minor
+      - name: ua__useragent_patch
+      - name: ua__useragent_version
+      - name: ua___tstamp
+      - name: ua___id
+      - name: cmp__elapsed_time
+      - name: cmp___tstamp
+      - name: cmp___id
+      - name: consent__basis_for_processing
+      - name: consent__consent_version
+      - name: consent__consent_scopes
+      - name: consent__domains_applied
+      - name: consent__consent_url
+      - name: consent__event_type
+      - name: consent__gdpr_applies
+      - name: consent___tstamp
+      - name: consent___id
+      - name: browser__viewport
+      - name: browser__document_size
+      - name: browser__resolution
+      - name: browser__color_depth
+      - name: browser__device_pixel_ratio
+      - name: browser__cookies_enabled
+      - name: browser__online
+      - name: browser__browser_language
+      - name: browser__document_language
+      - name: browser__webdriver
+      - name: browser__device_memory
+      - name: browser__hardware_concurrency
+      - name: browser__tab_id
+      - name: browser___tstamp
+      - name: browser___id
+      - name: screen_view__id
+      - name: screen_view__name
+      - name: screen_view__previous_id
+      - name: screen_view__previous_name
+      - name: screen_view__previous_type
+      - name: screen_view__transition_type
+      - name: screen_view__type
+      - name: screen_view___tstamp
+      - name: screen_view___id
+      - name: session__session_index
+      - name: session__session_id
+      - name: session__previous_session_id
+      - name: session__user_id
+      - name: session__first_event_id
+      - name: session__event_index
+      - name: session__storage_mechanism
+      - name: session__first_event_timestamp
+      - name: session___tstamp
+      - name: session___id
+      - name: mobile__device_manufacturer
+      - name: mobile__device_model
+      - name: mobile__os_type
+      - name: mobile__os_version
+      - name: mobile__android_idfa
+      - name: mobile__apple_idfa
+      - name: mobile__apple_idfv
+      - name: mobile__carrier
+      - name: mobile__open_idfa
+      - name: mobile__network_technology
+      - name: mobile__network_type
+      - name: mobile__physical_memory
+      - name: mobile__system_available_memory
+      - name: mobile__app_available_memory
+      - name: mobile__battery_level
+      - name: mobile__battery_state
+      - name: mobile__low_power_mode
+      - name: mobile__available_storage
+      - name: mobile__total_storage
+      - name: mobile__is_portrait
+      - name: mobile__resolution
+      - name: mobile__scale
+      - name: mobile__language
+      - name: mobile__app_set_id
+      - name: mobile__app_set_id_scope
+      - name: mobile___tstamp
+      - name: mobile___id
+      - name: geo__latitude
+      - name: geo__longitude
+      - name: geo__latitude_longitude_accuracy
+      - name: geo__altitude
+      - name: geo__altitude_accuracy
+      - name: geo__bearing
+      - name: geo__speed
+      - name: geo___tstamp
+      - name: geo___id
+      - name: app__build
+      - name: app__version
+      - name: app___tstamp
+      - name: app___id
+      - name: screen__id
+      - name: screen__name
+      - name: screen__activity
+      - name: screen__type
+      - name: screen__fragment
+      - name: screen__top_view_controller
+      - name: screen__view_controller
+      - name: screen___tstamp
+      - name: screen___id
+      - name: app_error__message
+      - name: app_error__programming_language
+      - name: app_error__class_name
+      - name: app_error__exception_name
+      - name: app_error__is_fatal
+      - name: app_error__line_number
+      - name: app_error__stack_trace
+      - name: app_error__thread_id
+      - name: app_error__thread_name
+      - name: app_error___tstamp
+      - name: app_error___id
+      - name: deep_link__url
+      - name: deep_link__referrer
+      - name: deep_link___tstamp
+      - name: deep_link___id
+      - name: yauaa__agent_class
+      - name: yauaa__agent_information_email
+      - name: yauaa__agent_name
+      - name: yauaa__agent_name_version
+      - name: yauaa__agent_name_version_major
+      - name: yauaa__agent_version
+      - name: yauaa__agent_version_major
+      - name: yauaa__device_brand
+      - name: yauaa__device_class
+      - name: yauaa__device_cpu
+      - name: yauaa__device_cpu_bits
+      - name: yauaa__device_name
+      - name: yauaa__device_version
+      - name: yauaa__layout_engine_class
+      - name: yauaa__layout_engine_name
+      - name: yauaa__layout_engine_name_version
+      - name: yauaa__layout_engine_name_version_major
+      - name: yauaa__layout_engine_version
+      - name: yauaa__layout_engine_version_major
+      - name: yauaa__network_type
+      - name: yauaa__operating_system_class
+      - name: yauaa__operating_system_name
+      - name: yauaa__operating_system_name_version
+      - name: yauaa__operating_system_name_version_major
+      - name: yauaa__operating_system_version
+      - name: yauaa__operating_system_version_build
+      - name: yauaa__operating_system_version_major
+      - name: yauaa__webview_app_name
+      - name: yauaa__webview_app_name_version_major
+      - name: yauaa__webview_app_version
+      - name: yauaa__webview_app_version_major
+      - name: yauaa___tstamp
+      - name: yauaa___id
+      - name: view_id
+      - name: device_session_index
+      - name: referrer
+      - name: url
+      - name: screen_resolution
+      - name: os_type
+      - name: os_version
+      - name: device_identifier
+      - name: platform_name
+      - name: device_category
