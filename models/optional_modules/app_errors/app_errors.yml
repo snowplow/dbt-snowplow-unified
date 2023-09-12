@@ -1,0 +1,185 @@
+version: 2
+
+models:
+  - name: snowplow_unified_app_errors
+    description: 'This derived table contains all app errors and should be the end point for any analysis or BI tools looking to investigate app errors. This is an optional table that will be empty if the `app_errors` module is not enabled.'
+    columns:
+      - name: event_id
+        description: '{{ doc("col_event_id") }}'
+        tags:
+          - primary-key
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+          - unique:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: app_id
+        description: '{{ doc("col_app_id") }}'
+      - name: user_id
+        description: '{{ doc("col_user_id") }}'
+      - name: user_identifier
+        description: '{{ doc("col_user_identifier") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: network_userid
+        description: '{{ doc("col_network_userid") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: session_identifier
+        description: '{{ doc("col_session_identifier") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: session_index
+        description: '{{ doc("col_session_index") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: previous_session_identifier
+        description: '{{ doc("col_previous_session_id") }}'
+      - name: session_first_event_id
+        description: '{{ doc("col_session_first_event_id") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: dvce_created_tstamp
+        description: '{{ doc("col_dvce_created_tstamp") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: collector_tstamp
+        description: '{{ doc("col_collector_tstamp") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: derived_tstamp
+        description: '{{ doc("col_derived_tstamp") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: model_tstamp
+        description: '{{ doc("col_model_tstamp") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: platform
+        description: '{{ doc("col_platform") }}'
+      - name: dvce_screenwidth
+        description: '{{ doc("col_dvce_screenwidth") }}'
+      - name: dvce_screenheight
+        description: '{{ doc("col_dvce_screenheight") }}'
+      - name: device_manufacturer
+        description: '{{ doc("col_device_manufacturer") }}'
+      - name: device_model
+        description: '{{ doc("col_device_model") }}'
+      - name: os_type
+        description: '{{ doc("col_os_type") }}'
+      - name: os_version
+        description: '{{ doc("col_os_version") }}'
+      - name: android_idfa
+        description: '{{ doc("col_android_idfa") }}'
+      - name: apple_idfa
+        description: '{{ doc("col_apple_idfa") }}'
+      - name: apple_idfv
+        description: '{{ doc("col_apple_idfv") }}'
+      - name: open_idfa
+        description: '{{ doc("col_open_idfa") }}'
+      - name: screen_id
+        description: '{{ doc("col_screen_id") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: screen_name
+        description: '{{ doc("col_screen_name") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_app_errors", false)}}'
+      - name: screen_activity
+        description: '{{ doc("col_screen_activity") }}'
+      - name: screen_fragment
+        description: '{{ doc("col_screen_fragment") }}'
+      - name: screen_top_view_controller
+        description: '{{ doc("col_screen_top_view_controller") }}'
+      - name: screen_type
+        description: '{{ doc("col_screen_type") }}'
+      - name: screen_view_controller
+        description: '{{ doc("col_screen_view_controller") }}'
+      - name: device_latitude
+        description: '{{ doc("col_device_latitude") }}'
+      - name: device_longitude
+        description: '{{ doc("col_device_longitude") }}'
+      - name: device_latitude_longitude_accuracy
+        description: '{{ doc("col_device_latitude_longitude_accuracy") }}'
+      - name: device_altitude
+        description: '{{ doc("col_device_altitude") }}'
+      - name: device_altitude_accuracy
+        description: '{{ doc("col_device_altitude_accuracy") }}'
+      - name: device_bearing
+        description: '{{ doc("col_device_bearing") }}'
+      - name: device_speed
+        description: '{{ doc("col_device_speed") }}'
+      - name: geo_country
+        description: '{{ doc("col_geo_country") }}'
+      - name: geo_region
+        description: '{{ doc("col_geo_region") }}'
+      - name: geo_city
+        description: '{{ doc("col_geo_city") }}'
+      - name: geo_zipcode
+        description: '{{ doc("col_geo_zipcode") }}'
+      - name: geo_latitude
+        description: '{{ doc("col_geo_latitude") }}'
+      - name: geo_longitude
+        description: '{{ doc("col_geo_longitude") }}'
+      - name: geo_region_name
+        description: '{{ doc("col_geo_region_name") }}'
+      - name: geo_timezone
+        description: '{{ doc("col_geo_timezone") }}'
+      - name: user_ipaddress
+        description: '{{ doc("col_user_ipaddress") }}'
+      - name: useragent
+        description: '{{ doc("col_useragent") }}'
+      - name: carrier
+        description: '{{ doc("col_carrier") }}'
+      - name: network_technology
+        description: '{{ doc("col_network_technology") }}'
+      - name: network_type
+        description: '{{ doc("col_network_type") }}'
+      - name: build
+        description: '{{ doc("col_build") }}'
+      - name: version
+        description: '{{ doc("col_version") }}'
+      - name: event_index_in_session
+        description: '{{ doc("col_event_index_in_session") }}'
+      - name: message
+        description: '{{ doc("col_message") }}'
+      - name: programming_language
+        description: '{{ doc("col_programming_language") }}'
+      - name: class_name
+        description: '{{ doc("col_class_name") }}'
+      - name: exception_name
+        description: '{{ doc("col_exception_name") }}'
+      - name: is_fatal
+        description: '{{ doc("col_is_fatal") }}'
+      - name: line_number
+        description: '{{ doc("col_line_number") }}'
+      - name: stack_trace
+        description: '{{ doc("col_stack_trace") }}'
+      - name: thread_id
+        description: '{{ doc("col_thread_id") }}'
+      - name: thread_name
+        description: '{{ doc("col_thread_name") }}'
