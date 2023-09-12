@@ -83,13 +83,13 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   {% else %}
 
     {% if var('snowplow__enable_web') and var('snowplow__enable_mobile') %}
-      {{ return([{'schema': var('snowplow__session_context'), 'field': 'session_id', 'prefix': 'si'},{'schema': 'atomic', 'field': 'domain_sessionid', 'prefix': 'si'}] )}}
+      {{ return([{'schema': var('snowplow__session_context'), 'field': 'session_id', 'prefix': 'session_'},{'schema': 'atomic', 'field': 'domain_sessionid', 'prefix': 'session_'}] )}}
 
     {% elif var('snowplow__enable_mobile') %}
-      {{ return([{'schema': var('snowplow__session_context'), 'field': 'session_id', 'prefix': 'si'}] )}}
+      {{ return([{'schema': var('snowplow__session_context'), 'field': 'session_id', 'prefix': 'session_'}] )}}
 
     {% else %}
-      {{ return([{'schema': 'atomic', 'field': 'domain_sessionid', 'prefix': 'si'}] )}}
+      {{ return([{'schema': 'atomic', 'field': 'domain_sessionid', 'prefix': 'session_'}] )}}
 
     {% endif %}
   {% endif %}
@@ -176,13 +176,13 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   {% else %}
 
     {% if var('snowplow__enable_web') and var('snowplow__enable_mobile') %}
-      {{ return([{'schema': var('snowplow__session_context'), 'field': 'user_id', 'prefix': 'ui'}, {'schema': 'atomic', 'field': 'domain_userid', 'prefix': 'ui'}] )}}
+      {{ return([{'schema': var('snowplow__session_context'), 'field': 'user_id', 'prefix': 'session_'}, {'schema': 'atomic', 'field': 'domain_userid', 'prefix': 'session_'}] )}}
 
     {% elif var('snowplow__enable_mobile') %}
-      {{ return([{'schema': var('snowplow__session_context'), 'field': 'user_id', 'prefix': 'ui'}] )}}
+      {{ return([{'schema': var('snowplow__session_context'), 'field': 'user_id', 'prefix': 'session_'}] )}}
 
     {% else %}
-      {{ return([{'schema': 'atomic', 'field': 'domain_userid', 'prefix': 'ui'}] )}}
+      {{ return([{'schema': 'atomic', 'field': 'domain_userid', 'prefix': 'session_'}] )}}
 
     {% endif %}
   {% endif %}

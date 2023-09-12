@@ -10,7 +10,7 @@ select
   cast('2021-03-03 08:14:01.599' as timestamp) as root_tstamp,
   'session_context' as schema_name,
   1 as session_index,
-  'na' as session_id,
+  'bca0fa0e-853c-41cf-9cc4-15048f6f0ff5' as session_id,
   'na' as previous_session_id,
   'na' as user_id,
   'na' as first_event_id,
