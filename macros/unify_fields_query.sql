@@ -111,6 +111,8 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
         when yauaa__device_class = 'Tablet' then 'Tablet'
         else 'Other' end as device_category
       {%- endif %}
+    {% else %}
+      null as device_category
     {%- endif %}
 
   from base
