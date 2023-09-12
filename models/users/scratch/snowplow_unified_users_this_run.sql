@@ -1,0 +1,168 @@
+{#
+Copyright (c) 2023-present Snowplow Analytics Ltd. All rights reserved.
+This program is licensed to you under the Snowplow Community License Version 1.0,
+and you may not use this file except in compliance with the Snowplow Community License Version 1.0.
+You may obtain a copy of the Snowplow Community License Version 1.0 at https://docs.snowplow.io/community-license-1.0
+#}
+
+{{
+  config(
+    tags=["this_run"],
+    sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt'))
+  )
+}}
+
+select
+  -- user fields
+  a.user_id
+  , a.user_identifier
+  , a.network_userid
+
+  -- timestamp fields
+  , b.start_tstamp
+  , b.end_tstamp
+  , {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
+
+  -- device fields
+  , a.platform as first_platform
+  , c.last_platform
+  , a.on_web
+  , a.on_mobile
+  , c.last_screen_resolution
+  , c.last_os_type
+  , c.last_os_version
+
+  {% if var('snowplow__enable_mobile') %}
+    , c.last_mobile__device_manufacturer
+    , c.last_mobile__device_model
+    , c.last_mobile__carrier
+  {% endif %}
+
+  {% if var('snowplow__enable_mobile_context') %}
+    , a.mobile__android_idfa
+    , a.mobile__apple_idfa
+    , a.mobile__apple_idfv
+    , a.mobile__open_idfa
+  {% endif %}
+
+  -- geo fields
+  , a.first_geo_country
+  , a.first_geo_country_name
+  , a.first_geo_continent
+  , a.first_geo_city
+  , a.first_geo_region_name
+  , c.last_geo_country
+  , c.last_geo_country_name
+  , c.last_geo_continent
+  , c.last_geo_city
+  , c.last_geo_region_name
+
+  , a.geo_zipcode
+  , a.geo_latitude
+  , a.geo_longitude
+  , a.geo_timezone
+
+  {% if var('snowplow__enable_mobile_context') %}
+    , a.mobile__carrier
+  {% endif %}
+
+  -- engagement fields
+  , b.views
+  , b.sessions
+  , b.active_days
+
+  {% if var('snowplow__enable_web') %}
+    , b.engaged_time_in_s
+  {% endif %}
+
+  {% if var('snowplow__enable_mobile') %}
+    , b.screen_names_viewed
+    , b.sessions_duration_s
+  {% endif %}
+
+
+  -- webpage / referer / browser fields
+  , a.page_referrer
+  , a.refr_medium
+  , a.refr_source
+  , a.refr_term
+
+  {% if var('snowplow__enable_web') %}
+    , a.first_page_title
+    , a.first_page_url
+    , a.first_page_urlscheme
+    , a.first_page_urlhost
+    , a.first_page_urlpath
+    , a.first_page_urlquery
+    , a.first_page_urlfragment
+    , a.first_br_lang
+    , a.first_br_lang_name
+    , c.last_page_title
+    , c.last_page_url
+    , c.last_page_urlscheme
+    , c.last_page_urlhost
+    , c.last_page_urlpath
+    , c.last_page_urlquery
+    , c.last_page_urlfragment
+    , c.last_br_lang
+    , c.last_br_lang_name
+    , a.refr_urlscheme
+    , a.refr_urlhost
+    , a.refr_urlpath
+    , a.refr_urlquery
+    , a.refr_urlfragment
+  {%- endif %}
+
+  {% if var('snowplow__enable_mobile') %}
+    , a.first_screen_view__name
+    , a.first_screen_view__transition_type
+    , a.first_screen_view__type
+    , c.last_screen_view__name
+    , c.last_screen_view__transition_type
+    , c.last_screen_view__type
+  {%- endif %}
+
+  -- marketing fields
+  , a.mkt_medium
+  , a.mkt_source
+  , a.mkt_term
+  , a.mkt_content
+  , a.mkt_campaign
+  , a.mkt_clickid
+  , a.mkt_network
+  , a.mkt_source_platform
+  , a.default_channel_group
+
+  {% if var('snowplow__enable_app_error_event') %}
+    , b.app_errors
+    , b.fatal_app_errors
+  {%- endif %}
+
+  {%- if var('snowplow__user_first_passthroughs', []) -%}
+    {%- for identifier in var('snowplow__user_first_passthroughs', []) %}
+    {# Check if it is a simple column or a sql+alias #}
+    {%- if identifier is mapping -%}
+        ,{{identifier['sql']}} as {{identifier['alias']}}
+    {%- else -%}
+        ,a.{{identifier}} as first_{{identifier}}
+    {%- endif -%}
+    {% endfor -%}
+  {%- endif %}
+  {%- if var('snowplow__user_last_passthroughs', []) -%}
+    {%- for identifier in var('snowplow__user_last_passthroughs', []) %}
+    {# Check if it is a simple column or a sql+alias #}
+    {%- if identifier is mapping -%}
+        ,c.{{identifier['alias']}}
+    {%- else -%}
+        ,c.last_{{identifier}}
+    {%- endif -%}
+    {% endfor -%}
+  {%- endif %}
+
+from {{ ref('snowplow_unified_users_aggs') }} as b
+
+inner join {{ ref('snowplow_unified_users_sessions_this_run') }} as a
+on a.session_identifier = b.first_session_identifier
+
+inner join {{ ref('snowplow_unified_users_lasts') }} c
+on b.user_identifier = c.user_identifier
