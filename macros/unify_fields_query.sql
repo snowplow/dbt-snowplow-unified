@@ -35,11 +35,11 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
         null) as view_type,
 
         coalesce(
-        {% if var('snowplow__enable_web') %}
-          ev.domain_sessionidx,
-        {% endif %}
         {% if var('snowplow__enable_mobile') %}
           ev.session__session_index,
+        {% endif %}
+        {% if var('snowplow__enable_web') %}
+          ev.domain_sessionidx,
         {% endif %}
         null) as session_index,
 
