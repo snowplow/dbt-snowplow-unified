@@ -71,7 +71,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro snowflake__get_app_error_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_browser_context', false) %}
-    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1:message::VARCHAR() AS message
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1:message::VARCHAR() AS app_error__message
     , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1:programmingLanguage::VARCHAR() AS app_error__programming_language
     , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1:className::VARCHAR() AS app_error__class_name
     , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1:exceptionName::VARCHAR() AS app_error__exception_name
