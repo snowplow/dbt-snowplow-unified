@@ -46,7 +46,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0]:build::varchar(255) AS app__build
       , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0]:version::varchar(255) AS app__version
     {% else %}
-      , cast(null as {{ type_string() }}) as app__build,
+      , cast(null as {{ type_string() }}) as app__build
       , cast(null as {{ type_string() }}) as app__version
     {% endif %}
 {% endmacro %}
