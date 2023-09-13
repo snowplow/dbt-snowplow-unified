@@ -13,7 +13,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   )
 }}
 
-{# dbt passes variables by reference so need to use copy to avoid altering the list multiple times #}
+{# Setting sdes or contexts for Postgres / Redshift. Dbt passes variables by reference so need to use copy to avoid altering the list multiple times #}
 {% set contexts = var('snowplow__entities_or_sdes', []).copy() %}
 
 {% if var('snowplow__enable_web') %}
@@ -100,8 +100,20 @@ with base_query as (
 )
 
 select
-
-*
+  *
+  -- extract commonly used contexts / sdes (prefixed)
+  {{ get_web_page_context_fields() }}
+  {{ get_iab_context_fields() }}
+  {{ get_ua_context_fields() }}
+  {{ get_yauaa_context_fields() }}
+  {{ get_browser_context_fields() }}
+  {{ get_screen_view_event_fields() }}
+  {{ get_session_context_fields() }}
+  {{ get_mobile_context_fields() }}
+  {{ get_geo_context_fields() }}
+  {{ get_app_context_fields() }}
+  {{ get_screen_context_fields() }}
+  {{ get_deep_link_context_fields() }}
 
 from base_query
 

@@ -150,10 +150,6 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
-        default:
-          enabled: "{{ target.type in ['databricks', 'spark', 'snowflake', 'bigquery'] | as_bool() }}"
-        redshift_postgres:
-          enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
 
     optional_modules:
       consent:

@@ -10,38 +10,43 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {%- endmacro -%}
 
 {% macro postgres__get_app_context_fields(table_prefix = none) %}
+  {% if var('snowplow__enable_application_context', false) %}
+  {% else %}
+   , cast(null as {{ type_string() }}) as app__build,
+    cast(null as {{ type_string() }}) as app__version
+  {% endif %}
 {% endmacro %}
 
 {% macro bigquery__get_app_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_application_context', false) %}
-    {{ snowplow_utils.get_optional_fields(
+  ,  {{ snowplow_utils.get_optional_fields(
           enabled=var('snowplow__enable_application_context', false),
           col_prefix='contexts_com_snowplowanalytics_mobile_application_1_',
           fields=app_context_fields(),
           relation=source('atomic', 'events') if project_name != 'snowplow_unified_integration_tests' else ref('snowplow_unified_events_stg'),
           relation_alias=table_prefix) }}
   {% else %}
-    cast(null as {{ type_string() }}) as build,
-    cast(null as {{ type_string() }}) as version
+  , cast(null as {{ type_string() }}) as app__build,
+    cast(null as {{ type_string() }}) as app__version
   {% endif %}
 {% endmacro %}
 
 {% macro spark__get_app_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_application_context', false) %}
-      {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0].build::STRING AS app__build,
+      ,{% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0].build::STRING AS app__build,
       {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0].version::STRING AS app__version
   {% else %}
-      cast(null as {{ type_string() }}) as build,
-      cast(null as {{ type_string() }}) as version
+      ,cast(null as {{ type_string() }}) as app__build,
+      cast(null as {{ type_string() }}) as app__version
   {% endif %}
 {% endmacro %}
 
 {% macro snowflake__get_app_context_fields(table_prefix = none) %}
     {% if var('snowplow__enable_application_context', false) %}
-      {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0]:build::varchar(255) AS app__build,
+      ,{% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0]:build::varchar(255) AS app__build,
       {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0]:version::varchar(255) AS app__version
     {% else %}
-      cast(null as {{ type_string() }}) as build,
-      cast(null as {{ type_string() }}) as version
+      ,cast(null as {{ type_string() }}) as app__build,
+      cast(null as {{ type_string() }}) as app__version
     {% endif %}
 {% endmacro %}
