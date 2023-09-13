@@ -12,7 +12,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro postgres__get_web_page_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_web', false) %}
   {% else %}
-    ,cast(null as {{ type_string() }}) as page_view__id
+    , cast(null as {{ type_string() }}) as page_view__id
   {% endif %}
 {% endmacro %}
 
@@ -25,22 +25,22 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
         relation=source('atomic', 'events') if project_name != 'snowplow_unified_integration_tests' else ref('snowplow_unified_events_stg'),
         relation_alias=table_prefix) }}
   {% else %}
-    ,cast(null as {{ type_string() }}) as page_view__id
+    , cast(null as {{ type_string() }}) as page_view__id
   {% endif %}
 {% endmacro %}
 
 {% macro spark__get_web_page_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_web', false) %}
-      ,{% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_snowplow_web_page_1[0].id as page_view__id
+      , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_snowplow_web_page_1[0].id as page_view__id
   {% else %}
-      ,cast(null as {{ type_string() }}) as page_view__id
+      , cast(null as {{ type_string() }}) as page_view__id
   {% endif %}
 {% endmacro %}
 
 {% macro snowflake__get_web_page_context_fields(table_prefix = none) %}
     {% if var('snowplow__enable_web', false) %}
-      ,{% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_snowplow_web_page_1[0]:id::varchar as page_view__id
+      , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_snowplow_web_page_1[0]:id::varchar as page_view__id
     {% else %}
-      ,cast(null as {{ type_string() }}) as page_view__id
+      , cast(null as {{ type_string() }}) as page_view__id
     {% endif %}
 {% endmacro %}
