@@ -504,16 +504,6 @@ select
     pve.derived_tstamp as start_tstamp,
     pve.end_tstamp, -- only page views with pings will have a row in table t
     pve.model_tstamp,
-    -- geo fields
-    pve.geo_country,
-    pve.geo_region,
-    pve.geo_region_name,
-    pve.geo_city,
-    pve.geo_zipcode,
-    pve.geo_latitude,
-    pve.geo_longitude,
-    pve.geo_timezone ,
-    pve.user_ipaddress,
 
     -- device fields
     pve.app_id,
@@ -538,6 +528,17 @@ select
       pve.yauaa__operating_system_name,
       pve.yauaa__operating_system_name_version,
     {% endif %}
+
+    -- geo fields
+    pve.geo_country,
+    pve.geo_region,
+    pve.geo_region_name,
+    pve.geo_city,
+    pve.geo_zipcode,
+    pve.geo_latitude,
+    pve.geo_longitude,
+    pve.geo_timezone ,
+    pve.user_ipaddress,
 
     -- engagement fields
     {% if var('snowplow__enable_web') %}
