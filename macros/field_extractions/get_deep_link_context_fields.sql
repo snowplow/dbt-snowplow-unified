@@ -12,7 +12,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro postgres__get_deep_link_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_deep_link_context', false) %}
   {% else %}
-    , cast(null as {{ type_string() }}) as deep_link__url,
+    , cast(null as {{ type_string() }}) as deep_link__url
     , cast(null as {{ type_string() }}) as deep_link__referrer
   {% endif %}
 {% endmacro %}
