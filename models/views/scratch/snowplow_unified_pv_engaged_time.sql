@@ -11,21 +11,20 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   )
 }}
 
-{% set engaged_time_in_s %}
-  -- aggregate pings:
-    -- divides epoch tstamps by snowplow__heartbeat to get distinct intervals
-    -- floor rounds to nearest integer - duplicates all evaluate to the same number
-    -- count(distinct) counts duplicates only once
-    -- adding snowplow__min_visit_length accounts for the page view event itself.
+-- the first page ping fires after the minimum visit length (n seconds), every subsequent page ping fires after every heartbeat length (n seconds)
+-- there may be imperfectly timed pings and odd duplicates therefore the safest is to do a special calculation:
+-- each pings' epoch timestamp is taken (n seconds) which are then divided by the heartbeat length, floored (to get precise heartbeat length separated intervals)
+-- each distinct value means the user spent that * the heartbeat length on the website (minus the first, which needed the minimum visit lenght to fire)
 
-  {{ var("snowplow__heartbeat", 10) }} * (count(distinct(floor({{ snowplow_utils.to_unixtstamp('ev.dvce_created_tstamp') }}/{{ var("snowplow__heartbeat", 10) }}))) - 1) + {{ var("snowplow__min_visit_length", 5) }} as engaged_time_in_s
-{% endset %}
+{% set heartbeat_length = var("snowplow__heartbeat", 10) %}
+{% set min_visit_length = var("snowplow__min_visit_length", 5) %}
+{% set n_unique_pings = "count(distinct(floor(" ~ snowplow_utils.to_unixtstamp('ev.dvce_created_tstamp') ~ "/" ~ heartbeat_length ~ ")))" %}
 
 select
   ev.view_id,
   ev.session_identifier,
   max(ev.derived_tstamp) as end_tstamp,
-  {{ engaged_time_in_s }}
+  ({{ heartbeat_length }} * ({{ n_unique_pings }} - 1)) + {{ min_visit_length }} as engaged_time_in_s
 
 from {{ ref('snowplow_unified_events_this_run') }} as ev
 
