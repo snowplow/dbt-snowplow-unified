@@ -47,14 +47,14 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro spark__get_app_error_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_browser_context', false) %}
-    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.message::STRING AS app_error__message,
-    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.programming_language::STRING AS app_error__programming_language,
-    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.class_name::STRING AS app_error__class_name,
-    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.exception_name::STRING AS app_error__exception_name,
-    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.is_fatal::BOOLEAN AS app_error__is_fatal,
-    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.line_number::INT AS app_error__line_number,
-    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.stack_trace::STRING AS app_error__stack_trace,
-    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.thread_id::INT AS app_error__thread_id,
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.message::STRING AS app_error__message
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.programming_language::STRING AS app_error__programming_language
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.class_name::STRING AS app_error__class_name
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.exception_name::STRING AS app_error__exception_name
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.is_fatal::BOOLEAN AS app_error__is_fatal
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.line_number::INT AS app_error__line_number
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.stack_trace::STRING AS app_error__stack_trace
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.thread_id::INT AS app_error__thread_id
     , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}unstruct_event_com_snowplowanalytics_snowplow_application_error_1.thread_name::STRING AS app_error__thread_name
   {% else %}
     , cast(null as {{ type_string() }}) as app_error__message
