@@ -32,7 +32,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   {% endmacro %}
 
 
-  {% macro snowflake__session_identifiers() %}
+{% macro snowflake__session_identifiers() %}
 
  {% if var('snowplow__session_identifiers') %}
    {{ return(var('snowplow__session_identifiers')) }}
