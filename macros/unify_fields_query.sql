@@ -111,11 +111,9 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       case when platform = 'web' then yauaa__device_class
            when yauaa__device_class = 'Phone' then 'Mobile'
            when yauaa__device_class = 'Tablet' then 'Tablet'
-           when view_type = 'screen_view' then 'Mobile'
            else platform_name end as device_category
     {%- else -%}
-      case when view_type = 'screen_view' then 'Mobile'
-        else platform_name end as device_category
+      platform_name end as device_category
     {%- endif %}
 
   from base
