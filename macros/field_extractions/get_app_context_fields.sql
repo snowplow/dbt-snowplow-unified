@@ -12,7 +12,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro postgres__get_app_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_application_context', false) %}
   {% else %}
-   , cast(null as {{ type_string() }}) as app__build,
+    , cast(null as {{ type_string() }}) as app__build,
     , cast(null as {{ type_string() }}) as app__version
   {% endif %}
 {% endmacro %}

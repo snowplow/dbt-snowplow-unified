@@ -34,7 +34,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro spark__get_deep_link_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_deep_link_context', false) %}
     , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_deep_link_1[0].url::STRING AS deep_link__url
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_deep_link_1[0].referrer::STRING AS deep_link__referrer
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_deep_link_1[0].referrer::STRING AS deep_link__referrer
 
   {% else %}
     , cast(null as {{ type_string() }}) as deep_link__url
@@ -46,7 +46,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro snowflake__get_deep_link_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_deep_link_context', false) %}
     , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_deep_link_1[0]:url::varchar AS deep_link__url
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_deep_link_1[0]:referrer::varchar AS deep_link__referrer
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_deep_link_1[0]:referrer::varchar AS deep_link__referrer
   {% else %}
     , cast(null as {{ type_string() }}) as deep_link__url
     , cast(null as {{ type_string() }}) as deep_link__referrer
