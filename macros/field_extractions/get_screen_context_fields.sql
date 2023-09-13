@@ -43,13 +43,13 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro spark__get_screen_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_screen_context', false) %}
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].id::STRING AS screen__id
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].name::STRING AS screen__name
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].activity::STRING AS screen__activity
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].fragment::STRING AS screen__fragment
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].top_view_controller::STRING AS screen__top_view_controller
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].type::STRING AS screen__type
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].view_controller::STRING AS screen__view_controller
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].id::STRING AS screen__id
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].name::STRING AS screen__name
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].activity::STRING AS screen__activity
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].fragment::STRING AS screen__fragment
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].top_view_controller::STRING AS screen__top_view_controller
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].type::STRING AS screen__type
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0].view_controller::STRING AS screen__view_controller
   {% else %}
     , cast(null as {{ type_string() }}) as screen__id,
     , cast(null as {{ type_string() }}) as screen__name,
@@ -63,13 +63,13 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro snowflake__get_screen_context_fields(table_prefix = none) %}
   {% if var('snowplow__enable_screen_context', false) %}
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:id::varchar(36) AS screen__id
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:name::varchar AS screen__name
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:activity::varchar AS screen__activity
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:fragment::varchar AS screen__fragment
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:topViewController::varchar AS screen__top_view_controller
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:type::varchar AS screen__type
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:viewController::varchar AS screen__view_controller
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:id::varchar(36) AS screen__id
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:name::varchar AS screen__name
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:activity::varchar AS screen__activity
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:fragment::varchar AS screen__fragment
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:topViewController::varchar AS screen__top_view_controller
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:type::varchar AS screen__type
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_screen_1[0]:viewController::varchar AS screen__view_controller
   {% else %}
     , cast(null as {{ type_string() }}) as screen__id
     , cast(null as {{ type_string() }}) as screen__name

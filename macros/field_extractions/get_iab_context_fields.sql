@@ -38,9 +38,9 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro spark__get_iab_context_fields(table_prefix = none) %}
   {%- if var('snowplow__enable_iab', false) -%}
     , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0].category::STRING as iab__category
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0].primary_impact::STRING as iab__primary_impact
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0].reason::STRING as iab__reason
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0].spider_or_robot::BOOLEAN as iab__spider_or_robot
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0].primary_impact::STRING as iab__primary_impact
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0].reason::STRING as iab__reason
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0].spider_or_robot::BOOLEAN as iab__spider_or_robot
   {%- else -%}
     , cast(null as {{ type_string() }}) as iab__category
     , cast(null as {{ type_string() }}) as iab__primary_impact
@@ -52,9 +52,9 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro snowflake__get_iab_context_fields(table_prefix = none) %}
   {%- if var('snowplow__enable_iab', false) %}
     , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0]:category::VARCHAR as iab__category
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0]:primaryImpact::VARCHAR as iab__primary_impact
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0]:reason::VARCHAR as iab__reason
-   , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0]:spiderOrRobot::BOOLEAN as iab__spider_or_robot
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0]:primaryImpact::VARCHAR as iab__primary_impact
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0]:reason::VARCHAR as iab__reason
+    , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_iab_snowplow_spiders_and_robots_1[0]:spiderOrRobot::BOOLEAN as iab__spider_or_robot
   {%- else -%}
     , cast(null as {{ type_string() }}) as iab__category
     , cast(null as {{ type_string() }}) as iab__primary_impact
