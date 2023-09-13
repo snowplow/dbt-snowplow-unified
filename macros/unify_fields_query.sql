@@ -97,7 +97,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
            when platform = 'srv' then 'Server-Side App'
            when platform = 'app' then 'General App'
            when platform = 'tv' then 'Connected TV'
-           when platform = 'cnsl' then 'Connected TV'
+           when platform = 'cnsl' then 'Games Console'
            when platform = 'iot' then 'Internet of Things' end as platform_name
 
     from {{ ref('snowplow_unified_base_events_this_run') }} as ev
