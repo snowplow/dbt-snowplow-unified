@@ -13,7 +13,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
   {% if not var('snowplow__enable_web') and not var('snowplow__enable_mobile') %}
     {{ exceptions.raise_compiler_error(
-      "Snowplow Error: No platform to process. Please set at least one of the variables `snowplow__enable_web` or `snowplow__enable_web` to true."
+      "Snowplow Error: No platform to process. Please set at least one of the variables `snowplow__enable_web` or `snowplow__enable_mobile` to true."
     ) }}
   {% endif %}
 
