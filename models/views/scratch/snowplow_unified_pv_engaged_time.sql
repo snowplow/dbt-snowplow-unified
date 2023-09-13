@@ -11,11 +11,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   )
 }}
 
-select
-  ev.view_id,
-  ev.session_identifier,
-  max(ev.derived_tstamp) as end_tstamp,
-
+{% set engaged_time_in_s %}
   -- aggregate pings:
     -- divides epoch tstamps by snowplow__heartbeat to get distinct intervals
     -- floor rounds to nearest integer - duplicates all evaluate to the same number
@@ -23,6 +19,13 @@ select
     -- adding snowplow__min_visit_length accounts for the page view event itself.
 
   {{ var("snowplow__heartbeat", 10) }} * (count(distinct(floor({{ snowplow_utils.to_unixtstamp('ev.dvce_created_tstamp') }}/{{ var("snowplow__heartbeat", 10) }}))) - 1) + {{ var("snowplow__min_visit_length", 5) }} as engaged_time_in_s
+{% endset %}
+
+select
+  ev.view_id,
+  ev.session_identifier,
+  max(ev.derived_tstamp) as end_tstamp,
+  {{ engaged_time_in_s }}
 
 from {{ ref('snowplow_unified_events_this_run') }} as ev
 
