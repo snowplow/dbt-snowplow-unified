@@ -89,8 +89,16 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
         {% if var('snowplow__enable_ua') %}
           ev.ua__os_version,
         {% endif %}
-        null) as os_version
+        null) as os_version,
 
+      case when platform = 'web' then 'Web' --includes mobile web
+           when platform = 'mob' then 'Mobile/Tablet'
+           when platform = 'pc' then 'Desktop/Laptop/Notebook'
+           when platform = 'srv' then 'Server-Side App'
+           when platform = 'app' then 'General App'
+           when platform = 'tv' then 'Connected TV'
+           when platform = 'cnsl' then 'Connected TV'
+           when platform = 'iot' then 'Internet of Things' end as platform_name
 
     from {{ ref('snowplow_unified_base_events_this_run') }} as ev
 
@@ -98,21 +106,16 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
   select
     *,
+
     {% if var('snowplow__enable_yauaa') %}
-      {% if var('snowplow__enable_mobile') %}
-        case when view_type = 'mobile' then 'Mobile'
-        when yauaa__device_class  = 'Desktop' then 'Desktop'
-        when yauaa__device_class = 'Phone' then 'Mobile'
-        when yauaa__device_class = 'Tablet' then 'Tablet'
-        else 'Other' end as device_category
-      {%- else -%}
-        case when yauaa__device_class = 'Desktop' then 'Desktop'
-        when yauaa__device_class = 'Phone' then 'Mobile'
-        when yauaa__device_class = 'Tablet' then 'Tablet'
-        else 'Other' end as device_category
-      {%- endif %}
-    {% else %}
-      null as device_category
+      case when platform = 'web' then yauaa__device_class
+           when yauaa__device_class = 'Phone' then 'Mobile'
+           when yauaa__device_class = 'Tablet' then 'Tablet'
+           when view_type = 'screen_view' then 'Mobile'
+           else platform_name end as device_category
+    {%- else -%}
+      case when view_type = 'screen_view' then 'Mobile'
+        else platform_name end as device_category
     {%- endif %}
 
   from base
