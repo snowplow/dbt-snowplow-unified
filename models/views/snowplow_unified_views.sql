@@ -17,7 +17,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       "field": "start_tstamp",
       "data_type": "timestamp"
     }, databricks_val='start_tstamp_date'),
-    cluster_by=snowplow_unified.web_cluster_by_fields_views(),
+    cluster_by=snowplow_unified.unified_cluster_by_fields_views(),
     tags=["derived"],
     post_hook="{{ snowplow_unified.stitch_user_identifiers(
       enabled=var('snowplow__view_stitching')

@@ -98,7 +98,7 @@ The sql to extract the columns from the yauaa context, or these columns as nulls
 {% endraw %}
 {% enddocs %}
 
-{% docs macro_web_cluster_by_X %}
+{% docs macro_unified_cluster_by_X %}
 {% raw %}
 This macro is used to return the appropriate `cluster_by` fields for the table, depending on the warehouse target.
 

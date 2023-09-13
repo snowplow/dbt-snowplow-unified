@@ -37,16 +37,16 @@ macros:
       - name: table_prefix
         type: string
         description: (Optional) Table alias to prefix the column selection with. Default none
-  - name: web_cluster_by_fields_sessions_lifecycle
-    description: '{{ doc("macro_web_cluster_by_X") }}'
-  - name: web_cluster_by_fields_views
-    description: '{{ doc("macro_web_cluster_by_X") }}'
-  - name: web_cluster_by_fields_sessions
-    description: '{{ doc("macro_web_cluster_by_X") }}'
-  - name: web_cluster_by_fields_users
-    description: '{{ doc("macro_web_cluster_by_X") }}'
-  - name: web_cluster_by_fields_consent
-    description: '{{ doc("macro_web_cluster_by_X") }}'
+  - name: unified_cluster_by_fields_sessions_lifecycle
+    description: '{{ doc("macro_unified_cluster_by_X") }}'
+  - name: unified_cluster_by_fields_views
+    description: '{{ doc("macro_unified_cluster_by_X") }}'
+  - name: unified_cluster_by_fields_sessions
+    description: '{{ doc("macro_unified_cluster_by_X") }}'
+  - name: unified_cluster_by_fields_users
+    description: '{{ doc("macro_unified_cluster_by_X") }}'
+  - name: unified_cluster_by_fields_consent
+    description: '{{ doc("macro_unified_cluster_by_X") }}'
   - name: iab_fields
     description: '{{ doc("macro_bq_context_fields") }}'
   - name: ua_fields
