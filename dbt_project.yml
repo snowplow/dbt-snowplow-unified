@@ -171,10 +171,6 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
-        default:
-          enabled: "{{ target.type in ['databricks', 'spark', 'snowflake', 'bigquery', 'redshift'] | as_bool() }}"
-        postgres:
-          enabled: "{{ target.type == 'postgres' | as_bool() }}"
 
     sessions:
       +schema: "derived"
