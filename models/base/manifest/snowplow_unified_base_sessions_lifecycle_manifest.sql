@@ -44,6 +44,6 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     snowplow_events_table=var('snowplow__events_table', 'events'),
     event_limits_table='snowplow_unified_base_new_event_limits',
     incremental_manifest_table='snowplow_unified_incremental_manifest'
- ) %}
+) %}
 
 {{ sessions_lifecycle_manifest_query }}
