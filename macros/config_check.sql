@@ -19,7 +19,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
   {% if not var('snowplow__enable_web') %}
     {% if var('snowplow__enable_iab') or var('snowplow__enable_ua') or var('snowplow__enable_yauaa') or var('snowplow__enable_browser_context') %}
-      {% do exceptions.warn("Snowplow Warning: Please note that you have web contexts enabled but those won't be processed as var('snowplow__enable_web') is currently disabled.") %}
+      {% do exceptions.warn("Snowplow Warning: Please note that you have web contexts enabled but those won't be processed as `snowplow__enable_web` is currently disabled.") %}
     {% endif %}
   {% endif %}
 
