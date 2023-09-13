@@ -101,17 +101,8 @@ with base_query as (
 
 select
 
-{% set base_query_cols = get_column_schema_from_query( 'select * from (' + base_events_query +') a') %}
+*
 
-  {% for col in base_query_cols | map(attribute='name') | list -%}
-    {% if col == 'domain_userid' -%}
-      a.user_identifier as domain_userid
-    {% else %}
-    a.{{col}}
-    {% endif %}
-    {%- if not loop.last -%},{%- endif %}
-  {% endfor %}
-
-from base_query a
+from base_query
 
 
