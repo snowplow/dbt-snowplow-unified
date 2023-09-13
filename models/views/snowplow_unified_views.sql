@@ -20,7 +20,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     cluster_by=snowplow_unified.web_cluster_by_fields_views(),
     tags=["derived"],
     post_hook="{{ snowplow_unified.stitch_user_identifiers(
-      enabled=var('snowplow__page_view_stitching')
+      enabled=var('snowplow__view_stitching')
       ) }}",
     sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt')),
     tblproperties={

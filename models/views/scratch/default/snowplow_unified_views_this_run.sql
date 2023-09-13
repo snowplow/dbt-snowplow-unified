@@ -31,7 +31,7 @@ with prep as (
     {% if var('snowplow__enable_mobile') %}
       ev.session__user_id as device_user_id,
     {% endif %}
-    {% if var('snowplow__page_view_stitching') %}
+    {% if var('snowplow__view_stitching') %}
       -- updated with mapping as part of post hook on derived page_views table
       cast(ev.user_identifier as {{ type_string() }}) as stitched_user_id,
     {% else %}
