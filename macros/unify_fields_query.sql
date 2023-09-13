@@ -92,13 +92,13 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
         null) as os_version,
 
       case when platform = 'web' then 'Web' --includes mobile web
-           when platform = 'mob' then 'Mobile/Tablet'
-           when platform = 'pc' then 'Desktop/Laptop/Netbook'
-           when platform = 'srv' then 'Server-Side App'
-           when platform = 'app' then 'General App'
-           when platform = 'tv' then 'Connected TV'
-           when platform = 'cnsl' then 'Games Console'
-           when platform = 'iot' then 'Internet of Things' end as platform_name
+          when platform = 'mob' then 'Mobile/Tablet'
+          when platform = 'pc' then 'Desktop/Laptop/Netbook'
+          when platform = 'srv' then 'Server-Side App'
+          when platform = 'app' then 'General App'
+          when platform = 'tv' then 'Connected TV'
+          when platform = 'cnsl' then 'Games Console'
+          when platform = 'iot' then 'Internet of Things' end as platform_name
 
     from {{ ref('snowplow_unified_base_events_this_run') }} as ev
 
@@ -109,9 +109,9 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
     {% if var('snowplow__enable_yauaa') %}
       case when platform = 'web' then yauaa__device_class
-           when yauaa__device_class = 'Phone' then 'Mobile'
-           when yauaa__device_class = 'Tablet' then 'Tablet'
-           else platform_name end as device_category
+          when yauaa__device_class = 'Phone' then 'Mobile'
+          when yauaa__device_class = 'Tablet' then 'Tablet'
+          else platform_name end as device_category
     {%- else -%}
       platform_name end as device_category
     {%- endif %}
