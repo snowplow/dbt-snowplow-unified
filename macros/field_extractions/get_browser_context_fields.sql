@@ -72,7 +72,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     , cast(null as {{ type_string() }}) as browser__viewport
     , cast(null as {{ type_string() }}) as browser__document_size
     , cast(null as {{ type_string() }}) as browser__resolution
-    , cast(null as {{ type_string() }}) as browser__color_depth
+    , cast(null as {{ type_int() }}) as browser__color_depth
     , cast(null as {{ type_float() }}) as browser__device_pixel_ratio
     , cast(null as {{ type_boolean() }}) as browser__cookies_enabled
     , cast(null as {{ type_boolean() }}) as browser__online
