@@ -79,7 +79,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     , cast(null as {{ type_string() }}) as browser__browser_language
     , cast(null as {{ type_string() }}) as browser__document_language
     , cast(null as {{ type_string() }}) as browser__webdriver
-    , cast(null as {{ type_string() }}) as browser__device_memory
+    , cast(null as {{ type_int() }}) as browser__device_memory
     , cast(null as {{ type_int() }}) as browser__hardware_concurrency
     , cast(null as {{ type_string() }}) as browser__tab_id
 
