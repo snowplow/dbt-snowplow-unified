@@ -68,11 +68,11 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
         null) as screen_resolution,
 
       coalesce(
-        {% if var('snowplow__enable_yauaa') %}
-          ev.yauaa__operating_system_name,
-        {% endif %}
         {% if var('snowplow__enable_mobile_context') %}
           ev.mobile__os_type,
+        {% endif %}
+        {% if var('snowplow__enable_yauaa') %}
+          ev.yauaa__operating_system_name,
         {% endif %}
         {% if var('snowplow__enable_ua') %}
           ev.ua__os_family,
