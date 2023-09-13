@@ -18,62 +18,62 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% if var('snowplow__enable_web') %}
 
-  {% do contexts.append({'name': var('snowplow__page_view_context'), 'prefix': 'page_view_', 'single_entity': True}) %}
+  {% do contexts.append({'schema': var('snowplow__page_view_context'), 'prefix': 'page_view_', 'single_entity': True}) %}
 
   {% if var('snowplow__enable_iab', false) -%}
-    {% do contexts.append({'name': var('snowplow__iab_context'), 'prefix': 'iab_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__iab_context'), 'prefix': 'iab_', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_ua', false) -%}
-    {% do contexts.append({'name': var('snowplow__ua_parser_context'), 'prefix': 'ua_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__ua_parser_context'), 'prefix': 'ua_', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_yauaa', false) -%}
-    {% do contexts.append({'name': var('snowplow__yauaa_context'), 'prefix': 'yauaa_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__yauaa_context'), 'prefix': 'yauaa_', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_consent', false) -%}
-    {% do contexts.append({'name': var('snowplow__consent_cmp_visible'), 'prefix': 'cmp_visible', 'single_entity': True}) %}
-    {% do contexts.append({'name': var('snowplow__consent_preferences'), 'prefix': 'consent_pref', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__consent_cmp_visible'), 'prefix': 'cmp_visible', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__consent_preferences'), 'prefix': 'consent_pref', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_cwv', false) -%}
-    {% do contexts.append({'name': var('snowplow__cwv_context'), 'prefix': 'cwv', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__cwv_context'), 'prefix': 'cwv', 'single_entity': True}) %}
   {% endif -%}
 
 {% endif -%}
 
 {% if var('snowplow__enable_mobile') %}
 
-  {% do contexts.append({'name': var('snowplow__screen_view_events'), 'prefix': 'screen_view_', 'single_entity': True}) %}
-  {% do contexts.append({'name': var('snowplow__session_context'), 'prefix': 'session_', 'single_entity': True}) %}
+  {% do contexts.append({'schema': var('snowplow__screen_view_events'), 'prefix': 'screen_view_', 'single_entity': True}) %}
+  {% do contexts.append({'schema': var('snowplow__session_context'), 'prefix': 'session_', 'single_entity': True}) %}
 
   {% if var('snowplow__enable_mobile_context', false) -%}
-    {% do contexts.append({'name': var('snowplow__mobile_context'), 'prefix': 'mobile_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__mobile_context'), 'prefix': 'mobile_', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_geolocation_context', false) -%}
-    {% do contexts.append({'name': var('snowplow__geolocation_context'), 'prefix': 'geo_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__geolocation_context'), 'prefix': 'geo_', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_application_context', false) -%}
-    {% do contexts.append({'name': var('snowplow__application_context'), 'prefix': 'app_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__application_context'), 'prefix': 'app_', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_screen_context', false) -%}
-    {% do contexts.append({'name': var('snowplow__screen_context'), 'prefix': 'screen_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__screen_context'), 'prefix': 'screen_', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_application_errors_module', false) -%}
-    {% do contexts.append({'name': var('snowplow__app_errors_table'), 'prefix': 'app_err_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__app_errors_table'), 'prefix': 'app_err_', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_deep_link_context', false) -%}
-    {% do contexts.append({'name': var('snowplow__deep_link_context'), 'prefix': 'deep_link_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__deep_link_context'), 'prefix': 'deep_link_', 'single_entity': True}) %}
   {% endif -%}
 
   {% if var('snowplow__enable_browser_context', false) -%}
-    {% do contexts.append({'name': var('snowplow__browser_context'), 'prefix': 'browser_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__browser_context'), 'prefix': 'browser_', 'single_entity': True}) %}
   {% endif -%}
 
 {% endif -%}
