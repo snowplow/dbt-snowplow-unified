@@ -41,7 +41,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
         {% if var('snowplow__enable_web') %}
           ev.domain_sessionidx,
         {% endif %}
-        null) as session_index,
+        null) as device_session_index,
 
       coalesce(
         {% if var('snowplow__enable_deep_link_context') %}

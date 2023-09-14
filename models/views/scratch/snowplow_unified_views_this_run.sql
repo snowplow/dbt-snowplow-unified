@@ -19,7 +19,6 @@ with prep as (
     ev.view_type,
     ev.event_id,
     ev.session_identifier,
-    ev.session_index,
     {% if var('snowplow__enable_mobile') %}
       ev.session__previous_session_id,
     {% endif %}
@@ -58,6 +57,7 @@ with prep as (
     ev.platform,
     ev.device_identifier,
     ev.device_category,
+    ev.device_session_index,
     ev.os_version,
     ev.os_type,
     {% if var('snowplow__enable_mobile_context') %}
@@ -252,7 +252,6 @@ with prep as (
     p.view_type,
     p.event_id,
     p.session_identifier,
-    p.session_index,
     row_number() over (partition by p.session_identifier order by p.derived_tstamp, p.dvce_created_tstamp, p.event_id) AS view_in_session_index,
     {% if var('snowplow__enable_mobile') %}
       p.session__previous_session_id,
@@ -287,6 +286,9 @@ with prep as (
     p.platform,
     p.device_identifier,
     p.device_category,
+    p.device_session_index,
+    p.os_version,
+    p.os_type,
     {% if var('snowplow__enable_mobile_context') %}
       p.mobile__android_idfa,
       p.mobile__apple_idfa,
@@ -471,7 +473,6 @@ select
     pve.view_type,
     pve.event_id,
     pve.session_identifier,
-    pve.session_index,
     pve.view_in_session_index,
     max(pve.view_in_session_index) over (partition by pve.session_identifier) as views_in_session,
     {% if var('snowplow__enable_mobile') %}
@@ -497,6 +498,9 @@ select
     pve.platform,
     pve.device_identifier,
     pve.device_category,
+    pve.device_session_index,
+    pve.os_version,
+    pve.os_type,
     {% if var('snowplow__enable_mobile_context') %}
       pve.mobile__android_idfa,
       pve.mobile__apple_idfa,
