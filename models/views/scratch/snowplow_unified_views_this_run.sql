@@ -245,7 +245,7 @@ with prep as (
     {% endif %}
 )
 
-, page_view_events as (
+, view_events as (
   select
     -- event categorization fields
     p.view_id,
