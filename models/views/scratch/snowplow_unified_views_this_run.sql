@@ -112,7 +112,6 @@ with prep as (
     row_number() over (partition by p.session_identifier order by p.derived_tstamp, p.dvce_created_tstamp, p.event_id) AS view_in_session_index,
 
     coalesce(t.end_tstamp, p.derived_tstamp) as end_tstamp, -- only page views with pings will have a row in table t
-    {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp,
 
     {% if var('snowplow__enable_web') %}
       coalesce(t.engaged_time_in_s, 0) as engaged_time_in_s, -- where there are no pings, engaged time is 0.
@@ -123,7 +122,7 @@ with prep as (
       sd.relative_vmax as vertical_percentage_scrolled,
     {% endif %}
 
-    '' as dummy_field
+    {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
 
   from prep p
 
