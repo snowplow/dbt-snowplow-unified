@@ -26,7 +26,6 @@ with prep as (
     -- user id fields
     ev.user_id,
     ev.user_identifier,
-    {% endif %}
     {% if var('snowplow__view_stitching') %}
       -- updated with mapping as part of post hook on derived page_views table
       cast(ev.user_identifier as {{ type_string() }}) as stitched_user_id,
@@ -298,7 +297,6 @@ with prep as (
     {% if var('snowplow__enable_web') %}
       p.os_timezone,
     {% endif %}
-    p.os_type,
     p.screen_resolution,
     {% if var('snowplow__enable_yauaa') %}
       p.yauaa__device_class,
@@ -510,7 +508,6 @@ select
     {% if var('snowplow__enable_web') %}
       pve.os_timezone,
     {% endif %}
-    pve.os_type,
     pve.screen_resolution,
     {% if var('snowplow__enable_yauaa') %}
       pve.yauaa__device_class,
@@ -674,4 +671,4 @@ select
       {%- endfor -%}
     {%- endif %}
 
-from page_view_events pve
+from view_events pve

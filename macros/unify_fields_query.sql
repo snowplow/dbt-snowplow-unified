@@ -96,7 +96,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
           ev.domain_userid,
         {% endif %}
         {% if var('snowplow__enable_mobile') %}
-          ev.session__userid,
+          ev.session__user_id,
         {% endif %}
         null) as device_identifier,
 

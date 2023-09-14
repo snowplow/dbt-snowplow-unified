@@ -16,7 +16,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       update {{ relation }} as s
       set stitched_user_id = um.user_id
       from {{ ref(user_mapping_relation) }} as um
-      where s.domain_userid = um.domain_userid;
+      where s.device_identifier = um.device_identifier;
 
     {% endif %}
 {%- endmacro -%}
@@ -27,7 +27,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
       -- Update sessions /page_views table with mapping
       merge into {{ relation }} as s
       using {{ ref(user_mapping_relation) }} as um
-      on s.domain_userid = um.domain_userid
+      on s.device_identifier = um.device_identifier
 
       when matched then
       update set s.stitched_user_id = um.user_id;

@@ -39,7 +39,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro default__unified_cluster_by_fields_sessions() %}
 
-  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["domain_userid"], snowflake_val=["to_date(start_tstamp)"])) }}
+  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["user_identifier"], snowflake_val=["to_date(start_tstamp)"])) }}
 
 {% endmacro %}
 
@@ -52,7 +52,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro default__unified_cluster_by_fields_users() %}
 
-  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["user_id","domain_userid"], snowflake_val=["to_date(start_tstamp)"])) }}
+  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["user_id","user_identifier"], snowflake_val=["to_date(start_tstamp)"])) }}
 
 {% endmacro %}
 
@@ -64,7 +64,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro default__unified_cluster_by_fields_consent() %}
 
-  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["event_id","domain_userid"], snowflake_val=["to_date(load_tstamp)"])) }}
+  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["event_id","user_identifier"], snowflake_val=["to_date(load_tstamp)"])) }}
 
 {% endmacro %}
 
@@ -76,6 +76,6 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro default__unified_cluster_by_fields_cwv() %}
 
-  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["view_id","domain_userid"], snowflake_val=["to_date(derived_tstamp)"])) }}
+  {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["view_id","user_identifier"], snowflake_val=["to_date(derived_tstamp)"])) }}
 
 {% endmacro %}
