@@ -21,7 +21,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   {% if var('snowplow__enable_application_context', false) %}
   ,  {{ snowplow_utils.get_optional_fields(
           enabled=var('snowplow__enable_application_context', false),
-          col_prefix='contexts_com_snowplowanalytics_mobile_application_1_*',
+          col_prefix='contexts_com_snowplowanalytics_mobile_application_1',
           fields=bq_app_context_fields(),
           relation=source('atomic', 'events') if project_name != 'snowplow_unified_integration_tests' else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
