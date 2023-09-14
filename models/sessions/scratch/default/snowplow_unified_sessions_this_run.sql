@@ -98,13 +98,13 @@ with session_firsts as (
 
         -- optional fields, only populated if enabled.
         -- iab enrichment fields: set iab variable to true to enable
-        {{snowplow_unified.get_iab_context_fields('ev')}},
+        {{snowplow_unified.get_iab_context_fields()}},
 
         -- ua parser enrichment fields
-        {{snowplow_unified.get_ua_context_fields('ev')}},
+        {{snowplow_unified.get_ua_context_fields()}},
 
         -- yauaa enrichment fields
-        {{snowplow_unified.get_yauaa_context_fields('ev')}},
+        {{snowplow_unified.get_yauaa_context_fields()}},
 
         row_number() over (partition by ev.domain_sessionid order by ev.derived_tstamp, ev.dvce_created_tstamp, ev.event_id) AS page_event_in_session_index,
         event_name

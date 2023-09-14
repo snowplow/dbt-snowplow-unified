@@ -5,7 +5,7 @@ and you may not use this file except in compliance with the Snowplow Community L
 You may obtain a copy of the Snowplow Community License Version 1.0 at https://docs.snowplow.io/community-license-1.0
 #}
 
-{% macro iab_fields() %}
+{% macro bq_iab_fields() %}
 
   {% set iab_fields = [
       {'field':('category', 'iab__category'), 'dtype':'string'},
@@ -18,7 +18,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro ua_fields() %}
+{% macro bq_ua_fields() %}
 
   {% set ua_fields = [
       {'field':('useragent_family', 'ua__useragent_family'), 'dtype': 'string'},
@@ -39,7 +39,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro yauaa_fields() %}
+{% macro bq_yauaa_fields() %}
 
   {% set yauaa_fields = [
       {'field':('device_class', 'yauaa__device_class'), 'dtype': 'string'},
@@ -68,7 +68,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro consent_fields() %}
+{% macro bq_consent_fields() %}
 
   {% set consent_fields = [
       {'field':'event_type', 'dtype': 'string'},
@@ -84,7 +84,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro screen_context_fields() %}
+{% macro bq_screen_context_fields() %}
 
   {% set screen_context_fields = [
       {'field':('id', 'screen__id'), 'dtype':'string'},
@@ -100,7 +100,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro mobile_context_fields() %}
+{% macro bq_mobile_context_fields() %}
 
   {% set mobile_context_fields = [
     {'field':('device_manufacturer', 'mobile__device_manufacturer'), 'dtype':'string'},
@@ -132,7 +132,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro app_error_context_fields() %}
+{% macro bq_app_error_context_fields() %}
 
   {% set app_error_context_fields = [
     {'field':('message', 'app_error__message'), 'dtype':'string'},
@@ -152,7 +152,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro geo_context_fields() %}
+{% macro bq_geo_context_fields() %}
 
   {% set geo_context_fields = [
     {'field':('latitude', 'geo__latitude'), 'dtype':'float64'},
@@ -168,7 +168,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro app_context_fields() %}
+{% macro bq_app_context_fields() %}
 
   {% set app_context_fields = [
     {'field':('build', 'app__build'), 'dtype':'string'},
@@ -179,7 +179,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro session_context_fields() %}
+{% macro bq_session_context_fields() %}
 
   {% set session_context_fields = [
     {'field':('session_id', 'session__session_id'), 'dtype':'string'},
@@ -193,7 +193,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro screen_view_event_fields() %}
+{% macro bq_screen_view_event_fields() %}
 
   {% set screen_view_event_fields = [
     {'field':('id', 'screen_view__id'), 'dtype':'string'},
@@ -209,7 +209,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro browser_context_fields() %}
+{% macro bq_browser_context_fields() %}
 
   {% set browser_context_fields = [
     {'field':('viewport', 'browser__viewport'), 'dtype':'string'},
@@ -231,7 +231,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro deep_link_context_fields() %}
+{% macro bq_deep_link_context_fields() %}
 
   {% set deep_link_context_fields = [
     {'field':('url', 'deep_link__url'), 'dtype':'string'},
@@ -242,7 +242,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% endmacro %}
 
-{% macro web_page_fields() %}
+{% macro bq_web_page_fields() %}
 
   {% set web_page_fields = [
     {'field':('id', 'page_view__id'), 'dtype':'string'},

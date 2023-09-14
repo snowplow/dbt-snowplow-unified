@@ -5,11 +5,11 @@ and you may not use this file except in compliance with the Snowplow Community L
 You may obtain a copy of the Snowplow Community License Version 1.0 at https://docs.snowplow.io/community-license-1.0
 #}
 
-{% macro get_app_context_fields(table_prefix = none) %}
-  {{ return(adapter.dispatch('get_app_context_fields', 'snowplow_unified')(table_prefix)) }}
+{% macro get_app_context_fields() %}
+  {{ return(adapter.dispatch('get_app_context_fields', 'snowplow_unified')()) }}
 {%- endmacro -%}
 
-{% macro postgres__get_app_context_fields(table_prefix = none) %}
+{% macro postgres__get_app_context_fields() %}
   {% if var('snowplow__enable_application_context', false) %}
   {% else %}
     , cast(null as {{ type_string() }}) as app__build
@@ -17,34 +17,34 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
   {% endif %}
 {% endmacro %}
 
-{% macro bigquery__get_app_context_fields(table_prefix = none) %}
+{% macro bigquery__get_app_context_fields() %}
   {% if var('snowplow__enable_application_context', false) %}
   ,  {{ snowplow_utils.get_optional_fields(
           enabled=var('snowplow__enable_application_context', false),
           col_prefix='contexts_com_snowplowanalytics_mobile_application_1_',
-          fields=app_context_fields(),
+          fields=bq_app_context_fields(),
           relation=source('atomic', 'events') if project_name != 'snowplow_unified_integration_tests' else ref('snowplow_unified_events_stg'),
-          relation_alias=table_prefix) }}
+          relation_alias=none) }}
   {% else %}
     , cast(null as {{ type_string() }}) as app__build
     , cast(null as {{ type_string() }}) as app__version
   {% endif %}
 {% endmacro %}
 
-{% macro spark__get_app_context_fields(table_prefix = none) %}
+{% macro spark__get_app_context_fields() %}
   {% if var('snowplow__enable_application_context', false) %}
-      , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0].build::STRING AS app__build
-      , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0].version::STRING AS app__version
+      , contexts_com_snowplowanalytics_mobile_application_1[0].build::STRING AS app__build
+      , contexts_com_snowplowanalytics_mobile_application_1[0].version::STRING AS app__version
   {% else %}
       , cast(null as {{ type_string() }}) as app__build
       , cast(null as {{ type_string() }}) as app__version
   {% endif %}
 {% endmacro %}
 
-{% macro snowflake__get_app_context_fields(table_prefix = none) %}
+{% macro snowflake__get_app_context_fields() %}
     {% if var('snowplow__enable_application_context', false) %}
-      , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0]:build::varchar(255) AS app__build
-      , {% if table_prefix %}{{ table_prefix~"." }}{% endif %}contexts_com_snowplowanalytics_mobile_application_1[0]:version::varchar(255) AS app__version
+      , contexts_com_snowplowanalytics_mobile_application_1[0]:build::varchar(255) AS app__build
+      , contexts_com_snowplowanalytics_mobile_application_1[0]:version::varchar(255) AS app__version
     {% else %}
       , cast(null as {{ type_string() }}) as app__build
       , cast(null as {{ type_string() }}) as app__version
