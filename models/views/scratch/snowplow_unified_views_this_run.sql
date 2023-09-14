@@ -39,7 +39,7 @@ with prep as (
       -- updated with mapping as part of post hook on derived page_views table
       , cast(ev.user_identifier as {{ type_string() }}) as stitched_user_id
     {% else %}
-      , cast(null as {{ type_string() }}) as stitched_user_id
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as stitched_user_id
     {% endif %}
 
     {% if var('snowplow__enable_iab') %}

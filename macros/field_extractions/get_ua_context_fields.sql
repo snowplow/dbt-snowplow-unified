@@ -12,18 +12,18 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro postgres__get_ua_context_fields() %}
   {%- if var('snowplow__enable_ua', false) -%}
   {%- else -%}
-      , cast(null as {{ type_string() }}) as ua__useragent_family,
-      , cast(null as {{ type_string() }}) as ua__useragent_major,
-      , cast(null as {{ type_string() }}) as ua__useragent_minor,
-      , cast(null as {{ type_string() }}) as ua__useragent_patch,
-      , cast(null as {{ type_string() }}) as ua__useragent_version,
-      , cast(null as {{ type_string() }}) as ua__os_family,
-      , cast(null as {{ type_string() }}) as ua__os_major,
-      , cast(null as {{ type_string() }}) as ua__os_minor,
-      , cast(null as {{ type_string() }}) as ua__os_patch,
-      , cast(null as {{ type_string() }}) as ua__os_patch_minor,
-      , cast(null as {{ type_string() }}) as ua__os_version,
-      , cast(null as {{ type_string() }}) as ua__device_family
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__useragent_family,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__useragent_major,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__useragent_minor,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__useragent_patch,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__useragent_version,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__os_family,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__os_major,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__os_minor,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__os_patch,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__os_patch_minor,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__os_version,
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as ua__device_family
   {%- endif -%}
 {% endmacro %}
 

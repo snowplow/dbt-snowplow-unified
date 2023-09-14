@@ -12,13 +12,13 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro postgres__get_screen_context_fields() %}
   {% if var('snowplow__enable_screen_context', false) %}
   {% else %}
-      , cast(null as {{ type_string() }}) as screen__id
-      , cast(null as {{ type_string() }}) as screen__name
-      , cast(null as {{ type_string() }}) as screen__activity
-      , cast(null as {{ type_string() }}) as screen__fragment
-      , cast(null as {{ type_string() }}) as screen__top_view_controller
-      , cast(null as {{ type_string() }}) as screen__type
-      , cast(null as {{ type_string() }}) as screen__view_controller
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as screen__id
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as screen__name
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as screen__activity
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as screen__fragment
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as screen__top_view_controller
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as screen__type
+      , cast(null as {{ snowplow_utils.type_max_string() }}) as screen__view_controller
   {% endif %}
 {% endmacro %}
 

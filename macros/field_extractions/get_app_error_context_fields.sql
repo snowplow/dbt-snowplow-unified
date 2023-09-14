@@ -12,15 +12,15 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro postgres__get_app_error_context_fields() %}
   {% if var('snowplow__enable_browser_context', false) %}
   {% else %}
-    , cast(null as {{ type_string() }}) as app_error__message
-    , cast(null as {{ type_string() }}) as app_error__programming_language
-    , cast(null as {{ type_string() }}) as app_error__class_name
-    , cast(null as {{ type_string() }}) as app_error__exception_name
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__message
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__programming_language
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__class_name
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__exception_name
     , cast(null as {{ type_boolean() }}) as app_error__is_fatal
     , cast(null as {{ type_numeric() }}) as app_error__line_number
-    , cast(null as {{ type_string() }}) as app_error__stack_trace
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__stack_trace
     , cast(null as {{ type_int() }}) as app_error__thread_id
-    , cast(null as {{ type_string() }}) as app_error__thread_name
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__thread_name
   {% endif %}
 {% endmacro %}
 

@@ -12,19 +12,19 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro postgres__get_browser_context_fields() %}
   {% if var('snowplow__enable_browser_context', false) %}
   {% else %}
-    , cast(null as {{ type_string() }}) as browser__viewport
-    , cast(null as {{ type_string() }}) as browser__document_size
-    , cast(null as {{ type_string() }}) as browser__resolution
-    , cast(null as {{ type_string() }}) as browser__color_depth
-    , cast(null as {{ type_string() }}) as browser__device_pixel_ratio
-    , cast(null as {{ type_string() }}) as browser__cookies_enabled
-    , cast(null as {{ type_string() }}) as browser__online
-    , cast(null as {{ type_string() }}) as browser__browser_language
-    , cast(null as {{ type_string() }}) as browser__document_language
-    , cast(null as {{ type_string() }}) as browser__webdriver
-    , cast(null as {{ type_string() }}) as browser__device_memory
-    , cast(null as {{ type_string() }}) as browser__hardware_concurrency
-    , cast(null as {{ type_string() }}) as browser__tab_id
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__viewport
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__document_size
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__resolution
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__color_depth
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__device_pixel_ratio
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__cookies_enabled
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__online
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__browser_language
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__document_language
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__webdriver
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__device_memory
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__hardware_concurrency
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__tab_id
   {% endif %}
 {% endmacro %}
 

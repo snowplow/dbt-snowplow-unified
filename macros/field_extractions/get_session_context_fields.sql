@@ -12,14 +12,14 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% macro postgres__get_session_context_fields() %}
   {% if var('snowplow__enable_mobile', false) %}
   {% else %}
-    , cast(null as {{ type_string() }}) as session__session_id
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as session__session_id
     , cast(null as {{ type_numeric() }}) as session__session_index
-    , cast(null as {{ type_string() }}) as session__previous_session_id
-    , cast(null as {{ type_string() }}) as session__user_id
-    , cast(null as {{ type_string() }}) as session__first_event_id
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as session__previous_session_id
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as session__user_id
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as session__first_event_id
     , cast(null as {{ type_numeric() }}) as session__event_index
-    , cast(null as {{ type_string() }}) as session__storage_mechanism
-    , cast(null as {{ type_string() }}) as session__first_event_timestamp
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as session__storage_mechanism
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as session__first_event_timestamp
   {% endif %}
 {% endmacro %}
 
