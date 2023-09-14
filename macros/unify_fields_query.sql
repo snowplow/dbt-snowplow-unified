@@ -91,6 +91,15 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
         {% endif %}
         null) as os_version,
 
+      coalesce(
+        {% if var('snowplow__enable_web') %}
+          ev.domain_userid,
+        {% endif %}
+        {% if var('snowplow__enable_mobile') %}
+          ev.session__userid,
+        {% endif %}
+        null) as device_identifier,
+
       case when platform = 'web' then 'Web' --includes mobile web
           when platform = 'mob' then 'Mobile/Tablet'
           when platform = 'pc' then 'Desktop/Laptop/Netbook'

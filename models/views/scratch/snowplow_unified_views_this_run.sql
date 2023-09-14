@@ -27,9 +27,6 @@ with prep as (
     -- user id fields
     ev.user_id,
     ev.user_identifier,
-    ev.domain_userid,
-    {% if var('snowplow__enable_mobile') %}
-      ev.session__user_id as device_user_id,
     {% endif %}
     {% if var('snowplow__view_stitching') %}
       -- updated with mapping as part of post hook on derived page_views table
@@ -59,6 +56,7 @@ with prep as (
     -- device fields
     ev.app_id,
     ev.platform,
+    ev.device_identifier,
     ev.device_category,
     ev.os_version,
     ev.os_type,
@@ -263,12 +261,6 @@ with prep as (
     -- user id fields
     p.user_id,
     p.user_identifier,
-    {% if var('snowplow__enable_web') %}
-      p.domain_userid,
-    {% endif %}
-    {% if var('snowplow__enable_mobile') %}
-      p.device_user_id,
-    {% endif %}
     p.stitched_user_id,
     p.network_userid,
 
@@ -293,6 +285,7 @@ with prep as (
     -- device fields
     p.app_id,
     p.platform,
+    p.device_identifier,
     p.device_category,
     {% if var('snowplow__enable_mobile_context') %}
       p.mobile__android_idfa,
@@ -488,12 +481,6 @@ select
     -- user id fields
     pve.user_id,
     pve.user_identifier,
-    {% if var('snowplow__enable_web') %}
-      pve.domain_userid,
-    {% endif %}
-    {% if var('snowplow__enable_mobile') %}
-      pve.device_user_id,
-    {% endif %}
     pve.stitched_user_id,
     pve.network_userid,
 
@@ -508,6 +495,7 @@ select
     -- device fields
     pve.app_id,
     pve.platform,
+    pve.device_identifier,
     pve.device_category,
     {% if var('snowplow__enable_mobile_context') %}
       pve.mobile__android_idfa,
