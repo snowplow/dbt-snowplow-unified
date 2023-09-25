@@ -64,9 +64,7 @@ with session_firsts as (
           {{ mobile_context_fields('ev')}}
         {% endif %}
 
-        {% if target.type == 'postgres' %}
           , row_number() over (partition by ev.session_identifier order by ev.derived_tstamp, ev.dvce_created_tstamp, ev.event_id) as session_dedupe_index
-        {% endif %}
 
         , {{ mkt_source_platform_query() }} as mkt_source_platform
 
@@ -98,9 +96,7 @@ with session_firsts as (
       {{ filter_bots() }}
     {% endif %}
 
-    {% if target.type not in ['postgres'] %}
       qualify row_number() over (partition by session_identifier order by derived_tstamp, dvce_created_tstamp, event_id) = 1
-    {% endif %}
 )
 
 , session_lasts as (
@@ -223,228 +219,217 @@ with session_firsts as (
 select
 
   -- event categorization fields
-  f.event_name as first_event_name,
-  l.last_event_name,
-  f.session_identifier,
+  f.event_name as first_event_name
+  , l.last_event_name
+  , f.session_identifier
   {% if var('snowplow__enable_mobile') %}
-    f.session__previous_session_id,
+    , f.session__previous_session_id
   {% endif %}
 
   -- user id fields
-  f.user_id,
-  f.user_identifier,
-  f.stitched_user_id,
-  f.network_userid,
+  , f.user_id
+  , f.user_identifier
+  , f.stitched_user_id
+  , f.network_userid
 
   -- timestamp fields
   -- when the session starts with a ping we need to add the min visit length to get when the session actually started
-  case when f.event_name = 'page_ping' then {{ snowplow_utils.timestamp_add(datepart="second", interval=-var("snowplow__min_visit_length", 5), tstamp="a.start_tstamp") }} else a.start_tstamp end as start_tstamp,
-  a.end_tstamp, -- only page views with pings will have a row in table t
-  {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp,
+  , case when f.event_name = 'page_ping' then {{ snowplow_utils.timestamp_add(datepart="second", interval=-var("snowplow__min_visit_length", 5), tstamp="a.start_tstamp") }} else a.start_tstamp end as start_tstamp
+  , a.end_tstamp -- only page views with pings will have a row in table t
+  , {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
 
   -- device fields
-  f.app_id,
-  f.platform,
-  f.device_identifier,
-  f.device_category,
-  f.device_session_index,
-  f.os_version,
-  f.os_type,
+  , f.app_id
+  , f.platform
+  , f.device_identifier
+  , f.device_category
+  , f.device_session_index
+  , f.os_version
+  , f.os_type
 
   {% if var('snowplow__enable_web') %}
-    f.os_timezone,
+    , f.os_timezone
   {% endif %}
 
-  f.screen_resolution,
+  , f.screen_resolution
 
   {% if var('snowplow__enable_yauaa') %}
-    f.yauaa__device_class,
-    f.yauaa__device_version,
-    f.yauaa__operating_system_version,
-    f.yauaa__operating_system_class,
-    f.yauaa__operating_system_name,
-    f.yauaa__operating_system_name_version,
+    , f.yauaa__device_class
+    , f.yauaa__device_version
+    , f.yauaa__operating_system_version
+    , f.yauaa__operating_system_class
+    , f.yauaa__operating_system_name
+    , f.yauaa__operating_system_name_version
   {% endif %}
 
   {% if var('snowplow__enable_mobile_context') %}
-    f.mobile__device_manufacturer,
-    f.mobile__carrier,
-    f.mobile__device_model,
-    f.mobile__network_technology,
-    f.mobile__network_type,
-  {% endif %}
-
-  {% if var('snowplow__enable_mobile_context') %}
-    f.mobile__android_idfa,
-    f.mobile__apple_idfa,
-    f.mobile__apple_idfv,
-    f.mobile__open_idfa,
+    {{ mobile_context_fields('f')}}
   {% endif %}
 
   -- geo fields
-  f.geo_country as first_geo_country,
-  f.geo_region_name as first_geo_region_name,
-  f.geo_city as first_geo_city,
-  f.geo_country_name as first_geo_country_name,
-  f.geo_continent as first_geo_continent,
+  , f.geo_country as first_geo_country
+  , f.geo_region_name as first_geo_region_name
+  , f.geo_city as first_geo_city
+  , f.geo_country_name as first_geo_country_name
+  , f.geo_continent as first_geo_continent
 
-  case when l.last_geo_country is null then coalesce(l.last_geo_country, f.geo_country) else l.last_geo_country end as last_geo_country,
-  case when l.last_geo_country is null then coalesce(l.last_geo_region_name, f.geo_region_name) else l.last_geo_region_name end as last_geo_region_name,
-  case when l.last_geo_country is null then coalesce(l.last_geo_city, f.geo_city) else l.last_geo_city end as last_geo_city,
-  case when l.last_geo_country is null then coalesce(l.last_geo_country_name,f.geo_country_name) else l.last_geo_country_name end as last_geo_country_name,
-  case when l.last_geo_country is null then coalesce(l.last_geo_continent, f.geo_continent) else l.last_geo_continent end as last_geo_continent,
+  , case when l.last_geo_country is null then coalesce(l.last_geo_country, f.geo_country) else l.last_geo_country end as last_geo_country
+  , case when l.last_geo_country is null then coalesce(l.last_geo_region_name, f.geo_region_name) else l.last_geo_region_name end as last_geo_region_name
+  , case when l.last_geo_country is null then coalesce(l.last_geo_city, f.geo_city) else l.last_geo_city end as last_geo_city
+  , case when l.last_geo_country is null then coalesce(l.last_geo_country_name,f.geo_country_name) else l.last_geo_country_name end as last_geo_country_name
+  , case when l.last_geo_country is null then coalesce(l.last_geo_continent, f.geo_continent) else l.last_geo_continent end as last_geo_continent
 
-  f.geo_zipcode,
-  f.geo_latitude,
-  f.geo_longitude,
-  f.geo_timezone,
-  f.user_ipaddress,
+  , f.geo_zipcode
+  , f.geo_latitude
+  , f.geo_longitude
+  , f.geo_timezone
+  , f.user_ipaddress
 
   -- engagement fields
-  a.views,
+  , a.views
   {%- if var('snowplow__list_event_counts', false) %}
-    {{ event_counts_query() }} as event_counts,
+    , {{ event_counts_query() }} as event_counts
   {%- endif %}
-  a.total_events,
-  {{ engaged_session() }} as is_engaged,
+  , a.total_events
+  , {{ engaged_session() }} as is_engaged
   -- when the session starts with a ping we need to add the min visit length to get when the session actually started
 
   {% if var('snowplow__enable_web') %}
-    a.engaged_time_in_s,
-    a.absolute_time_in_s + case when f.event_name = 'page_ping' then {{ var("snowplow__min_visit_length", 5) }} else 0 end as absolute_time_in_s,
+    , a.engaged_time_in_s
+    , a.absolute_time_in_s + case when f.event_name = 'page_ping' then {{ var("snowplow__min_visit_length", 5) }} else 0 end as absolute_time_in_s
   {%- endif %}
 
   {% if var('snowplow__enable_mobile') %}
-    {{ snowplow_utils.timestamp_diff('a.start_tstamp', 'a.end_tstamp', 'second') }} as session_duration_s,
-    a.screen_names_viewed,
+    , {{ snowplow_utils.timestamp_diff('a.start_tstamp', 'a.end_tstamp', 'second') }} as session_duration_s
+    , a.screen_names_viewed
   {%- endif %}
 
   -- marketing fields
-  f.mkt_medium,
-  f.mkt_source,
-  f.mkt_term,
-  f.mkt_content,
-  f.mkt_campaign,
-  f.mkt_clickid,
-  f.mkt_network,
-  f.default_channel_group,
-  mkt_source_platform,
+  , f.mkt_medium
+  , f.mkt_source
+  , f.mkt_term
+  , f.mkt_content
+  , f.mkt_campaign
+  , f.mkt_clickid
+  , f.mkt_network
+  , f.default_channel_group
+  , mkt_source_platform
 
   -- webpage / referrer / browser fields
-  f.page_url as first_page_url,
-  case when l.last_page_url is null then coalesce(l.last_page_url, f.page_url) else l.last_page_url end as last_page_url,
-  f.page_referrer,
-  f.refr_medium,
-  f.refr_source,
-  f.refr_term,
+  , f.page_url as first_page_url
+  , case when l.last_page_url is null then coalesce(l.last_page_url, f.page_url) else l.last_page_url end as last_page_url
+  , f.page_referrer
+  , f.refr_medium
+  , f.refr_source
+  , f.refr_term
 
   {% if var('snowplow__enable_web') %}
-    f.page_title as first_page_title,
-    f.page_urlscheme as first_page_urlscheme,
-    f.page_urlhost as first_page_urlhost,
-    f.page_urlpath as first_page_urlpath,
-    f.page_urlquery as first_page_urlquery,
-    f.page_urlfragment as first_page_urlfragment,
+    , f.page_title as first_page_title
+    , f.page_urlscheme as first_page_urlscheme
+    , f.page_urlhost as first_page_urlhost
+    , f.page_urlpath as first_page_urlpath
+    , f.page_urlquery as first_page_urlquery
+    , f.page_urlfragment as first_page_urlfragment
     -- only take the first value when the last is genuinely missing (base on url as has to always be populated)
-    case when l.last_page_url is null then coalesce(l.last_page_title, f.page_title) else l.last_page_title end as last_page_title,
-    case when l.last_page_url is null then coalesce(l.last_page_urlscheme, f.page_urlscheme) else l.last_page_urlscheme end as last_page_urlscheme,
-    case when l.last_page_url is null then coalesce(l.last_page_urlhost, f.page_urlhost) else l.last_page_urlhost end as last_page_urlhost,
-    case when l.last_page_url is null then coalesce(l.last_page_urlpath, f.page_urlpath) else l.last_page_urlpath end as last_page_urlpath,
-    case when l.last_page_url is null then coalesce(l.last_page_urlquery, f.page_urlquery) else l.last_page_urlquery end as last_page_urlquery,
-    case when l.last_page_url is null then coalesce(l.last_page_urlfragment, f.page_urlfragment) else l.last_page_urlfragment end as last_page_urlfragment,
-    f.refr_urlscheme,
-    f.refr_urlhost,
-    f.refr_urlpath,
-    f.refr_urlquery,
-    f.refr_urlfragment,
-    f.br_renderengine,
-    f.br_lang as first_br_lang,
-    f.br_lang_name as first_br_lang_name,
-    case when l.last_br_lang is null then coalesce(l.last_br_lang, f.br_lang) else l.last_br_lang end as last_br_lang,
-    case when l.last_br_lang is null then coalesce(l.last_br_lang_name, f.br_lang_name) else l.last_br_lang_name end as last_br_lang_name,
+    , case when l.last_page_url is null then coalesce(l.last_page_title, f.page_title) else l.last_page_title end as last_page_title
+    , case when l.last_page_url is null then coalesce(l.last_page_urlscheme, f.page_urlscheme) else l.last_page_urlscheme end as last_page_urlscheme
+    , case when l.last_page_url is null then coalesce(l.last_page_urlhost, f.page_urlhost) else l.last_page_urlhost end as last_page_urlhost
+    , case when l.last_page_url is null then coalesce(l.last_page_urlpath, f.page_urlpath) else l.last_page_urlpath end as last_page_urlpath
+    , case when l.last_page_url is null then coalesce(l.last_page_urlquery, f.page_urlquery) else l.last_page_urlquery end as last_page_urlquery
+    , case when l.last_page_url is null then coalesce(l.last_page_urlfragment, f.page_urlfragment) else l.last_page_urlfragment end as last_page_urlfragment
+    , f.refr_urlscheme
+    , f.refr_urlhost
+    , f.refr_urlpath
+    , f.refr_urlquery
+    , f.refr_urlfragment
+    , f.br_renderengine
+    , f.br_lang as first_br_lang
+    , f.br_lang_name as first_br_lang_name
+    , case when l.last_br_lang is null then coalesce(l.last_br_lang, f.br_lang) else l.last_br_lang end as last_br_lang
+    , case when l.last_br_lang is null then coalesce(l.last_br_lang_name, f.br_lang_name) else l.last_br_lang_name end as last_br_lang_name
   {% endif %}
 
   -- iab enrichment fields
   {% if var('snowplow__enable_iab') %}
-    f.iab__category,
-    f.iab__primary_impact,
-    f.iab__reason,
-    f.iab__spider_or_robot,
+    , f.iab__category
+    , f.iab__primary_impact
+    , f.iab__reason
+    , f.iab__spider_or_robot
   {% endif %}
 
   -- yauaa enrichment fields
   {% if var('snowplow__enable_yauaa') %}
-    f.yauaa__device_name,
-    f.yauaa__agent_class,
-    f.yauaa__agent_name,
-    f.yauaa__agent_name_version,
-    f.yauaa__agent_name_version_major,
-    f.yauaa__agent_version,
-    f.yauaa__agent_version_major,
-    f.yauaa__layout_engine_class,
-    f.yauaa__layout_engine_name,
-    f.yauaa__layout_engine_name_version,
-    f.yauaa__layout_engine_name_version_major,
-    f.yauaa__layout_engine_version,
-    f.yauaa__layout_engine_version_major,
+    , f.yauaa__device_name
+    , f.yauaa__agent_class
+    , f.yauaa__agent_name
+    , f.yauaa__agent_name_version
+    , f.yauaa__agent_name_version_major
+    , f.yauaa__agent_version
+    , f.yauaa__agent_version_major
+    , f.yauaa__layout_engine_class
+    , f.yauaa__layout_engine_name
+    , f.yauaa__layout_engine_name_version
+    , f.yauaa__layout_engine_name_version_major
+    , f.yauaa__layout_engine_version
+    , f.yauaa__layout_engine_version_major
   {% endif %}
 
   -- ua parser enrichment fields
   {% if var('snowplow__enable_ua') %}
-    f.ua__device_family,
-    f.ua__os_version,
-    f.ua__os_major,
-    f.ua__os_minor,
-    f.ua__os_patch,
-    f.ua__os_patch_minor,
-    f.ua__useragent_family,
-    f.ua__useragent_major,
-    f.ua__useragent_minor,
-    f.ua__useragent_patch,
-    f.ua__useragent_version,
+    , f.ua__device_family
+    , f.ua__os_version
+    , f.ua__os_major
+    , f.ua__os_minor
+    , f.ua__os_patch
+    , f.ua__os_patch_minor
+    , f.ua__useragent_family
+    , f.ua__useragent_major
+    , f.ua__useragent_minor
+    , f.ua__useragent_patch
+    , f.ua__useragent_version
   {% endif %}
 
   -- mobile only
   {% if var('snowplow__enable_mobile') %}
-    f.screen_view__name as first_screen_view__name,
-    f.screen_view__transition_type as first_screen_view__transition_type,
-    f.screen_view__type as first_screen_view__type,
-    case when l.last_screen_view__name is null then coalesce(l.last_screen_view__name, f.screen_view__name) else l.last_screen_view__name end as last_screen_view__name,
-    case when l.last_screen_view__transition_type is null then coalesce(l.last_screen_view__transition_type, f.screen_view__transition_type) else l.last_screen_view__transition_type end as last_screen_view__transition_type,
-    case when l.last_screen_view__type is null then coalesce(l.last_screen_view__type, f.screen_view__type) else l.last_screen_view__type end as last_screen_view__type,
-    f.screen_view__previous_id,
-    f.screen_view__previous_name,
-    f.screen_view__previous_type,
+    , f.screen_view__name as first_screen_view__name
+    , f.screen_view__transition_type as first_screen_view__transition_type
+    , f.screen_view__type as first_screen_view__type
+    , case when l.last_screen_view__name is null then coalesce(l.last_screen_view__name, f.screen_view__name) else l.last_screen_view__name end as last_screen_view__name
+    , case when l.last_screen_view__transition_type is null then coalesce(l.last_screen_view__transition_type, f.screen_view__transition_type) else l.last_screen_view__transition_type end as last_screen_view__transition_type
+    , case when l.last_screen_view__type is null then coalesce(l.last_screen_view__type, f.screen_view__type) else l.last_screen_view__type end as last_screen_view__type
+    , f.screen_view__previous_id
+    , f.screen_view__previous_name
+    , f.screen_view__previous_type
 
   {% endif %}
 
   {% if var('snowplow__enable_app_context') %}
-    f.app__build as first_app__build,
-    f.app__version as first_app__version,
+    , f.app__build as first_app__build
+    , f.app__version as first_app__version
   {% endif %}
 
   {% if var('snowplow__enable_geolocation_context') %}
-    f.geo__altitude as first_geo__altitude,
-    f.geo__altitude_accuracy as first_geo__altitude_accuracy,
-    f.geo__bearing as first_geo__bearing,
-    f.geo__latitude as first_geo__latitude,
-    f.geo__latitude_longitude_accuracy as first_geo__latitude_longitude_accuracy,
-    f.geo__longitude as first_geo__longitude,
-    f.geo__speed as first_geo__speed,
+    , f.geo__altitude as first_geo__altitude
+    , f.geo__altitude_accuracy as first_geo__altitude_accuracy
+    , f.geo__bearing as first_geo__bearing
+    , f.geo__latitude as first_geo__latitude
+    , f.geo__latitude_longitude_accuracy as first_geo__latitude_longitude_accuracy
+    , f.geo__longitude as first_geo__longitude
+    , f.geo__speed as first_geo__speed
   {% endif %}
 
   {% if var('snowplow__enable_screen_context') %}
-    f.screen__fragment,
-    f.screen__top_view_controller,
-    f.screen__view_controller,
+    , f.screen__fragment
+    , f.screen__top_view_controller
+    , f.screen__view_controller
   {% endif %}
 
   {% if var("snowplow__enable_app_error_event", false) %}
-    a.app_errors,
-    a.fatal_app_errors,
+    , a.app_errors
+    , a.fatal_app_errors
   {% endif %}
 
-  f.useragent
+  , f.useragent
 
   -- conversion fields
   {%- if var('snowplow__conversion_events', none) %}
@@ -470,16 +455,8 @@ from session_firsts f
 left join session_lasts l
 on f.session_identifier = l.session_identifier
 
-{% if target.type == 'postgres' %}
-  and l.session_dedupe_index = 1
-{%- endif %}
-
 left join session_aggs a
 on f.session_identifier = a.session_identifier
-
-{% if target.type == 'postgres' %}
-   where f.session_dedupe_index = 1
-{%- endif %}
 
 {%- if var('snowplow__conversion_events', none) %}
 left join

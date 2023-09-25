@@ -39,12 +39,7 @@ select
   {% endif %}
 
   {% if var('snowplow__enable_mobile_context') %}
-    , a.mobile__android_idfa
-    , a.mobile__apple_idfa
-    , a.mobile__apple_idfv
-    , a.mobile__open_idfa
-    , a.mobile__app_set_id
-    , a.mobile_app_set_id_scope
+    {{ mobile_context_fields('a')}}
   {% endif %}
 
   -- geo fields
@@ -63,10 +58,6 @@ select
   , a.geo_latitude
   , a.geo_longitude
   , a.geo_timezone
-
-  {% if var('snowplow__enable_mobile_context') %}
-    , a.mobile__carrier
-  {% endif %}
 
   -- engagement fields
   , b.views

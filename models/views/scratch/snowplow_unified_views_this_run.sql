@@ -143,203 +143,193 @@ with prep as (
 select
 
     -- event categorization fields
-    pve.view_id,
-    pve.event_name,
-    pve.event_id,
-    pve.session_identifier,
-    pve.view_in_session_index,
-    max(pve.view_in_session_index) over (partition by pve.session_identifier) as views_in_session,
+    pve.view_id
+    , pve.event_name
+    , pve.event_id
+    , pve.session_identifier
+    , pve.view_in_session_index
+    , max(pve.view_in_session_index) over (partition by pve.session_identifier) as views_in_session
     {% if var('snowplow__enable_mobile') %}
-      pve.session__previous_session_id,
+      , pve.session__previous_session_id
     {% endif %}
 
     -- user id fields
-    pve.user_id,
-    pve.user_identifier,
-    pve.stitched_user_id,
-    pve.network_userid,
+    , pve.user_id
+    , pve.user_identifier
+    , pve.stitched_user_id
+    , pve.network_userid
 
     -- timestamp fields
-    pve.dvce_created_tstamp,
-    pve.collector_tstamp,
-    pve.derived_tstamp,
-    pve.derived_tstamp as start_tstamp,
-    pve.end_tstamp, -- only page views with pings will have a row in table t
-    pve.model_tstamp,
+    , pve.dvce_created_tstamp
+    , pve.collector_tstamp
+    , pve.derived_tstamp
+    , pve.derived_tstamp as start_tstamp
+    , pve.end_tstamp -- only page views with pings will have a row in table t
+    , pve.model_tstamp
 
     -- device fields
-    pve.app_id,
-    pve.platform,
-    pve.device_identifier,
-    pve.device_category,
-    pve.device_session_index,
-    pve.os_version,
-    pve.os_type,
+    , pve.app_id
+    , pve.platform
+    , pve.device_identifier
+    , pve.device_category
+    , pve.device_session_index
+    , pve.os_version
+    , pve.os_type
     {% if var('snowplow__enable_mobile_context') %}
-      pve.mobile__android_idfa,
-      pve.mobile__apple_idfa,
-      pve.mobile__apple_idfv,
-      pve.mobile__open_idfa,
+      {{ mobile_context_fields('pve')}}
     {% endif %}
     {% if var('snowplow__enable_web') %}
-      pve.os_timezone,
+      , pve.os_timezone
     {% endif %}
-    pve.screen_resolution,
+    , pve.screen_resolution
     {% if var('snowplow__enable_yauaa') %}
-      pve.yauaa__device_class,
-      pve.yauaa__device_version,
-      pve.yauaa__operating_system_version,
-      pve.yauaa__operating_system_class,
-      pve.yauaa__operating_system_name,
-      pve.yauaa__operating_system_name_version,
+      , pve.yauaa__device_class
+      , pve.yauaa__device_version
+      , pve.yauaa__operating_system_version
+      , pve.yauaa__operating_system_class
+      , pve.yauaa__operating_system_name
+      , pve.yauaa__operating_system_name_version
     {% endif %}
 
     -- geo fields
-    pve.geo_country,
-    pve.geo_region,
-    pve.geo_region_name,
-    pve.geo_city,
-    pve.geo_zipcode,
-    pve.geo_latitude,
-    pve.geo_longitude,
-    pve.geo_timezone ,
-    pve.user_ipaddress,
+    , pve.geo_country
+    , pve.geo_region
+    , pve.geo_region_name
+    , pve.geo_city
+    , pve.geo_zipcode
+    , pve.geo_latitude
+    , pve.geo_longitude
+    , pve.geo_timezone
+    , pve.user_ipaddress
 
     -- engagement fields
     {% if var('snowplow__enable_web') %}
-      pve.engaged_time_in_s, -- where there are no pings, engaged time is 0.
-      pve.absolute_time_in_s,
-      pve.horizontal_pixels_scrolled,
-      pve.vertical_pixels_scrolled,
-      pve.horizontal_percentage_scrolled,
-      pve.vertical_percentage_scrolled,
+      , pve.engaged_time_in_s -- where there are no pings, engaged time is 0.
+      , pve.absolute_time_in_s
+      , pve.horizontal_pixels_scrolled
+      , pve.vertical_pixels_scrolled
+      , pve.horizontal_percentage_scrolled
+      , pve.vertical_percentage_scrolled
     {% endif %}
 
     -- marketing fields
-    pve.mkt_medium,
-    pve.mkt_source,
-    pve.mkt_term,
-    pve.mkt_content,
-    pve.mkt_campaign,
-    pve.mkt_clickid,
-    pve.mkt_network,
-    pve.default_channel_group,
+    , pve.mkt_medium
+    , pve.mkt_source
+    , pve.mkt_term
+    , pve.mkt_content
+    , pve.mkt_campaign
+    , pve.mkt_clickid
+    , pve.mkt_network
+    , pve.default_channel_group
 
     -- webpage / referer / browser fields
-    pve.page_url,
-    pve.page_referrer,
-    pve.refr_medium,
-    pve.refr_source,
-    pve.refr_term,
+    , pve.page_url
+    , pve.page_referrer
+    , pve.refr_medium
+    , pve.refr_source
+    , pve.refr_term
 
     {% if var('snowplow__enable_web') %}
 
-      pve.page_title,
-      pve.content_group,
+      , pve.page_title
+      , pve.content_group
 
-      pve.page_urlscheme,
-      pve.page_urlhost,
-      pve.page_urlpath,
-      pve.page_urlquery,
-      pve.page_urlfragment,
+      , pve.page_urlscheme
+      , pve.page_urlhost
+      , pve.page_urlpath
+      , pve.page_urlquery
+      , pve.page_urlfragment
 
-      pve.refr_urlscheme,
-      pve.refr_urlhost,
-      pve.refr_urlpath,
-      pve.refr_urlquery,
-      pve.refr_urlfragment,
+      , pve.refr_urlscheme
+      , pve.refr_urlhost
+      , pve.refr_urlpath
+      , pve.refr_urlquery
+      , pve.refr_urlfragment
 
 
-      pve.br_lang,
-      pve.br_viewwidth,
-      pve.br_viewheight,
-      pve.br_color_depth,
-      pve.br_renderengine,
+      , pve.br_lang
+      , pve.br_viewwidth
+      , pve.br_viewheight
+      , pve.br_color_depth
+      , pve.br_renderengine
 
-      pve.doc_width,
-      pve.doc_height,
+      , pve.doc_width
+      , pve.doc_height
 
     {% endif %}
 
     -- iab enrichment fields
     {% if var('snowplow__enable_iab') %}
-      pve.iab__category,
-      pve.iab__primary_impact,
-      pve.iab__reason,
-      pve.iab__spider_or_robot,
+      , pve.iab__category
+      , pve.iab__primary_impact
+      , pve.iab__reason
+      , pve.iab__spider_or_robot
     {% endif %}
 
     -- yauaa enrichment fields
     {% if var('snowplow__enable_yauaa') %}
-      pve.yauaa__device_name,
-      pve.yauaa__agent_class,
-      pve.yauaa__agent_name,
-      pve.yauaa__agent_name_version,
-      pve.yauaa__agent_name_version_major,
-      pve.yauaa__agent_version,
-      pve.yauaa__agent_version_major,
-      pve.yauaa__layout_engine_class,
-      pve.yauaa__layout_engine_name,
-      pve.yauaa__layout_engine_name_version,
-      pve.yauaa__layout_engine_name_version_major,
-      pve.yauaa__layout_engine_version,
-      pve.yauaa__layout_engine_version_major,
+      , pve.yauaa__device_name
+      , pve.yauaa__agent_class
+      , pve.yauaa__agent_name
+      , pve.yauaa__agent_name_version
+      , pve.yauaa__agent_name_version_major
+      , pve.yauaa__agent_version
+      , pve.yauaa__agent_version_major
+      , pve.yauaa__layout_engine_class
+      , pve.yauaa__layout_engine_name
+      , pve.yauaa__layout_engine_name_version
+      , pve.yauaa__layout_engine_name_version_major
+      , pve.yauaa__layout_engine_version
+      , pve.yauaa__layout_engine_version_major
     {% endif %}
 
     -- ua parser enrichment fields
     {% if var('snowplow__enable_ua') %}
-      pve.ua__device_family,
-      pve.ua__os_version,
-      pve.ua__os_major,
-      pve.ua__os_minor,
-      pve.ua__os_patch,
-      pve.ua__os_patch_minor,
-      pve.ua__useragent_family,
-      pve.ua__useragent_major,
-      pve.ua__useragent_minor,
-      pve.ua__useragent_patch,
-      pve.ua__useragent_version,
+      , pve.ua__device_family
+      , pve.ua__os_version
+      , pve.ua__os_major
+      , pve.ua__os_minor
+      , pve.ua__os_patch
+      , pve.ua__os_patch_minor
+      , pve.ua__useragent_family
+      , pve.ua__useragent_major
+      , pve.ua__useragent_minor
+      , pve.ua__useragent_patch
+      , pve.ua__useragent_version
     {% endif %}
 
     -- mobile only
     {% if var('snowplow__enable_mobile') %}
-      pve.screen_view__name,
-      pve.screen_view__previous_id,
-      pve.screen_view__previous_name,
-      pve.screen_view__previous_type,
-      pve.screen_view__transition_type,
-      pve.screen_view__type,
+      , pve.screen_view__name
+      , pve.screen_view__previous_id
+      , pve.screen_view__previous_name
+      , pve.screen_view__previous_type
+      , pve.screen_view__transition_type
+      , pve.screen_view__type
     {% endif %}
 
     {% if var('snowplow__enable_app_context') %}
-      pve.app__build,
-      pve.app__version,
+      , pve.app__build
+      , pve.app__version
     {% endif %}
 
     {% if var('snowplow__enable_geolocation_context') %}
-      pve.geo__altitude,
-      pve.geo__altitude_accuracy,
-      pve.geo__bearing,
-      pve.geo__latitude,
-      pve.geo__latitude_longitude_accuracy,
-      pve.geo__longitude,
-      pve.geo__speed,
+      , pve.geo__altitude
+      , pve.geo__altitude_accuracy
+      , pve.geo__bearing
+      , pve.geo__latitude
+      , pve.geo__latitude_longitude_accuracy
+      , pve.geo__longitude
+      , pve.geo__speed
     {% endif %}
 
     {% if var('snowplow__enable_screen_context') %}
-      pve.screen__fragment,
-      pve.screen__top_view_controller,
-      pve.screen__view_controller,
+      , pve.screen__fragment
+      , pve.screen__top_view_controller
+      , pve.screen__view_controller
     {% endif %}
 
-    {% if var('snowplow__enable_mobile_context') %}
-      pve.mobile__carrier,
-      pve.mobile__device_model,
-      pve.mobile__network_technology,
-      pve.mobile__network_type,
-    {% endif %}
-
-    pve.useragent
+    , pve.useragent
 
     {%- if var('snowplow__page_view_passthroughs', []) -%}
       {%- for col in passthrough_names %}
