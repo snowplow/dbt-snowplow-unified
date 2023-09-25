@@ -178,14 +178,11 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
-        bigquery:
-          enabled: "{{ target.type == 'bigquery' | as_bool() }}"
-        databricks:
-          enabled: "{{ target.type in ['databricks', 'spark'] | as_bool() }}"
         default:
-          enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
-        snowflake:
-          enabled: "{{ target.type == 'snowflake' | as_bool() }}"
+          enabled: "{{ target.type in ['bigquery', 'databricks', 'spark', 'snowflake', 'postgres'] | as_bool() }}"
+        redshift:
+          enabled: "{{ target.type == 'redshift' | as_bool() }}"
+
 
     user_mapping:
       +schema: "derived"
