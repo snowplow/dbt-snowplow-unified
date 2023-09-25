@@ -43,6 +43,8 @@ select
     , a.mobile__apple_idfa
     , a.mobile__apple_idfv
     , a.mobile__open_idfa
+    , a.mobile__app_set_id
+    , a.mobile_app_set_id_scope
   {% endif %}
 
   -- geo fields
