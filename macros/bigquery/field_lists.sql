@@ -215,7 +215,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
   {% set browser_context_fields = [
     {'field':('viewport', 'browser__viewport'), 'dtype':'string'},
-    {'field':('ocument_size', 'browser__document_size'), 'dtype':'string'},
+    {'field':('document_size', 'browser__document_size'), 'dtype':'string'},
     {'field':('resolution', 'browser__resolution'), 'dtype':'string'},
     {'field':('color_depth', 'browser__color_depth'), 'dtype':'string'},
     {'field':('device_pixel_ratio', 'browser__device_pixel_ratio'), 'dtype':'string'},
