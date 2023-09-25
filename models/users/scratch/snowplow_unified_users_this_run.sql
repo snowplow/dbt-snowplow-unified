@@ -108,7 +108,6 @@ select
 
   {% if var('snowplow__enable_mobile') %}
     , a.first_screen_view__name
-    , a.first_screen_view__transition_type
     , a.first_screen_view__type
     , c.last_screen_view__name
     , c.last_screen_view__transition_type

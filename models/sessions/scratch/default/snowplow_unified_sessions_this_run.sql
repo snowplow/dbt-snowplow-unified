@@ -383,7 +383,6 @@ select
   -- mobile only
   {% if var('snowplow__enable_mobile') %}
     , f.screen_view__name as first_screen_view__name
-    , f.screen_view__transition_type as first_screen_view__transition_type
     , f.screen_view__type as first_screen_view__type
     , case when l.last_screen_view__name is null then coalesce(l.last_screen_view__name, f.screen_view__name) else l.last_screen_view__name end as last_screen_view__name
     , case when l.last_screen_view__transition_type is null then coalesce(l.last_screen_view__transition_type, f.screen_view__transition_type) else l.last_screen_view__transition_type end as last_screen_view__transition_type
