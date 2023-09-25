@@ -109,22 +109,22 @@ with prep as (
 , view_events as (
   select
 
-    p.*,
+    p.*
 
-    row_number() over (partition by p.session_identifier order by p.derived_tstamp, p.dvce_created_tstamp, p.event_id) AS view_in_session_index,
+    , row_number() over (partition by p.session_identifier order by p.derived_tstamp, p.dvce_created_tstamp, p.event_id) AS view_in_session_index
 
-    coalesce(t.end_tstamp, p.derived_tstamp) as end_tstamp, -- only page views with pings will have a row in table t
+    , coalesce(t.end_tstamp, p.derived_tstamp) as end_tstamp -- only page views with pings will have a row in table t
 
     {% if var('snowplow__enable_web') %}
-      coalesce(t.engaged_time_in_s, 0) as engaged_time_in_s, -- where there are no pings, engaged time is 0.
-      {{ datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }} as absolute_time_in_s,
-      sd.hmax as horizontal_pixels_scrolled,
-      sd.vmax as vertical_pixels_scrolled,
-      sd.relative_hmax as horizontal_percentage_scrolled,
-      sd.relative_vmax as vertical_percentage_scrolled,
+      , coalesce(t.engaged_time_in_s, 0) as engaged_time_in_s -- where there are no pings, engaged time is 0.
+      , {{ datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }} as absolute_time_in_s
+      , sd.hmax as horizontal_pixels_scrolled
+      , sd.vmax as vertical_pixels_scrolled
+      , sd.relative_hmax as horizontal_percentage_scrolled
+      , sd.relative_vmax as vertical_percentage_scrolled
     {% endif %}
 
-    {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
+    , {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
 
   from prep p
 
