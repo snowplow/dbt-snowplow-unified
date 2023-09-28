@@ -26,11 +26,11 @@ with prep as (
       , {{ content_group_query() }} as content_group
       , coalesce(
       {% if var('snowplow__enable_browser_context') %}
-        ev.browser__color_depth,
+        cast(ev.browser__color_depth as {{ type_string() }}),
       {% else %}
         ev.br_colordepth,
       {% endif %}
-      null) as br_color_depth
+      null) as br_colordepth
     {% endif %}
 
     {% if var('snowplow__enable_mobile') %}
@@ -250,7 +250,7 @@ select
       , pve.br_lang
       , pve.br_viewwidth
       , pve.br_viewheight
-      , pve.br_color_depth
+      , pve.br_colordepth
       , pve.br_renderengine
 
       , pve.doc_width

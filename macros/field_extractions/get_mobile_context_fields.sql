@@ -29,8 +29,8 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     , cast(null as {{ type_int() }}) as mobile__battery_level
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__battery_state
     , cast(null as {{ type_boolean() }}) as mobile__low_power_mode
-    , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__available_storage
-    , cast(null as {{ type_int() }}) as mobile__total_storage
+    , cast(null as bigint) as mobile__available_storage
+    , cast(null as bigint) as mobile__total_storage
     , cast(null as {{ type_boolean() }}) as mobile__is_portrait
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__resolution
     , cast(null as {{ type_float() }}) as mobile__scale
@@ -66,7 +66,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     , cast(null as {{ type_int() }}) as mobile__battery_level
     , cast(null as {{ type_string() }}) as mobile__battery_state
     , cast(null as {{ type_boolean() }}) as mobile__low_power_mode
-    , cast(null as {{ type_string() }}) as mobile__available_storage
+    , cast(null as {{ type_int() }}) as mobile__available_storage
     , cast(null as {{ type_int() }}) as mobile__total_storage
     , cast(null as {{ type_boolean() }}) as mobile__is_portrait
     , cast(null as {{ type_string() }}) as mobile__resolution
@@ -96,8 +96,8 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].battery_level::INT AS mobile__battery_level
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].battery_state::STRING AS mobile__battery_state
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].low_power_mode::BOOLEAN AS mobile__low_power_mode
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].available_storage::INT AS mobile__available_storage
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].total_storage::INT AS mobile__total_storage
+    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].available_storage::bigint AS mobile__available_storage
+    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].total_storage::bigint AS mobile__total_storage
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].is_portrait::BOOLEAN AS mobile__is_portrait
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].resolution::STRING AS mobile__resolution
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].scale::float AS mobile__scale
@@ -122,8 +122,8 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     , cast(null as {{ type_int() }}) as mobile__battery_level
     , cast(null as {{ type_string() }}) as mobile__battery_state
     , cast(null as {{ type_boolean() }}) as mobile__low_power_mode
-    , cast(null as {{ type_string() }}) as mobile__available_storage
-    , cast(null as {{ type_int() }}) as mobile__total_storage
+    , cast(null as bigint) as mobile__available_storage
+    , cast(null as bigint) as mobile__total_storage
     , cast(null as {{ type_boolean() }}) as mobile__is_portrait
     , cast(null as {{ type_string() }}) as mobile__resolution
     , cast(null as {{ type_float() }}) as mobile__scale
@@ -178,7 +178,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
     , cast(null as {{ type_int() }}) as mobile__battery_level
     , cast(null as {{ type_string() }}) as mobile__battery_state
     , cast(null as {{ type_boolean() }}) as mobile__low_power_mode
-    , cast(null as {{ type_string() }}) as mobile__available_storage
+    , cast(null as {{ type_int() }}) as mobile__available_storage
     , cast(null as {{ type_int() }}) as mobile__total_storage
     , cast(null as {{ type_boolean() }}) as mobile__is_portrait
     , cast(null as {{ type_string() }}) as mobile__resolution

@@ -15,7 +15,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 with prep as (
 select
   event_id as root_id,
-  collector_tstamp as root_tstamp,
+  collector_tstamp::timestamp as root_tstamp,
   split_part(split_part(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0,'[{"id":"', 2), '"}]', 1) as id -- test dataset uses json format. Extract.
 
 from {{ ref('snowplow_unified_events') }}
@@ -35,7 +35,7 @@ from prep
 with prep as (
 select
   event_id as root_id,
-  collector_tstamp as root_tstamp,
+  collector_tstamp::timestamp as root_tstamp,
   split_part(split_part(contexts_com_snowplowanalytics_snowplow_web_page_1_0_0,'[{"id":"', 2), '"}]', 1) as id -- test dataset uses json format. Extract.
 
 from {{ ref('snowplow_unified_events') }}

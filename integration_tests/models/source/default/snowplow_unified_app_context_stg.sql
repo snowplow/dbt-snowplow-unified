@@ -6,9 +6,10 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 #}
 
 Select
-
-    '6c33a6ad2bfdd4e3834eaa82587236422263213cb7c3a72c133c8c7546282d36' as root_id,
-    cast('2021-03-03 08:14:01.599' as timestamp) as root_tstamp,
-    cast('na' as {{ type_string() }}) as build,
-    cast('na' as {{ type_string() }}) as version,
+    event_id as root_id,
+    collector_tstamp::timestamp as root_tstamp,
+    case when platform = 'web' then null else cast('na' as {{ type_string() }}) end as build,
+    case when platform = 'web' then null else cast('na' as {{ type_string() }}) end as version,
     'app_context' as schema_name
+
+from {{ ref('snowplow_unified_events') }}

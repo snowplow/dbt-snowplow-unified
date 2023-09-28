@@ -6,16 +6,17 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 #}
 
 Select
-
-    '6c33a6ad2bfdd4e3834eaa82587236422263213cb7c3a72c133c8c7546282d36' as root_id,
-    cast('2021-03-03 08:14:01.599' as timestamp) as root_tstamp,
-    'na' AS message,
-    'na' AS programming_language,
-    'na' AS class_name,
-    'na' AS exception_name,
-    true::BOOLEAN AS is_fatal,
-    1::INT AS line_number,
-    'na' AS stack_trace,
-    1::INT AS thread_id,
-    'na' AS thread_name,
+    event_id as root_id,
+    collector_tstamp::timestamp as root_tstamp,
+    case when platform = 'web' then null else 'na' end AS message,
+    case when platform = 'web' then null else 'na' end AS programming_language,
+    case when platform = 'web' then null else 'na' end AS class_name,
+    case when platform = 'web' then null else 'na' end AS exception_name,
+    case when platform = 'web' then null else false::BOOLEAN end AS is_fatal,
+    case when platform = 'web' then null else 1::INT end AS line_number,
+    case when platform = 'web' then null else 'na' end AS stack_trace,
+    case when platform = 'web' then null else 1::INT end AS thread_id,
+    case when platform = 'web' then null else 'na' end AS thread_name,
     'app_error_context' as schema_name
+
+from {{ ref('snowplow_unified_events') }}

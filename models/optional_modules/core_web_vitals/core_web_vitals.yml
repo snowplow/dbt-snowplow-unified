@@ -192,7 +192,7 @@ models:
         description: '{{ doc("col_geo_country_name") }}'
       - name: time_period
         description: The specific time period (usually day) of the measured period.
-      - name: page_view_count
+      - name: view_count
         description: The number of page_views within the measured range.
       - name: lcp_75p
         description: The lcp result at the given percentile point.

@@ -34,8 +34,8 @@ models:
         description: '{{ doc("col_user_identifier") }}'
       - name: network_userid
         description: '{{ doc("col_network_userid") }}'
-      - name: page_views
-        description: The number of distinct page views within a session
+      - name: views
+        description: The number of distinct page and screen views within a session
         tests:
           - not_null
       - name: engaged_time_in_s
@@ -60,8 +60,6 @@ models:
         description: The title of the first page visited within the session
       - name: first_page_url
         description: The url of the first page visited within the session
-        tests:
-          - not_null
       - name: first_page_urlscheme
         description: The urlscheme of the first page visited within the session
       - name: first_page_urlhost
@@ -76,8 +74,6 @@ models:
         description: The title of the last page visited within the session
       - name: last_page_url
         description: The url of the last page visited within the session
-        tests:
-          - not_null
       - name: last_page_urlscheme
         description: The urlscheme of the last page visited within the session
       - name: last_page_urlhost

@@ -6,10 +6,9 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 #}
 
 Select
-
-  '6c33a6ad2bfdd4e3834eaa82587236422263213cb7c3a72c133c8c7546282d36' as root_id,
-  cast('2021-03-03 08:14:01.599' as timestamp) as root_tstamp,
-  'na' as id,
+  root_id as root_id,
+  root_tstamp::timestamp as root_tstamp,
+  id,
   'na' as name,
   'na' as previous_id,
   'na' as previous_name,
@@ -17,3 +16,5 @@ Select
   'na' as transition_type,
   'na' as type,
   'screen_view_events' as schema_name
+
+from {{ ref('snowplow_unified_screen_view_event') }}

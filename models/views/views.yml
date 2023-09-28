@@ -34,11 +34,11 @@ models:
         description: '{{ doc("col_device_session_index") }}'
         tests:
           - not_null
-      - name: page_view_in_session_index
-        description: A page view index within a single session
+      - name: view_in_session_index
+        description: A view index within a single session
         tests:
           - not_null
-      - name: page_views_in_session
+      - name: views_in_session
         description: Distinct count of `view_id` within a session
         tests:
           - not_null
@@ -88,8 +88,6 @@ models:
         description: '{{ doc("col_page_title") }}'
       - name: page_url
         description: '{{ doc("col_page_url") }}'
-        tests:
-          - not_null
       - name: page_urlscheme
         description: '{{ doc("col_page_urlscheme") }}'
       - name: page_urlhost

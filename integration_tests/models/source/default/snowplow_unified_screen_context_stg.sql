@@ -6,13 +6,15 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 #}
 
 select
-  '6c33a6ad2bfdd4e3834eaa82587236422263213cb7c3a72c133c8c7546282d36' as root_id,
-  cast('2021-03-03 08:14:01.599' as timestamp) as root_tstamp,
-  'na' as id,
-  'na' as name,
-  'na' as activity,
-  'na' as type,
-  'na' as fragment,
-  'na' as top_view_controller,
-  'na' as view_controller,
+  event_id as root_id,
+  collector_tstamp::timestamp as root_tstamp,
+  case when platform = 'web' then null else '4e8c2289-b1cd-4915-90de-2d87e1976a58' end as id,
+  case when platform = 'web' then null else 'Add New Item' end as name,
+  case when platform = 'web' then null else 'na' end as activity,
+  case when platform = 'web' then null else 'na' end as type,
+  case when platform = 'web' then null else 'na' end as fragment,
+  case when platform = 'web' then null else 'na' end as top_view_controller,
+  case when platform = 'web' then null else 'na' end as view_controller,
   'screen_context' as schema_name
+
+from {{ ref('snowplow_unified_events') }}

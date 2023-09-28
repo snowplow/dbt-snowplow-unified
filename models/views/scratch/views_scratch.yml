@@ -34,11 +34,11 @@ models:
         description: '{{ doc("col_device_session_index") }}'
         tests:
           - not_null
-      - name: page_view_in_session_index
-        description: A page view index within a single session
+      - name: view_in_session_index
+        description: A view index within a single session
         tests:
           - not_null
-      - name: page_views_in_session
+      - name: views_in_session
         description: Distinct count of `view_id` within a session
         tests:
           - not_null
@@ -90,8 +90,6 @@ models:
         description: '{{ doc("col_content_group") }}'
       - name: page_url
         description: '{{ doc("col_page_url") }}'
-        tests:
-          - not_null
       - name: page_urlscheme
         description: '{{ doc("col_page_urlscheme") }}'
       - name: page_urlhost
@@ -253,13 +251,13 @@ models:
           column_name: "(view_id || '-' || session_identifier)"
           config:
             tags: primary-key
-      - unique:
-          column_name: "view_id"
-          config:
-            tags: primary-key
     columns:
       - name: view_id
         description: '{{ doc("col_view_id") }}'
+        tests:
+          - not_null
+      - name: session_identifier
+        description: '{{ doc("col_session_identifier") }}'
         tests:
           - not_null
   - name: snowplow_unified_pv_scroll_depth
@@ -267,10 +265,6 @@ models:
     tests:
       - unique:
           column_name: "(view_id || '-' || session_identifier)"
-          config:
-            tags: primary-key
-      - unique:
-          column_name: "view_id"
           config:
             tags: primary-key
     columns:

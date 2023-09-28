@@ -43,8 +43,6 @@ models:
         description: The title of the first page visited by the user
       - name: first_page_url
         description: The url of the first page visited by the user
-        tests:
-          - not_null
       - name: first_page_urlscheme
         description: The urlscheme of the first page visited by the user
       - name: first_page_urlhost
@@ -73,8 +71,6 @@ models:
         description: The title of the last page visited by the user
       - name: last_page_url
         description: The url of the last page visited by the user
-        tests:
-          - not_null
       - name: last_page_urlscheme
         description: The urlscheme of the last page visited by the user
       - name: last_page_urlhost

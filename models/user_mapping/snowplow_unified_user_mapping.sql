@@ -8,9 +8,9 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {{
   config(
     materialized='incremental',
-    unique_key='device_identifier',
+    unique_key='user_identifier',
     sort='end_tstamp',
-    dist='device_identifier',
+    dist='user_identifier',
     partition_by = snowplow_utils.get_value_by_target_type(bigquery_val={
       "field": "end_tstamp",
       "data_type": "timestamp"
@@ -22,16 +22,16 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 
 select distinct
-  device_identifier,
+  user_identifier,
   last_value({{ var('snowplow__user_stitching_id', 'user_id') }}) over(
-    partition by device_identifier
+    partition by user_identifier
     order by collector_tstamp
     rows between unbounded preceding and unbounded following
   ) as user_id,
-  max(collector_tstamp) over (partition by device_identifier) as end_tstamp
+  max(collector_tstamp) over (partition by user_identifier) as end_tstamp
 
 from {{ ref('snowplow_unified_events_this_run') }}
 
 where {{ snowplow_utils.is_run_with_new_events('snowplow_unified') }} --returns false if run doesn't contain new events.
 and {{ var('snowplow__user_stitching_id', 'user_id') }} is not null
-and device_identifier is not null
+and user_identifier is not null

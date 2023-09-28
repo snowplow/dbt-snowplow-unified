@@ -159,7 +159,6 @@ with session_firsts as (
       , count(distinct view_id) as views
 
       {%- if var('snowplow__list_event_counts', false) %}
-          {% set event_names =  dbt_utils.get_column_values(ref('snowplow_unified_events_this_run'), 'event_name', order_by = 'event_name') %}
           , {{ event_counts_string_query() }} as event_counts_string
       {%- endif %}
 

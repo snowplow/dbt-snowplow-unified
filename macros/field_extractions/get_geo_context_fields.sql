@@ -43,21 +43,21 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {% macro spark__get_geo_context_fields() %}
   {% if var('snowplow__enable_geolocation_context', false) %}
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].latitude::FLOAT AS geo__latitude
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].longitude::FLOAT AS geo__longitude
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].latitude_longitude_accuracy::FLOAT AS geo__latitude_longitude_accuracy
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].altitude::FLOAT AS geo__altitude
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].altitude_accuracy::FLOAT AS geo__altitude_accuracy
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].bearing::FLOAT AS geo__bearing
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].speed::FLOAT AS geo__speed
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].latitude::double AS geo__latitude
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].longitude::double AS geo__longitude
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].latitude_longitude_accuracy::double AS geo__latitude_longitude_accuracy
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].altitude::double AS geo__altitude
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].altitude_accuracy::double AS geo__altitude_accuracy
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].bearing::double AS geo__bearing
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].speed::double AS geo__speed
   {% else %}
-    , cast(null as {{ type_float() }}) as geo__latitude
-    , cast(null as {{ type_float() }}) as geo__longitude
-    , cast(null as {{ type_float() }}) as geo__latitude_longitude_accuracy
-    , cast(null as {{ type_float() }}) as geo__altitude
-    , cast(null as {{ type_float() }}) as geo__altitude_accuracy
-    , cast(null as {{ type_float() }}) as geo__bearing
-    , cast(null as {{ type_float() }}) as geo__speed
+    , cast(null as double) as geo__latitude
+    , cast(null as double) as geo__longitude
+    , cast(null as double) as geo__latitude_longitude_accuracy
+    , cast(null as double) as geo__altitude
+    , cast(null as double) as geo__altitude_accuracy
+    , cast(null as double) as geo__bearing
+    , cast(null as double) as geo__speed
   {% endif %}
 {% endmacro %}
 

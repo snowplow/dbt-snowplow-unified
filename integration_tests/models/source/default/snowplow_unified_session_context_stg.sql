@@ -6,15 +6,16 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 #}
 
 select
-  '6c33a6ad2bfdd4e3834eaa82587236422263213cb7c3a72c133c8c7546282d36' as root_id,
-  cast('2021-03-03 08:14:01.599' as timestamp) as root_tstamp,
+  root_id,
+  root_tstamp::timestamp as root_tstamp,
   'session_context' as schema_name,
-  1 as session_index,
-  'bca0fa0e-853c-41cf-9cc4-15048f6f0ff5' as session_id,
-  'na' as previous_session_id,
-  'na' as user_id,
-  'na' as first_event_id,
-  1 as event_index,
-  'na' as storage_mechanism,
+  session_index::int as session_index,
+  session_id,
+  previous_session_id,
+  user_id,
+  first_event_id,
+  event_index::int as event_index,
+  storage_mechanism,
   cast('2021-03-03 08:14:01.599' as timestamp) as first_event_timestamp
 
+from {{ ref('snowplow_unified_session_context') }}

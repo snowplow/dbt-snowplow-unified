@@ -10,7 +10,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% endmacro %}
 
 {% macro default__event_counts_string_query() %}
-
+  {% set event_names =  dbt_utils.get_column_values(ref('snowplow_unified_events_this_run'), 'event_name', order_by = 'event_name') %}
   {# Loop over every event_name in this run, create a json string of the name and count ONLY if there are events with that name in the session (otherwise empty string),
   then trim off the last comma (cannot use loop.first/last because first/last entry may not have any events for that session)
   #}
@@ -24,7 +24,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% endmacro %}
 
 {% macro bigquery__event_counts_string_query() %}
-
+  {% set event_names =  dbt_utils.get_column_values(ref('snowplow_unified_events_this_run'), 'event_name', order_by = 'event_name') %}
   {# Loop over every event_name in this run, create a json string of the name and count ONLY if there are events with that name in the session (otherwise empty string),
   then trim off the last comma (cannot use loop.first/last because first/last entry may not have any events for that session)
   #}
@@ -50,7 +50,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 {% endmacro %}
 
 {% macro postgres__event_counts_string_query() %}
-
+  {% set event_names =  dbt_utils.get_column_values(ref('snowplow_unified_events_this_run'), 'event_name', order_by = 'event_name') %}
   {# Loop over every event_name in this run, create a json string of the name and count ONLY if there are events with that name in the session (otherwise empty string),
   then trim off the last comma (cannot use loop.first/last because first/last entry may not have any events for that session)
   #}

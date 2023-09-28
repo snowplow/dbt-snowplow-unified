@@ -7,20 +7,21 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 Select
 
-    '6c33a6ad2bfdd4e3834eaa82587236422263213cb7c3a72c133c8c7546282d36' as root_id,
-    cast('2021-03-03 08:14:01.599' as timestamp) as root_tstamp,
-    cast('na' as {{ type_string() }}) as viewport,
-    cast('na' as {{ type_string() }}) as document_size,
-    cast('na' as {{ type_string() }}) as resolution,
-    cast('na' as {{ type_string() }}) as color_depth,
-    cast('na' as {{ type_string() }}) as device_pixel_ratio,
-    cast('na' as {{ type_string() }}) as cookies_enabled,
-    cast('na' as {{ type_string() }}) as online,
-    cast('na' as {{ type_string() }}) as browser_language,
-    cast('na' as {{ type_string() }}) as document_language,
-    cast('na' as {{ type_string() }}) as webdriver,
-    cast('na' as {{ type_string() }}) as device_memory,
-    cast('na' as {{ type_string() }}) as hardware_concurrency,
-    cast('na' as {{ type_string() }}) as tab_id,
+    event_id as root_id,
+    collector_tstamp::timestamp as root_tstamp,
+    case when platform = 'web' then cast('na' as {{ type_string() }}) else null end as viewport,
+    case when platform = 'web' then cast('na' as {{ type_string() }}) else null end as document_size,
+    case when platform = 'web' then cast('na' as {{ type_string() }}) else null end  as resolution,
+    case when platform = 'web' then cast(1 as {{ type_int() }}) else null end  as color_depth,
+    case when platform = 'web' then cast(1 as {{ type_int() }}) else null end as device_pixel_ratio,
+    case when platform = 'web' then cast(1 as {{ type_boolean() }}) else null end  as cookies_enabled,
+    case when platform = 'web' then cast(1 as {{ type_boolean() }})  else null end as online,
+    case when platform = 'web' then cast('na' as {{ type_string() }}) else null end  as browser_language,
+    case when platform = 'web' then cast('na' as {{ type_string() }}) else null end  as document_language,
+    case when platform = 'web' then cast(1 as {{ type_boolean() }}) else null end  as webdriver,
+    case when platform = 'web' then cast(1 as {{ type_int() }}) else null end  as device_memory,
+    case when platform = 'web' then cast(1 as {{ type_int() }}) else null end  as hardware_concurrency,
+    case when platform = 'web' then cast('na' as {{ type_string() }}) else null end  as tab_id,
     'browser_context' as schema_name
 
+from {{ ref('snowplow_unified_events') }}
