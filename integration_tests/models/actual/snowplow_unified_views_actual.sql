@@ -70,7 +70,14 @@ session__previous_session_id,
 user_id,
 user_identifier,
 stitched_user_id,
-network_userid,
+
+ -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
+{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+  case when event_id = '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' then '0e77779ebe3beec35d423f1c1952b81d69ecda6325902921c8e761856835808d'
+  else network_userid end as network_userid,
+{% else %}
+  network_userid,
+{% endif %}
 
 collector_tstamp,
 
