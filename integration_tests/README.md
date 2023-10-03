@@ -27,7 +27,7 @@ There are certain exceptions to how different warehouses process data and in pla
 
 - the non-deterministic nature of row_number() function for Redshift/Postgres/Databricks means that we had to hard-code actuals and expected models for cases where we are testing duplicate rows with exact same results / window
 - postgres / redshift needing the array format of : (within sessions_expected)
-- bigquery handling of snowplow_utils.timestamp_diff()
+- bigquery handling of snowplow_utils.timestamp_diff() - absolute_time_in_s changes as well as sessions_duration_s
 - rotating domain_userid per session is hard-coded in the integration test expectations, when run in one batch the user_identifier differs: 2e340eb6e94820ea8369c0174c612260d1cfe9d41f0fe46268994e28d9c0bbf17
 0e9ab97b5d9d9a174112df13fe9c44788af3ac9088a8b41e0998d92a8b4b5a4fc
 - same with the number of quarantined sessions

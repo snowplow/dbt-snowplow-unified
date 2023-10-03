@@ -70,7 +70,7 @@ select
 
   -- hard-coding due to different rounding in Bigquery
 {% if target.type == 'bigquery' -%}
-  ,case when user_identifier in ('066d5a7eecd5792fc6700998b72e58da69e690d9a6fb23c3b70f2bdb41230a70', '24837eb265f7e3f2e82196a3c3a05bf028135683819ab8ded7b8b79753bd52dd', '2e340eb6e94820ea8369c0174c612260d1cfe9d41f0fe46268994e28d9c0bbf17', '5d27ff97148de9e5f1c23e8fd0a4382c06852969f6495def03c66599e676f449','b3c883845957060b8cbebdaec8366d1d4ec6ad283eba1c70e8a512ec43d10875', 'bc0da66ea89bbb0991f1c37ecdc1830a97f1ed9e24296ef6dbf19635220a064e', 'f897c486aa47cefa7478e3db62c797922b9fe006fc10fc05dd4b71abbbbdcae2') then sessions_duration_s - 1
+  ,case when user_identifier in ('066d5a7eecd5792fc6700998b72e58da69e690d9a6fb23c3b70f2bdb41230a70', '24837eb265f7e3f2e82196a3c3a05bf028135683819ab8ded7b8b79753bd52dd', '2e340eb6e94820ea8369c0174c612260d1cfe9d41f0fe46268994e28d9c0bbf17', '5d27ff97148de9e5f1c23e8fd0a4382c06852969f6495def03c66599e676f449','b3c883845957060b8cbebdaec8366d1d4ec6ad283eba1c70e8a512ec43d10875', 'bc0da66ea89bbb0991f1c37ecdc1830a97f1ed9e24296ef6dbf19635220a064e', 'f897c486aa47cefa7478e3db62c797922b9fe006fc10fc05dd4b71abbbbdcae2', '0e9ab97b5d9d9a174112df13fe9c44788af3ac9088a8b41e0998d92a8b4b5a4fc') then sessions_duration_s - 1
    when user_identifier = '434dff58299fdc4f124ddf56a4f117d76f69bedb06f76d9858ffde85e16e14e1' then sessions_duration_s - 2
    else sessions_duration_s end as sessions_duration_s
 {% else %}
