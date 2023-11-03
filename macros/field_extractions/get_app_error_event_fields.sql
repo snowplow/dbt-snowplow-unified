@@ -17,7 +17,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__class_name
     , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__exception_name
     , cast(null as {{ type_boolean() }}) as app_error__is_fatal
-    , cast(null as {{ type_numeric() }}) as app_error__line_number
+    , cast(null as {{ type_int() }}) as app_error__line_number
     , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__stack_trace
     , cast(null as {{ type_int() }}) as app_error__thread_id
     , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__thread_name
@@ -31,9 +31,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     {'field':('programming_language', 'app_error__programming_language'), 'dtype':'string'},
     {'field':('class_name', 'app_error__class_name'), 'dtype':'string'},
     {'field':('exception_name', 'app_error__exception_name'), 'dtype':'string'},
-    {'field':('file_name', 'app_error__file_name'), 'dtype':'string'},
     {'field':('is_fatal', 'app_error__is_fatal'), 'dtype':'boolean'},
-    {'field':('line_column', 'app_error__line_column'), 'dtype':'integer'},
     {'field':('line_number', 'app_error__line_number'), 'dtype':'integer'},
     {'field':('stack_trace', 'app_error__stack_trace'), 'dtype':'string'},
     {'field':('thread_id', 'app_error__thread_id'), 'dtype':'integer'},
@@ -53,7 +51,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ type_string() }}) as app_error__class_name
     , cast(null as {{ type_string() }}) as app_error__exception_name
     , cast(null as {{ type_boolean() }}) as app_error__is_fatal
-    , cast(null as {{ type_numeric() }}) as app_error__line_number
+    , cast(null as {{ type_int() }}) as app_error__line_number
     , cast(null as {{ type_string() }}) as app_error__stack_trace
     , cast(null as {{ type_int() }}) as app_error__thread_id
     , cast(null as {{ type_string() }}) as app_error__thread_name
@@ -77,7 +75,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ type_string() }}) as app_error__class_name
     , cast(null as {{ type_string() }}) as app_error__exception_name
     , cast(null as {{ type_boolean() }}) as app_error__is_fatal
-    , cast(null as {{ type_numeric() }}) as app_error__line_number
+    , cast(null as {{ type_int() }}) as app_error__line_number
     , cast(null as {{ type_string() }}) as app_error__stack_trace
     , cast(null as {{ type_int() }}) as app_error__thread_id
     , cast(null as {{ type_string() }}) as app_error__thread_name
@@ -101,7 +99,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ type_string() }}) as app_error__class_name
     , cast(null as {{ type_string() }}) as app_error__exception_name
     , cast(null as {{ type_boolean() }}) as app_error__is_fatal
-    , cast(null as {{ type_numeric() }}) as app_error__line_number
+    , cast(null as {{ type_int() }}) as app_error__line_number
     , cast(null as {{ type_string() }}) as app_error__stack_trace
     , cast(null as {{ type_int() }}) as app_error__thread_id
     , cast(null as {{ type_string() }}) as app_error__thread_name

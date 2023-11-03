@@ -21,17 +21,17 @@ select
   ,last_screen_resolution
   ,last_os_type
   ,last_os_version
+  ,first_mobile__device_manufacturer
+  ,first_mobile__device_model
+  ,first_mobile__carrier
   ,last_mobile__device_manufacturer
   ,last_mobile__device_model
   ,last_mobile__carrier
-  ,mobile__device_manufacturer
-  ,mobile__device_model
   ,mobile__os_type
   ,cast(mobile__os_version as {{type_string() }}) as mobile__os_version
   ,mobile__android_idfa
   ,mobile__apple_idfa
   ,mobile__apple_idfv
-  ,mobile__carrier
   ,mobile__open_idfa
   ,mobile__network_technology
   ,mobile__network_type

@@ -41,11 +41,14 @@ select
     , a.last_screen_view__name
     , a.last_screen_view__transition_type
     , a.last_screen_view__type
+  {% endif %}
+
+  {% if var('snowplow__enable_mobile_context') %}
     , a.mobile__carrier as last_mobile__carrier
     , a.mobile__device_manufacturer as last_mobile__device_manufacturer
     , a.mobile__device_model as last_mobile__device_model
   {% endif %}
-
+    
   {%- if var('snowplow__user_last_passthroughs', []) -%}
     {%- for identifier in var('snowplow__user_last_passthroughs', []) %}
     {# Check if it is a simple column or a sql+alias #}
