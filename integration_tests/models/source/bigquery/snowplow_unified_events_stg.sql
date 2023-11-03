@@ -79,14 +79,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         JSON_EXTRACT_STRING_ARRAY(json_array,'$.domains_applied') as domains_applied,
         JSON_EXTRACT_scalar(json_array,'$.event_type') as event_type,
         JSON_EXTRACT_scalar(json_array,'$.gdpr_applies') as gdpr_applies
-      from unnest(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0) as json_array
-      ) as unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0,
+        from unnest(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0) as json_array
+          ) as unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0,
 
     array(
       select as struct
         JSON_EXTRACT_scalar(json_array,'$.elapsed_time') as elapsed_time
-      from unnest(unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0) as json_array
-      ) as unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,
+        from unnest(unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0) as json_array
+              ) as unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,
 
     array(
       select as struct
@@ -151,15 +151,16 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       ) as contexts_nl_basjes_yauaa_context_1_0_0,
 
     array(
-    select as struct JSON_EXTRACT_scalar(json_array,'$.id') as id,
-                    JSON_EXTRACT_scalar(json_array,'$.name') as name,
-                    JSON_EXTRACT_scalar(json_array,'$.previousId') as previous_id,
-                    JSON_EXTRACT_scalar(json_array,'$.previousName') as previous_name,
-                    JSON_EXTRACT_scalar(json_array,'$.previousType') as previous_type,
-                    JSON_EXTRACT_scalar(json_array,'$.transitionType') as transition_type,
-                    JSON_EXTRACT_scalar(json_array,'$.type') as type
-    from unnest(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0) as json_array
-    ) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
+      select as struct
+        JSON_EXTRACT_scalar(json_array,'$.id') as id,
+        JSON_EXTRACT_scalar(json_array,'$.name') as name,
+        JSON_EXTRACT_scalar(json_array,'$.previousId') as previous_id,
+        JSON_EXTRACT_scalar(json_array,'$.previousName') as previous_name,
+        JSON_EXTRACT_scalar(json_array,'$.previousType') as previous_type,
+        JSON_EXTRACT_scalar(json_array,'$.transitionType') as transition_type,
+        JSON_EXTRACT_scalar(json_array,'$.type') as type
+         from unnest(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0) as json_array
+            ) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
   array(
     select as struct JSON_EXTRACT_scalar(json_array,'$.sessionId') as session_id,
                     JSON_EXTRACT_scalar(json_array,'$.userId') as user_id,
@@ -255,6 +256,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       from unnest(contexts_com_snowplowanalytics_mobile_screen_1_0_0) as json_array
       ) as contexts_com_snowplowanalytics_mobile_screen_1_0_0,
 
+
     array(
       select as struct
         JSON_EXTRACT_scalar(json_array,'$.message') as message,
@@ -262,12 +264,12 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         JSON_EXTRACT_scalar(json_array,'$.className') as class_name,
         JSON_EXTRACT_scalar(json_array,'$.exceptionName') as exception_name,
         cast(JSON_EXTRACT_scalar(json_array,'$.isFatal') as boolean) as is_fatal,
-        JSON_EXTRACT_scalar(json_array,'$.lineNumber') as line_number,
+        cast(JSON_EXTRACT_scalar(json_array,'$.lineNumber') as integer) as line_number,
         JSON_EXTRACT_scalar(json_array,'$.stackTrace') as stack_trace,
-        JSON_EXTRACT_scalar(json_array,'$.threadId') as thread_id,
-        JSON_EXTRACT_scalar(json_array,'$.threadName') as thread_name,
-      from unnest(unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0) as json_array
-      ) as unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0
+        cast(JSON_EXTRACT_scalar(json_array,'$.threadId') as integer) as thread_id,
+        JSON_EXTRACT_scalar(json_array,'$.threadName') as thread_name
+         from unnest(unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0) as json_array
+              ) as unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0
 
   from prep
 
@@ -296,32 +298,33 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       ) as contexts_com_snowplowanalytics_snowplow_web_page_1_0_0,
 
     array(
-      select as struct JSON_EXTRACT_scalar(json_array,'$.basis_for_processing') as basis_for_processing,
-                      JSON_EXTRACT_STRING_ARRAY(json_array,'$.consent_scopes') as consent_scopes,
-                      JSON_EXTRACT_scalar(json_array,'$.consent_url') as consent_url,
-                      JSON_EXTRACT_scalar(json_array,'$.consent_version') as consent_version,
-                      JSON_EXTRACT_STRING_ARRAY(json_array,'$.domains_applied') as domains_applied,
-                      JSON_EXTRACT_scalar(json_array,'$.event_type') as event_type,
-                      JSON_EXTRACT_scalar(json_array,'$.gdpr_applies') as gdpr_applies
-      from unnest(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0) as json_array
-      ) as unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0,
+      select as struct
+        JSON_EXTRACT_scalar(json_array,'$.basis_for_processing') as basis_for_processing,
+        JSON_EXTRACT_STRING_ARRAY(json_array,'$.consent_scopes') as consent_scopes,
+        JSON_EXTRACT_scalar(json_array,'$.consent_url') as consent_url,
+        JSON_EXTRACT_scalar(json_array,'$.consent_version') as consent_version,
+        JSON_EXTRACT_STRING_ARRAY(json_array,'$.domains_applied') as domains_applied,
+        JSON_EXTRACT_scalar(json_array,'$.event_type') as event_type,
+        JSON_EXTRACT_scalar(json_array,'$.gdpr_applies') as gdpr_applies
+        from unnest(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0) as json_array
+              ) as unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1_0_0,
 
     array(
-      select as struct JSON_EXTRACT_scalar(json_array,'$.elapsed_time') as elapsed_time
-      from unnest(unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0) as json_array
-      ) as unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,
-
+      select as struct
+        JSON_EXTRACT_scalar(json_array,'$.elapsed_time') as elapsed_time
+        from unnest(unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0) as json_array
+              ) as unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1_0_0,
     array(
-      select as struct JSON_EXTRACT_scalar(json_array,'$.cls') as cls,
-                      JSON_EXTRACT_scalar(json_array,'$.fcp') as fcp,
-                      JSON_EXTRACT_scalar(json_array,'$.fid') as fid,
-                      JSON_EXTRACT_scalar(json_array,'$.inp') as inp,
-                      JSON_EXTRACT_scalar(json_array,'$.lcp') as lcp,
-                      JSON_EXTRACT_scalar(json_array,'$.navigation_type') as navigation_type,
-                      JSON_EXTRACT_scalar(json_array,'$.ttfb') as ttfb
-
-      from unnest(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1_0_0) as json_array
-      ) as unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1_0_0,
+      select as struct
+        JSON_EXTRACT_scalar(json_array,'$.cls') as cls,
+        JSON_EXTRACT_scalar(json_array,'$.fcp') as fcp,
+        JSON_EXTRACT_scalar(json_array,'$.fid') as fid,
+        JSON_EXTRACT_scalar(json_array,'$.inp') as inp,
+        JSON_EXTRACT_scalar(json_array,'$.lcp') as lcp,
+        JSON_EXTRACT_scalar(json_array,'$.navigation_type') as navigation_type,
+        JSON_EXTRACT_scalar(json_array,'$.ttfb') as ttfb
+        from unnest(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1_0_0) as json_array
+              ) as unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1_0_0,
 
     array(
       select as struct JSON_EXTRACT_scalar(json_array,'$.device_class') as device_class,

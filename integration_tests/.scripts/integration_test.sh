@@ -37,7 +37,7 @@ for db in ${DATABASES[@]}; do
 
   eval "dbt run --select +test_late_enabled_contexts run --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 250, snowplow__enable_cwv: false}' --target $db"
 
-  echo "Snowplow unified integration tests: Lete enabled contexts test passed"
+  echo "Snowplow unified integration tests: Late enabled contexts test passed"
 
   echo "Snowplow unified integration tests: Execute models (all contexts except for cwv) - run 1/4"
 
