@@ -1,10 +1,10 @@
-# Contributing to `dbt-snowplow-*`
+# Contributing to `dbt-snowplow-unified`
 
-`dbt-snowplow-*` are open source software. This means not only is the code available for you to view in it's entirety, but that you can contribute to the package in a multitude of ways. Whether you are a seasoned open source contributor or a first-time committer, we welcome and encourage you to contribute code (via Pull Request), documentation (via our docusaurus site), ideas (via Discussions for larger ideas, or issues for specific feature requests), or reporting bugs (via issues) to this project. Remember, fixing a typo makes you an Open Source Contributor. You can also contribute via topics on our [Discourse](https://discourse.snowplow.io/).
+Whether you are a seasoned open source contributor or a first-time committer, we welcome and encourage you to contribute code (via Pull Request), documentation (via our docusaurus site), ideas (via Discussions for larger ideas, or issues for specific feature requests), or reporting bugs (via issues) to this project. You can also contribute via topics on our [Discourse](https://discourse.snowplow.io/).
 
 Before you start a load of work, please note that all Pull Requests (apart from cosmetic fixes like typos) should be associated with an issue that has been approved for development by a maintainer. This is to stop you doing lots of development that may not be accepted into the package for a variety of reasons. Make sure to either [raise an issue](/../../issues/new) yourself or look at the existing issues before starting any development.
 
-1. [Contributing to `dbt-snowplow-*`](#contributing-to-dbt-snowplow-)
+1. [Contributing to `dbt-snowplow-unified`](#contributing-to-dbt-snowplow-)
    1. [About this document](#about-this-document)
       1. [Notes](#notes)
    2. [Getting the code](#getting-the-code)
@@ -19,11 +19,11 @@ Before you start a load of work, please note that all Pull Requests (apart from 
 
 ## About this document
 
-This document serves as guide for contributing code changes to `dbt-snowplow-*` (this and similar repositories). It is not intended as a guide for using `dbt-snowplow-*`, and some pieces assume a level of familiarity with Python development (virtualenvs, `pip`, etc) and dbt package development. Specific code snippets in this guide assume you are using macOS or Linux and are comfortable with the command line.
+This document serves as guide for contributing code changes to `dbt-snowplow-unified`. It is not intended as a guide for using `dbt-snowplow-unified`, and some pieces assume a level of familiarity with Python development (virtualenvs, `pip`, etc) and dbt package development. Specific code snippets in this guide assume you are using macOS or Linux and are comfortable with the command line.
 
 ### Notes
 
-- **CLA:** If this is your first time contributing you will be asked to sign the Individual Contributor License Agreement. If you would prefer to read this in advance of submitting your Pull Request you can find it [here](https://docs.google.com/forms/d/e/1FAIpQLSd89YTDQ1XpTZbj3LpOkquV_h1Y8k9ay3iFbJsZsJrz18I23Q/viewform). If you are unable to sign the CLA, the `dbt-snowplow-*` maintainers will unfortunately be unable to merge any of your Pull Requests. We welcome you to participate in discussions, open issues, and comment on existing ones.
+- **CLA:** If this is your first time contributing you will be asked to sign the Individual Contributor License Agreement. If you would prefer to read this in advance of submitting your Pull Request you can find it [here](https://docs.google.com/forms/d/e/1FAIpQLSd89YTDQ1XpTZbj3LpOkquV_h1Y8k9ay3iFbJsZsJrz18I23Q/viewform). If you are unable to sign the CLA, the `dbt-snowplow-unified` maintainers will unfortunately be unable to merge any of your Pull Requests. We welcome you to participate in discussions, open issues, and comment on existing ones.
 - **Branches:** All Pull Requests from community contributors should target the `main` branch (default) and the maintainers will create the appropriate branch to merge this into. Please let us know if you believe your changes are a breaking change or could be done as part of a patch release, if you are unsure that's fine just make that clear in your Pull Request.
 - **Documentation:** The majority of the documentation for our dbt packages is in the core [Snowplow Docs](https://github.com/snowplow/documentation) and as such a Pull Request will need to be raised there to update any docs related to your change. Things such as the deployed dbt site are taken care of automatically.
 
@@ -31,11 +31,11 @@ This document serves as guide for contributing code changes to `dbt-snowplow-*` 
 
 ### Installing git
 
-You will need `git` in order to download and modify the `dbt-snowplow-*` source code. On macOS, the best way to download git is to just install [Xcode](https://developer.apple.com/support/xcode/).
+You will need `git` in order to download and modify the `dbt-unified` source code. On macOS, the best way to download git is to just install [Xcode](https://developer.apple.com/support/xcode/).
 
 ### External contributors
 
-If you are not a member of the `snowplow` GitHub organization, you can contribute to `dbt-snowplow-*` by forking the relevant package repository. For a detailed overview on forking, check out the [GitHub docs on forking](https://help.github.com/en/articles/fork-a-repo). In short, you will need to:
+If you are not a member of the `snowplow` GitHub organization, you can contribute to `dbt-snowplow-unified` by forking the relevant package repository. For a detailed overview on forking, check out the [GitHub docs on forking](https://help.github.com/en/articles/fork-a-repo). In short, you will need to:
 
 1. Fork this repository
 2. Clone your fork locally
