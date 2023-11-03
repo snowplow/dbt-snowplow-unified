@@ -32,14 +32,36 @@ select
   , c.last_os_type
   , c.last_os_version
 
-  {% if var('snowplow__enable_mobile') %}
+  {% if var('snowplow__enable_mobile_context') %}
+    , a.mobile__device_manufacturer as first_mobile__device_manufacturer
+    , a.mobile__device_model as first_mobile__device_model
+    , a.mobile__carrier as first_mobile__carrier
     , c.last_mobile__device_manufacturer
     , c.last_mobile__device_model
     , c.last_mobile__carrier
-  {% endif %}
 
-  {% if var('snowplow__enable_mobile_context') %}
-    {{ mobile_context_fields('a')}}
+    , a.mobile__os_type
+    , a.mobile__os_version
+    , a.mobile__android_idfa
+    , a.mobile__apple_idfa
+    , a.mobile__apple_idfv
+    , a.mobile__open_idfa
+    , a.mobile__network_technology
+    , a.mobile__network_type
+    , a.mobile__physical_memory
+    , a.mobile__system_available_memory
+    , a.mobile__app_available_memory
+    , a.mobile__battery_level
+    , a.mobile__battery_state
+    , a.mobile__low_power_mode
+    , a.mobile__available_storage
+    , a.mobile__total_storage
+    , a.mobile__is_portrait
+    , a.mobile__resolution
+    , a.mobile__scale
+    , a.mobile__language
+    , a.mobile__app_set_id
+    , a.mobile__app_set_id_scope
   {% endif %}
 
   -- geo fields

@@ -136,17 +136,17 @@ models:
       - name: last_screen_resolution
       - name: last_os_type
       - name: last_os_version
+      - name: first_mobile__device_manufacturer
+      - name: first_mobile__device_model
+      - name: first_mobile__carrier
       - name: last_mobile__device_manufacturer
       - name: last_mobile__device_model
       - name: last_mobile__carrier
-      - name: mobile__device_manufacturer
-      - name: mobile__device_model
       - name: mobile__os_type
       - name: mobile__os_version
       - name: mobile__android_idfa
       - name: mobile__apple_idfa
       - name: mobile__apple_idfv
-      - name: mobile__carrier
       - name: mobile__open_idfa
       - name: mobile__network_technology
       - name: mobile__network_type
