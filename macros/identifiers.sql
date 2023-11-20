@@ -61,10 +61,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   {% else %}
 
     {% if var('snowplow__enable_web') and var('snowplow__enable_mobile') %}
-      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1_0_0', 'field': 'session_id'}, {'schema': 'atomic', 'field': 'domain_sessionid'}] )}}
+      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1_*', 'field': 'session_id'}, {'schema': 'atomic', 'field': 'domain_sessionid'}] )}}
 
     {% elif var('snowplow__enable_mobile') %}
-      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1_0_0', 'field': 'session_id'}] )}}
+      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1_*', 'field': 'session_id'}] )}}
 
     {% else %}
       {{ return([{'schema': 'atomic', 'field': 'domain_sessionid'}] )}}
@@ -154,10 +154,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   {% else %}
 
     {% if var('snowplow__enable_web') and var('snowplow__enable_mobile') %}
-      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1_0_0', 'field': 'user_id'}, {'schema': 'atomic', 'field': 'domain_userid'}] )}}
+      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1_*', 'field': 'user_id'}, {'schema': 'atomic', 'field': 'domain_userid'}] )}}
 
     {% elif var('snowplow__enable_mobile') %}
-      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1_0_0', 'field': 'user_id'}] )}}
+      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1_*', 'field': 'user_id'}] )}}
 
     {% else %}
       {{ return([{'schema': 'atomic', 'field': 'domain_userid'}] )}}
