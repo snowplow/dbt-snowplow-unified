@@ -20,7 +20,7 @@ The easiest way to get started is to follow our [QuickStart guide](https://docs.
 
 ### Adapter Support
 
-The current version of the snowplow-unified package supports Snowflake, but BigQuery, Databricks, Redshift & Postgres should also excecute, however, they are in beta as of now.
+The current version of the snowplow-unified package supports Snowflake, BigQuery, Databricks, Redshift & Postgres, however, please note that the package is currently in public preview state.
 
 ### Requirements
 
