@@ -1,3 +1,25 @@
+snowplow-unified 0.1.1 (2023-11-21)
+---------------------------------------
+## Summary
+This release is for supporting multiple versions of the session context schema for Bigquery (mobile) users not just contexts_com_snowplowanalytics_snowplow_client_session_1_0_0 out-of-the-box.
+
+## Features
+- Support latest session context schema
+
+### Github
+```yml
+packages:
+  - git: "https://github.com/snowplow/dbt-snowplow-unified.git"
+    revision: 0.1.1
+```
+
+### dbt hub
+```yml
+packages:
+  - package: snowplow/snowplow_unified
+    version: [">=0.1.0", "<0.2.0"]
+```
+
 snowplow-unified 0.1.0 (2023-11-14)
 ---------------------------------------
 ## Summary
