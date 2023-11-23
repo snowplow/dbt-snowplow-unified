@@ -23,7 +23,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
             contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0,
             contexts_com_snowplowanalytics_mobile_application_1_0_0,
             contexts_com_snowplowanalytics_mobile_deep_link_1_0_0,
-            com_snowplowanalytics_snowplow_browser_context_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_browser_context_1_0_0,
             contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0,
             contexts_com_snowplowanalytics_mobile_screen_1_0_0,
             unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0),
@@ -38,7 +38,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0) as contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0,
     JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_mobile_application_1_0_0) as contexts_com_snowplowanalytics_mobile_application_1_0_0,
     JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_mobile_deep_link_1_0_0) as contexts_com_snowplowanalytics_mobile_deep_link_1_0_0,
-    JSON_EXTRACT_ARRAY(com_snowplowanalytics_snowplow_browser_context_1_0_0) as com_snowplowanalytics_snowplow_browser_context_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_browser_context_1_0_0) as contexts_com_snowplowanalytics_snowplow_browser_context_1_0_0,
     JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0) as contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0,
     JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_mobile_screen_1_0_0) as contexts_com_snowplowanalytics_mobile_screen_1_0_0,
     JSON_EXTRACT_ARRAY(unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0) as unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0
@@ -60,7 +60,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
             contexts_com_snowplowanalytics_snowplow_geolocation_context_1_0_0,
             contexts_com_snowplowanalytics_mobile_application_1_0_0,
             contexts_com_snowplowanalytics_mobile_deep_link_1_0_0,
-            com_snowplowanalytics_snowplow_browser_context_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_browser_context_1_0_0,
             contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_0,
             contexts_com_snowplowanalytics_mobile_screen_1_0_0,
             unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0),
@@ -199,8 +199,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         cast(JSON_EXTRACT_scalar(json_array,'$.deviceMemory') as integer) as device_memory,
         cast(JSON_EXTRACT_scalar(json_array,'$.hardwareConcurrency') as integer) as hardware_concurrency,
         JSON_EXTRACT_scalar(json_array,'$.tab_id') as tab_id
-      from unnest(com_snowplowanalytics_snowplow_browser_context_1_0_0) as json_array
-      ) as com_snowplowanalytics_snowplow_browser_context_1_0_0,
+      from unnest(contexts_com_snowplowanalytics_snowplow_browser_context_1_0_0) as json_array
+      ) as contexts_com_snowplowanalytics_snowplow_browser_context_1_0_0,
 
     array(
     select as struct JSON_EXTRACT_scalar(json_array,'$.version') as version,
