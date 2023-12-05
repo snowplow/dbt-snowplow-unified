@@ -208,12 +208,9 @@ with session_firsts as (
         {%- for conv_def in var('snowplow__conversion_events') %}
             {{ snowplow_unified.get_conversion_columns(conv_def)}}
         {%- endfor %}
-    from {{ ref('snowplow_unified_events_this_run') }}
+    from {{ ref('snowplow_unified_conversions_this_run') }}
     where
         1 = 1
-        {% if var("snowplow__ua_bot_filter", true) %}
-            {{ filter_bots() }}
-        {% endif %}
     group by
         session_identifier
 )
@@ -294,7 +291,7 @@ select
     , {{ event_counts_query() }} as event_counts
   {%- endif %}
   , a.total_events
-  , {{ engaged_session() }} as is_engaged
+  , coalesce({{ engaged_session() }}, false) as is_engaged
   -- when the session starts with a ping we need to add the min visit length to get when the session actually started
 
   {% if var('snowplow__enable_web') %}
@@ -439,9 +436,9 @@ select
       {{ snowplow_unified.get_conversion_columns(conv_def, names_only = true)}}
     {%- endfor %}
     {% if var('snowplow__total_all_conversions', false) %}
-      ,{%- for conv_def in var('snowplow__conversion_events') %}{{'cv_' ~ conv_def['name'] ~ '_volume'}}{%- if not loop.last %} + {% endif -%}{%- endfor %} as cv__all_volume
+      ,{%- for conv_def in var('snowplow__conversion_events') %} coalesce({{'cv_' ~ conv_def['name'] ~ '_volume'}},0) {%- if not loop.last %} + {% endif -%}{%- endfor %} as cv__all_volume
       {# Use 0 in case of no conversions having a value field #}
-      ,0 {%- for conv_def in var('snowplow__conversion_events') %}{%- if conv_def.get('value') %} + {{'cv_' ~ conv_def['name'] ~ '_total'}}{% endif -%}{%- endfor %} as cv__all_total
+      ,0 {%- for conv_def in var('snowplow__conversion_events') %}{%- if conv_def.get('value') %} + coalesce({{'cv_' ~ conv_def['name'] ~ '_total'}}, 0){% endif -%}{%- endfor %} as cv__all_total
     {% endif %}
   {%- endif %}
 
