@@ -50,7 +50,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           enabled=var('snowplow__enable_ua', false),
           fields=bq_ua_fields,
           col_prefix='contexts_com_snowplowanalytics_snowplow_ua_parser_context_1',
-          relation=source('atomic', 'events') if project_name != 'snowplow_unified_integration_tests' else ref('snowplow_unified_events_stg'),
+          relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {%- else -%}
     , cast(null as {{ type_string() }}) as ua__useragent_family

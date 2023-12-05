@@ -1,0 +1,83 @@
+version: 2
+
+models:
+  - name: snowplow_unified_conversions_this_run
+    description: A scratch table used as a base for creating the incremental conversions derived table.
+    columns:
+      - name: event_id
+        description: '{{ doc("col_event_id") }}'
+        tags:
+          - primary-key
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: user_id
+        description: '{{ doc("col_user_id") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: session_identifier
+        description: '{{ doc("col_session_identifier") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: user_identifier
+        description: '{{ doc("col_user_identifier") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: stitched_user_id
+        description: '{{ doc("col_stitched_user_id") }}'
+      - name: cv_value
+        description: The conversion value.
+      - name: cv_tstamp
+        description: The derived_tstamp of the conversion event
+      - name: dvce_created_tstamp,
+        description: '{{ doc("col_dvce_created_tstamp") }}'
+      - name: as cv_type
+        description: The type of conversion, taken from the 'name' value of the user defined conversion definition
+      
+  - name: snowplow_unified_conversions
+    description: An incremental table which contains all relevant fields for unique conversion events.
+    columns:
+      - name: event_id
+        description: '{{ doc("col_event_id") }}'
+        tags:
+          - primary-key
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: user_id
+        description: '{{ doc("col_user_id") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: session_identifier
+        description: '{{ doc("col_session_identifier") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: user_identifier
+        description: '{{ doc("col_user_identifier") }}'
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: stitched_user_id
+        description: '{{ doc("col_stitched_user_id") }}'
+      - name: cv_value
+        description: The conversion value.
+      - name: cv_tstamp
+        description: The derived_tstamp of the conversion event
+      - name: dvce_created_tstamp,
+        description: '{{ doc("col_dvce_created_tstamp") }}'
+      - name: as cv_type
+        description: The type of conversion, taken from the 'name' value of the user defined conversion definition
+      

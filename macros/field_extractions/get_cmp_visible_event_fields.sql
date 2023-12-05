@@ -27,7 +27,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           enabled=var('snowplow__enable_consent', false),
           col_prefix='unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1',
           fields=bq_cmp_visible_fields,
-          relation=source('atomic', 'events') if project_name != 'snowplow_unified_integration_tests' else ref('snowplow_unified_events_stg'),
+         relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {% else %}
       , cast(null as {{ type_float() }}) as cmp__elapsed_time

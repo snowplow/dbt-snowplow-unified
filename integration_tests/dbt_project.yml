@@ -47,6 +47,7 @@ vars:
     snowplow__enable_web: true
     snowplow__enable_mobile: true
     snowplow__yauaa_context: snowplow_unified_yauaa_context_stg
+    snowplow__conversion_stitching: false
     # web only contexts
     snowplow__cwv_events: snowplow_unified_cwv_stg
     snowplow__page_view_context: snowplow_unified_page_view_context_stg
@@ -95,6 +96,7 @@ vars:
   snowplow__conversion_events: [{"name": "view_page", "condition": "event_name = 'page_view'", "list_events": true, "value": "tr_total_base", "default_value": 0.5}]
   snowplow__total_all_conversions: true
   snowplow__list_event_counts: true
+
 
 seeds:
   quote_columns: false
