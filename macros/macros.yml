@@ -97,6 +97,6 @@ macros:
     description: '{{ doc("macro_event_counts_query") }}'
   - name: event_counts_string_query
     description: '{{ doc("macro_event_counts_string_query") }}'
-  - name: get_conversion_columns
-    description: '{{ doc("macro_get_conversion_columns") }}'
+  - name: conversion_query
+    description: '{{ doc("macro_conversion_query") }}'
 

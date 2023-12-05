@@ -65,7 +65,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           enabled=var('snowplow__enable_yauaa', false),
           fields=bq_yauaa_fields,
           col_prefix='contexts_nl_basjes_yauaa_context_1',
-          relation=source('atomic', 'events') if project_name != 'snowplow_unified_integration_tests' else ref('snowplow_unified_events_stg'),
+          relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {%- else -%}
     , cast(null as {{ type_string() }}) as yauaa__device_class

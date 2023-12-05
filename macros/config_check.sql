@@ -72,5 +72,11 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       ) }}
     {% endif %}
   {% endif %}
+  
+  {% if var('snowplow__enable_conversions') and not var('snowplow__conversion_events') %}
+   {{ exceptions.raise_compiler_error(
+      "Snowplow Error: var('snowplow__conversion_events') is not configured but the conversions optional module is enabled. Please configure this variable before proceeding."
+      ) }}
+    {% endif %}
 
 {% endmacro %}

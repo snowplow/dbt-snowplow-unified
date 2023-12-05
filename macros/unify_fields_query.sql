@@ -16,7 +16,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     select
       *,
 
-      coalesce(
+      cast(coalesce(
         {% if var('snowplow__enable_web') %}
           ev.page_view__id,
         {% endif %}
@@ -26,42 +26,42 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           ev.screen__id,
         {% endif %}
         {% endif %}
-        null, null) as view_id,
+        null, null) as {{ dbt.type_string()}} ) as view_id,
 
-        coalesce(
+        cast(coalesce(
         {% if var('snowplow__enable_mobile') %}
           ev.session__session_index,
         {% endif %}
         {% if var('snowplow__enable_web') %}
           ev.domain_sessionidx,
         {% endif %}
-        null, null) as device_session_index,
+        null, null) as {{ dbt.type_int()}} ) as device_session_index,
 
-      coalesce(
+      cast(coalesce(
         {% if var('snowplow__enable_deep_link_context') %}
           ev.deep_link__referrer,
         {% else %}
           ev.page_referrer,
         {% endif %}
-        null, null) as referrer,
+        null, null) as {{ dbt.type_string()}} ) as referrer,
 
-      coalesce(
+      cast(coalesce(
         {% if var('snowplow__enable_deep_link_context') %}
           ev.deep_link__url,
         {% else %}
           ev.page_url,
         {% endif %}
-        null, null) as url,
+        null, null) as {{ dbt.type_string()}} ) as url,
 
-      coalesce(
+      cast(coalesce(
         {% if var('snowplow__enable_mobile_context') %}
           ev.mobile__resolution,
         {% else %}
           ev.dvce_screenwidth || 'x' || ev.dvce_screenheight,
         {% endif %}
-        null, null) as screen_resolution,
+        null, null) as {{ dbt.type_string()}} ) as screen_resolution,
 
-      coalesce(
+      cast(coalesce(
         {% if var('snowplow__enable_mobile_context') %}
           ev.mobile__os_type,
         {% endif %}
@@ -71,9 +71,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         {% if var('snowplow__enable_ua') %}
           ev.ua__os_family,
         {% endif %}
-        null, null) as os_type,
+        null, null) as {{ dbt.type_string()}} ) as os_type,
 
-      coalesce(
+      cast(coalesce(
         {% if var('snowplow__enable_yauaa') %}
           ev.yauaa__operating_system_version,
         {% endif %}
@@ -83,16 +83,16 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         {% if var('snowplow__enable_ua') %}
           ev.ua__os_version,
         {% endif %}
-        null, null) as os_version,
+        null, null) as {{ dbt.type_string()}} ) as os_version,
 
-      coalesce(
+      cast(coalesce(
         {% if var('snowplow__enable_web') %}
           ev.domain_userid,
         {% endif %}
         {% if var('snowplow__enable_mobile') %}
           ev.session__user_id,
         {% endif %}
-        null, null) as device_identifier,
+        null, null) as {{ dbt.type_string()}} ) as device_identifier,
 
       case when platform = 'web' then 'Web' --includes mobile web
           when platform = 'mob' then 'Mobile/Tablet'
