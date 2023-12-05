@@ -231,7 +231,7 @@ The specific sql to be used for the relevant warehouse to calculate the count of
 {% endraw %}
 {% enddocs %}
 
-{% docs macro_get_conversion_columns %}
+{% docs macro_conversion_query %}
 {% raw %}
 
 A macro to keep the different ways of calculating conversion fields per warehouse abstracted away for the sessions table.
