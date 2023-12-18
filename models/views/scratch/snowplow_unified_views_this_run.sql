@@ -115,13 +115,16 @@ with prep as (
 
     , coalesce(t.end_tstamp, p.derived_tstamp) as end_tstamp -- only page views with pings will have a row in table t
 
+    {# todo: allow for mobile too #}
     {% if var('snowplow__enable_web') %}
       , coalesce(t.engaged_time_in_s, 0) as engaged_time_in_s -- where there are no pings, engaged time is 0.
+      {# use foreground_sec + background_sec from screen summary entity #}
       , {{ datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }} as absolute_time_in_s
       , sd.hmax as horizontal_pixels_scrolled
       , sd.vmax as vertical_pixels_scrolled
       , sd.relative_hmax as horizontal_percentage_scrolled
       , sd.relative_vmax as vertical_percentage_scrolled
+      {# todo: add list metrics #}
     {% endif %}
 
     , {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
@@ -133,6 +136,8 @@ with prep as (
 
   left join {{ ref('snowplow_unified_pv_scroll_depth') }} sd
   on p.view_id = sd.view_id and p.session_identifier = sd.session_identifier
+
+  {# todo: add join with list view metrics model #}
 
   {% if target.type == 'postgres' %}
     where view_id_dedupe_index = 1
@@ -203,6 +208,7 @@ select
     , pve.user_ipaddress
 
     -- engagement fields
+    {# todo: allow for mobile too #}
     {% if var('snowplow__enable_web') %}
       , pve.engaged_time_in_s -- where there are no pings, engaged time is 0.
       , pve.absolute_time_in_s
@@ -210,6 +216,7 @@ select
       , pve.vertical_pixels_scrolled
       , pve.horizontal_percentage_scrolled
       , pve.vertical_percentage_scrolled
+      {# todo: add list metrics #}
     {% endif %}
 
     -- marketing fields

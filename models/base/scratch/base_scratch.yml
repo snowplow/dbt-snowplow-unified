@@ -756,3 +756,4 @@ models:
       - name: device_identifier
       - name: platform_name
       - name: device_category
+      # TODO: add screen summary fields

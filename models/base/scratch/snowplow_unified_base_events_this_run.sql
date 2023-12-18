@@ -78,6 +78,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   {% do contexts.append({'schema': var('snowplow__yauaa_context'), 'prefix': 'yauaa_', 'single_entity': True}) %}
 {% endif -%}
 
+{# TODO: add screen summary to contexts #}
+
 {% set base_events_query = snowplow_utils.base_create_snowplow_events_this_run(
                               sessions_this_run_table='snowplow_unified_base_sessions_this_run',
                               session_identifiers= session_identifiers(),
@@ -114,6 +116,7 @@ select
   {{ get_screen_context_fields() }}
   {{ get_deep_link_context_fields() }}
   {{ get_app_error_event_fields() }}
+  {# TODO: get screen summary fields #}
 
 
 {% if var('snowplow__enable_consent', false) -%}
