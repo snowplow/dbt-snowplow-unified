@@ -574,4 +574,5 @@ sources:
             description: '{{ doc("col_url") }}'
           - name: referrer
             description: '{{ doc("col_referrer") }}'
+      # TODO: add screen summary table
 

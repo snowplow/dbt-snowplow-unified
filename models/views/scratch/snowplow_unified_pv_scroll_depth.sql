@@ -26,9 +26,11 @@ with prep as (
     -- greatest prevents outliers (negative offsets)
     -- least also prevents outliers (offsets greater than the docwidth or docheight)
 
+    {# coalesce with max value from the screen_summary event – hmin – min_x_offset, hmax – max_x_offset #}
     least(greatest(min(coalesce(ev.pp_xoffset_min, 0)), 0), max(ev.doc_width)) as hmin, -- should be zero
     least(greatest(max(coalesce(ev.pp_xoffset_max, 0)), 0), max(ev.doc_width)) as hmax,
 
+    {# coalesce with max value from the screen_summary event – vmin – min_y_offset, vmax – max_y_offset #}
     least(greatest(min(coalesce(ev.pp_yoffset_min, 0)), 0), max(ev.doc_height)) as vmin, -- should be zero (edge case: not zero because the pv event is missing)
     least(greatest(max(coalesce(ev.pp_yoffset_max, 0)), 0), max(ev.doc_height)) as vmax
 
