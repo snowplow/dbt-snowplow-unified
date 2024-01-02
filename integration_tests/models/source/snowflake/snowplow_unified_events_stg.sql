@@ -6,7 +6,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 #}
 
 {# CWV tests run on a different source dataset, this is an easy way to hack them together. #}
-{% if not var("snowplow__enable_cwv", false) %}
+{% if not var("snowplow__enable_cwv", false) and not var("snowplow__enable_screen_summary_context", false) %}
 
   -- page view context is given as json string in csv. Parse json
   with prep as (
@@ -306,6 +306,26 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     object_construct('message', message,'programmingLanguage', programmingLanguage, 'className', className, 'exceptionName', exceptionName, 'isFatal', isFatal, 'lineNumber', lineNumber, 'stackTrace', stackTrace, 'threadId', threadId, 'threadName', threadName) as unstruct_event_com_snowplowanalytics_snowplow_application_error_1
 
   from flatten
+
+{% elif var("snowplow__enable_screen_summary_context", false) %}
+
+    select
+      *,
+
+      parse_json(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1,
+      parse_json(unstruct_event_com_snowplowanalytics_snowplow_application_background_1_0_0) as unstruct_event_com_snowplowanalytics_snowplow_application_background_1,
+      parse_json(unstruct_event_com_snowplowanalytics_snowplow_application_foreground_1_0_0) as unstruct_event_com_snowplowanalytics_snowplow_application_foreground_1,
+      parse_json(contexts_com_snowplowanalytics_snowplow_client_session_1_0_2) as contexts_com_snowplowanalytics_snowplow_client_session_1,
+      parse_json(contexts_com_snowplowanalytics_mobile_application_lifecycle_1_0_0) as contexts_com_snowplowanalytics_mobile_application_lifecycle_1,
+      parse_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_3) as contexts_com_snowplowanalytics_snowplow_mobile_context_1,
+      parse_json(contexts_com_snowplowanalytics_mobile_application_1_0_0) as contexts_com_snowplowanalytics_mobile_application_1,
+      parse_json(contexts_com_snowplowanalytics_mobile_screen_1_0_0) as contexts_com_snowplowanalytics_mobile_screen_1,
+      parse_json(contexts_com_snowplowanalytics_mobile_screen_summary_1_0_0) as contexts_com_snowplowanalytics_mobile_screen_summary_1,
+      parse_json(contexts_com_snowplowanalytics_iglu_anything_a_1_0_0) as contexts_com_snowplowanalytics_iglu_anything_a_1,
+      parse_json(contexts_com_snowplowanalytics_snowplow_ecommerce_user_1_0_0) as contexts_com_snowplowanalytics_snowplow_ecommerce_user_1,
+      parse_json(contexts_com_snowplowanalytics_snowplow_gdpr_1_0_0) as contexts_com_snowplowanalytics_snowplow_gdpr_1
+
+    from {{ ref('snowplow_unified_screen_engagement_events') }}
 
 {% else %}
 

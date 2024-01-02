@@ -8,6 +8,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 with events as (
   select event_id, collector_tstamp, platform, contexts_com_snowplowanalytics_mobile_screen_1_0_0
   from {{ ref('snowplow_unified_events') }}
+  union all
+  select event_id, collector_tstamp, platform, contexts_com_snowplowanalytics_mobile_screen_1_0_0
+  from {{ ref('snowplow_unified_screen_engagement_events') }}
 )
 
 select
