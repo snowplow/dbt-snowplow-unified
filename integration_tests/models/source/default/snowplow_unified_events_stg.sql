@@ -6,12 +6,19 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 #}
 
 {# CWV tests run on a different source dataset, this is an easy way to hack them together. #}
-{% if not var("snowplow__enable_cwv", false) %}
+{% if not var("snowplow__enable_cwv", false) and not var("snowplow__enable_screen_summary_context", false) %}
 
 select
   *
 
 from {{ ref('snowplow_unified_events') }}
+
+{% elif var("snowplow__enable_screen_summary_context", false) %}
+
+select
+  *
+
+from {{ ref('snowplow_unified_screen_engagement_events') }}
 
 {% else %}
 
