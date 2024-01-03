@@ -1217,3 +1217,61 @@ Referrer URL, source of this deep-link.
 {% docs col_event_index_in_session %}
 A session index of the event.
 {% enddocs %}
+
+{% docs col_foreground_sec %}
+Time in seconds spent on the current screen while the app was in foreground.
+{% enddocs %}
+
+{% docs col_background_sec %}
+Time in seconds spent on the current screen while the app was in background
+{% enddocs %}
+
+{% docs col_last_item_index %}
+Index of the last viewed item in the list on the screen
+{% enddocs %}
+
+{% docs col_items_count %}
+Total number of items in the list on the screen
+{% enddocs %}
+
+{% docs col_min_x_offset %}
+Minimum horizontal scroll offset on the scroll view in pixels
+{% enddocs %}
+
+{% docs col_max_x_offset %}
+Maximum horizontal scroll offset on the scroll view in pixels
+{% enddocs %}
+
+{% docs col_min_y_offset %}
+Minimum vertical scroll offset on the scroll view in pixels
+{% enddocs %}
+
+{% docs col_max_y_offset %}
+Maximum vertical scroll offset on the scroll view in pixels
+{% enddocs %}
+
+{% docs col_content_width %}
+Width of the scroll view in pixels
+{% enddocs %}
+
+{% docs col_content_height %}
+Height of the scroll view in pixels
+{% enddocs %}
+
+{% docs col_last_list_item_index %}
+Index of the last viewed item in the list on the screen
+
+This is calculated only for mobile apps based on the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_list_items_count %}
+Total number of items in the list on the screen
+
+This is calculated only for mobile apps based on the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_list_items_percentage_scrolled %}
+Total number of items in the list on the screen
+
+This is calculated only for mobile apps based on the `screen_summary` context.
+{% enddocs %}

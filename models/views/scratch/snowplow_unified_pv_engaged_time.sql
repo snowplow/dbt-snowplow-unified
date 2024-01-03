@@ -24,7 +24,6 @@ select
   ev.view_id,
   ev.session_identifier,
   max(ev.derived_tstamp) as end_tstamp,
-  {# todo: coalesce from the screen_summary entity, foreground_sec property #}
   ({{ heartbeat_length }} * ({{ n_unique_pings }} - 1)) + {{ min_visit_length }} as engaged_time_in_s
 
 from {{ ref('snowplow_unified_events_this_run') }} as ev
