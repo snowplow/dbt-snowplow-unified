@@ -3,6 +3,7 @@ snowplow-unified 0.2.0 (2024-0X-XX)
 ## Summary
 
 ## Features
+- Add mobile screen engagement calculation using the screen summary context (#16)
 - Adds user stitching to the users table (enabled with `snowplow__session_stitching`)
 - Adds "headset" to the list of recognized platforms
 
