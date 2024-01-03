@@ -80,7 +80,12 @@ models:
         description: Percentage of page scrolled horizontally
       - name: vertical_percentage_scrolled
         description: Percentage of page scrolled vertically
-      # TODO: add list metrics
+      - name: last_list_item_index
+        description: '{{ doc("col_last_list_item_index") }}'
+      - name: list_items_count
+        description: '{{ doc("col_list_items_count") }}'
+      - name: list_items_percentage_scrolled
+        description: '{{ doc("col_list_items_percentage_scrolled") }}'
       - name: doc_width
         description: '{{ doc("col_doc_width") }}'
       - name: doc_height

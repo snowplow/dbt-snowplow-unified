@@ -440,6 +440,16 @@ models:
       - name: app_error__stack_trace
       - name: app_error__thread_id
       - name: app_error__thread_name
+      - name: screen_summary__foreground_sec
+      - name: screen_summary__background_sec
+      - name: screen_summary__last_item_index
+      - name: screen_summary__items_count
+      - name: screen_summary__min_x_offset
+      - name: screen_summary__min_y_offset
+      - name: screen_summary__max_x_offset
+      - name: screen_summary__max_y_offset
+      - name: screen_summary__content_width
+      - name: screen_summary__content_height
   - name: snowplow_unified_events_this_run
     description: '{{ doc("table_events_this_run") }}'
     columns:
@@ -709,6 +719,16 @@ models:
       - name: app_error__thread_name
       - name: app_error___tstamp
       - name: app_error___id
+      - name: screen_summary__foreground_sec
+      - name: screen_summary__background_sec
+      - name: screen_summary__last_item_index
+      - name: screen_summary__items_count
+      - name: screen_summary__min_x_offset
+      - name: screen_summary__min_y_offset
+      - name: screen_summary__max_x_offset
+      - name: screen_summary__max_y_offset
+      - name: screen_summary__content_width
+      - name: screen_summary__content_height
       - name: deep_link__url
       - name: deep_link__referrer
       - name: deep_link___tstamp
@@ -756,4 +776,3 @@ models:
       - name: device_identifier
       - name: platform_name
       - name: device_category
-      # TODO: add screen summary fields
