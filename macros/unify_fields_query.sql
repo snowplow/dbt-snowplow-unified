@@ -22,6 +22,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         {% endif %}
         {% if var('snowplow__enable_mobile') %}
           ev.screen_view__id,
+        {% if var('snowplow__enable_screen_context') %}
+          ev.screen__id,
+        {% endif %}
         {% endif %}
         null, null) as view_id,
 

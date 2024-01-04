@@ -217,9 +217,6 @@ SELECT
     ,first_geo__latitude_longitude_accuracy
     ,first_geo__longitude
     ,first_geo__speed
-    ,screen__fragment
-    ,screen__top_view_controller
-    ,screen__view_controller
     ,app_errors
     ,fatal_app_errors
     ,useragent
