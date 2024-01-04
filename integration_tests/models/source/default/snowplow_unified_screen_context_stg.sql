@@ -18,7 +18,7 @@ select
   ev.collector_tstamp::timestamp as root_tstamp,
   case when ev.platform = 'web' then null else
     {% if target.type == 'postgres' -%}
-    JSON_EXTRACT_PATH_TEXT(contexts_com_snowplowanalytics_mobile_screen_1_0_0::json, '0', 'id')
+    (ev.contexts_com_snowplowanalytics_mobile_screen_1_0_0::json->0 ->>'id')
     {%- else -%}
     JSON_EXTRACT_PATH_TEXT(JSON_EXTRACT_ARRAY_ELEMENT_TEXT(contexts_com_snowplowanalytics_mobile_screen_1_0_0, 0), 'id')
     {%- endif %}
