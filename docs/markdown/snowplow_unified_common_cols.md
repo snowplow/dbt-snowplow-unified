@@ -1271,7 +1271,7 @@ This is calculated only for mobile apps based on the `screen_summary` context.
 {% enddocs %}
 
 {% docs col_list_items_percentage_scrolled %}
-Total number of items in the list on the screen
+Percentage of the list on the screen that the user scrolled to.
 
 This is calculated only for mobile apps based on the `screen_summary` context.
 {% enddocs %}
