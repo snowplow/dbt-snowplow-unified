@@ -1275,3 +1275,63 @@ Percentage of the list on the screen that the user scrolled to.
 
 This is calculated only for mobile apps based on the `screen_summary` context.
 {% enddocs %}
+
+{% docs col_engaged_time_in_s %}
+Time spent by the user on the page or screen.
+
+On Web, it is calculated using page pings.
+On mobile, it is calculated using information in the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_session_engaged_time_in_s %}
+The total time engaged by a user within a session.
+
+On Web, it is calculated using page pings.
+On mobile, it is calculated using information in the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_user_engaged_time_in_s %}
+The total engaged time in seconds by the user.
+
+On Web, it is calculated using page pings.
+On mobile, it is calculated using information in the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_absolute_time_in_s %}
+Total time in seconds of the page or screen view (including inactivity).
+
+On Web, it is the time between the `start_tstamp` and `end_tstamp` of the page view and the last page ping.
+On mobile, it is the time that the app was in foreground + background during the screen view (taken from the `screen_summary` context).
+{% enddocs %}
+
+{% docs col_session_absolute_time_in_s %}
+The time in seconds between the `start_tstamp` and `end_tstamp` of the first and last event in the session.
+{% enddocs %}
+
+{% docs col_horizontal_pixels_scrolled %}
+Distance the user scrolled horizontally in pixels.
+
+On Web, it is calculated based on the page ping events.
+On mobile, it is calculated using the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_vertical_pixels_scrolled %}
+Distance the user scrolled vertically in pixels.
+
+On Web, it is calculated based on the page ping events.
+On mobile, it is calculated using the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_horizontal_percentage_scrolled %}
+Percentage of page scrolled horizontally.
+
+On Web, it is calculated based on the page ping events.
+On mobile, it is calculated using the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_vertical_percentage_scrolled %}
+Percentage of page scrolled vertically.
+
+On Web, it is calculated based on the page ping events.
+On mobile, it is calculated using the `screen_summary` context.
+{% enddocs %}
