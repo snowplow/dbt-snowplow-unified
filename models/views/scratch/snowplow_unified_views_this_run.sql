@@ -116,41 +116,20 @@ with prep as (
     , coalesce(t.end_tstamp, p.derived_tstamp) as end_tstamp -- only page views with pings will have a row in table t
 
     {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
+      , coalesce(t.engaged_time_in_s, 0) as engaged_time_in_s -- where there are no pings, engaged time is 0.
       , coalesce(
-        {% if var('snowplow__enable_screen_summary_context', false) %}ss.foreground_sec,{% endif %}
-        t.engaged_time_in_s,
-        0 -- where there are no pings, engaged time is 0.
-      ) as engaged_time_in_s
-      , coalesce(
-        {% if var('snowplow__enable_screen_summary_context', false) %}ss.foreground_sec + coalesce(ss.background_sec, 0),{% endif %}
-        {{ datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }},
-        0
+        t.absolute_time_in_s,
+        {{ datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }}
       ) as absolute_time_in_s
-      , coalesce(
-        {% if var('snowplow__enable_screen_summary_context', false) %}ss.max_x_offset,{% endif %}
-        sd.hmax,
-        null
-      ) as horizontal_pixels_scrolled
-      , coalesce(
-        {% if var('snowplow__enable_screen_summary_context', false) %}ss.max_y_offset,{% endif %}
-        sd.vmax,
-        null
-      ) as vertical_pixels_scrolled
-      , coalesce(
-        {% if var('snowplow__enable_screen_summary_context', false) %}ss.horizontal_percentage_scrolled,{% endif %}
-        sd.relative_hmax,
-        null
-      ) as horizontal_percentage_scrolled
-      , coalesce(
-        {% if var('snowplow__enable_screen_summary_context', false) %}ss.vertical_percentage_scrolled,{% endif %}
-        sd.relative_vmax,
-        null
-      ) as vertical_percentage_scrolled
+      , sd.hmax as horizontal_pixels_scrolled
+      , sd.vmax as vertical_pixels_scrolled
+      , sd.relative_hmax as horizontal_percentage_scrolled
+      , sd.relative_vmax as vertical_percentage_scrolled
     {% endif %}
     {% if var('snowplow__enable_screen_summary_context', false) %}
-      , ss.last_item_index as last_list_item_index
-      , ss.items_count as list_items_count
-      , ss.list_items_percentage_scrolled
+      , sd.last_list_item_index
+      , sd.list_items_count
+      , sd.list_items_percentage_scrolled
     {% endif %}
 
     , {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
@@ -158,15 +137,10 @@ with prep as (
   from prep p
 
   left join {{ ref('snowplow_unified_pv_engaged_time') }} t
-  on p.platform = 'web' and p.view_id = t.view_id and p.session_identifier = t.session_identifier
+  on p.view_id = t.view_id and p.session_identifier = t.session_identifier
 
   left join {{ ref('snowplow_unified_pv_scroll_depth') }} sd
-  on p.platform = 'web' and p.view_id = sd.view_id and p.session_identifier = sd.session_identifier
-
-  {% if var('snowplow__enable_screen_summary_context', false) %}
-  left join {{ ref('snowplow_unified_screen_summary_metrics') }} ss
-  on p.platform <> 'web' and p.view_id = ss.view_id and p.session_identifier = ss.session_identifier
-  {% endif %}
+  on p.view_id = sd.view_id and p.session_identifier = sd.session_identifier
 
   {% if target.type == 'postgres' %}
     where view_id_dedupe_index = 1
