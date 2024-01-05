@@ -36,7 +36,7 @@ models:
         tests:
           - not_null
       - name: engaged_time_in_s
-        description: The total engaged time in seconds by the user
+        description: '{{ doc("col_user_engaged_time_in_s") }}'
         tests:
           - not_null
       - name: first_page_title
