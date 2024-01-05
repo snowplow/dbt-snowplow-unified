@@ -1,4 +1,4 @@
-"view_id","session_identifier","user_identifier","engaged_time_in_s","absolute_time_in_s","horizontal_pixels_scrolled","vertical_pixels_scrolled","horizontal_percentage_scrolled","vertical_percentage_scrolled","last_list_item_index","list_items_count","list_items_percentage_scrolled"
+view_id,session_identifier,user_identifier,engaged_time_in_s,absolute_time_in_s,horizontal_pixels_scrolled,vertical_pixels_scrolled,horizontal_percentage_scrolled,vertical_percentage_scrolled,last_list_item_index,list_items_count,list_items_percentage_scrolled
 "FFA557C6-A1A4-41BB-ADD1-C3E22238CA8C","051c712a-e88f-458e-9276-53ce6b2a154d","485c16be-c61c-4a64-bff2-adfd36424d33",3.71,3.71,,,,,13,514,3
 "0583165C-D5FF-4AAA-8D53-DFBBCC60EB05","051c712a-e88f-458e-9276-53ce6b2a154d","485c16be-c61c-4a64-bff2-adfd36424d33",9.1,9.1,,,,,,,
 "0E5C88B5-6A99-430B-A7AE-B6E78AE558DB","051c712a-e88f-458e-9276-53ce6b2a154d","485c16be-c61c-4a64-bff2-adfd36424d33",1.67,1.67,,,,,8,514,2
