@@ -24,7 +24,8 @@ select
   ev.view_id,
   ev.session_identifier,
   max(ev.derived_tstamp) as end_tstamp,
-  ({{ heartbeat_length }} * ({{ n_unique_pings }} - 1)) + {{ min_visit_length }} as engaged_time_in_s
+  ({{ heartbeat_length }} * ({{ n_unique_pings }} - 1)) + {{ min_visit_length }} as engaged_time_in_s,
+  cast(null as {{ type_float() }}) as absolute_time_in_s
 
 from {{ ref('snowplow_unified_events_this_run') }} as ev
 
@@ -32,3 +33,16 @@ where ev.event_name = 'page_ping'
 and ev.view_id is not null
 
 group by 1, 2
+
+{% if var('snowplow__enable_screen_summary_context', false) %}
+union all
+
+select
+  t.view_id,
+  t.session_identifier,
+  cast(null as {{ dbt.type_timestamp() }}) as end_tstamp,
+  t.foreground_sec as engaged_time_in_s,
+  t.foreground_sec + coalesce(t.background_sec, 0) as absolute_time_in_s
+
+from {{ ref('snowplow_unified_screen_summary_metrics') }} as t
+{% endif %}
