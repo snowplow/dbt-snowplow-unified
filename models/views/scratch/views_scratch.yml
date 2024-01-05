@@ -272,3 +272,15 @@ models:
         description: '{{ doc("col_view_id") }}'
         tests:
           - not_null
+  - name: snowplow_unified_screen_summary_metrics
+    description: '{{ doc("table_screen_summary_metrics") }}'
+    tests:
+      - unique:
+          column_name: "(view_id || '-' || session_identifier)"
+          config:
+            tags: primary-key
+    columns:
+      - name: view_id
+        description: '{{ doc("col_view_id") }}'
+        tests:
+          - not_null

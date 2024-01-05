@@ -92,7 +92,7 @@ select
   , b.sessions
   , b.active_days
 
-  {% if var('snowplow__enable_web') %}
+  {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
     , b.engaged_time_in_s
   {% endif %}
 

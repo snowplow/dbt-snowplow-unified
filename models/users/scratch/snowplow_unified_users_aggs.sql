@@ -31,7 +31,7 @@ select
   , count(distinct session_identifier) as sessions
   , count(distinct {{ date_trunc('day', 'start_tstamp') }}) as active_days
 
-  {% if var('snowplow__enable_web') %}
+  {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
     , sum(engaged_time_in_s) as engaged_time_in_s
   {% endif %}
 
