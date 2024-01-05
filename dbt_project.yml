@@ -58,7 +58,7 @@ vars:
     snowplow__session_lookback_days: 730
     snowplow__session_stitching: true
     snowplow__view_stitching: false
-    snowplow__conversion_stitching: false
+    snowplow__conversion_stitching: true
     snowplow__session_timestamp: collector_tstamp
     snowplow__start_date: '2020-01-01'
     # snowplow__total_all_conversions: false
