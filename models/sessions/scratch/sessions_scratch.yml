@@ -243,3 +243,11 @@ models:
       - name: operating_system_version
         description: '{{ doc("col_operating_system_version") }}'
 
+  - name: snowplow_unified_session_screen_summary_metrics
+    description: '{{ doc("table_session_screen_summary_metrics") }}'
+    tests:
+      - unique:
+          column_name: session_identifier
+          config:
+            tags: primary-key
+

@@ -167,8 +167,7 @@ with session_firsts as (
       {%- endif %}
 
       {% if var('snowplow__enable_web') %}
-
-            -- (hb * (#page pings - # distinct page view ids ON page pings)) + (# distinct page view ids ON page pings * min visit length)
+        -- (hb * (#page pings - # distinct page view ids ON page pings)) + (# distinct page view ids ON page pings * min visit length)
         , ({{ var("snowplow__heartbeat", 10) }} * (
               -- number of (unqiue in heartbeat increment) pages pings following a page ping (gap of heartbeat)
               count(distinct case when event_name = 'page_ping' and view_id is not null then
@@ -177,9 +176,10 @@ with session_firsts as (
                       else null end) - count(distinct case when event_name = 'page_ping' and view_id is not null then view_id else null end)
                             ))  +
                             -- number of page pings following a page view (or no event) (gap of min visit length)
-                            (count(distinct case when event_name = 'page_ping' and view_id is not null then view_id else null end) * {{ var("snowplow__min_visit_length", 5) }}) as engaged_time_in_s
-        , {{ snowplow_utils.timestamp_diff('min(derived_tstamp)', 'max(derived_tstamp)', 'second') }} as absolute_time_in_s
+                            (count(distinct case when event_name = 'page_ping' and view_id is not null then view_id else null end) * {{ var("snowplow__min_visit_length", 5) }}) as engaged_time_in_s_web
       {% endif %}
+
+      , {{ snowplow_utils.timestamp_diff('min(derived_tstamp)', 'max(derived_tstamp)', 'second') }} as absolute_time_in_s
 
       {% if var("snowplow__enable_app_errors", false) %}
         , count(distinct case when event_name = 'application_error' then 1 end) as app_errors
@@ -198,6 +198,31 @@ with session_firsts as (
     {% endif %}
 
     group by session_identifier
+)
+
+, session_aggs_with_engaged_time as (
+  {% if var('snowplow__enable_screen_summary_context', false) %}
+    select a.*
+
+      , coalesce(
+        ss.foreground_sec,
+        {% if var('snowplow__enable_web') %}a.engaged_time_in_s_web,{% endif %}
+        null
+      ) as engaged_time_in_s
+
+    from session_aggs a
+
+    left join {{ ref('snowplow_unified_session_screen_summary_metrics') }} ss
+    on a.session_identifier = ss.session_identifier
+  {% else %}
+    select a.*
+
+      {% if var('snowplow__enable_web') %}
+      , a.engaged_time_in_s_web as engaged_time_in_s
+      {% endif %}
+
+    from session_aggs a
+  {% endif %}
 )
 
 -- Redshift does not allow listagg and other aggregations in the same CTE
@@ -297,13 +322,16 @@ select
   , {{ engaged_session() }} as is_engaged
   -- when the session starts with a ping we need to add the min visit length to get when the session actually started
 
-  {% if var('snowplow__enable_web') %}
+  {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
     , a.engaged_time_in_s
-    , a.absolute_time_in_s + case when f.event_name = 'page_ping' then {{ var("snowplow__min_visit_length", 5) }} else 0 end as absolute_time_in_s
+  {%- endif %}
+
+  {% if var('snowplow__enable_web') %}
+  , a.absolute_time_in_s + case when f.event_name = 'page_ping' then {{ var("snowplow__min_visit_length", 5) }} else 0 end as absolute_time_in_s
   {%- endif %}
 
   {% if var('snowplow__enable_mobile') %}
-    , {{ snowplow_utils.timestamp_diff('a.start_tstamp', 'a.end_tstamp', 'second') }} as session_duration_s
+    , a.absolute_time_in_s as session_duration_s
     , a.screen_names_viewed
   {%- endif %}
 
@@ -461,7 +489,7 @@ on f.session_identifier = l.session_identifier
   and l.session_dedupe_index = 1
 {%- endif %}
 
-left join session_aggs a
+left join session_aggs_with_engaged_time a
 on f.session_identifier = a.session_identifier
 
 {%- if var('snowplow__conversion_events', none) %}

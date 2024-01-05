@@ -16,8 +16,8 @@ with prep as (
     ev.view_id
     , ev.session_identifier
 
-    , max(ev.screen_summary__foreground_sec) as foreground_sec
-    , max(ev.screen_summary__background_sec) as background_sec
+    , round(max(ev.screen_summary__foreground_sec) * 100) / 100.0 as foreground_sec
+    , round(max(ev.screen_summary__background_sec) * 100) / 100.0 as background_sec
 
     , max(ev.screen_summary__last_item_index) as last_item_index
     , max(ev.screen_summary__items_count) as items_count
@@ -34,6 +34,7 @@ with prep as (
   from {{ ref('snowplow_unified_events_this_run') }} as ev
 
   where ev.view_id is not null
+    and ev.platform <> 'web'
 
   group by 1, 2
 )
