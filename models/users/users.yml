@@ -172,7 +172,8 @@ models:
       - name: geo_timezone
       - name: active_days
       - name: screen_names_viewed
-      - name: sessions_duration_s
+      - name: absolute_time_in_s
+        description: '{{ doc("col_user_absolute_time_in_s") }}'
       - name: page_referrer
       - name: first_screen_view__name
       - name: first_screen_view__type

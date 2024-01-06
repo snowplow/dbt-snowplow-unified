@@ -96,9 +96,10 @@ select
     , b.engaged_time_in_s
   {% endif %}
 
+  , b.absolute_time_in_s
+
   {% if var('snowplow__enable_mobile') %}
     , b.screen_names_viewed
-    , b.sessions_duration_s
   {% endif %}
 
 

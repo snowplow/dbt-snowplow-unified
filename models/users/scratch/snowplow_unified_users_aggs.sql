@@ -35,9 +35,10 @@ select
     , sum(engaged_time_in_s) as engaged_time_in_s
   {% endif %}
 
+  , sum(absolute_time_in_s) as absolute_time_in_s
+
   {% if var('snowplow__enable_mobile') %}
     , sum(screen_names_viewed) as screen_names_viewed
-    , sum(session_duration_s) as sessions_duration_s
   {% endif %}
 
   {% if var('snowplow__enable_app_errors') %}

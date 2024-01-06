@@ -70,7 +70,7 @@ select
   ,active_days
   ,engaged_time_in_s
   ,screen_names_viewed
-  ,sessions_duration_s
+  ,absolute_time_in_s
   ,page_referrer
   ,refr_medium
   ,refr_source
