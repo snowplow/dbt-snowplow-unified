@@ -116,7 +116,6 @@ select
 ,is_engaged
 ,engaged_time_in_s
 ,absolute_time_in_s
-,session_duration_s
 ,screen_names_viewed
 ,mkt_medium
 ,mkt_source

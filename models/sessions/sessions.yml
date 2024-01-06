@@ -140,8 +140,6 @@ models:
       - name: geo_longitude
       - name: geo_timezone
       - name: user_ipaddress
-      - name: session_duration_s
-        description: '{{ doc("col_session_absolute_time_in_s") }}'
       - name: screen_names_viewed
       - name: mkt_medium
       - name: mkt_source

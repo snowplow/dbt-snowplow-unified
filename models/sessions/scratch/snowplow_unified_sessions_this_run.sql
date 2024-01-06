@@ -326,12 +326,9 @@ select
     , a.engaged_time_in_s
   {%- endif %}
 
-  {% if var('snowplow__enable_web') %}
   , a.absolute_time_in_s + case when f.event_name = 'page_ping' then {{ var("snowplow__min_visit_length", 5) }} else 0 end as absolute_time_in_s
-  {%- endif %}
 
   {% if var('snowplow__enable_mobile') %}
-    , a.absolute_time_in_s as session_duration_s
     , a.screen_names_viewed
   {%- endif %}
 

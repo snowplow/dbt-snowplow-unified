@@ -788,10 +788,6 @@ First application version.
 Last application version.
 {% enddocs %}
 
-{% docs col_session_duration_s %}
-Total duration of a session in seconds.
-{% enddocs %}
-
 {% docs col_device_user_id %}
 Unique device user id.
 {% enddocs %}
@@ -814,10 +810,6 @@ Earliest timestamp for the user's activity, based on `derived_tstamp`.
 
 {% docs col_user_end_tstamp %}
 Latest timestamp for the user's activity, based on `derived_tstamp`.
-{% enddocs %}
-
-{% docs col_sessions_duration_s %}
-Total session duration for the specific user.
 {% enddocs %}
 
 {% docs col_active_days %}
@@ -1306,6 +1298,10 @@ On mobile, it is the time that the app was in foreground + background during the
 
 {% docs col_session_absolute_time_in_s %}
 The time in seconds between the `start_tstamp` and `end_tstamp` of the first and last event in the session.
+{% enddocs %}
+
+{% docs col_user_absolute_time_in_s %}
+The time in seconds between the `start_tstamp` and `end_tstamp` of the first and last event of sessions of the user.
 {% enddocs %}
 
 {% docs col_horizontal_pixels_scrolled %}
