@@ -2,6 +2,9 @@ snowplow-unified 0.1.3 (2024-01-03)
 ---------------------------------------
 ## Summary
 
+## Features
+- Add mobile screen engagement calculation using the screen summary context (#16)
+
 ## Fixes
 - Consider screen view ID from the screen view context (#14)
 

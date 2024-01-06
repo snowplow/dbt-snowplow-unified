@@ -6,7 +6,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 #}
 
 {# CWV tests run on a different source dataset, this is an easy way to hack them together. #}
-{% if not var("snowplow__enable_cwv", false) %}
+{% if not var("snowplow__enable_cwv", false) and not var("snowplow__enable_screen_summary_context", false) %}
 
     -- page view context is given as json string in csv. Parse json
     with prep as (
@@ -302,6 +302,83 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
     from
         prep
+
+{% elif var("snowplow__enable_screen_summary_context", false) %}
+
+    with prep as (
+        select
+            *,
+
+            from_json(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,'array<struct<id:string,name:string,previousId:string,previousName:string,previousType:string,transitionType:string,type:string>>') as unstruct_event_com_snowplowanalytics_mobile_screen_view_1,
+            from_json(contexts_com_snowplowanalytics_snowplow_client_session_1_0_2,'array<struct<sessionId:string,userId:string,sessionIndex:string,firstEventId:string,previousSessionId:string,eventIndex:string,storageMechanism:string,firstEventTimestamp:timestamp>>') as contexts_com_snowplowanalytics_snowplow_client_session_1,
+            from_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_3,'array<struct<deviceManufacturer:string,deviceModel:string,osType:string,osVersion:string,androidIdfa:string,appleIdfa:string,appleIdfv:string,carrier:string,openIdfa:string,networkTechnology:string,networkType:string,physicalMemory:string,systemAvailableMemory:string,appAvailableMemory:string,batteryLevel:string,batteryState:string,lowPowerMode:string,availableStorage:string,totalStorage:string,isPortrait:string,resolution:string,scale:string,language:string,appSetId:string,appSetIdScope:string>>') as contexts_com_snowplowanalytics_snowplow_mobile_context_1,
+            from_json(contexts_com_snowplowanalytics_mobile_application_1_0_0,'array<struct<version:string,build:string>>') as contexts_com_snowplowanalytics_mobile_application_1,
+            from_json(contexts_com_snowplowanalytics_mobile_screen_1_0_0,'array<struct<id:string,name:string,activity:string,fragment:string,topViewController:string,type:string,viewController:string>>') as contexts_com_snowplowanalytics_mobile_screen_1,
+            from_json(contexts_com_snowplowanalytics_mobile_screen_summary_1_0_0,'array<struct<foreground_sec:double,background_sec:double,last_item_index:int,items_count:int,min_x_offset:int,max_x_offset:int,min_y_offset:int,max_y_offset:int,content_width:int,content_height:int>>') as contexts_com_snowplowanalytics_mobile_screen_summary_1
+
+        from {{ ref('snowplow_unified_screen_engagement_events') }}
+    )
+
+    select
+        * except (
+            unstruct_event_com_snowplowanalytics_mobile_screen_view_1,
+            contexts_com_snowplowanalytics_snowplow_client_session_1,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1,
+            contexts_com_snowplowanalytics_mobile_application_1,
+            contexts_com_snowplowanalytics_mobile_screen_1
+        ),
+
+        struct(unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0].id::string AS id,
+            unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0].name::string AS name,
+            unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0].previousId::string AS previous_id,
+            unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0].previousName::string AS previous_name,
+            unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0].previousType::string AS previous_type,
+            unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0].transitionType::string AS transition_type,
+            unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0].type::string AS type) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1,
+        array(struct(contexts_com_snowplowanalytics_snowplow_client_session_1[0].firstEventId::string AS first_event_id,
+            contexts_com_snowplowanalytics_snowplow_client_session_1[0].previousSessionId::string AS previous_session_id,
+            contexts_com_snowplowanalytics_snowplow_client_session_1[0].sessionId::string AS session_id,
+            contexts_com_snowplowanalytics_snowplow_client_session_1[0].sessionIndex::int AS session_index,
+            contexts_com_snowplowanalytics_snowplow_client_session_1[0].userId::string AS user_id,
+            contexts_com_snowplowanalytics_snowplow_client_session_1[0].eventIndex::int AS event_index,
+            contexts_com_snowplowanalytics_snowplow_client_session_1[0].storageMechanism::string AS storage_mechanism,
+            contexts_com_snowplowanalytics_snowplow_client_session_1[0].firstEventTimestamp::timestamp AS first_event_timestamp)) as contexts_com_snowplowanalytics_snowplow_client_session_1,
+        array(struct(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].deviceManufacturer::string AS device_manufacturer,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].deviceModel::string AS device_model,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].osType::string AS os_type,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].osVersion::string AS os_version,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].androidIdfa::string AS android_idfa,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].appleIdfa::string AS apple_idfa,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].appleIdfv::string AS apple_idfv,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].carrier::string AS carrier,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].openIdfa::string AS open_idfa,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].networkTechnology::string AS network_technology,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].networkType::string AS network_type,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].physicalMemory::int AS physical_memory,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].systemAvailableMemory::int AS system_available_memory,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].appAvailableMemory::int AS app_available_memory,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].batteryLevel::int AS battery_level,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].batteryState::string AS battery_state,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].lowPowerMode::boolean AS low_power_mode,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].availableStorage::int AS available_storage,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].totalStorage::long AS total_storage,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].isPortrait::string AS is_portrait,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].resolution::string AS resolution,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].scale::string AS scale,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].language::string AS language,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].appSetId::string AS app_set_id,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].appSetIdScope::string AS app_set_id_scope)) as contexts_com_snowplowanalytics_snowplow_mobile_context_1,
+        array(struct(contexts_com_snowplowanalytics_mobile_application_1[0].version::string AS version,
+            contexts_com_snowplowanalytics_mobile_application_1[0].build::string AS build)) as contexts_com_snowplowanalytics_mobile_application_1,
+        array(struct(contexts_com_snowplowanalytics_mobile_screen_1[0].id::string AS id,
+            contexts_com_snowplowanalytics_mobile_screen_1[0].name::string AS name,
+            contexts_com_snowplowanalytics_mobile_screen_1[0].activity::string AS activity,
+            contexts_com_snowplowanalytics_mobile_screen_1[0].fragment::string AS fragment,
+            contexts_com_snowplowanalytics_mobile_screen_1[0].topViewController::string AS top_view_controller,
+            contexts_com_snowplowanalytics_mobile_screen_1[0].type::string AS type,
+            contexts_com_snowplowanalytics_mobile_screen_1[0].viewController::string AS view_controller)) as contexts_com_snowplowanalytics_mobile_screen_1
+
+    from prep
 
 {% else %}
 -- page view context is given as json string in csv. Parse json

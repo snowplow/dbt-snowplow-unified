@@ -65,21 +65,27 @@ models:
       - name: model_tstamp
         description: '{{ doc("col_model_tstamp") }}'
       - name: engaged_time_in_s
-        description: Time spent by the user on the page calculated using page pings.
+        description: '{{ doc("col_engaged_time_in_s") }}'
         tests:
           - not_null
       - name: absolute_time_in_s
-        description: The time in seconds between the `start_tstamp` and `end_tstamp`
+        description: '{{ doc("col_absolute_time_in_s") }}'
         tests:
           - not_null
       - name: horizontal_pixels_scrolled
-        description: Distance the user scrolled horizontally in pixels
+        description: '{{ doc("col_horizontal_pixels_scrolled") }}'
       - name: vertical_pixels_scrolled
-        description: Distance the user scrolled vertically in pixels
+        description: '{{ doc("col_vertical_pixels_scrolled") }}'
       - name: horizontal_percentage_scrolled
-        description: Percentage of page scrolled horizontally
+        description: '{{ doc("col_horizontal_percentage_scrolled") }}'
       - name: vertical_percentage_scrolled
-        description: Percentage of page scrolled vertically
+        description: '{{ doc("col_vertical_percentage_scrolled") }}'
+      - name: last_list_item_index
+        description: '{{ doc("col_last_list_item_index") }}'
+      - name: list_items_count
+        description: '{{ doc("col_list_items_count") }}'
+      - name: list_items_percentage_scrolled
+        description: '{{ doc("col_list_items_percentage_scrolled") }}'
       - name: doc_width
         description: '{{ doc("col_doc_width") }}'
       - name: doc_height
@@ -262,6 +268,18 @@ models:
           - not_null
   - name: snowplow_unified_pv_scroll_depth
     description: '{{ doc("table_scroll_depth") }}'
+    tests:
+      - unique:
+          column_name: "(view_id || '-' || session_identifier)"
+          config:
+            tags: primary-key
+    columns:
+      - name: view_id
+        description: '{{ doc("col_view_id") }}'
+        tests:
+          - not_null
+  - name: snowplow_unified_screen_summary_metrics
+    description: '{{ doc("table_screen_summary_metrics") }}'
     tests:
       - unique:
           column_name: "(view_id || '-' || session_identifier)"

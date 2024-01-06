@@ -72,6 +72,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     {% do contexts.append({'schema': var('snowplow__deep_link_context'), 'prefix': 'deep_link_', 'single_entity': True}) %}
   {% endif -%}
 
+  {% if var('snowplow__enable_screen_summary_context', false) -%}
+    {% do contexts.append({'schema': var('snowplow__screen_summary_context'), 'prefix': 'screen_summary_', 'single_entity': True}) %}
+  {% endif -%}
+
 {% endif -%}
 
 {% if var('snowplow__enable_yauaa', false) -%}
@@ -114,6 +118,7 @@ select
   {{ get_screen_context_fields() }}
   {{ get_deep_link_context_fields() }}
   {{ get_app_error_event_fields() }}
+  {{ get_screen_summary_context_fields() }}
 
 
 {% if var('snowplow__enable_consent', false) -%}
