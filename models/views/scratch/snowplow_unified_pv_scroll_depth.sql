@@ -77,8 +77,8 @@ select
   t.view_id,
   t.session_identifier,
 
-  cast(null as {{ type_int() }}) as doc_width,
-  cast(null as {{ type_int() }}) as doc_height,
+  t.content_width as doc_width,
+  t.content_height as doc_height,
 
   cast(null as {{ type_int() }}) as br_viewwidth,
   cast(null as {{ type_int() }}) as br_viewheight,

@@ -416,10 +416,14 @@ The page’s character encoding e.g. , ‘UTF-8’
 
 {% docs col_doc_width %}
 The page’s width in pixels e.g. 1024
+
+On mobile, it is the content width reported in the `screen_summary` context.
 {% enddocs %}
 
 {% docs col_doc_height %}
 The page’s height in pixels e.g. 3000
+
+On mobile, it is the content height reported in the `screen_summary` context.
 {% enddocs %}
 
 {% docs col_tr_currency %}
