@@ -7,7 +7,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {{
   config(
-    sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt'))
+    sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt')),
+    enabled=var("snowplow__enable_screen_summary_context", false)
   )
 }}
 
