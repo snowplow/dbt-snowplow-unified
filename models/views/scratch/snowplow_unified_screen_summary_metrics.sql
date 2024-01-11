@@ -17,8 +17,8 @@ with prep as (
     ev.view_id
     , ev.session_identifier
 
-    , round(max(ev.screen_summary__foreground_sec) * 100) / 100.0 as foreground_sec
-    , round(max(ev.screen_summary__background_sec) * 100) / 100.0 as background_sec
+    , round(cast(max(ev.screen_summary__foreground_sec) as {{ type_numeric() }}), 2) as foreground_sec
+    , round(cast(max(ev.screen_summary__background_sec) as {{ type_numeric() }}), 2) as background_sec
 
     , max(ev.screen_summary__last_item_index) as last_item_index
     , max(ev.screen_summary__items_count) as items_count
