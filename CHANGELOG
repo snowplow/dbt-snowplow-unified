@@ -1,9 +1,13 @@
-snowplow-unified 0.1.3 (2024-01-03)
+snowplow-unified 0.2.0 (2024-0X-XX)
 ---------------------------------------
 ## Summary
 
+## Features
+- Adds user stitching to the users table (enabled with `snowplow__session_stitching`)
+
 ## Fixes
 - Consider screen view ID from the screen view context (#14)
+- Fix link to incorrect FAQ in README
 
 ## Upgrading
 Bump the snowplow-unified version in your `packages.yml` file.

@@ -17,6 +17,12 @@ select
   a.user_id
   , a.user_identifier
   , a.network_userid
+  {% if var('snowplow__session_stitching') %}
+    -- updated with mapping as part of post hook on derived sessions table
+    , cast(a.user_identifier as {{ snowplow_utils.type_max_string() }}) as stitched_user_id
+  {% else %}
+    , cast(null as {{ snowplow_utils.type_max_string() }}) as stitched_user_id
+  {% endif %}
 
   -- timestamp fields
   , b.start_tstamp

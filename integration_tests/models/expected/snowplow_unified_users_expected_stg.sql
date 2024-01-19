@@ -11,6 +11,7 @@ select
   user_id
   ,user_identifier
   ,network_userid
+  ,stitched_user_id
   ,start_tstamp
   ,end_tstamp
 
