@@ -62,7 +62,7 @@ If you find a bug, please report an issue on GitHub.
 
 The snowplow-unified package is Copyright 2023-present Snowplow Analytics Ltd.
 
-This distribution is all licensed under the [Snowplow Personal and Academic License][license] . (If you are uncertain how it applies to your use case, check our answers to [frequently asked questions](https://docs.snowplow.io/docs/contributing/community-license-faq/).)
+This distribution is all licensed under the [Snowplow Personal and Academic License][license] . (If you are uncertain how it applies to your use case, check our answers to [frequently asked questions](https://docs.snowplow.io/docs/contributing/personal-and-academic-license-faq/).)
 
 [license]: https://docs.snowplow.io/personal-and-academic-license-1.0/
 [license-image]: http://img.shields.io/badge/license-Snowplow--Personal--and--Academic--1-blue.svg?style=flat
@@ -73,4 +73,3 @@ This distribution is all licensed under the [Snowplow Personal and Academic Lice
 [dbt-package-docs]: https://docs.getdbt.com/docs/building-a-dbt-project/package-management
 [discourse-image]: https://img.shields.io/discourse/posts?server=https%3A%2F%2Fdiscourse.snowplow.io%2F
 [discourse]: http://discourse.snowplow.io/
-
