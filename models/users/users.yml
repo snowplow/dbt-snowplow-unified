@@ -17,6 +17,8 @@ models:
         description: '{{ doc("col_network_userid") }}'
         tests:
           - not_null
+      - name: stitched_user_id
+        description: '{{ doc("col_stitched_user_id") }}'
       - name: start_tstamp
         description: Timestamp for the start of the users lifecycle, based on `derived_tstamp`
         tests:
