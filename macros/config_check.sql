@@ -66,6 +66,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       {{ exceptions.raise_compiler_error(
       "Snowplow Error: Deep link context is enabled but it cannot be processed as `snowplow__enable_mobile` is currently disabled."
       ) }}
+    {% elif var('snowplow__enable_screen_summary_context') %}
+      {{ exceptions.raise_compiler_error(
+      "Snowplow Error: Screen summary context is enabled but it cannot be processed as `snowplow__enable_mobile` is currently disabled."
+      ) }}
     {% endif %}
   {% endif %}
 
