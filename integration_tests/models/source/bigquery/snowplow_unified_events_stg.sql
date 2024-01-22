@@ -6,7 +6,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 #}
 
 {# CWV tests run on a different source dataset, this is an easy way to hack them together. #}
-{% if not var("snowplow__enable_cwv", false) %}
+{% if not var("snowplow__enable_cwv", false) and not var("snowplow__enable_screen_summary_context", false) %}
 
   -- page view context is given as json string in csv. Extract array from json
   with prep as (
@@ -270,6 +270,126 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         JSON_EXTRACT_scalar(json_array,'$.threadName') as thread_name
          from unnest(unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0) as json_array
               ) as unstruct_event_com_snowplowanalytics_snowplow_application_error_1_0_0
+
+  from prep
+
+{% elif var("snowplow__enable_screen_summary_context", false) %}
+
+  with prep as (
+  select
+    *
+    except(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_client_session_1_0_2,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_3,
+            contexts_com_snowplowanalytics_mobile_application_1_0_0,
+            contexts_com_snowplowanalytics_mobile_screen_1_0_0,
+            contexts_com_snowplowanalytics_mobile_screen_summary_1_0_0),
+
+    JSON_EXTRACT_ARRAY(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_client_session_1_0_2) as contexts_com_snowplowanalytics_snowplow_client_session_1_0_2,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_3) as contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_3,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_mobile_application_1_0_0) as contexts_com_snowplowanalytics_mobile_application_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_mobile_screen_1_0_0) as contexts_com_snowplowanalytics_mobile_screen_1_0_0,
+    JSON_EXTRACT_ARRAY(contexts_com_snowplowanalytics_mobile_screen_summary_1_0_0) as contexts_com_snowplowanalytics_mobile_screen_summary_1_0_0
+
+  from {{ ref('snowplow_unified_screen_engagement_events') }}
+  )
+
+  -- recreate repeated record field i.e. array of structs as is originally in BQ events table
+  select
+    *
+    except(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
+            contexts_com_snowplowanalytics_snowplow_client_session_1_0_2,
+            contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_3,
+            contexts_com_snowplowanalytics_mobile_application_1_0_0,
+            contexts_com_snowplowanalytics_mobile_screen_1_0_0,
+            contexts_com_snowplowanalytics_mobile_screen_summary_1_0_0),
+
+    array(
+      select as struct
+        JSON_EXTRACT_scalar(json_array,'$.id') as id,
+        JSON_EXTRACT_scalar(json_array,'$.name') as name,
+        JSON_EXTRACT_scalar(json_array,'$.previousId') as previous_id,
+        JSON_EXTRACT_scalar(json_array,'$.previousName') as previous_name,
+        JSON_EXTRACT_scalar(json_array,'$.previousType') as previous_type,
+        JSON_EXTRACT_scalar(json_array,'$.transitionType') as transition_type,
+        JSON_EXTRACT_scalar(json_array,'$.type') as type
+         from unnest(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0) as json_array
+            ) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,
+
+    array(
+      select as struct JSON_EXTRACT_scalar(json_array,'$.sessionId') as session_id,
+                      JSON_EXTRACT_scalar(json_array,'$.userId') as user_id,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.sessionIndex') as integer) as session_index,
+                      JSON_EXTRACT_scalar(json_array,'$.firstEventId') as first_event_id,
+                      JSON_EXTRACT_scalar(json_array,'$.previousSessionId') as previous_session_id,
+                      JSON_EXTRACT_scalar(json_array,'$.eventIndex') as event_index,
+                      JSON_EXTRACT_scalar(json_array,'$.storageMechanism') as storage_mechanism,
+                      JSON_EXTRACT_scalar(json_array,'$.firstEventTimestamp') as first_event_timestamp
+      from unnest(contexts_com_snowplowanalytics_snowplow_client_session_1_0_2) as json_array
+      ) as contexts_com_snowplowanalytics_snowplow_client_session_1_0_2,
+
+    array(
+      select as struct JSON_EXTRACT_scalar(json_array,'$.version') as version,
+                      JSON_EXTRACT_scalar(json_array,'$.build') as build
+      from unnest(contexts_com_snowplowanalytics_mobile_application_1_0_0) as json_array
+    ) as contexts_com_snowplowanalytics_mobile_application_1_0_0,
+
+    array(
+      select as struct
+        JSON_EXTRACT_scalar(json_array,'$.deviceManufacturer') as device_manufacturer,
+        JSON_EXTRACT_scalar(json_array,'$.deviceModel') as device_model,
+        JSON_EXTRACT_scalar(json_array,'$.osType') as os_type,
+        JSON_EXTRACT_scalar(json_array,'$.osVersion') as os_version,
+        JSON_EXTRACT_scalar(json_array,'$.androidIdfa') as android_idfa,
+        JSON_EXTRACT_scalar(json_array,'$.appleIdfa') as apple_idfa,
+        JSON_EXTRACT_scalar(json_array,'$.appleIdfv') as apple_idfv,
+        JSON_EXTRACT_scalar(json_array,'$.carrier') as carrier,
+        JSON_EXTRACT_scalar(json_array,'$.openIdfa') as open_idfa,
+        JSON_EXTRACT_scalar(json_array,'$.networkTechnology') as network_technology,
+        JSON_EXTRACT_scalar(json_array,'$.networkType') as network_type,
+        cast(JSON_EXTRACT_scalar(json_array,'$.physicalMemory') as integer) as physical_memory,
+        cast(JSON_EXTRACT_scalar(json_array,'$.systemAvailableMemory') as integer) as system_available_memory,
+        cast(JSON_EXTRACT_scalar(json_array,'$.appAvailableMemory') as integer) as app_available_memory,
+        cast(JSON_EXTRACT_scalar(json_array,'$.batteryLevel') as integer) as battery_level,
+        JSON_EXTRACT_scalar(json_array,'$.batteryState') as battery_state,
+        cast(JSON_EXTRACT_scalar(json_array,'$.availableStorage') as integer) as available_storage,
+        cast(JSON_EXTRACT_scalar(json_array,'$.totalStorage') as integer) as total_storage,
+        cast(JSON_EXTRACT_scalar(json_array,'$.lowPowerMode') as boolean) as low_power_mode,
+        cast(JSON_EXTRACT_scalar(json_array,'$.isPortrait') as boolean) as is_portrait,
+        JSON_EXTRACT_scalar(json_array,'$.resolution') as resolution,
+        cast(JSON_EXTRACT_scalar(json_array,'$.scale') as integer) as scale,
+        JSON_EXTRACT_scalar(json_array,'$.language') as language,
+        JSON_EXTRACT_scalar(json_array,'$.appSetId') as app_set_id,
+        JSON_EXTRACT_scalar(json_array,'$.appSetIdScope') as app_set_id_scope
+
+      from unnest(contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_3) as json_array
+      ) as contexts_com_snowplowanalytics_snowplow_mobile_context_1_0_3,
+
+    array(
+      select as struct JSON_EXTRACT_scalar(json_array,'$.id') as id,
+                      JSON_EXTRACT_scalar(json_array,'$.name') as name,
+                      JSON_EXTRACT_scalar(json_array,'$.activity') as activity,
+                      JSON_EXTRACT_scalar(json_array,'$.fragment') as fragment,
+                      JSON_EXTRACT_scalar(json_array,'$.topViewController') as top_view_controller,
+                      JSON_EXTRACT_scalar(json_array,'$.type') as type,
+                      JSON_EXTRACT_scalar(json_array,'$.viewController') as view_controller
+      from unnest(contexts_com_snowplowanalytics_mobile_screen_1_0_0) as json_array
+      ) as contexts_com_snowplowanalytics_mobile_screen_1_0_0,
+
+    array(
+      select as struct cast(JSON_EXTRACT_scalar(json_array,'$.foreground_sec') as FLOAT64) as foreground_sec,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.background_sec') as FLOAT64) as background_sec,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.last_item_index') as integer) as last_item_index,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.items_count') as integer) as items_count,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.min_x_offset') as integer) as min_x_offset,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.max_x_offset') as integer) as max_x_offset,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.min_y_offset') as integer) as min_y_offset,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.max_y_offset') as integer) as max_y_offset,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.content_width') as integer) as content_width,
+                      cast(JSON_EXTRACT_scalar(json_array,'$.content_height') as integer) as content_height
+      from unnest(contexts_com_snowplowanalytics_mobile_screen_summary_1_0_0) as json_array
+    ) as contexts_com_snowplowanalytics_mobile_screen_summary_1_0_0
 
   from prep
 

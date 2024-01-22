@@ -574,4 +574,30 @@ sources:
             description: '{{ doc("col_url") }}'
           - name: referrer
             description: '{{ doc("col_referrer") }}'
-
+      - name: contexts_com_snowplowanalytics_mobile_screen_summary_1
+        description: '{{ doc("table_deep_link_context") }}'
+        columns:
+          - name: root_id
+            description: '{{ doc("col_root_id") }}'
+          - name: root_tstamp
+            description: '{{ doc("col_root_tstamp") }}'
+          - name: foreground_sec
+            description: '{{ doc("col_foreground_sec") }}'
+          - name: background_sec
+            description: '{{ doc("col_background_sec") }}'
+          - name: last_item_index
+            description: '{{ doc("col_last_item_index") }}'
+          - name: items_count
+            description: '{{ doc("col_items_count") }}'
+          - name: min_x_offset
+            description: '{{ doc("col_min_x_offset") }}'
+          - name: max_x_offset
+            description: '{{ doc("col_max_x_offset") }}'
+          - name: min_y_offset
+            description: '{{ doc("col_min_y_offset") }}'
+          - name: max_y_offset
+            description: '{{ doc("col_max_y_offset") }}'
+          - name: content_width
+            description: '{{ doc("col_content_width") }}'
+          - name: content_height
+            description: '{{ doc("col_content_height") }}'

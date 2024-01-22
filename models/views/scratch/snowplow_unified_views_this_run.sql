@@ -115,13 +115,21 @@ with prep as (
 
     , coalesce(t.end_tstamp, p.derived_tstamp) as end_tstamp -- only page views with pings will have a row in table t
 
-    {% if var('snowplow__enable_web') %}
+    {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
       , coalesce(t.engaged_time_in_s, 0) as engaged_time_in_s -- where there are no pings, engaged time is 0.
-      , {{ datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }} as absolute_time_in_s
+      , coalesce(
+        t.absolute_time_in_s,
+        {{ datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }}
+      ) as absolute_time_in_s
       , sd.hmax as horizontal_pixels_scrolled
       , sd.vmax as vertical_pixels_scrolled
       , sd.relative_hmax as horizontal_percentage_scrolled
       , sd.relative_vmax as vertical_percentage_scrolled
+    {% endif %}
+    {% if var('snowplow__enable_screen_summary_context', false) %}
+      , sd.last_list_item_index
+      , sd.list_items_count
+      , sd.list_items_percentage_scrolled
     {% endif %}
 
     , {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
@@ -203,13 +211,18 @@ select
     , pve.user_ipaddress
 
     -- engagement fields
-    {% if var('snowplow__enable_web') %}
+    {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
       , pve.engaged_time_in_s -- where there are no pings, engaged time is 0.
       , pve.absolute_time_in_s
       , pve.horizontal_pixels_scrolled
       , pve.vertical_pixels_scrolled
       , pve.horizontal_percentage_scrolled
       , pve.vertical_percentage_scrolled
+    {% endif %}
+    {% if var('snowplow__enable_screen_summary_context', false) %}
+      , pve.last_list_item_index
+      , pve.list_items_count
+      , pve.list_items_percentage_scrolled
     {% endif %}
 
     -- marketing fields

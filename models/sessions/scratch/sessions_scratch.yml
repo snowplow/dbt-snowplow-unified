@@ -39,7 +39,7 @@ models:
         tests:
           - not_null
       - name: engaged_time_in_s
-        description: The total time engaged by a user within a session
+        description: '{{ doc("col_session_engaged_time_in_s") }}'
         tests:
           - not_null
       - name: event_counts
@@ -53,7 +53,7 @@ models:
         tests:
           - not_null
       - name: absolute_time_in_s
-        description: The time in seconds between the `start_tstamp` and `end_tstamp`
+        description: '{{ doc("col_session_absolute_time_in_s") }}'
         tests:
           - not_null
       - name: first_page_title
@@ -242,4 +242,12 @@ models:
         description: '{{ doc("col_operating_system_name_version") }}'
       - name: operating_system_version
         description: '{{ doc("col_operating_system_version") }}'
+
+  - name: snowplow_unified_session_screen_summary_metrics
+    description: '{{ doc("table_session_screen_summary_metrics") }}'
+    tests:
+      - unique:
+          column_name: session_identifier
+          config:
+            tags: primary-key
 

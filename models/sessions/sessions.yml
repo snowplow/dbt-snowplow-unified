@@ -39,7 +39,7 @@ models:
         tests:
           - not_null
       - name: engaged_time_in_s
-        description: The total time engaged by a user within a session
+        description: '{{ doc("col_session_engaged_time_in_s") }}'
         tests:
           - not_null
       - name: event_counts
@@ -53,7 +53,7 @@ models:
         tests:
           - not_null
       - name: absolute_time_in_s
-        description: The time in seconds between the `start_tstamp` and `end_tstamp`
+        description: '{{ doc("col_session_absolute_time_in_s") }}'
         tests:
           - not_null
       - name: first_page_title
@@ -140,7 +140,6 @@ models:
       - name: geo_longitude
       - name: geo_timezone
       - name: user_ipaddress
-      - name: session_duration_s
       - name: screen_names_viewed
       - name: mkt_medium
       - name: mkt_source

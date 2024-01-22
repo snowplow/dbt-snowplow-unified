@@ -31,13 +31,14 @@ select
   , count(distinct session_identifier) as sessions
   , count(distinct {{ date_trunc('day', 'start_tstamp') }}) as active_days
 
-  {% if var('snowplow__enable_web') %}
+  {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
     , sum(engaged_time_in_s) as engaged_time_in_s
   {% endif %}
 
+  , sum(absolute_time_in_s) as absolute_time_in_s
+
   {% if var('snowplow__enable_mobile') %}
     , sum(screen_names_viewed) as screen_names_viewed
-    , sum(session_duration_s) as sessions_duration_s
   {% endif %}
 
   {% if var('snowplow__enable_app_errors') %}
