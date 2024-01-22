@@ -16,7 +16,7 @@ with prep as (
   select
     a.*,
     case when platform = 'web' then true else false end on_web_base,
-    case when platform = 'mob' then true else false end on_mobile_base,
+    case when platform <> 'web' then true else false end on_mobile_base,
     min(a.start_tstamp) over(partition by a.user_identifier) as user_start_tstamp,
     max(a.end_tstamp) over(partition by a.user_identifier) as user_end_tstamp
 

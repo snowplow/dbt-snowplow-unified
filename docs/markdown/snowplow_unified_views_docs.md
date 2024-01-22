@@ -23,3 +23,16 @@ This model calculates the time a visitor spent engaged on a given page view. Thi
 This model calculates the horizontal and vertical scroll depth of the visitor on a given page view. Such metrics are useful when assessing engagement on a page view.
 
 {% enddocs %}
+
+{% docs table_screen_summary_metrics %}
+
+This model calculates screen engagement statistics based on the screen summary context entity tracked on mobile apps.
+It contains metrics related to the screen time and scroll depth.
+
+{% enddocs %}
+
+{% docs table_session_screen_summary_metrics %}
+
+This model calculates screen time metrics per session based on the screen summary context entity tracked on mobile apps.
+
+{% enddocs %}

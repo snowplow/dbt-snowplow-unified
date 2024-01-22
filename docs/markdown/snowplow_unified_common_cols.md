@@ -416,10 +416,14 @@ The page’s character encoding e.g. , ‘UTF-8’
 
 {% docs col_doc_width %}
 The page’s width in pixels e.g. 1024
+
+On mobile, it is the content width reported in the `screen_summary` context.
 {% enddocs %}
 
 {% docs col_doc_height %}
 The page’s height in pixels e.g. 3000
+
+On mobile, it is the content height reported in the `screen_summary` context.
 {% enddocs %}
 
 {% docs col_tr_currency %}
@@ -788,10 +792,6 @@ First application version.
 Last application version.
 {% enddocs %}
 
-{% docs col_session_duration_s %}
-Total duration of a session in seconds.
-{% enddocs %}
-
 {% docs col_device_user_id %}
 Unique device user id.
 {% enddocs %}
@@ -814,10 +814,6 @@ Earliest timestamp for the user's activity, based on `derived_tstamp`.
 
 {% docs col_user_end_tstamp %}
 Latest timestamp for the user's activity, based on `derived_tstamp`.
-{% enddocs %}
-
-{% docs col_sessions_duration_s %}
-Total session duration for the specific user.
 {% enddocs %}
 
 {% docs col_active_days %}
@@ -1216,4 +1212,126 @@ Referrer URL, source of this deep-link.
 
 {% docs col_event_index_in_session %}
 A session index of the event.
+{% enddocs %}
+
+{% docs col_foreground_sec %}
+Time in seconds spent on the current screen while the app was in foreground.
+{% enddocs %}
+
+{% docs col_background_sec %}
+Time in seconds spent on the current screen while the app was in background
+{% enddocs %}
+
+{% docs col_last_item_index %}
+Index of the last viewed item in the list on the screen
+{% enddocs %}
+
+{% docs col_items_count %}
+Total number of items in the list on the screen
+{% enddocs %}
+
+{% docs col_min_x_offset %}
+Minimum horizontal scroll offset on the scroll view in pixels
+{% enddocs %}
+
+{% docs col_max_x_offset %}
+Maximum horizontal scroll offset on the scroll view in pixels
+{% enddocs %}
+
+{% docs col_min_y_offset %}
+Minimum vertical scroll offset on the scroll view in pixels
+{% enddocs %}
+
+{% docs col_max_y_offset %}
+Maximum vertical scroll offset on the scroll view in pixels
+{% enddocs %}
+
+{% docs col_content_width %}
+Width of the scroll view in pixels
+{% enddocs %}
+
+{% docs col_content_height %}
+Height of the scroll view in pixels
+{% enddocs %}
+
+{% docs col_last_list_item_index %}
+Index of the last viewed item in the list on the screen
+
+This is calculated only for mobile apps based on the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_list_items_count %}
+Total number of items in the list on the screen
+
+This is calculated only for mobile apps based on the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_list_items_percentage_scrolled %}
+Percentage of the list on the screen that the user scrolled to.
+
+This is calculated only for mobile apps based on the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_engaged_time_in_s %}
+Time spent by the user on the page or screen.
+
+On Web, it is calculated using page pings.
+On mobile, it is calculated using information in the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_session_engaged_time_in_s %}
+The total time engaged by a user within a session.
+
+On Web, it is calculated using page pings.
+On mobile, it is calculated using information in the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_user_engaged_time_in_s %}
+The total engaged time in seconds by the user.
+
+On Web, it is calculated using page pings.
+On mobile, it is calculated using information in the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_absolute_time_in_s %}
+Total time in seconds of the page or screen view (including inactivity).
+
+On Web, it is the time between the `start_tstamp` and `end_tstamp` of the page view and the last page ping.
+On mobile, it is the time that the app was in foreground + background during the screen view (taken from the `screen_summary` context).
+{% enddocs %}
+
+{% docs col_session_absolute_time_in_s %}
+The time in seconds between the `start_tstamp` and `end_tstamp` of the first and last event in the session.
+{% enddocs %}
+
+{% docs col_user_absolute_time_in_s %}
+The time in seconds between the `start_tstamp` and `end_tstamp` of the first and last event of sessions of the user.
+{% enddocs %}
+
+{% docs col_horizontal_pixels_scrolled %}
+Distance the user scrolled horizontally in pixels.
+
+On Web, it is calculated based on the page ping events.
+On mobile, it is calculated using the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_vertical_pixels_scrolled %}
+Distance the user scrolled vertically in pixels.
+
+On Web, it is calculated based on the page ping events.
+On mobile, it is calculated using the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_horizontal_percentage_scrolled %}
+Percentage of page scrolled horizontally.
+
+On Web, it is calculated based on the page ping events.
+On mobile, it is calculated using the `screen_summary` context.
+{% enddocs %}
+
+{% docs col_vertical_percentage_scrolled %}
+Percentage of page scrolled vertically.
+
+On Web, it is calculated based on the page ping events.
+On mobile, it is calculated using the `screen_summary` context.
 {% enddocs %}

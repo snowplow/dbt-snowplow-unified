@@ -126,14 +126,6 @@ SELECT
     ,absolute_time_in_s
 {% endif %}
 
-  -- hard-coding due to different rounding in Bigquery
-{% if target.type == 'bigquery' -%}
-  ,case when session_identifier in ('067bcc8ea082fcaf940893b64943edc6b718f0dd1bc1bd5d054a507c64048318', '79831faefff0edc56d0d93ccf192b5bb58c07bec8dfff185f5cc4b104c2f0a08', '37b340c11359852988ae9b4f77f0c4b283cf2d4e87e2b5e5bceda36a185b81ff', '4d34b56a2a474e7c5d7f125c9a0ed11b7e526bf99910d6d31afaf6a8cc25d7ae', '540b6c4f7c15de9093e0f4f6cf45a062fba7606ce64558a0b1c5a34d8bb33af5', '6b379f3eea11eb4ead878125af9cb708f8a91c455d9405b0bc617fa78c2e4291', '6f19f1f4f43224f646d6fed6358c39152faa088f7ab2d90f0a791ea1210a4656','cde5b90f34224b1a94351fa90fcb61d41b26a52a1a8381603cf538a11edd2bb2', '7605342329f0b916a4c1bcd8bddad038988920fb24f74ca9e7ada5d96df32c60') then session_duration_s -1
-   else session_duration_s end as session_duration_s
-{% else %}
-  ,session_duration_s
-{% endif %}
-
     ,screen_names_viewed
     ,mkt_medium
     ,mkt_source

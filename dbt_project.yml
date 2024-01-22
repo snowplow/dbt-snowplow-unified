@@ -85,6 +85,7 @@ vars:
     snowplow__enable_application_context: false
     snowplow__enable_screen_context: false
     snowplow__enable_deep_link_context: false
+    snowplow__enable_screen_summary_context: false
     # add extra custom fields:
     snowplow__page_view_passthroughs: []
     snowplow__session_passthroughs: []
@@ -125,6 +126,7 @@ vars:
     snowplow__application_error_events: com_snowplowanalytics_snowplow_application_error_1
     snowplow__screen_view_events: com_snowplowanalytics_mobile_screen_view_1
     snowplow__deep_link_context: com_snowplowanalytics_mobile_deep_link_1
+    snowplow__screen_summary_context: com_snowplowanalytics_mobile_screen_summary_1
 
 # Completely or partially remove models from the manifest during run start.
 on-run-start:
