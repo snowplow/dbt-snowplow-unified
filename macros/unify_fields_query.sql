@@ -101,7 +101,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           when platform = 'app' then 'General App'
           when platform = 'tv' then 'Connected TV'
           when platform = 'cnsl' then 'Games Console'
-          when platform = 'iot' then 'Internet of Things' end as platform_name
+          when platform = 'iot' then 'Internet of Things'
+          when platform = 'headset' then 'AR/VR Headset' end as platform_name
 
     from {{ ref('snowplow_unified_base_events_this_run') }} as ev
 
