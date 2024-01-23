@@ -10,6 +10,7 @@ snowplow-unified 0.2.0 (2024-0X-XX)
 ## Fixes
 - Consider screen view ID from the screen view context (#14)
 - Fix link to incorrect FAQ in README
+- Remove test for not null screen ID and name in app errors table
 
 ## Upgrading
 Bump the snowplow-unified version in your `packages.yml` file.
