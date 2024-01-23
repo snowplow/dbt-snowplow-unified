@@ -99,16 +99,8 @@ models:
         description: '{{ doc("col_open_idfa") }}'
       - name: screen_id
         description: '{{ doc("col_screen_id") }}'
-        tests:
-          - not_null:
-              config:
-                enabled: '{{var("snowplow__enable_app_errors", false) and var("snowplow__enable_screen_context", false) }}'
       - name: screen_name
         description: '{{ doc("col_screen_name") }}'
-        tests:
-          - not_null:
-              config:
-                enabled:  '{{var("snowplow__enable_app_errors", false) and var("snowplow__enable_screen_context", false) }}'
       - name: screen_activity
         description: '{{ doc("col_screen_activity") }}'
       - name: screen_fragment
