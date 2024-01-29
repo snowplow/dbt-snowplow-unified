@@ -106,6 +106,24 @@ with prep as (
     {% endif %}
 )
 
+{% if var('snowplow__view_aggregations', []) %}
+, view_aggs as (
+  select 
+    view_id
+    , session_identifier
+    {% for agg in var('snowplow__view_aggregations') %}
+      , {{ snowplow_utils.parse_agg_dict(agg)}}
+    {% endfor %}
+    from {{ ref('snowplow_unified_events_this_run') }} as ev
+    where 1=1 
+    {% if var("snowplow__ua_bot_filter", true) %}
+      {{ filter_bots('ev') }}
+    {% endif %}
+    group by 1, 2
+  
+)
+{% endif %}
+
 , view_events as (
   select
 
@@ -350,4 +368,13 @@ select
       {%- endfor -%}
     {%- endif %}
 
+    {% if var('snowplow__view_aggregations', []) %}
+      {% for agg in var('snowplow__view_aggregations') %}
+        , a.{{ agg.get('alias') }}
+      {% endfor %}
+    {% endif %}
+
 from view_events pve
+{% if var('snowplow__view_aggregations', []) %}
+  left join view_aggs a on pve.session_identifier = a.session_identifier and pve.view_id = a.view_id
+{% endif %}

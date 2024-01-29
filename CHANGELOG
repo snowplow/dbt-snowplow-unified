@@ -1,3 +1,14 @@
+snowplow-unified 0.2.0 (2024-02-XX)
+---------------------------------------
+## Summary
+XXX
+
+## Features
+- Add new passthrough aggregations to the views, sessions, and users table, enabled using `snowplow__view/session/user_aggregations`
+
+## Upgrading
+Bump the snowplow-unified version in your `packages.yml` file.
+
 snowplow-unified 0.2.0 (2024-01-30)
 ---------------------------------------
 ## Summary

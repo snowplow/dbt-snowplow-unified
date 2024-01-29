@@ -221,5 +221,6 @@ SELECT
     ,event_id
     ,event_id2
 {% endif %}
+    ,agg_test
 
 FROM {{ ref('snowplow_unified_sessions_expected') }}

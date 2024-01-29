@@ -78,9 +78,10 @@ vars:
     snowplow__session_passthroughs: ['event_id', {'sql': 'event_id', 'alias': 'event_id2'}]
     snowplow__user_first_passthroughs: ['event_id', {'sql': "event_id2 || '-first'", 'alias': 'first_event_id2'}]
     snowplow__user_last_passthroughs: ['event_id', {'sql': "event_id2 || '-last'", 'alias': 'last_event_id2'}]
+    snowplow__view_aggregations: [{'type': 'count', 'field': "case when event_name = 'page_view' then 1 else null end", 'alias': 'agg_test'}]
+    snowplow__session_aggregations: [{'type': 'count', 'field': "case when event_name = 'page_view' then 1 else null end", 'alias': 'agg_test'}]
+    snowplow__user_aggregations: [{'type': 'sum', 'field': "agg_test", 'alias': 'agg_test'}]
     # add extra web fields:
-    snowplow__enable_iab: true
-    snowplow__enable_ua: true
     snowplow__enable_browser_context: true
     # add extra mobile fields:
     snowplow__enable_mobile_context: true
