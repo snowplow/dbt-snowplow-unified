@@ -127,5 +127,5 @@ select
   ,last_event_id
   ,last_event_id2
 {% endif %}
-
+  ,agg_test
 from {{ ref('snowplow_unified_users') }}

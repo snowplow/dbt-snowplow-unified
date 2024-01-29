@@ -46,10 +46,14 @@ select
     , sum(fatal_app_errors) as fatal_app_errors
   {% endif %}
 
+  {% if var('snowplow__user_aggregations', []) %}
+    {% for agg in var('snowplow__user_aggregations') %}
+      , {{ snowplow_utils.parse_agg_dict(agg)}}
+    {% endfor %}
+  {% endif %}
+
+  
+
 from {{ ref('snowplow_unified_users_sessions_this_run') }}
 
 group by 1,2,3
-
-
-
-
