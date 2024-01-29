@@ -216,6 +216,7 @@ screen__top_view_controller,
 screen__view_controller,
 useragent,
 v_collector,
-event_id2
+event_id2,
+agg_test
 
 from {{ ref('snowplow_unified_views') }}

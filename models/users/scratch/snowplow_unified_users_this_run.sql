@@ -179,6 +179,11 @@ select
     {%- endif -%}
     {% endfor -%}
   {%- endif %}
+  {% if var('snowplow__user_aggregations', []) %}
+    {% for agg in var('snowplow__user_aggregations') %}
+      , b.{{ agg.get('alias') }}
+    {% endfor %}
+  {% endif %}
 
 from {{ ref('snowplow_unified_users_aggs') }} as b
 

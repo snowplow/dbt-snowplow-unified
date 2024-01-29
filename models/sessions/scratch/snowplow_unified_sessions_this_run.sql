@@ -190,6 +190,12 @@ with session_firsts as (
         , count(distinct screen_view__name) as screen_names_viewed
       {% endif %}
 
+      {% if var('snowplow__session_aggregations', []) %}
+        {% for agg in var('snowplow__session_aggregations') %}
+          , {{ snowplow_utils.parse_agg_dict(agg)}}
+        {% endfor %}
+      {% endif %}
+
     from {{ ref('snowplow_unified_events_this_run') }}
     where 1 = 1
 
@@ -478,6 +484,12 @@ select
           , f.{{col}}
       {%- endfor -%}
   {%- endif %}
+
+  {% if var('snowplow__session_aggregations', []) %}
+    {% for agg in var('snowplow__session_aggregations') %}
+      , a.{{ agg.get('alias') }}
+    {% endfor %}
+  {% endif %}
 
 from session_firsts f
 
