@@ -68,26 +68,26 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {%- else -%}
-    , cast(null as {{ type_string() }}) as yauaa__device_class
-    , cast(null as {{ type_string() }}) as yauaa__agent_class
-    , cast(null as {{ type_string() }}) as yauaa__agent_name
-    , cast(null as {{ type_string() }}) as yauaa__agent_name_version
-    , cast(null as {{ type_string() }}) as yauaa__agent_name_version_major
-    , cast(null as {{ type_string() }}) as yauaa__agent_version
-    , cast(null as {{ type_string() }}) as yauaa__agent_version_major
-    , cast(null as {{ type_string() }}) as yauaa__device_brand
-    , cast(null as {{ type_string() }}) as yauaa__device_name
-    , cast(null as {{ type_string() }}) as yauaa__device_version
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_class
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_name
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_name_version
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_name_version_major
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_version
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_version_major
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_class
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_name
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_name_version
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_brand
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_version
   {%- endif -%}
 {% endmacro %}
 
@@ -114,26 +114,26 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_nl_basjes_yauaa_context_1[0].operating_system_name_version::STRING as yauaa__operating_system_name_version
     , contexts_nl_basjes_yauaa_context_1[0].operating_system_version::STRING as yauaa__operating_system_version
   {%- else -%}
-    , cast(null as {{ type_string() }}) as yauaa__device_class
-    , cast(null as {{ type_string() }}) as yauaa__agent_class
-    , cast(null as {{ type_string() }}) as yauaa__agent_name
-    , cast(null as {{ type_string() }}) as yauaa__agent_name_version
-    , cast(null as {{ type_string() }}) as yauaa__agent_name_version_major
-    , cast(null as {{ type_string() }}) as yauaa__agent_version
-    , cast(null as {{ type_string() }}) as yauaa__agent_version_major
-    , cast(null as {{ type_string() }}) as yauaa__device_brand
-    , cast(null as {{ type_string() }}) as yauaa__device_name
-    , cast(null as {{ type_string() }}) as yauaa__device_version
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_class
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_name
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_name_version
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_name_version_major
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_version
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_version_major
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_class
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_name
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_name_version
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_brand
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_version
   {%- endif -%}
 {% endmacro %}
 
@@ -160,25 +160,25 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_nl_basjes_yauaa_context_1[0]:operatingSystemNameVersion::VARCHAR as yauaa__operating_system_name_version
     , contexts_nl_basjes_yauaa_context_1[0]:operatingSystemVersion::VARCHAR as yauaa__operating_system_version
 {%- else -%}
-    , cast(null as {{ type_string() }}) as yauaa__device_class
-    , cast(null as {{ type_string() }}) as yauaa__agent_class
-    , cast(null as {{ type_string() }}) as yauaa__agent_name
-    , cast(null as {{ type_string() }}) as yauaa__agent_name_version
-    , cast(null as {{ type_string() }}) as yauaa__agent_name_version_major
-    , cast(null as {{ type_string() }}) as yauaa__agent_version
-    , cast(null as {{ type_string() }}) as yauaa__agent_version_major
-    , cast(null as {{ type_string() }}) as yauaa__device_brand
-    , cast(null as {{ type_string() }}) as yauaa__device_name
-    , cast(null as {{ type_string() }}) as yauaa__device_version
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_class
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_name
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_name_version
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_name_version_major
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_version
-    , cast(null as {{ type_string() }}) as yauaa__layout_engine_version_major
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_class
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_name
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_name_version
-    , cast(null as {{ type_string() }}) as yauaa__operating_system_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_brand
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_version
 {%- endif -%}
 {% endmacro %}

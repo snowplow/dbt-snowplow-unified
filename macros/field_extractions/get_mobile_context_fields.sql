@@ -23,17 +23,17 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__open_idfa
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__network_technology
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__network_type
-    , cast(null as {{ type_int() }}) as mobile__physical_memory
-    , cast(null as {{ type_int() }}) as mobile__system_available_memory
-    , cast(null as {{ type_int() }}) as mobile__app_available_memory
-    , cast(null as {{ type_int() }}) as mobile__battery_level
+    , cast(null as {{ dbt.type_int() }}) as mobile__physical_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__system_available_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__app_available_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__battery_level
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__battery_state
-    , cast(null as {{ type_boolean() }}) as mobile__low_power_mode
+    , cast(null as {{ dbt.type_boolean() }}) as mobile__low_power_mode
     , cast(null as bigint) as mobile__available_storage
     , cast(null as bigint) as mobile__total_storage
-    , cast(null as {{ type_boolean() }}) as mobile__is_portrait
+    , cast(null as {{ dbt.type_boolean() }}) as mobile__is_portrait
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__resolution
-    , cast(null as {{ type_float() }}) as mobile__scale
+    , cast(null as {{ dbt.type_float() }}) as mobile__scale
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__language
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__app_set_id
     , cast(null as {{ snowplow_utils.type_max_string() }}) as mobile__app_set_id_scope
@@ -78,31 +78,31 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
     {% else %}
-    , cast(null as {{ type_string() }}) as mobile__device_manufacturer
-    , cast(null as {{ type_string() }}) as mobile__device_model
-    , cast(null as {{ type_string() }}) as mobile__os_type
-    , cast(null as {{ type_string() }}) as mobile__os_version
-    , cast(null as {{ type_string() }}) as mobile__android_idfa
-    , cast(null as {{ type_string() }}) as mobile__apple_idfa
-    , cast(null as {{ type_string() }}) as mobile__apple_idfv
-    , cast(null as {{ type_string() }}) as mobile__carrier
-    , cast(null as {{ type_string() }}) as mobile__open_idfa
-    , cast(null as {{ type_string() }}) as mobile__network_technology
-    , cast(null as {{ type_string() }}) as mobile__network_type
-    , cast(null as {{ type_int() }}) as mobile__physical_memory
-    , cast(null as {{ type_int() }}) as mobile__system_available_memory
-    , cast(null as {{ type_int() }}) as mobile__app_available_memory
-    , cast(null as {{ type_int() }}) as mobile__battery_level
-    , cast(null as {{ type_string() }}) as mobile__battery_state
-    , cast(null as {{ type_boolean() }}) as mobile__low_power_mode
-    , cast(null as {{ type_int() }}) as mobile__available_storage
-    , cast(null as {{ type_int() }}) as mobile__total_storage
-    , cast(null as {{ type_boolean() }}) as mobile__is_portrait
-    , cast(null as {{ type_string() }}) as mobile__resolution
-    , cast(null as {{ type_float() }}) as mobile__scale
-    , cast(null as {{ type_string() }}) as mobile__language
-    , cast(null as {{ type_string() }}) as mobile__app_set_id
-    , cast(null as {{ type_string() }}) as mobile__app_set_id_scope
+    , cast(null as {{ dbt.type_string() }}) as mobile__device_manufacturer
+    , cast(null as {{ dbt.type_string() }}) as mobile__device_model
+    , cast(null as {{ dbt.type_string() }}) as mobile__os_type
+    , cast(null as {{ dbt.type_string() }}) as mobile__os_version
+    , cast(null as {{ dbt.type_string() }}) as mobile__android_idfa
+    , cast(null as {{ dbt.type_string() }}) as mobile__apple_idfa
+    , cast(null as {{ dbt.type_string() }}) as mobile__apple_idfv
+    , cast(null as {{ dbt.type_string() }}) as mobile__carrier
+    , cast(null as {{ dbt.type_string() }}) as mobile__open_idfa
+    , cast(null as {{ dbt.type_string() }}) as mobile__network_technology
+    , cast(null as {{ dbt.type_string() }}) as mobile__network_type
+    , cast(null as {{ dbt.type_int() }}) as mobile__physical_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__system_available_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__app_available_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__battery_level
+    , cast(null as {{ dbt.type_string() }}) as mobile__battery_state
+    , cast(null as {{ dbt.type_boolean() }}) as mobile__low_power_mode
+    , cast(null as {{ dbt.type_int() }}) as mobile__available_storage
+    , cast(null as {{ dbt.type_int() }}) as mobile__total_storage
+    , cast(null as {{ dbt.type_boolean() }}) as mobile__is_portrait
+    , cast(null as {{ dbt.type_string() }}) as mobile__resolution
+    , cast(null as {{ dbt.type_float() }}) as mobile__scale
+    , cast(null as {{ dbt.type_string() }}) as mobile__language
+    , cast(null as {{ dbt.type_string() }}) as mobile__app_set_id
+    , cast(null as {{ dbt.type_string() }}) as mobile__app_set_id_scope
   {% endif %}
 {% endmacro %}
 
@@ -134,31 +134,31 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_set_id::STRING AS mobile__app_set_id
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_set_id_scope::STRING AS mobile__app_set_id_scope
   {% else %}
-    , cast(null as {{ type_string() }}) as mobile__device_manufacturer
-    , cast(null as {{ type_string() }}) as mobile__device_model
-    , cast(null as {{ type_string() }}) as mobile__os_type
-    , cast(null as {{ type_string() }}) as mobile__os_version
-    , cast(null as {{ type_string() }}) as mobile__android_idfa
-    , cast(null as {{ type_string() }}) as mobile__apple_idfa
-    , cast(null as {{ type_string() }}) as mobile__apple_idfv
-    , cast(null as {{ type_string() }}) as mobile__carrier
-    , cast(null as {{ type_string() }}) as mobile__open_idfa
-    , cast(null as {{ type_string() }}) as mobile__network_technology
-    , cast(null as {{ type_string() }}) as mobile__network_type
-    , cast(null as {{ type_int() }}) as mobile__physical_memory
-    , cast(null as {{ type_int() }}) as mobile__system_available_memory
-    , cast(null as {{ type_int() }}) as mobile__app_available_memory
-    , cast(null as {{ type_int() }}) as mobile__battery_level
-    , cast(null as {{ type_string() }}) as mobile__battery_state
-    , cast(null as {{ type_boolean() }}) as mobile__low_power_mode
+    , cast(null as {{ dbt.type_string() }}) as mobile__device_manufacturer
+    , cast(null as {{ dbt.type_string() }}) as mobile__device_model
+    , cast(null as {{ dbt.type_string() }}) as mobile__os_type
+    , cast(null as {{ dbt.type_string() }}) as mobile__os_version
+    , cast(null as {{ dbt.type_string() }}) as mobile__android_idfa
+    , cast(null as {{ dbt.type_string() }}) as mobile__apple_idfa
+    , cast(null as {{ dbt.type_string() }}) as mobile__apple_idfv
+    , cast(null as {{ dbt.type_string() }}) as mobile__carrier
+    , cast(null as {{ dbt.type_string() }}) as mobile__open_idfa
+    , cast(null as {{ dbt.type_string() }}) as mobile__network_technology
+    , cast(null as {{ dbt.type_string() }}) as mobile__network_type
+    , cast(null as {{ dbt.type_int() }}) as mobile__physical_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__system_available_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__app_available_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__battery_level
+    , cast(null as {{ dbt.type_string() }}) as mobile__battery_state
+    , cast(null as {{ dbt.type_boolean() }}) as mobile__low_power_mode
     , cast(null as bigint) as mobile__available_storage
     , cast(null as bigint) as mobile__total_storage
-    , cast(null as {{ type_boolean() }}) as mobile__is_portrait
-    , cast(null as {{ type_string() }}) as mobile__resolution
-    , cast(null as {{ type_float() }}) as mobile__scale
-    , cast(null as {{ type_string() }}) as mobile__language
-    , cast(null as {{ type_string() }}) as mobile__app_set_id
-    , cast(null as {{ type_string() }}) as mobile__app_set_id_scope
+    , cast(null as {{ dbt.type_boolean() }}) as mobile__is_portrait
+    , cast(null as {{ dbt.type_string() }}) as mobile__resolution
+    , cast(null as {{ dbt.type_float() }}) as mobile__scale
+    , cast(null as {{ dbt.type_string() }}) as mobile__language
+    , cast(null as {{ dbt.type_string() }}) as mobile__app_set_id
+    , cast(null as {{ dbt.type_string() }}) as mobile__app_set_id_scope
   {% endif %}
 {% endmacro %}
 
@@ -190,30 +190,30 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:appSetId::varchar AS mobile__app_set_id
     , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]:appSetIdScope::varchar AS mobile__app_set_id_scope
   {% else %}
-    , cast(null as {{ type_string() }}) as mobile__device_manufacturer
-    , cast(null as {{ type_string() }}) as mobile__device_model
-    , cast(null as {{ type_string() }}) as mobile__os_type
-    , cast(null as {{ type_string() }}) as mobile__os_version
-    , cast(null as {{ type_string() }}) as mobile__android_idfa
-    , cast(null as {{ type_string() }}) as mobile__apple_idfa
-    , cast(null as {{ type_string() }}) as mobile__apple_idfv
-    , cast(null as {{ type_string() }}) as mobile__carrier
-    , cast(null as {{ type_string() }}) as mobile__open_idfa
-    , cast(null as {{ type_string() }}) as mobile__network_technology
-    , cast(null as {{ type_string() }}) as mobile__network_type
-    , cast(null as {{ type_int() }}) as mobile__physical_memory
-    , cast(null as {{ type_int() }}) as mobile__system_available_memory
-    , cast(null as {{ type_int() }}) as mobile__app_available_memory
-    , cast(null as {{ type_int() }}) as mobile__battery_level
-    , cast(null as {{ type_string() }}) as mobile__battery_state
-    , cast(null as {{ type_boolean() }}) as mobile__low_power_mode
-    , cast(null as {{ type_int() }}) as mobile__available_storage
-    , cast(null as {{ type_int() }}) as mobile__total_storage
-    , cast(null as {{ type_boolean() }}) as mobile__is_portrait
-    , cast(null as {{ type_string() }}) as mobile__resolution
-    , cast(null as {{ type_float() }}) as mobile__scale
-    , cast(null as {{ type_string() }}) as mobile__language
-    , cast(null as {{ type_string() }}) as mobile__app_set_id
-    , cast(null as {{ type_string() }}) as mobile__app_set_id_scope
+    , cast(null as {{ dbt.type_string() }}) as mobile__device_manufacturer
+    , cast(null as {{ dbt.type_string() }}) as mobile__device_model
+    , cast(null as {{ dbt.type_string() }}) as mobile__os_type
+    , cast(null as {{ dbt.type_string() }}) as mobile__os_version
+    , cast(null as {{ dbt.type_string() }}) as mobile__android_idfa
+    , cast(null as {{ dbt.type_string() }}) as mobile__apple_idfa
+    , cast(null as {{ dbt.type_string() }}) as mobile__apple_idfv
+    , cast(null as {{ dbt.type_string() }}) as mobile__carrier
+    , cast(null as {{ dbt.type_string() }}) as mobile__open_idfa
+    , cast(null as {{ dbt.type_string() }}) as mobile__network_technology
+    , cast(null as {{ dbt.type_string() }}) as mobile__network_type
+    , cast(null as {{ dbt.type_int() }}) as mobile__physical_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__system_available_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__app_available_memory
+    , cast(null as {{ dbt.type_int() }}) as mobile__battery_level
+    , cast(null as {{ dbt.type_string() }}) as mobile__battery_state
+    , cast(null as {{ dbt.type_boolean() }}) as mobile__low_power_mode
+    , cast(null as {{ dbt.type_int() }}) as mobile__available_storage
+    , cast(null as {{ dbt.type_int() }}) as mobile__total_storage
+    , cast(null as {{ dbt.type_boolean() }}) as mobile__is_portrait
+    , cast(null as {{ dbt.type_string() }}) as mobile__resolution
+    , cast(null as {{ dbt.type_float() }}) as mobile__scale
+    , cast(null as {{ dbt.type_string() }}) as mobile__language
+    , cast(null as {{ dbt.type_string() }}) as mobile__app_set_id
+    , cast(null as {{ dbt.type_string() }}) as mobile__app_set_id_scope
   {% endif %}
 {% endmacro %}

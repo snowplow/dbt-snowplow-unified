@@ -73,7 +73,7 @@ with prep as (
     and not e.iab__spider_or_robot = True
   {% endif %}
 
-  {{ filter_bots() }}
+  {{ snowplow_unified.filter_bots() }}
 
 )
 

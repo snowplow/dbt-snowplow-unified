@@ -15,18 +15,18 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 with prep as (
   select
 
-    {{ platform_independent_fields('ev') }}
+    {{ snowplow_unified.platform_independent_fields('ev') }}
     , view_id
     , session_identifier
     , event_id
 
 
     {% if var('snowplow__enable_web') %}
-      {{ web_only_fields('ev') }}
-      , {{ content_group_query() }} as content_group
+      {{ snowplow_unified.web_only_fields('ev') }}
+      , {{ snowplow_unified.content_group_query() }} as content_group
       , coalesce(
       {% if var('snowplow__enable_browser_context') %}
-        cast(ev.browser__color_depth as {{ type_string() }}),
+        cast(ev.browser__color_depth as {{ dbt.type_string() }}),
       {% else %}
         ev.br_colordepth,
       {% endif %}
@@ -34,7 +34,7 @@ with prep as (
     {% endif %}
 
     {% if var('snowplow__enable_mobile') %}
-     {{ mobile_only_fields('ev') }}
+     {{ snowplow_unified.mobile_only_fields('ev') }}
     {% endif %}
 
     {% if var('snowplow__view_stitching') %}
@@ -45,31 +45,31 @@ with prep as (
     {% endif %}
 
     {% if var('snowplow__enable_iab') %}
-      {{ iab_context_fields('ev') }}
+      {{ snowplow_unified.iab_context_fields('ev') }}
     {% endif %}
 
     {% if var('snowplow__enable_yauaa') %}
-      {{ yauaa_context_fields('ev') }}
+      {{ snowplow_unified.yauaa_context_fields('ev') }}
     {% endif %}
 
     {% if var('snowplow__enable_ua') %}
-      {{ ua_context_fields('ev') }}
+      {{ snowplow_unified.ua_context_fields('ev') }}
     {% endif %}
 
     {% if var('snowplow__enable_application_context') %}
-      {{ app_context_fields('ev') }}
+      {{ snowplow_unified.app_context_fields('ev') }}
     {% endif %}
 
     {% if var('snowplow__enable_geolocation_context') %}
-      {{ geo_context_fields('ev') }}
+      {{ snowplow_unified.geo_context_fields('ev') }}
     {% endif %}
 
     {% if var('snowplow__enable_screen_context') %}
-      {{ screen_context_fields('ev') }}
+      {{ snowplow_unified.screen_context_fields('ev') }}
     {% endif %}
 
     {% if var('snowplow__enable_mobile_context') %}
-      {{ mobile_context_fields('ev')}}
+      {{ snowplow_unified.mobile_context_fields('ev')}}
     {% endif %}
 
     {% if target.type == 'postgres' %}
@@ -98,7 +98,7 @@ with prep as (
     and ev.view_id is not null
 
     {% if var("snowplow__ua_bot_filter", true) %}
-      {{ filter_bots('ev') }}
+      {{ snowplow_unified.filter_bots('ev') }}
     {% endif %}
 
     {% if target.type not in ['postgres'] %}
@@ -117,7 +117,7 @@ with prep as (
     from {{ ref('snowplow_unified_events_this_run') }} as ev
     where 1=1 
     {% if var("snowplow__ua_bot_filter", true) %}
-      {{ filter_bots('ev') }}
+      {{ snowplow_unified.filter_bots('ev') }}
     {% endif %}
     group by 1, 2
   
@@ -137,7 +137,7 @@ with prep as (
       , coalesce(t.engaged_time_in_s, 0) as engaged_time_in_s -- where there are no pings, engaged time is 0.
       , coalesce(
         t.absolute_time_in_s,
-        {{ datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }}
+        {{ dbt.datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }}
       ) as absolute_time_in_s
       , sd.hmax as horizontal_pixels_scrolled
       , sd.vmax as vertical_pixels_scrolled
@@ -202,7 +202,7 @@ select
     , pve.os_version
     , pve.os_type
     {% if var('snowplow__enable_mobile_context') %}
-      {{ mobile_context_fields('pve')}}
+      {{ snowplow_unified.mobile_context_fields('pve')}}
     {% endif %}
     {% if var('snowplow__enable_web') %}
       , pve.os_timezone

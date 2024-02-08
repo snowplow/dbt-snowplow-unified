@@ -31,7 +31,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 ,SUM(CASE WHEN {{ when_condition }} THEN coalesce({{ then_condition }}, {{ conv_object.get('default_value', 0) }}) ELSE 0 END) AS cv_{{ conv_object['name'] }}_total
 {%- endif %}
 ,MIN(CASE WHEN {{ when_condition }} THEN {{ tstamp_field }} ELSE null END) AS cv_{{ conv_object['name'] }}_first_conversion
-,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
+,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ dbt.type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
 {%- else -%}
 ,coalesce(cv_{{ conv_object['name'] }}_volume, 0) as cv_{{ conv_object['name'] }}_volume
 {%- if conv_object.get('list_events', false) %}
@@ -63,7 +63,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 ,SUM(CASE WHEN {{ when_condition }} THEN coalesce({{ then_condition }}, {{ conv_object.get('default_value', 0) }}) ELSE 0 END) AS cv_{{ conv_object['name'] }}_total
 {%- endif -%}
 ,MIN(CASE WHEN {{ when_condition }} THEN {{ tstamp_field }} ELSE null END) AS cv_{{ conv_object['name'] }}_first_conversion
-,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
+,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ dbt.type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
 {%- else -%}
 ,coalesce(cv_{{ conv_object['name'] }}_volume, 0) as cv_{{ conv_object['name'] }}_volume
 {%- if conv_object.get('list_events', false) %}
@@ -97,7 +97,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 ,SUM(CASE WHEN {{ when_condition }} THEN coalesce({{ then_condition }}, {{ conv_object.get('default_value', 0) }}) ELSE 0 END) AS cv_{{ conv_object['name'] }}_total
 {%- endif -%}
 ,MIN(CASE WHEN {{ when_condition }} THEN {{ tstamp_field }} ELSE null END) AS cv_{{ conv_object['name'] }}_first_conversion
-,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
+,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ dbt.type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
 {%- else -%}
 ,coalesce(cv_{{ conv_object['name'] }}_volume, 0) as cv_{{ conv_object['name'] }}_volume
 {%- if conv_object.get('list_events', false) %}
@@ -128,7 +128,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 ,SUM(CASE WHEN {{ when_condition }} THEN coalesce({{ then_condition }}, {{ conv_object.get('default_value', 0) }}) ELSE 0 END) AS cv_{{ conv_object['name'] }}_total
 {%- endif -%}
 ,MIN(CASE WHEN {{ when_condition }} THEN {{ tstamp_field }} ELSE null END) AS cv_{{ conv_object['name'] }}_first_conversion
-,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
+,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ dbt.type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
 {%- else -%}
 ,coalesce(cv_{{ conv_object['name'] }}_volume, 0) as cv_{{ conv_object['name'] }}_volume
 {%- if conv_object.get('list_events', false) %}
@@ -160,7 +160,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 ,SUM(CASE WHEN {{ when_condition }} THEN coalesce({{ then_condition }}, {{ conv_object.get('default_value', 0) }}) ELSE 0 END) AS cv_{{ conv_object['name'] }}_total
 {%- endif -%}
 ,MIN(CASE WHEN {{ when_condition }} THEN {{ tstamp_field }} ELSE null END) AS cv_{{ conv_object['name'] }}_first_conversion
-,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
+,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS {{ dbt.type_boolean() }}) AS cv_{{ conv_object['name'] }}_converted
 {%- else -%}
 ,coalesce(cv_{{ conv_object['name'] }}_volume, 0) as cv_{{ conv_object['name'] }}_volume
 {%- if conv_object.get('list_events', false) %}

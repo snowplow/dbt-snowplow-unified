@@ -25,7 +25,7 @@ select
   ev.session_identifier,
   max(ev.derived_tstamp) as end_tstamp,
   ({{ heartbeat_length }} * ({{ n_unique_pings }} - 1)) + {{ min_visit_length }} as engaged_time_in_s,
-  cast(null as {{ type_float() }}) as absolute_time_in_s
+  cast(null as {{ dbt.type_float() }}) as absolute_time_in_s
 
 from {{ ref('snowplow_unified_events_this_run') }} as ev
 

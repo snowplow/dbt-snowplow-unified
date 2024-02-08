@@ -26,7 +26,7 @@ with prep as (
 )
 
 select *,
-  cast(max(cast(on_web_base as {{ type_int() }}))  over(partition by user_identifier) as {{ type_boolean() }}) as on_web,
-  cast(max(cast(on_mobile_base as {{ type_int() }})) over(partition by user_identifier) as {{ type_boolean() }}) as on_mobile
+  cast(max(cast(on_web_base as {{ dbt.type_int() }}))  over(partition by user_identifier) as {{ dbt.type_boolean() }}) as on_web,
+  cast(max(cast(on_mobile_base as {{ dbt.type_int() }})) over(partition by user_identifier) as {{ dbt.type_boolean() }}) as on_mobile
 
 from prep

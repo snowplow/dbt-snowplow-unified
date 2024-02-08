@@ -12,13 +12,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro postgres__get_geo_context_fields() %}
   {% if var('snowplow__enable_geolocation_context', false) %}
   {% else %}
-    , cast(null as {{ type_float() }}) as geo__latitude
-    , cast(null as {{ type_float() }}) as geo__longitude
-    , cast(null as {{ type_float() }}) as geo__latitude_longitude_accuracy
-    , cast(null as {{ type_float() }}) as geo__altitude
-    , cast(null as {{ type_float() }}) as geo__altitude_accuracy
-    , cast(null as {{ type_float() }}) as geo__bearing
-    , cast(null as {{ type_float() }}) as geo__speed
+    , cast(null as {{ dbt.type_float() }}) as geo__latitude
+    , cast(null as {{ dbt.type_float() }}) as geo__longitude
+    , cast(null as {{ dbt.type_float() }}) as geo__latitude_longitude_accuracy
+    , cast(null as {{ dbt.type_float() }}) as geo__altitude
+    , cast(null as {{ dbt.type_float() }}) as geo__altitude_accuracy
+    , cast(null as {{ dbt.type_float() }}) as geo__bearing
+    , cast(null as {{ dbt.type_float() }}) as geo__speed
   {% endif %}
 {% endmacro %}
 
@@ -42,13 +42,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {% else %}
-    , cast(null as {{ type_float() }}) as geo__latitude
-    , cast(null as {{ type_float() }}) as geo__longitude
-    , cast(null as {{ type_float() }}) as geo__latitude_longitude_accuracy
-    , cast(null as {{ type_float() }}) as geo__altitude
-    , cast(null as {{ type_float() }}) as geo__altitude_accuracy
-    , cast(null as {{ type_float() }}) as geo__bearing
-    , cast(null as {{ type_float() }}) as geo__speed
+    , cast(null as {{ dbt.type_float() }}) as geo__latitude
+    , cast(null as {{ dbt.type_float() }}) as geo__longitude
+    , cast(null as {{ dbt.type_float() }}) as geo__latitude_longitude_accuracy
+    , cast(null as {{ dbt.type_float() }}) as geo__altitude
+    , cast(null as {{ dbt.type_float() }}) as geo__altitude_accuracy
+    , cast(null as {{ dbt.type_float() }}) as geo__bearing
+    , cast(null as {{ dbt.type_float() }}) as geo__speed
   {% endif %}
 {% endmacro %}
 
@@ -82,12 +82,12 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:bearing::float AS geo__bearing
     , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:speed::float AS geo__speed
   {% else %}
-    , cast(null as {{ type_float() }}) as geo__latitude
-    , cast(null as {{ type_float() }}) as geo__longitude
-    , cast(null as {{ type_float() }}) as geo__latitude_longitude_accuracy
-    , cast(null as {{ type_float() }}) as geo__altitude
-    , cast(null as {{ type_float() }}) as geo__altitude_accuracy
-    , cast(null as {{ type_float() }}) as geo__bearing
-    , cast(null as {{ type_float() }}) as geo__speed
+    , cast(null as {{ dbt.type_float() }}) as geo__latitude
+    , cast(null as {{ dbt.type_float() }}) as geo__longitude
+    , cast(null as {{ dbt.type_float() }}) as geo__latitude_longitude_accuracy
+    , cast(null as {{ dbt.type_float() }}) as geo__altitude
+    , cast(null as {{ dbt.type_float() }}) as geo__altitude_accuracy
+    , cast(null as {{ dbt.type_float() }}) as geo__bearing
+    , cast(null as {{ dbt.type_float() }}) as geo__speed
   {% endif %}
 {% endmacro %}

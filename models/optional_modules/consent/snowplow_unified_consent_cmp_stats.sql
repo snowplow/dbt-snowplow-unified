@@ -135,7 +135,7 @@ select
   e.cmp_tstamp,
   f.first_consent_event_tstamp,
   f.event_type as first_consent_event_type,
-  {{ datediff('e.cmp_tstamp', 'f.first_consent_event_tstamp', 'second') }} as cmp_interaction_time
+  {{ dbt.datediff('e.cmp_tstamp', 'f.first_consent_event_tstamp', 'second') }} as cmp_interaction_time
 
 from cmp_events e
 

@@ -13,11 +13,11 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   {% if var('snowplow__enable_mobile', false) %}
   {% else %}
     , cast(null as {{ snowplow_utils.type_max_string() }}) as session__session_id
-    , cast(null as {{ type_numeric() }}) as session__session_index
+    , cast(null as {{ dbt.type_numeric() }}) as session__session_index
     , cast(null as {{ snowplow_utils.type_max_string() }}) as session__previous_session_id
     , cast(null as {{ snowplow_utils.type_max_string() }}) as session__user_id
     , cast(null as {{ snowplow_utils.type_max_string() }}) as session__first_event_id
-    , cast(null as {{ type_numeric() }}) as session__event_index
+    , cast(null as {{ dbt.type_numeric() }}) as session__event_index
     , cast(null as {{ snowplow_utils.type_max_string() }}) as session__storage_mechanism
     , cast(null as {{ snowplow_utils.type_max_string() }}) as session__first_event_timestamp
   {% endif %}
@@ -41,14 +41,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
     {% else %}
-      , cast(null as {{ type_string() }}) as session__session_id
-      , cast(null as {{ type_numeric() }}) as session__session_index
-      , cast(null as {{ type_string() }}) as session__previous_session_id
-      , cast(null as {{ type_string() }}) as session__user_id
-      , cast(null as {{ type_string() }}) as session__first_event_id
-      , cast(null as {{ type_numeric() }}) as session__event_index
-      , cast(null as {{ type_string() }}) as session__storage_mechanism
-      , cast(null as {{ type_string() }}) as session__first_event_timestamp
+      , cast(null as {{ dbt.type_string() }}) as session__session_id
+      , cast(null as {{ dbt.type_numeric() }}) as session__session_index
+      , cast(null as {{ dbt.type_string() }}) as session__previous_session_id
+      , cast(null as {{ dbt.type_string() }}) as session__user_id
+      , cast(null as {{ dbt.type_string() }}) as session__first_event_id
+      , cast(null as {{ dbt.type_numeric() }}) as session__event_index
+      , cast(null as {{ dbt.type_string() }}) as session__storage_mechanism
+      , cast(null as {{ dbt.type_string() }}) as session__first_event_timestamp
   {% endif %}
 {% endmacro %}
 
@@ -63,14 +63,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_snowplow_client_session_1[0].storage_mechanism::STRING AS session__storage_mechanism
     , contexts_com_snowplowanalytics_snowplow_client_session_1[0].first_event_timestamp::STRING AS session__first_event_timestamp
   {% else %}
-    , cast(null as {{ type_string() }}) as session__session_id
-    , cast(null as {{ type_numeric() }}) as session__session_index
-    , cast(null as {{ type_string() }}) as session__previous_session_id
-    , cast(null as {{ type_string() }}) as session__user_id
-    , cast(null as {{ type_string() }}) as session__first_event_id
-    , cast(null as {{ type_numeric() }}) as session__event_index
-    , cast(null as {{ type_string() }}) as session__storage_mechanism
-    , cast(null as {{ type_string() }}) as session__first_event_timestamp
+    , cast(null as {{ dbt.type_string() }}) as session__session_id
+    , cast(null as {{ dbt.type_numeric() }}) as session__session_index
+    , cast(null as {{ dbt.type_string() }}) as session__previous_session_id
+    , cast(null as {{ dbt.type_string() }}) as session__user_id
+    , cast(null as {{ dbt.type_string() }}) as session__first_event_id
+    , cast(null as {{ dbt.type_numeric() }}) as session__event_index
+    , cast(null as {{ dbt.type_string() }}) as session__storage_mechanism
+    , cast(null as {{ dbt.type_string() }}) as session__first_event_timestamp
 {% endif %}
 {% endmacro %}
 
@@ -85,13 +85,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:storageMechanism::varchar(36) AS session__storage_mechanism
       , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:firstEventTimestamp::varchar(36) AS session__first_event_timestamp
     {% else %}
-      , cast(null as {{ type_string() }}) as session__session_id
-      , cast(null as {{ type_numeric() }}) as session__session_index
-      , cast(null as {{ type_string() }}) as session__previous_session_id
-      , cast(null as {{ type_string() }}) as session__user_id
-      , cast(null as {{ type_string() }}) as session__first_event_id
-      , cast(null as {{ type_numeric() }}) as session__event_index
-      , cast(null as {{ type_string() }}) as session__storage_mechanism
-      , cast(null as {{ type_string() }}) as session__first_event_timestamp
+      , cast(null as {{ dbt.type_string() }}) as session__session_id
+      , cast(null as {{ dbt.type_numeric() }}) as session__session_index
+      , cast(null as {{ dbt.type_string() }}) as session__previous_session_id
+      , cast(null as {{ dbt.type_string() }}) as session__user_id
+      , cast(null as {{ dbt.type_string() }}) as session__first_event_id
+      , cast(null as {{ dbt.type_numeric() }}) as session__event_index
+      , cast(null as {{ dbt.type_string() }}) as session__storage_mechanism
+      , cast(null as {{ dbt.type_string() }}) as session__first_event_timestamp
   {% endif %}
 {% endmacro %}

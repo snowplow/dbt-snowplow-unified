@@ -29,7 +29,7 @@ with prep as (
     e.load_tstamp,
     coalesce(e.geo_country, 'unknown_geo_country') as geo_country,
     coalesce(e.page_url, 'unknown_page_url') as page_url,
-    {{ core_web_vital_page_groups() }} as url_group,
+    {{ snowplow_unified.core_web_vital_page_groups() }} as url_group,
     e.page_title,
     e.useragent,
     coalesce(e.device_class, 'unknown_device_class') as device_class,

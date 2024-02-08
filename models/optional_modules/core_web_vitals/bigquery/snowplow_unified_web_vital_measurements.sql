@@ -30,7 +30,7 @@ with by_url_and_device as (
 
   from {{ ref('snowplow_unified_web_vitals') }}
 
-  where cast(derived_tstamp as date) >= {{ dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
+  where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
 )
 
 , overall as (
@@ -51,7 +51,7 @@ with by_url_and_device as (
 
   from {{ ref('snowplow_unified_web_vitals') }}
 
-  where cast(derived_tstamp as date) >= {{ dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
+  where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
 )
 
 , by_device as (
@@ -72,7 +72,7 @@ with by_url_and_device as (
 
   from {{ ref('snowplow_unified_web_vitals') }}
 
-  where cast(derived_tstamp as date) >= {{ dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
+  where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
 )
 
 , by_day as (
@@ -93,7 +93,7 @@ with by_url_and_device as (
 
   from {{ ref('snowplow_unified_web_vitals') }}
 
-  where cast(derived_tstamp as date) >= {{ dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
+  where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
 
 )
 
@@ -115,7 +115,7 @@ with by_url_and_device as (
 
   from {{ ref('snowplow_unified_web_vitals') }}
 
-  where cast(derived_tstamp as date) >= {{ dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
+  where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
 
 )
 
@@ -137,7 +137,7 @@ with by_url_and_device as (
 
   from {{ ref('snowplow_unified_web_vitals') }}
 
-  where cast(derived_tstamp as date) >= {{ dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
+  where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
 
 )
 
@@ -159,7 +159,7 @@ with by_url_and_device as (
 
   from {{ ref('snowplow_unified_web_vitals') }}
 
-  where cast(derived_tstamp as date) >= {{ dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
+  where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
 
 )
 
