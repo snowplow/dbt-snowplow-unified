@@ -67,6 +67,7 @@ SELECT
     ,os_timezone
     ,screen_resolution
     ,yauaa__device_class
+    ,yauaa__device_brand
     ,yauaa__device_version
     ,yauaa__operating_system_version
     ,yauaa__operating_system_class
@@ -181,6 +182,7 @@ SELECT
     ,yauaa__layout_engine_name_version_major
     ,yauaa__layout_engine_version
     ,yauaa__layout_engine_version_major
+    ,ua__os_family
     ,ua__device_family
     ,ua__os_version
     ,ua__os_major
