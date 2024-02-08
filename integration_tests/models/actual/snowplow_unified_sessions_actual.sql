@@ -160,6 +160,7 @@ select
 ,iab__spider_or_robot
 ,yauaa__device_name
 ,yauaa__agent_class
+,yauaa__device_brand
 ,yauaa__agent_name
 ,yauaa__agent_name_version
 ,yauaa__agent_name_version_major
@@ -172,6 +173,7 @@ select
 ,yauaa__layout_engine_version
 ,yauaa__layout_engine_version_major
 ,ua__device_family
+,ua__os_family
 ,ua__os_version
 ,ua__os_major
 ,ua__os_minor

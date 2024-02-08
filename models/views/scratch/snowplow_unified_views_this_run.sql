@@ -175,9 +175,6 @@ select
     , pve.session_identifier
     , pve.view_in_session_index
     , max(pve.view_in_session_index) over (partition by pve.session_identifier) as views_in_session
-    {% if var('snowplow__enable_mobile') %}
-      , pve.session__previous_session_id
-    {% endif %}
 
     -- user id fields
     , pve.user_id
@@ -204,18 +201,7 @@ select
     {% if var('snowplow__enable_mobile_context') %}
       {{ snowplow_unified.mobile_context_fields('pve')}}
     {% endif %}
-    {% if var('snowplow__enable_web') %}
-      , pve.os_timezone
-    {% endif %}
     , pve.screen_resolution
-    {% if var('snowplow__enable_yauaa') %}
-      , pve.yauaa__device_class
-      , pve.yauaa__device_version
-      , pve.yauaa__operating_system_version
-      , pve.yauaa__operating_system_class
-      , pve.yauaa__operating_system_name
-      , pve.yauaa__operating_system_name_version
-    {% endif %}
 
     -- geo fields
     , pve.geo_country
@@ -261,97 +247,37 @@ select
     , pve.refr_term
 
     {% if var('snowplow__enable_web') %}
-
-      , pve.page_title
-      , pve.content_group
-
-      , pve.page_urlscheme
-      , pve.page_urlhost
-      , pve.page_urlpath
-      , pve.page_urlquery
-      , pve.page_urlfragment
-
-      , pve.refr_urlscheme
-      , pve.refr_urlhost
-      , pve.refr_urlpath
-      , pve.refr_urlquery
-      , pve.refr_urlfragment
-
-
-      , pve.br_lang
-      , pve.br_viewwidth
-      , pve.br_viewheight
-      , pve.br_colordepth
-      , pve.br_renderengine
-
-      , pve.doc_width
-      , pve.doc_height
-
+      , br_colordepth
+      {{ snowplow_unified.web_only_fields('pve') }}
+      , content_group
     {% endif %}
 
     -- iab enrichment fields
     {% if var('snowplow__enable_iab') %}
-      , pve.iab__category
-      , pve.iab__primary_impact
-      , pve.iab__reason
-      , pve.iab__spider_or_robot
+      {{ snowplow_unified.iab_context_fields('pve') }}
     {% endif %}
 
     -- yauaa enrichment fields
     {% if var('snowplow__enable_yauaa') %}
-      , pve.yauaa__device_name
-      , pve.yauaa__agent_class
-      , pve.yauaa__agent_name
-      , pve.yauaa__agent_name_version
-      , pve.yauaa__agent_name_version_major
-      , pve.yauaa__agent_version
-      , pve.yauaa__agent_version_major
-      , pve.yauaa__layout_engine_class
-      , pve.yauaa__layout_engine_name
-      , pve.yauaa__layout_engine_name_version
-      , pve.yauaa__layout_engine_name_version_major
-      , pve.yauaa__layout_engine_version
-      , pve.yauaa__layout_engine_version_major
+      {{ snowplow_unified.yauaa_context_fields('pve') }}
     {% endif %}
 
     -- ua parser enrichment fields
     {% if var('snowplow__enable_ua') %}
-      , pve.ua__device_family
-      , pve.ua__os_version
-      , pve.ua__os_major
-      , pve.ua__os_minor
-      , pve.ua__os_patch
-      , pve.ua__os_patch_minor
-      , pve.ua__useragent_family
-      , pve.ua__useragent_major
-      , pve.ua__useragent_minor
-      , pve.ua__useragent_patch
-      , pve.ua__useragent_version
+      {{ snowplow_unified.ua_context_fields('pve') }}
     {% endif %}
 
     -- mobile only
     {% if var('snowplow__enable_mobile') %}
-      , pve.screen_view__name
-      , pve.screen_view__previous_id
-      , pve.screen_view__previous_name
-      , pve.screen_view__previous_type
-      , pve.screen_view__transition_type
-      , pve.screen_view__type
+      {{ snowplow_unified.mobile_only_fields('pve') }}
     {% endif %}
 
     {% if var('snowplow__enable_application_context') %}
-      , pve.app__build
-      , pve.app__version
+      {{ snowplow_unified.app_context_fields('pve') }}
     {% endif %}
 
     {% if var('snowplow__enable_geolocation_context') %}
-      , pve.geo__altitude
-      , pve.geo__altitude_accuracy
-      , pve.geo__bearing
-      , pve.geo__latitude
-      , pve.geo__latitude_longitude_accuracy
-      , pve.geo__longitude
-      , pve.geo__speed
+      {{ snowplow_unified.geo_context_fields('pve') }}
     {% endif %}
 
     {% if var('snowplow__enable_screen_context') %}
