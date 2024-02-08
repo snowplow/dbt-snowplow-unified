@@ -7,6 +7,9 @@ XXX
 - Add new passthrough aggregations to the views, sessions, and users table, enabled using `snowplow__view/session/user_aggregations`
 - Reorder and add some additional context fields to derived tables (non-breaking change)
 
+## Fixes
+- Fix a bug where if you ran the package in a period with no data, and had list all events enabled, the package would error rather than complete
+
 ## Under the hood
 - Prefix all macro calls with package name for easier customization
 - Use macros for grouped fields (e.g. contexts) where possible
