@@ -1,10 +1,15 @@
-snowplow-unified 0.2.0 (2024-02-XX)
+snowplow-unified 0.2.1 (2024-02-XX)
 ---------------------------------------
 ## Summary
 XXX
 
 ## Features
 - Add new passthrough aggregations to the views, sessions, and users table, enabled using `snowplow__view/session/user_aggregations`
+- Reorder and add some additional context fields to derived tables (non-breaking change)
+
+## Under the hood
+- Prefix all macro calls with package name for easier customization
+- Use macros for grouped fields (e.g. contexts) where possible
 
 ## Upgrading
 Bump the snowplow-unified version in your `packages.yml` file.
