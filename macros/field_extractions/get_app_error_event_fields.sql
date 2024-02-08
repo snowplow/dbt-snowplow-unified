@@ -16,10 +16,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__programming_language
     , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__class_name
     , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__exception_name
-    , cast(null as {{ type_boolean() }}) as app_error__is_fatal
-    , cast(null as {{ type_int() }}) as app_error__line_number
+    , cast(null as {{ dbt.type_boolean() }}) as app_error__is_fatal
+    , cast(null as {{ dbt.type_int() }}) as app_error__line_number
     , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__stack_trace
-    , cast(null as {{ type_int() }}) as app_error__thread_id
+    , cast(null as {{ dbt.type_int() }}) as app_error__thread_id
     , cast(null as {{ snowplow_utils.type_max_string() }}) as app_error__thread_name
   {% endif %}
 {% endmacro %}
@@ -46,15 +46,15 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {% else %}
-    , cast(null as {{ type_string() }}) as app_error__message
-    , cast(null as {{ type_string() }}) as app_error__programming_language
-    , cast(null as {{ type_string() }}) as app_error__class_name
-    , cast(null as {{ type_string() }}) as app_error__exception_name
-    , cast(null as {{ type_boolean() }}) as app_error__is_fatal
-    , cast(null as {{ type_int() }}) as app_error__line_number
-    , cast(null as {{ type_string() }}) as app_error__stack_trace
-    , cast(null as {{ type_int() }}) as app_error__thread_id
-    , cast(null as {{ type_string() }}) as app_error__thread_name
+    , cast(null as {{ dbt.type_string() }}) as app_error__message
+    , cast(null as {{ dbt.type_string() }}) as app_error__programming_language
+    , cast(null as {{ dbt.type_string() }}) as app_error__class_name
+    , cast(null as {{ dbt.type_string() }}) as app_error__exception_name
+    , cast(null as {{ dbt.type_boolean() }}) as app_error__is_fatal
+    , cast(null as {{ dbt.type_int() }}) as app_error__line_number
+    , cast(null as {{ dbt.type_string() }}) as app_error__stack_trace
+    , cast(null as {{ dbt.type_int() }}) as app_error__thread_id
+    , cast(null as {{ dbt.type_string() }}) as app_error__thread_name
   {% endif %}
 {% endmacro %}
 
@@ -70,15 +70,15 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , unstruct_event_com_snowplowanalytics_snowplow_application_error_1.thread_id::INT AS app_error__thread_id
     , unstruct_event_com_snowplowanalytics_snowplow_application_error_1.thread_name::STRING AS app_error__thread_name
   {% else %}
-    , cast(null as {{ type_string() }}) as app_error__message
-    , cast(null as {{ type_string() }}) as app_error__programming_language
-    , cast(null as {{ type_string() }}) as app_error__class_name
-    , cast(null as {{ type_string() }}) as app_error__exception_name
-    , cast(null as {{ type_boolean() }}) as app_error__is_fatal
-    , cast(null as {{ type_int() }}) as app_error__line_number
-    , cast(null as {{ type_string() }}) as app_error__stack_trace
-    , cast(null as {{ type_int() }}) as app_error__thread_id
-    , cast(null as {{ type_string() }}) as app_error__thread_name
+    , cast(null as {{ dbt.type_string() }}) as app_error__message
+    , cast(null as {{ dbt.type_string() }}) as app_error__programming_language
+    , cast(null as {{ dbt.type_string() }}) as app_error__class_name
+    , cast(null as {{ dbt.type_string() }}) as app_error__exception_name
+    , cast(null as {{ dbt.type_boolean() }}) as app_error__is_fatal
+    , cast(null as {{ dbt.type_int() }}) as app_error__line_number
+    , cast(null as {{ dbt.type_string() }}) as app_error__stack_trace
+    , cast(null as {{ dbt.type_int() }}) as app_error__thread_id
+    , cast(null as {{ dbt.type_string() }}) as app_error__thread_name
   {% endif %}
 {% endmacro %}
 
@@ -94,14 +94,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:threadId::INT AS app_error__thread_id
     , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:threadName::VARCHAR() AS app_error__thread_name
   {% else %}
-    , cast(null as {{ type_string() }}) as app_error__message
-    , cast(null as {{ type_string() }}) as app_error__programming_language
-    , cast(null as {{ type_string() }}) as app_error__class_name
-    , cast(null as {{ type_string() }}) as app_error__exception_name
-    , cast(null as {{ type_boolean() }}) as app_error__is_fatal
-    , cast(null as {{ type_int() }}) as app_error__line_number
-    , cast(null as {{ type_string() }}) as app_error__stack_trace
-    , cast(null as {{ type_int() }}) as app_error__thread_id
-    , cast(null as {{ type_string() }}) as app_error__thread_name
+    , cast(null as {{ dbt.type_string() }}) as app_error__message
+    , cast(null as {{ dbt.type_string() }}) as app_error__programming_language
+    , cast(null as {{ dbt.type_string() }}) as app_error__class_name
+    , cast(null as {{ dbt.type_string() }}) as app_error__exception_name
+    , cast(null as {{ dbt.type_boolean() }}) as app_error__is_fatal
+    , cast(null as {{ dbt.type_int() }}) as app_error__line_number
+    , cast(null as {{ dbt.type_string() }}) as app_error__stack_trace
+    , cast(null as {{ dbt.type_int() }}) as app_error__thread_id
+    , cast(null as {{ dbt.type_string() }}) as app_error__thread_name
   {% endif %}
 {% endmacro %}

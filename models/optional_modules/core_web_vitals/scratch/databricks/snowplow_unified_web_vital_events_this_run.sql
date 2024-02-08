@@ -78,7 +78,7 @@ with prep as (
                               array_index = 0)}} = True
   {% endif %}
 
-  {{ filter_bots() }}
+  {{ snowplow_unified.filter_bots() }}
 
 )
 

@@ -12,7 +12,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro postgres__get_cmp_visible_event_fields() %}
   {% if var('snowplow__enable_consent', false) %}
   {% else %}
-      , cast(null as {{ type_float() }}) as cmp__elapsed_time
+      , cast(null as {{ dbt.type_float() }}) as cmp__elapsed_time
   {% endif %}
 {% endmacro %}
 
@@ -30,7 +30,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
          relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {% else %}
-      , cast(null as {{ type_float() }}) as cmp__elapsed_time
+      , cast(null as {{ dbt.type_float() }}) as cmp__elapsed_time
   {% endif %}
 {% endmacro %}
 
@@ -39,7 +39,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       , unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1.elapsed_time::float as cmp__elapsed_time
 
   {% else %}
-      , cast(null as {{ type_float() }}) as cmp__elapsed_time
+      , cast(null as {{ dbt.type_float() }}) as cmp__elapsed_time
 
   {% endif %}
 {% endmacro %}
@@ -48,6 +48,6 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     {% if var('snowplow__enable_consent', false) %}
     , unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1:elapsedTime::float as cmp__elapsed_time
     {% else %}
-      , cast(null as {{ type_float() }}) as cmp__elapsed_time
+      , cast(null as {{ dbt.type_float() }}) as cmp__elapsed_time
     {% endif %}
 {% endmacro %}

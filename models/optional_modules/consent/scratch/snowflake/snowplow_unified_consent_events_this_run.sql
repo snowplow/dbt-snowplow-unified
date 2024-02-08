@@ -41,7 +41,7 @@ with prep as (
   and {{ snowplow_utils.is_run_with_new_events('snowplow_unified') }} --returns false if run doesn't contain new events.
 
   {% if var("snowplow__ua_bot_filter", false) %}
-      {{ filter_bots() }}
+      {{ snowplow_unified.filter_bots() }}
   {% endif %}
 
 )

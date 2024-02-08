@@ -18,7 +18,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as decimal(14,4)) as cwv__cls,
     , cast(null as decimal(14,4)) as cwv__inp,
     , cast(null as decimal(14,4)) as cwv__ttfb,
-    , cast(null as {{ type_string() }}) as cwv__navigation_type
+    , cast(null as {{ dbt.type_string() }}) as cwv__navigation_type
   {% endif %}
 {% endmacro %}
 
@@ -48,7 +48,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as decimal) as cwv__cls,
     , cast(null as decimal) as cwv__inp,
     , cast(null as decimal) as cwv__ttfb,
-    , cast(null as {{ type_string() }}) as cwv__navigation_type
+    , cast(null as {{ dbt.type_string() }}) as cwv__navigation_type
   {% endif %}
 {% endmacro %}
 
@@ -68,7 +68,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as decimal(14,4)) as cwv__cls,
     , cast(null as decimal(14,4)) as cwv__inp,
     , cast(null as decimal(14,4)) as cwv__ttfb,
-    , cast(null as {{ type_string() }}) as cwv__navigation_type
+    , cast(null as {{ dbt.type_string() }}) as cwv__navigation_type
   {% endif %}
 {% endmacro %}
 
@@ -88,6 +88,6 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as decimal(14,4)) as cwv__cls,
     , cast(null as decimal(14,4)) as cwv__inp,
     , cast(null as decimal(14,4)) as cwv__ttfb,
-    , cast(null as {{ type_string() }}) as cwv__navigation_type
+    , cast(null as {{ dbt.type_string() }}) as cwv__navigation_type
     {% endif %}
 {% endmacro %}

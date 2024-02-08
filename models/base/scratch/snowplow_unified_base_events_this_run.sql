@@ -105,30 +105,28 @@ with base_query as (
 select
   *
   -- extract commonly used contexts / sdes (prefixed)
-  {{ get_web_page_context_fields() }}
-  {{ get_iab_context_fields() }}
-  {{ get_ua_context_fields() }}
-  {{ get_yauaa_context_fields() }}
-  {{ get_browser_context_fields() }}
-  {{ get_screen_view_event_fields() }}
-  {{ get_session_context_fields() }}
-  {{ get_mobile_context_fields() }}
-  {{ get_geo_context_fields() }}
-  {{ get_app_context_fields() }}
-  {{ get_screen_context_fields() }}
-  {{ get_deep_link_context_fields() }}
-  {{ get_app_error_event_fields() }}
-  {{ get_screen_summary_context_fields() }}
+  {{ snowplow_unified.get_web_page_context_fields() }}
+  {{ snowplow_unified.get_iab_context_fields() }}
+  {{ snowplow_unified.get_ua_context_fields() }}
+  {{ snowplow_unified.get_yauaa_context_fields() }}
+  {{ snowplow_unified.get_browser_context_fields() }}
+  {{ snowplow_unified.get_screen_view_event_fields() }}
+  {{ snowplow_unified.get_session_context_fields() }}
+  {{ snowplow_unified.get_mobile_context_fields() }}
+  {{ snowplow_unified.get_geo_context_fields() }}
+  {{ snowplow_unified.get_app_context_fields() }}
+  {{ snowplow_unified.get_screen_context_fields() }}
+  {{ snowplow_unified.get_deep_link_context_fields() }}
+  {{ snowplow_unified.get_app_error_event_fields() }}
+  {{ snowplow_unified.get_screen_summary_context_fields() }}
 
 
 {% if var('snowplow__enable_consent', false) -%}
-  {{ get_consent_event_fields() }}
-  {{ get_cmp_visible_event_fields() }}
+  {{ snowplow_unified.get_consent_event_fields() }}
+  {{ snowplow_unified.get_cmp_visible_event_fields() }}
 {% endif -%}
 
 {% if var('snowplow__enable_cwv', false) -%}
-  {{ get_cwv_fields() }}
+  {{ snowplow_unified.get_cwv_fields() }}
 {% endif -%}
 from base_query
-
-

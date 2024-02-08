@@ -14,15 +14,15 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 with session_firsts as (
     select
-        {{ platform_independent_fields('ev') }}
+        {{ snowplow_unified.platform_independent_fields('ev') }}
         , session_identifier
 
         {% if var('snowplow__enable_web') %}
-          {{ web_only_fields('ev') }}
+          {{ snowplow_unified.web_only_fields('ev') }}
         {% endif %}
 
         {% if var('snowplow__enable_mobile') %}
-          {{ mobile_only_fields('ev') }}
+          {{ snowplow_unified.mobile_only_fields('ev') }}
         {% endif %}
 
         {% if var('snowplow__session_stitching') %}
@@ -33,23 +33,23 @@ with session_firsts as (
         {% endif %}
 
         {% if var('snowplow__enable_iab') %}
-          {{ iab_context_fields('ev') }}
+          {{ snowplow_unified.iab_context_fields('ev') }}
         {% endif %}
 
         {% if var('snowplow__enable_yauaa') %}
-          {{ yauaa_context_fields('ev') }}
+          {{ snowplow_unified.yauaa_context_fields('ev') }}
         {% endif %}
 
         {% if var('snowplow__enable_ua') %}
-          {{ ua_context_fields('ev') }}
+          {{ snowplow_unified.ua_context_fields('ev') }}
         {% endif %}
 
         {% if var('snowplow__enable_application_context') %}
-          {{ app_context_fields('ev') }}
+          {{ snowplow_unified.app_context_fields('ev') }}
         {% endif %}
 
         {% if var('snowplow__enable_geolocation_context') %}
-          {{ geo_context_fields('ev') }}
+          {{ snowplow_unified.geo_context_fields('ev') }}
         {% endif %}
 
         , g.name as geo_country_name
@@ -57,18 +57,18 @@ with session_firsts as (
         , l.name as br_lang_name
 
         {% if var('snowplow__enable_screen_context') %}
-          {{ screen_context_fields('ev') }}
+          {{ snowplow_unified.screen_context_fields('ev') }}
         {% endif %}
 
         {% if var('snowplow__enable_mobile_context') %}
-          {{ mobile_context_fields('ev')}}
+          {{ snowplow_unified.mobile_context_fields('ev')}}
         {% endif %}
 
         {% if target.type == 'postgres' %}
           , row_number() over (partition by ev.session_identifier order by ev.derived_tstamp, ev.dvce_created_tstamp, ev.event_id) as session_dedupe_index
         {% endif %}
 
-        , {{ mkt_source_platform_query() }} as mkt_source_platform
+        , {{ snowplow_unified.mkt_source_platform_query() }} as mkt_source_platform
 
         {%- if var('snowplow__session_passthroughs', []) -%}
             {%- set passthrough_names = [] -%}
@@ -95,7 +95,7 @@ with session_firsts as (
     and view_id is not null
 
     {% if var("snowplow__ua_bot_filter", true) %}
-      {{ filter_bots() }}
+      {{ snowplow_unified.filter_bots() }}
     {% endif %}
 
     {% if target.type not in ['postgres'] %}
@@ -146,7 +146,7 @@ with session_firsts as (
         event_name in ('page_view', 'screen_view')
         and view_id is not null
         {% if var("snowplow__ua_bot_filter", true) %}
-            {{ filter_bots() }}
+            {{ snowplow_unified.filter_bots() }}
         {% endif %}
 
     {% if target.type not in ['postgres'] %}
@@ -163,7 +163,7 @@ with session_firsts as (
       , count(distinct view_id) as views
 
       {%- if var('snowplow__list_event_counts', false) %}
-          , {{ event_counts_string_query() }} as event_counts_string
+          , {{ snowplow_unified.event_counts_string_query() }} as event_counts_string
       {%- endif %}
 
       {% if var('snowplow__enable_web') %}
@@ -200,7 +200,7 @@ with session_firsts as (
     where 1 = 1
 
     {% if var("snowplow__ua_bot_filter", true) %}
-        {{ filter_bots() }}
+        {{ snowplow_unified.filter_bots() }}
     {% endif %}
 
     group by session_identifier
@@ -245,7 +245,7 @@ with session_firsts as (
           from {{ ref('snowplow_unified_events_this_run') }}
           where 1 = 1
           {% if var("snowplow__ua_bot_filter", true) %}
-            {{ filter_bots() }}
+            {{ snowplow_unified.filter_bots() }}
           {% endif %}
         {% endif %}
         group by session_identifier
@@ -299,7 +299,7 @@ select
   {% endif %}
 
   {% if var('snowplow__enable_mobile_context') %}
-    {{ mobile_context_fields('f')}}
+    {{ snowplow_unified.mobile_context_fields('f')}}
   {% endif %}
 
   -- geo fields
@@ -324,10 +324,10 @@ select
   -- engagement fields
   , a.views
   {%- if var('snowplow__list_event_counts', false) %}
-    , {{ event_counts_query() }} as event_counts
+    , {{ snowplow_unified.event_counts_query() }} as event_counts
   {%- endif %}
   , a.total_events
-  , coalesce({{ engaged_session() }}, false) as is_engaged
+  , coalesce({{ snowplow_unified.engaged_session() }}, false) as is_engaged
   -- when the session starts with a ping we need to add the min visit length to get when the session actually started
 
   {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}

@@ -30,7 +30,7 @@ with by_views as (
 , by_sessions as (
   select
     session_identifier
-    , cast(round(sum(foreground_sec)) as {{ type_int() }}) as foreground_sec
+    , cast(round(sum(foreground_sec)) as {{ dbt.type_int() }}) as foreground_sec
 
   from by_views
 

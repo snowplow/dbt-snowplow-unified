@@ -35,7 +35,7 @@ with measurements as (
 
   from {{ ref('snowplow_unified_web_vitals') }}
 
-  where cast(derived_tstamp as date) >= {{ dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
+  where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
 
   group by grouping sets ((), (page_url, device_class), (device_class), (cast( {{ dbt.date_trunc('day', 'derived_tstamp') }} as {{ dbt.type_string() }})), (cast( {{ dbt.date_trunc('day', 'derived_tstamp') }} as {{ dbt.type_string() }}), device_class), (geo_country), (geo_country, device_class))
 

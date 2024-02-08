@@ -36,9 +36,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {%- else -%}
-    , cast(null as {{ type_string() }}) as iab__category
-    , cast(null as {{ type_string() }}) as iab__primary_impact
-    , cast(null as {{ type_string() }}) as iab__reason
+    , cast(null as {{ dbt.type_string() }}) as iab__category
+    , cast(null as {{ dbt.type_string() }}) as iab__primary_impact
+    , cast(null as {{ dbt.type_string() }}) as iab__reason
     , cast(null as boolean) as iab__spider_or_robot
   {%- endif -%}
 {% endmacro %}
@@ -50,9 +50,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_iab_snowplow_spiders_and_robots_1[0].reason::STRING as iab__reason
     , contexts_com_iab_snowplow_spiders_and_robots_1[0].spider_or_robot::BOOLEAN as iab__spider_or_robot
   {%- else -%}
-    , cast(null as {{ type_string() }}) as iab__category
-    , cast(null as {{ type_string() }}) as iab__primary_impact
-    , cast(null as {{ type_string() }}) as iab__reason
+    , cast(null as {{ dbt.type_string() }}) as iab__category
+    , cast(null as {{ dbt.type_string() }}) as iab__primary_impact
+    , cast(null as {{ dbt.type_string() }}) as iab__reason
     , cast(null as boolean) as iab__spider_or_robot
   {%- endif -%}
 {% endmacro %}
@@ -64,9 +64,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_iab_snowplow_spiders_and_robots_1[0]:reason::VARCHAR as iab__reason
     , contexts_com_iab_snowplow_spiders_and_robots_1[0]:spiderOrRobot::BOOLEAN as iab__spider_or_robot
   {%- else -%}
-    , cast(null as {{ type_string() }}) as iab__category
-    , cast(null as {{ type_string() }}) as iab__primary_impact
-    , cast(null as {{ type_string() }}) as iab__reason
+    , cast(null as {{ dbt.type_string() }}) as iab__category
+    , cast(null as {{ dbt.type_string() }}) as iab__primary_impact
+    , cast(null as {{ dbt.type_string() }}) as iab__reason
     , cast(null as boolean) as iab__spider_or_robot
   {%- endif -%}
 {% endmacro %}

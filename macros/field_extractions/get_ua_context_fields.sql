@@ -53,18 +53,18 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {%- else -%}
-    , cast(null as {{ type_string() }}) as ua__useragent_family
-    , cast(null as {{ type_string() }}) as ua__useragent_major
-    , cast(null as {{ type_string() }}) as ua__useragent_minor
-    , cast(null as {{ type_string() }}) as ua__useragent_patch
-    , cast(null as {{ type_string() }}) as ua__useragent_version
-    , cast(null as {{ type_string() }}) as ua__os_family
-    , cast(null as {{ type_string() }}) as ua__os_major
-    , cast(null as {{ type_string() }}) as ua__os_minor
-    , cast(null as {{ type_string() }}) as ua__os_patch
-    , cast(null as {{ type_string() }}) as ua__os_patch_minor
-    , cast(null as {{ type_string() }}) as ua__os_version
-    , cast(null as {{ type_string() }}) as ua__device_family
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_family
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_major
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_minor
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_patch
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_version
+    , cast(null as {{ dbt.type_string() }}) as ua__os_family
+    , cast(null as {{ dbt.type_string() }}) as ua__os_major
+    , cast(null as {{ dbt.type_string() }}) as ua__os_minor
+    , cast(null as {{ dbt.type_string() }}) as ua__os_patch
+    , cast(null as {{ dbt.type_string() }}) as ua__os_patch_minor
+    , cast(null as {{ dbt.type_string() }}) as ua__os_version
+    , cast(null as {{ dbt.type_string() }}) as ua__device_family
   {%- endif -%}
 {% endmacro %}
 
@@ -83,18 +83,18 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_version::STRING as ua__os_version
     , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].device_family::STRING as ua__device_family
   {%- else -%}
-    , cast(null as {{ type_string() }}) as ua__useragent_family
-    , cast(null as {{ type_string() }}) as ua__useragent_major
-    , cast(null as {{ type_string() }}) as ua__useragent_minor
-    , cast(null as {{ type_string() }}) as ua__useragent_patch
-    , cast(null as {{ type_string() }}) as ua__useragent_version
-    , cast(null as {{ type_string() }}) as ua__os_family
-    , cast(null as {{ type_string() }}) as ua__os_major
-    , cast(null as {{ type_string() }}) as ua__os_minor
-    , cast(null as {{ type_string() }}) as ua__os_patch
-    , cast(null as {{ type_string() }}) as ua__os_patch_minor
-    , cast(null as {{ type_string() }}) as ua__os_version
-    , cast(null as {{ type_string() }}) as ua__device_family
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_family
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_major
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_minor
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_patch
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_version
+    , cast(null as {{ dbt.type_string() }}) as ua__os_family
+    , cast(null as {{ dbt.type_string() }}) as ua__os_major
+    , cast(null as {{ dbt.type_string() }}) as ua__os_minor
+    , cast(null as {{ dbt.type_string() }}) as ua__os_patch
+    , cast(null as {{ dbt.type_string() }}) as ua__os_patch_minor
+    , cast(null as {{ dbt.type_string() }}) as ua__os_version
+    , cast(null as {{ dbt.type_string() }}) as ua__device_family
   {%- endif -%}
 {% endmacro %}
 
@@ -113,17 +113,17 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0]:osVersion::VARCHAR as ua__os_version
   , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0]:deviceFamily::VARCHAR as ua__device_family
 {%- else -%}
-  , cast(null as {{ type_string() }}) as ua__useragent_family
-  , cast(null as {{ type_string() }}) as ua__useragent_major
-  , cast(null as {{ type_string() }}) as ua__useragent_minor
-  , cast(null as {{ type_string() }}) as ua__useragent_patch
-  , cast(null as {{ type_string() }}) as ua__useragent_version
-  , cast(null as {{ type_string() }}) as ua__os_family
-  , cast(null as {{ type_string() }}) as ua__os_major
-  , cast(null as {{ type_string() }}) as ua__os_minor
-  , cast(null as {{ type_string() }}) as ua__os_patch
-  , cast(null as {{ type_string() }}) as ua__os_patch_minor
-  , cast(null as {{ type_string() }}) as ua__os_version
-  , cast(null as {{ type_string() }}) as ua__device_family
+  , cast(null as {{ dbt.type_string() }}) as ua__useragent_family
+  , cast(null as {{ dbt.type_string() }}) as ua__useragent_major
+  , cast(null as {{ dbt.type_string() }}) as ua__useragent_minor
+  , cast(null as {{ dbt.type_string() }}) as ua__useragent_patch
+  , cast(null as {{ dbt.type_string() }}) as ua__useragent_version
+  , cast(null as {{ dbt.type_string() }}) as ua__os_family
+  , cast(null as {{ dbt.type_string() }}) as ua__os_major
+  , cast(null as {{ dbt.type_string() }}) as ua__os_minor
+  , cast(null as {{ dbt.type_string() }}) as ua__os_patch
+  , cast(null as {{ dbt.type_string() }}) as ua__os_patch_minor
+  , cast(null as {{ dbt.type_string() }}) as ua__os_version
+  , cast(null as {{ dbt.type_string() }}) as ua__device_family
 {% endif %}
 {% endmacro %}
