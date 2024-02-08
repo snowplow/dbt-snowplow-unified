@@ -26,6 +26,10 @@ for db in ${DATABASES[@]}; do
   echo "Snowplow unified integration tests: Seeding data"
   eval "dbt seed --full-refresh --target $db" || exit 1;
 
+  echo "Snowplow unified integration tests: Try run without data"
+  eval "dbt run --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 1, snowplow__enable_cwv: false, snowplow__start_date: 2010-01-01}' --target $db" || exit 1;
+
+
   echo "Snowplow unified integration tests: Conversions"
   eval "dbt run --full-refresh --select +snowplow_unified_conversions snowplow_unified_integration_tests.source --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 220, snowplow__enable_cwv: false, snowplow__enable_conversions: true}' --target $db" || exit 1;
 
