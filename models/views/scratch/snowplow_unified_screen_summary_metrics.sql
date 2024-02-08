@@ -17,8 +17,8 @@ with prep as (
     ev.view_id
     , ev.session_identifier
 
-    , round(cast(max(ev.screen_summary__foreground_sec) as {{ type_numeric() }}), 2) as foreground_sec
-    , round(cast(max(ev.screen_summary__background_sec) as {{ type_numeric() }}), 2) as background_sec
+    , round(cast(max(ev.screen_summary__foreground_sec) as {{ dbt.type_numeric() }}), 2) as foreground_sec
+    , round(cast(max(ev.screen_summary__background_sec) as {{ dbt.type_numeric() }}), 2) as background_sec
 
     , max(ev.screen_summary__last_item_index) as last_item_index
     , max(ev.screen_summary__items_count) as items_count
@@ -45,19 +45,19 @@ select *
 
   , case
     when max_x_offset is not null and content_width is not null and content_width > 0 then
-      cast(round(100.0 * cast(max_x_offset as {{ type_float() }}) / cast(content_width as {{ type_float() }})) as {{ type_float() }})
+      cast(round(100.0 * cast(max_x_offset as {{ dbt.type_float() }}) / cast(content_width as {{ dbt.type_float() }})) as {{ dbt.type_float() }})
     else null
   end as horizontal_percentage_scrolled
 
   , case
     when max_y_offset is not null and content_height is not null and content_height > 0 then
-      cast(round(100.0 * cast(max_y_offset as {{ type_float() }}) / cast(content_height as {{ type_float() }})) as {{ type_float() }})
+      cast(round(100.0 * cast(max_y_offset as {{ dbt.type_float() }}) / cast(content_height as {{ dbt.type_float() }})) as {{ dbt.type_float() }})
     else null
   end as vertical_percentage_scrolled
 
   , case
     when last_item_index is not null and items_count is not null and items_count > 0 then
-      cast(round(100.0 * (cast(last_item_index as {{ type_float() }}) + 1) / cast(items_count as {{ type_float() }})) as {{ type_float() }})
+      cast(round(100.0 * (cast(last_item_index as {{ dbt.type_float() }}) + 1) / cast(items_count as {{ dbt.type_float() }})) as {{ dbt.type_float() }})
     else null
   end as list_items_percentage_scrolled
 

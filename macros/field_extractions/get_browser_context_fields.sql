@@ -15,15 +15,15 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__viewport
     , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__document_size
     , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__resolution
-    , cast(null as {{ type_int() }}) as browser__color_depth
+    , cast(null as {{ dbt.type_int() }}) as browser__color_depth
     , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__device_pixel_ratio
-    , cast(null as {{ type_boolean() }}) as browser__cookies_enabled
-    , cast(null as {{ type_boolean() }}) as browser__online
+    , cast(null as {{ dbt.type_boolean() }}) as browser__cookies_enabled
+    , cast(null as {{ dbt.type_boolean() }}) as browser__online
     , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__browser_language
     , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__document_language
-    , cast(null as {{ type_boolean() }}) as browser__webdriver
-    , cast(null as {{ type_int() }}) as browser__device_memory
-    , cast(null as {{ type_int() }}) as browser__hardware_concurrency
+    , cast(null as {{ dbt.type_boolean() }}) as browser__webdriver
+    , cast(null as {{ dbt.type_int() }}) as browser__device_memory
+    , cast(null as {{ dbt.type_int() }}) as browser__hardware_concurrency
     , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__tab_id
   {% endif %}
 {% endmacro %}
@@ -54,19 +54,19 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {% else %}
-    , cast(null as {{ type_string() }}) as browser__viewport
-    , cast(null as {{ type_string() }}) as browser__document_size
-    , cast(null as {{ type_string() }}) as browser__resolution
-    , cast(null as {{ type_int() }}) as browser__color_depth
-    , cast(null as {{ type_float() }}) as browser__device_pixel_ratio
-    , cast(null as {{ type_boolean() }}) as browser__cookies_enabled
-    , cast(null as {{ type_boolean() }}) as browser__online
-    , cast(null as {{ type_string() }}) as browser__browser_language
-    , cast(null as {{ type_string() }}) as browser__document_language
-    , cast(null as {{ type_boolean() }}) as browser__webdriver
-    , cast(null as {{ type_int() }}) as browser__device_memory
-    , cast(null as {{ type_int() }}) as browser__hardware_concurrency
-    , cast(null as {{ type_string() }}) as browser__tab_id
+    , cast(null as {{ dbt.type_string() }}) as browser__viewport
+    , cast(null as {{ dbt.type_string() }}) as browser__document_size
+    , cast(null as {{ dbt.type_string() }}) as browser__resolution
+    , cast(null as {{ dbt.type_int() }}) as browser__color_depth
+    , cast(null as {{ dbt.type_float() }}) as browser__device_pixel_ratio
+    , cast(null as {{ dbt.type_boolean() }}) as browser__cookies_enabled
+    , cast(null as {{ dbt.type_boolean() }}) as browser__online
+    , cast(null as {{ dbt.type_string() }}) as browser__browser_language
+    , cast(null as {{ dbt.type_string() }}) as browser__document_language
+    , cast(null as {{ dbt.type_boolean() }}) as browser__webdriver
+    , cast(null as {{ dbt.type_int() }}) as browser__device_memory
+    , cast(null as {{ dbt.type_int() }}) as browser__hardware_concurrency
+    , cast(null as {{ dbt.type_string() }}) as browser__tab_id
   {% endif %}
 {% endmacro %}
 
@@ -86,19 +86,19 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].hardware_concurrency::INT AS browser__hardware_concurrency
     , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].tab_id::STRING AS browser__tab_id
   {% else %}
-    , cast(null as {{ type_string() }}) as browser__viewport
-    , cast(null as {{ type_string() }}) as browser__document_size
-    , cast(null as {{ type_string() }}) as browser__resolution
-    , cast(null as {{ type_int() }}) as browser__color_depth
-    , cast(null as {{ type_float() }}) as browser__device_pixel_ratio
-    , cast(null as {{ type_boolean() }}) as browser__cookies_enabled
-    , cast(null as {{ type_boolean() }}) as browser__online
-    , cast(null as {{ type_string() }}) as browser__browser_language
-    , cast(null as {{ type_string() }}) as browser__document_language
-    , cast(null as {{ type_boolean() }}) as browser__webdriver
-    , cast(null as {{ type_int() }}) as browser__device_memory
-    , cast(null as {{ type_int() }}) as browser__hardware_concurrency
-    , cast(null as {{ type_string() }}) as browser__tab_id
+    , cast(null as {{ dbt.type_string() }}) as browser__viewport
+    , cast(null as {{ dbt.type_string() }}) as browser__document_size
+    , cast(null as {{ dbt.type_string() }}) as browser__resolution
+    , cast(null as {{ dbt.type_int() }}) as browser__color_depth
+    , cast(null as {{ dbt.type_float() }}) as browser__device_pixel_ratio
+    , cast(null as {{ dbt.type_boolean() }}) as browser__cookies_enabled
+    , cast(null as {{ dbt.type_boolean() }}) as browser__online
+    , cast(null as {{ dbt.type_string() }}) as browser__browser_language
+    , cast(null as {{ dbt.type_string() }}) as browser__document_language
+    , cast(null as {{ dbt.type_boolean() }}) as browser__webdriver
+    , cast(null as {{ dbt.type_int() }}) as browser__device_memory
+    , cast(null as {{ dbt.type_int() }}) as browser__hardware_concurrency
+    , cast(null as {{ dbt.type_string() }}) as browser__tab_id
 
   {% endif %}
 {% endmacro %}
@@ -119,18 +119,18 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:hardwareConcurrency::int AS browser__hardware_concurrency
     , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:tabId::varchar AS browser__tab_id
   {% else %}
-    , cast(null as {{ type_string() }}) as browser__viewport
-    , cast(null as {{ type_string() }}) as browser__document_size
-    , cast(null as {{ type_string() }}) as browser__resolution
-    , cast(null as {{ type_int() }}) as browser__color_depth
-    , cast(null as {{ type_float() }}) as browser__device_pixel_ratio
-    , cast(null as {{ type_boolean() }}) as browser__cookies_enabled
-    , cast(null as {{ type_boolean() }}) as browser__online
-    , cast(null as {{ type_string() }}) as browser__browser_language
-    , cast(null as {{ type_string() }}) as browser__document_language
-    , cast(null as {{ type_boolean() }}) as browser__webdriver
-    , cast(null as {{ type_int() }}) as browser__device_memory
-    , cast(null as {{ type_int() }}) as browser__hardware_concurrency
-    , cast(null as {{ type_string() }}) as browser__tab_id
+    , cast(null as {{ dbt.type_string() }}) as browser__viewport
+    , cast(null as {{ dbt.type_string() }}) as browser__document_size
+    , cast(null as {{ dbt.type_string() }}) as browser__resolution
+    , cast(null as {{ dbt.type_int() }}) as browser__color_depth
+    , cast(null as {{ dbt.type_float() }}) as browser__device_pixel_ratio
+    , cast(null as {{ dbt.type_boolean() }}) as browser__cookies_enabled
+    , cast(null as {{ dbt.type_boolean() }}) as browser__online
+    , cast(null as {{ dbt.type_string() }}) as browser__browser_language
+    , cast(null as {{ dbt.type_string() }}) as browser__document_language
+    , cast(null as {{ dbt.type_boolean() }}) as browser__webdriver
+    , cast(null as {{ dbt.type_int() }}) as browser__device_memory
+    , cast(null as {{ dbt.type_int() }}) as browser__hardware_concurrency
+    , cast(null as {{ dbt.type_string() }}) as browser__tab_id
   {% endif %}
 {% endmacro %}

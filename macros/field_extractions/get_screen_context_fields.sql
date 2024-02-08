@@ -42,13 +42,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
          relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
     {% else %}
-      , cast(null as {{ type_string() }}) as screen__id
-      , cast(null as {{ type_string() }}) as screen__name
-      , cast(null as {{ type_string() }}) as screen__activity
-      , cast(null as {{ type_string() }}) as screen__fragment
-      , cast(null as {{ type_string() }}) as screen__top_view_controller
-      , cast(null as {{ type_string() }}) as screen__type
-      , cast(null as {{ type_string() }}) as screen__view_controller
+      , cast(null as {{ dbt.type_string() }}) as screen__id
+      , cast(null as {{ dbt.type_string() }}) as screen__name
+      , cast(null as {{ dbt.type_string() }}) as screen__activity
+      , cast(null as {{ dbt.type_string() }}) as screen__fragment
+      , cast(null as {{ dbt.type_string() }}) as screen__top_view_controller
+      , cast(null as {{ dbt.type_string() }}) as screen__type
+      , cast(null as {{ dbt.type_string() }}) as screen__view_controller
   {% endif %}
 {% endmacro %}
 
@@ -62,13 +62,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_mobile_screen_1[0].type::STRING AS screen__type
     , contexts_com_snowplowanalytics_mobile_screen_1[0].view_controller::STRING AS screen__view_controller
   {% else %}
-    , cast(null as {{ type_string() }}) as screen__id
-    , cast(null as {{ type_string() }}) as screen__name
-    , cast(null as {{ type_string() }}) as screen__activity
-    , cast(null as {{ type_string() }}) as screen__fragment
-    , cast(null as {{ type_string() }}) as screen__top_view_controller
-    , cast(null as {{ type_string() }}) as screen__type
-    , cast(null as {{ type_string() }}) as screen__view_controller
+    , cast(null as {{ dbt.type_string() }}) as screen__id
+    , cast(null as {{ dbt.type_string() }}) as screen__name
+    , cast(null as {{ dbt.type_string() }}) as screen__activity
+    , cast(null as {{ dbt.type_string() }}) as screen__fragment
+    , cast(null as {{ dbt.type_string() }}) as screen__top_view_controller
+    , cast(null as {{ dbt.type_string() }}) as screen__type
+    , cast(null as {{ dbt.type_string() }}) as screen__view_controller
   {% endif %}
 {% endmacro %}
 
@@ -82,12 +82,12 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_mobile_screen_1[0]:type::varchar AS screen__type
     , contexts_com_snowplowanalytics_mobile_screen_1[0]:viewController::varchar AS screen__view_controller
   {% else %}
-    , cast(null as {{ type_string() }}) as screen__id
-    , cast(null as {{ type_string() }}) as screen__name
-    , cast(null as {{ type_string() }}) as screen__activity
-    , cast(null as {{ type_string() }}) as screen__fragment
-    , cast(null as {{ type_string() }}) as screen__top_view_controller
-    , cast(null as {{ type_string() }}) as screen__type
-    , cast(null as {{ type_string() }}) as screen__view_controller
+    , cast(null as {{ dbt.type_string() }}) as screen__id
+    , cast(null as {{ dbt.type_string() }}) as screen__name
+    , cast(null as {{ dbt.type_string() }}) as screen__activity
+    , cast(null as {{ dbt.type_string() }}) as screen__fragment
+    , cast(null as {{ dbt.type_string() }}) as screen__top_view_controller
+    , cast(null as {{ dbt.type_string() }}) as screen__type
+    , cast(null as {{ dbt.type_string() }}) as screen__view_controller
   {% endif %}
 {% endmacro %}

@@ -49,7 +49,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   where {{ conv_def['condition'] }}
   
   {% if var("snowplow__ua_bot_filter", true) %}
-      {{ filter_bots() }}
+      {{ snowplow_unified.filter_bots() }}
   {% endif %}
 
 

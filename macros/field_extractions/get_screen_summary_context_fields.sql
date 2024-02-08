@@ -12,16 +12,16 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro postgres__get_screen_summary_context_fields() %}
   {% if var('snowplow__enable_screen_summary_context', false) %}
   {% else %}
-      , cast(null as {{ type_float() }}) as screen_summary__foreground_sec
-      , cast(null as {{ type_float() }}) as screen_summary__background_sec
-      , cast(null as {{ type_int() }}) as screen_summary__last_item_index
-      , cast(null as {{ type_int() }}) as screen_summary__items_count
-      , cast(null as {{ type_int() }}) as screen_summary__min_x_offset
-      , cast(null as {{ type_int() }}) as screen_summary__min_y_offset
-      , cast(null as {{ type_int() }}) as screen_summary__max_x_offset
-      , cast(null as {{ type_int() }}) as screen_summary__max_y_offset
-      , cast(null as {{ type_int() }}) as screen_summary__content_width
-      , cast(null as {{ type_int() }}) as screen_summary__content_height
+      , cast(null as {{ dbt.type_float() }}) as screen_summary__foreground_sec
+      , cast(null as {{ dbt.type_float() }}) as screen_summary__background_sec
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__last_item_index
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__items_count
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__min_x_offset
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__min_y_offset
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__max_x_offset
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__max_y_offset
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__content_width
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__content_height
   {% endif %}
 {% endmacro %}
 
@@ -48,16 +48,16 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if project_name != 'snowplow_unified_integration_tests' else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
     {% else %}
-      , cast(null as {{ type_float() }}) as screen_summary__foreground_sec
-      , cast(null as {{ type_float() }}) as screen_summary__background_sec
-      , cast(null as {{ type_int() }}) as screen_summary__last_item_index
-      , cast(null as {{ type_int() }}) as screen_summary__items_count
-      , cast(null as {{ type_int() }}) as screen_summary__min_x_offset
-      , cast(null as {{ type_int() }}) as screen_summary__min_y_offset
-      , cast(null as {{ type_int() }}) as screen_summary__max_x_offset
-      , cast(null as {{ type_int() }}) as screen_summary__max_y_offset
-      , cast(null as {{ type_int() }}) as screen_summary__content_width
-      , cast(null as {{ type_int() }}) as screen_summary__content_height
+      , cast(null as {{ dbt.type_float() }}) as screen_summary__foreground_sec
+      , cast(null as {{ dbt.type_float() }}) as screen_summary__background_sec
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__last_item_index
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__items_count
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__min_x_offset
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__min_y_offset
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__max_x_offset
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__max_y_offset
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__content_width
+      , cast(null as {{ dbt.type_int() }}) as screen_summary__content_height
   {% endif %}
 {% endmacro %}
 
@@ -74,16 +74,16 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].content_width::INT AS screen_summary__content_width
     , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].content_height::INT AS screen_summary__content_height
   {% else %}
-    , cast(null as {{ type_float() }}) as screen_summary__foreground_sec
-    , cast(null as {{ type_float() }}) as screen_summary__background_sec
-    , cast(null as {{ type_int() }}) as screen_summary__last_item_index
-    , cast(null as {{ type_int() }}) as screen_summary__items_count
-    , cast(null as {{ type_int() }}) as screen_summary__min_x_offset
-    , cast(null as {{ type_int() }}) as screen_summary__min_y_offset
-    , cast(null as {{ type_int() }}) as screen_summary__max_x_offset
-    , cast(null as {{ type_int() }}) as screen_summary__max_y_offset
-    , cast(null as {{ type_int() }}) as screen_summary__content_width
-    , cast(null as {{ type_int() }}) as screen_summary__content_height
+    , cast(null as {{ dbt.type_float() }}) as screen_summary__foreground_sec
+    , cast(null as {{ dbt.type_float() }}) as screen_summary__background_sec
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__last_item_index
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__items_count
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__min_x_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__min_y_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__max_x_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__max_y_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__content_width
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__content_height
   {% endif %}
 {% endmacro %}
 
@@ -100,15 +100,15 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_mobile_screen_summary_1[0]:content_width::INT AS screen_summary__content_width
     , contexts_com_snowplowanalytics_mobile_screen_summary_1[0]:content_height::INT AS screen_summary__content_height
   {% else %}
-    , cast(null as {{ type_float() }}) as screen_summary__foreground_sec
-    , cast(null as {{ type_float() }}) as screen_summary__background_sec
-    , cast(null as {{ type_int() }}) as screen_summary__last_item_index
-    , cast(null as {{ type_int() }}) as screen_summary__items_count
-    , cast(null as {{ type_int() }}) as screen_summary__min_x_offset
-    , cast(null as {{ type_int() }}) as screen_summary__min_y_offset
-    , cast(null as {{ type_int() }}) as screen_summary__max_x_offset
-    , cast(null as {{ type_int() }}) as screen_summary__max_y_offset
-    , cast(null as {{ type_int() }}) as screen_summary__content_width
-    , cast(null as {{ type_int() }}) as screen_summary__content_height
+    , cast(null as {{ dbt.type_float() }}) as screen_summary__foreground_sec
+    , cast(null as {{ dbt.type_float() }}) as screen_summary__background_sec
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__last_item_index
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__items_count
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__min_x_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__min_y_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__max_x_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__max_y_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__content_width
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__content_height
   {% endif %}
 {% endmacro %}

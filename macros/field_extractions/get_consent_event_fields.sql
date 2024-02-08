@@ -18,7 +18,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       , cast(null as {{ snowplow_utils.type_max_string() }}) as consent__consent_version
       , cast(null as {{ snowplow_utils.type_max_string() }}) as consent__consent_scopes
       , cast(null as {{ snowplow_utils.type_max_string() }}) as consent__domains_applied
-      , cast(null as {{ type_boolean() }}) as consent__gdpr_applies
+      , cast(null as {{ dbt.type_boolean() }}) as consent__gdpr_applies
   {% endif %}
 {% endmacro %}
 
@@ -42,13 +42,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
          relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {% else %}
-      , cast(null as {{ type_string() }}) as consent__event_type
-      , cast(null as {{ type_string() }}) as consent__basis_for_processing
-      , cast(null as {{ type_string() }}) as consent__consent_url
-      , cast(null as {{ type_string() }}) as consent__consent_version
+      , cast(null as {{ dbt.type_string() }}) as consent__event_type
+      , cast(null as {{ dbt.type_string() }}) as consent__basis_for_processing
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_url
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_version
       , cast(null as array) as consent__consent_scopes
       , cast(null as array) as consent__domains_applied
-      , cast(null as {{ type_boolean() }}) as consent__gdpr_applies
+      , cast(null as {{ dbt.type_boolean() }}) as consent__gdpr_applies
   {% endif %}
 {% endmacro %}
 
@@ -62,13 +62,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.domains_applied::ARRAY<STRING> as consent__domains_applied
     , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.gdpr_applies::boolean as consent__gdpr_applies
   {% else %}
-      , cast(null as {{ type_string() }}) as consent__event_type
-      , cast(null as {{ type_string() }}) as consent__basis_for_processing
-      , cast(null as {{ type_string() }}) as consent__consent_url
-      , cast(null as {{ type_string() }}) as consent__consent_version
+      , cast(null as {{ dbt.type_string() }}) as consent__event_type
+      , cast(null as {{ dbt.type_string() }}) as consent__basis_for_processing
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_url
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_version
       , cast(null as ARRAY<STRING>) as consent__consent_scopes
       , cast(null as ARRAY<STRING>) as consent__domains_applied
-      , cast(null as {{ type_boolean() }}) as consent__gdpr_applies
+      , cast(null as {{ dbt.type_boolean() }}) as consent__gdpr_applies
 
   {% endif %}
 {% endmacro %}
@@ -85,12 +85,12 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:gdprApplies::boolean as consent__gdpr_applies
 
     {% else %}
-      , cast(null as {{ type_string() }}) as consent__event_type
-      , cast(null as {{ type_string() }}) as consent__basis_for_processing
-      , cast(null as {{ type_string() }}) as consent__consent_url
-      , cast(null as {{ type_string() }}) as consent__consent_version
+      , cast(null as {{ dbt.type_string() }}) as consent__event_type
+      , cast(null as {{ dbt.type_string() }}) as consent__basis_for_processing
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_url
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_version
       , cast(null as array) as consent__consent_scopes
       , cast(null as array) as consent__domains_applied
-      , cast(null as {{ type_boolean() }}) as consent__gdpr_applies
+      , cast(null as {{ dbt.type_boolean() }}) as consent__gdpr_applies
     {% endif %}
 {% endmacro %}

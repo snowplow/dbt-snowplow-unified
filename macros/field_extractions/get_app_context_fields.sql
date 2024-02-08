@@ -32,8 +32,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {% else %}
-    , cast(null as {{ type_string() }}) as app__build
-    , cast(null as {{ type_string() }}) as app__version
+    , cast(null as {{ dbt.type_string() }}) as app__build
+    , cast(null as {{ dbt.type_string() }}) as app__version
   {% endif %}
 {% endmacro %}
 
@@ -42,8 +42,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       , contexts_com_snowplowanalytics_mobile_application_1[0].build::STRING AS app__build
       , contexts_com_snowplowanalytics_mobile_application_1[0].version::STRING AS app__version
   {% else %}
-      , cast(null as {{ type_string() }}) as app__build
-      , cast(null as {{ type_string() }}) as app__version
+      , cast(null as {{ dbt.type_string() }}) as app__build
+      , cast(null as {{ dbt.type_string() }}) as app__version
   {% endif %}
 {% endmacro %}
 
@@ -52,7 +52,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       , contexts_com_snowplowanalytics_mobile_application_1[0]:build::varchar(255) AS app__build
       , contexts_com_snowplowanalytics_mobile_application_1[0]:version::varchar(255) AS app__version
     {% else %}
-      , cast(null as {{ type_string() }}) as app__build
-      , cast(null as {{ type_string() }}) as app__version
+      , cast(null as {{ dbt.type_string() }}) as app__build
+      , cast(null as {{ dbt.type_string() }}) as app__version
     {% endif %}
 {% endmacro %}

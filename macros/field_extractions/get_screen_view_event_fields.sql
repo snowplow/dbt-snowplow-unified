@@ -42,13 +42,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
     {% else %}
-      , cast(null as {{ type_string() }}) as screen_view__id
-      , cast(null as {{ type_string() }}) as screen_view__name
-      , cast(null as {{ type_string() }}) as screen_view__previous_id
-      , cast(null as {{ type_string() }}) as screen_view__previous_name
-      , cast(null as {{ type_string() }}) as screen_view__previous_type
-      , cast(null as {{ type_string() }}) as screen_view__transition_type
-      , cast(null as {{ type_string() }}) as screen_view__type
+      , cast(null as {{ dbt.type_string() }}) as screen_view__id
+      , cast(null as {{ dbt.type_string() }}) as screen_view__name
+      , cast(null as {{ dbt.type_string() }}) as screen_view__previous_id
+      , cast(null as {{ dbt.type_string() }}) as screen_view__previous_name
+      , cast(null as {{ dbt.type_string() }}) as screen_view__previous_type
+      , cast(null as {{ dbt.type_string() }}) as screen_view__transition_type
+      , cast(null as {{ dbt.type_string() }}) as screen_view__type
   {% endif %}
 {% endmacro %}
 
@@ -62,13 +62,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , unstruct_event_com_snowplowanalytics_mobile_screen_view_1.transition_type::STRING AS screen_view__transition_type
     , unstruct_event_com_snowplowanalytics_mobile_screen_view_1.type::STRING AS screen_view__type
     {% else %}
-      , cast(null as {{ type_string() }}) as screen_view__id
-      , cast(null as {{ type_string() }}) as screen_view__name
-      , cast(null as {{ type_string() }}) as screen_view__previous_id
-      , cast(null as {{ type_string() }}) as screen_view__previous_name
-      , cast(null as {{ type_string() }}) as screen_view__previous_type
-      , cast(null as {{ type_string() }}) as screen_view__transition_type
-      , cast(null as {{ type_string() }}) as screen_view__type
+      , cast(null as {{ dbt.type_string() }}) as screen_view__id
+      , cast(null as {{ dbt.type_string() }}) as screen_view__name
+      , cast(null as {{ dbt.type_string() }}) as screen_view__previous_id
+      , cast(null as {{ dbt.type_string() }}) as screen_view__previous_name
+      , cast(null as {{ dbt.type_string() }}) as screen_view__previous_type
+      , cast(null as {{ dbt.type_string() }}) as screen_view__transition_type
+      , cast(null as {{ dbt.type_string() }}) as screen_view__type
   {% endif %}
 {% endmacro %}
 
@@ -82,12 +82,12 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:transitionType::varchar AS screen_view__transition_type
     , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:type::varchar AS screen_view__type
     {% else %}
-      , cast(null as {{ type_string() }}) as screen_view__id
-      , cast(null as {{ type_string() }}) as screen_view__name
-      , cast(null as {{ type_string() }}) as screen_view__previous_id
-      , cast(null as {{ type_string() }}) as screen_view__previous_name
-      , cast(null as {{ type_string() }}) as screen_view__previous_type
-      , cast(null as {{ type_string() }}) as screen_view__transition_type
-      , cast(null as {{ type_string() }}) as screen_view__type
+      , cast(null as {{ dbt.type_string() }}) as screen_view__id
+      , cast(null as {{ dbt.type_string() }}) as screen_view__name
+      , cast(null as {{ dbt.type_string() }}) as screen_view__previous_id
+      , cast(null as {{ dbt.type_string() }}) as screen_view__previous_name
+      , cast(null as {{ dbt.type_string() }}) as screen_view__previous_type
+      , cast(null as {{ dbt.type_string() }}) as screen_view__transition_type
+      , cast(null as {{ dbt.type_string() }}) as screen_view__type
   {% endif %}
 {% endmacro %}

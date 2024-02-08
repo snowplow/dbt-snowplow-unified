@@ -59,14 +59,14 @@ select
   vmin,
   vmax,
 
-  cast(round(100*(greatest(hmin, 0)/cast(doc_width as {{ type_float() }}))) as {{ type_float() }}) as relative_hmin, -- brackets matter: because hmin is of type int, we need to divide before we multiply by 100 or we risk an overflow
-  cast(round(100*(least(hmax + br_viewwidth, doc_width)/cast(doc_width as {{ type_float() }}))) as {{ type_float() }}) as relative_hmax,
-  cast(round(100*(greatest(vmin, 0)/cast(doc_height as {{ type_float() }}))) as {{ type_float() }}) as relative_vmin,
-  cast(round(100*(least(vmax + br_viewheight, doc_height)/cast(doc_height as {{ type_float() }}))) as {{ type_float() }}) as relative_vmax, -- not zero when a user hasn't scrolled because it includes the non-zero viewheight
+  cast(round(100*(greatest(hmin, 0)/cast(doc_width as {{ dbt.type_float() }}))) as {{ dbt.type_float() }}) as relative_hmin, -- brackets matter: because hmin is of type int, we need to divide before we multiply by 100 or we risk an overflow
+  cast(round(100*(least(hmax + br_viewwidth, doc_width)/cast(doc_width as {{ dbt.type_float() }}))) as {{ dbt.type_float() }}) as relative_hmax,
+  cast(round(100*(greatest(vmin, 0)/cast(doc_height as {{ dbt.type_float() }}))) as {{ dbt.type_float() }}) as relative_vmin,
+  cast(round(100*(least(vmax + br_viewheight, doc_height)/cast(doc_height as {{ dbt.type_float() }}))) as {{ dbt.type_float() }}) as relative_vmax, -- not zero when a user hasn't scrolled because it includes the non-zero viewheight
 
-  cast(null as {{ type_int() }}) as last_list_item_index,
-  cast(null as {{ type_int() }}) as list_items_count,
-  cast(null as {{ type_int() }}) as list_items_percentage_scrolled
+  cast(null as {{ dbt.type_int() }}) as last_list_item_index,
+  cast(null as {{ dbt.type_int() }}) as list_items_count,
+  cast(null as {{ dbt.type_int() }}) as list_items_percentage_scrolled
 
 from prep
 
@@ -80,17 +80,17 @@ select
   t.content_width as doc_width,
   t.content_height as doc_height,
 
-  cast(null as {{ type_int() }}) as br_viewwidth,
-  cast(null as {{ type_int() }}) as br_viewheight,
+  cast(null as {{ dbt.type_int() }}) as br_viewwidth,
+  cast(null as {{ dbt.type_int() }}) as br_viewheight,
 
   t.min_x_offset as hmin,
   t.max_x_offset as hmax,
   t.min_y_offset as vmin,
   t.max_y_offset as vmax,
 
-  cast(null as {{ type_float() }}) as relative_hmin,
+  cast(null as {{ dbt.type_float() }}) as relative_hmin,
   t.horizontal_percentage_scrolled as relative_hmax,
-  cast(null as {{ type_float() }}) as relative_vmin,
+  cast(null as {{ dbt.type_float() }}) as relative_vmin,
   t.vertical_percentage_scrolled as relative_vmax,
 
   t.last_item_index as last_list_item_index,

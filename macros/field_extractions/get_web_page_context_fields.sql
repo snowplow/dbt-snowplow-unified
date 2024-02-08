@@ -30,7 +30,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
         relation_alias=none) }}
   {% else %}
-    , cast(null as {{ type_string() }}) as page_view__id
+    , cast(null as {{ dbt.type_string() }}) as page_view__id
   {% endif %}
 {% endmacro %}
 
@@ -38,7 +38,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   {% if var('snowplow__enable_web', false) %}
       , contexts_com_snowplowanalytics_snowplow_web_page_1[0].id as page_view__id
   {% else %}
-      , cast(null as {{ type_string() }}) as page_view__id
+      , cast(null as {{ dbt.type_string() }}) as page_view__id
   {% endif %}
 {% endmacro %}
 
@@ -46,6 +46,6 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     {% if var('snowplow__enable_web', false) %}
       , contexts_com_snowplowanalytics_snowplow_web_page_1[0]:id::varchar as page_view__id
     {% else %}
-      , cast(null as {{ type_string() }}) as page_view__id
+      , cast(null as {{ dbt.type_string() }}) as page_view__id
     {% endif %}
 {% endmacro %}

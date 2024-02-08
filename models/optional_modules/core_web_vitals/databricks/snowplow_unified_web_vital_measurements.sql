@@ -28,7 +28,7 @@ with measurements as (
     percentile_cont(0.{{ var('snowplow__cwv_percentile') }}) within group (order by inp) as inp_{{ var('snowplow__cwv_percentile') }}p
   from {{ ref('snowplow_unified_web_vitals') }}
 
-  where cast(derived_tstamp as date) >= {{ dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
+  where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
 
   group by cube(page_url, device_class,cast( {{ dbt.date_trunc('day', 'derived_tstamp') }} as {{ dbt.type_string() }}), geo_country)
 

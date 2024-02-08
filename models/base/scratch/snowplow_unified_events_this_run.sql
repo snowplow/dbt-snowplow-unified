@@ -13,4 +13,4 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   )
 }}
 
-{{ unify_fields_query() }}
+{{ snowplow_unified.unify_fields_query() }}

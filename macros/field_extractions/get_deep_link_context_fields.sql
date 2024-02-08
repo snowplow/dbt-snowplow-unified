@@ -32,8 +32,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
           relation_alias=none) }}
   {% else %}
-    , cast(null as {{ type_string() }}) as deep_link__url
-    , cast(null as {{ type_string() }}) as deep_link__referrer
+    , cast(null as {{ dbt.type_string() }}) as deep_link__url
+    , cast(null as {{ dbt.type_string() }}) as deep_link__referrer
   {% endif %}
 {% endmacro %}
 
@@ -43,8 +43,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_mobile_deep_link_1[0].referrer::STRING AS deep_link__referrer
 
   {% else %}
-    , cast(null as {{ type_string() }}) as deep_link__url
-    , cast(null as {{ type_string() }}) as deep_link__referrer
+    , cast(null as {{ dbt.type_string() }}) as deep_link__url
+    , cast(null as {{ dbt.type_string() }}) as deep_link__referrer
 
   {% endif %}
 {% endmacro %}
@@ -54,8 +54,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_com_snowplowanalytics_mobile_deep_link_1[0]:url::varchar AS deep_link__url
     , contexts_com_snowplowanalytics_mobile_deep_link_1[0]:referrer::varchar AS deep_link__referrer
   {% else %}
-    , cast(null as {{ type_string() }}) as deep_link__url
-    , cast(null as {{ type_string() }}) as deep_link__referrer
+    , cast(null as {{ dbt.type_string() }}) as deep_link__url
+    , cast(null as {{ dbt.type_string() }}) as deep_link__referrer
 
   {% endif %}
 {% endmacro %}

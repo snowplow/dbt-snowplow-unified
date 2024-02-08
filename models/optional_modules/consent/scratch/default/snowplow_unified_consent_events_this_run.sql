@@ -44,5 +44,5 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
    --returns false if run doesn't contain new events.
 
   {% if var("snowplow__ua_bot_filter", false) %}
-      {{ filter_bots() }}
+      {{ snowplow_unified.filter_bots() }}
   {% endif %}
