@@ -242,3 +242,15 @@ The sql needed to make the warehosue specific transformations to retrieve the co
 
 {% endraw %}
 {% enddocs %}
+
+{% docs macro_cluster_by_values %}
+{% raw %}
+
+A macro to manage the cluster by fields for various models in the package.
+
+#### Returns
+
+The field to cluster by based on model name and target type.
+
+{% endraw %}
+{% enddocs %}

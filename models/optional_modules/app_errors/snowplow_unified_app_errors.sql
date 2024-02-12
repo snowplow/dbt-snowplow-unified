@@ -16,7 +16,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       "field": "derived_tstamp",
       "data_type": "timestamp"
     }, databricks_val='derived_tstamp_date'),
-    cluster_by=snowplow_utils.get_value_by_target_type(bigquery_val=["session_identifier"], snowflake_val=["to_date(derived_tstamp)"]),
+    cluster_by=snowplow_unified.unified_cluser_by('app_errors'),
     tags=["derived"],
     enabled=var("snowplow__enable_app_errors", false),
     sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt')),
