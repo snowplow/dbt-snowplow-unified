@@ -17,7 +17,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       "field": "start_tstamp",
       "data_type": "timestamp"
     }, databricks_val='start_tstamp_date'),
-    cluster_by=snowplow_utils.get_value_by_target_type(bigquery_val=["user_identifier"], snowflake_val=["to_date(start_tstamp)"]),
+    cluster_by=snowplow_unified.unified_cluser_by('sessions'),
     tags=["derived"],
     post_hook="{{ snowplow_unified.stitch_user_identifiers(
       enabled=var('snowplow__session_stitching')

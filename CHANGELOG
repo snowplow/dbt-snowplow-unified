@@ -7,6 +7,7 @@ XXX
 - Add new passthrough aggregations to the views, sessions, and users table, enabled using `snowplow__view/session/user_aggregations`
 - Reorder and add some additional context fields to derived tables (non-breaking change)
 - Add `snowplow__custom_sql` to allow adding custom sql to the `snowplow_unified_base_events_this_run` and `snowplow_unified_events_this_run` models
+- Add macro to define cluster-by for tables to allow users to overwrite this if required
 
 ## Fixes
 - Fix a bug where if you ran the package in a period with no data, and had list all events enabled, the package would error rather than complete
