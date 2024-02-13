@@ -13,6 +13,7 @@ XXX
 ## Under the hood
 - Prefix all macro calls with package name for easier customization
 - Use macros for grouped fields (e.g. contexts) where possible
+- Bump actions version numbers
 
 ## Upgrading
 Bump the snowplow-unified version in your `packages.yml` file.
