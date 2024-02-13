@@ -67,8 +67,9 @@ vars:
     # please refer to the macros within identifiers.sql for default values
     snowplow__session_identifiers: []
     snowplow__user_identifiers: []
-    
+    # snowplow__session_sql: 'e.domain_sessionid'
     # snowplow__user_sql: 'e.domain_userid'
+    # snowplow__custom_sql: ''
     snowplow__user_stitching_id: user_id
     # filter your data:
     snowplow__app_id: []
