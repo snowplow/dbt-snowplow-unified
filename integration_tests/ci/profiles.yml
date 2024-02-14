@@ -16,7 +16,7 @@ integration_tests:
       pass: "{{ env_var('POSTGRES_TEST_PASS') }}"
       port: "{{ env_var('POSTGRES_TEST_PORT') | as_number }}"
       dbname: "{{ env_var('POSTGRES_TEST_DBNAME') }}"
-      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      schema: "gh_sp_unified_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
       threads: 4
 
     redshift:
@@ -26,7 +26,7 @@ integration_tests:
       pass: "{{ env_var('REDSHIFT_TEST_PASS') }}"
       dbname: "{{ env_var('REDSHIFT_TEST_DBNAME') }}"
       port: "{{ env_var('REDSHIFT_TEST_PORT') | as_number }}"
-      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      schema: "gh_sp_unified_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
       threads: 4
 
     bigquery:
@@ -34,7 +34,7 @@ integration_tests:
       method: service-account-json
       project: "{{ env_var('BIGQUERY_TEST_DATABASE') }}"
       location: "{{ env_var('BIGQUERY_LOCATION') }}"
-      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      schema: "gh_sp_unified_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
       threads: 4
       keyfile_json:
         type: "{{ env_var('BIGQUERY_SERVICE_TYPE') }}"
@@ -56,12 +56,12 @@ integration_tests:
       role: "{{ env_var('SNOWFLAKE_TEST_ROLE') }}"
       database: "{{ env_var('SNOWFLAKE_TEST_DATABASE') }}"
       warehouse: "{{ env_var('SNOWFLAKE_TEST_WAREHOUSE') }}"
-      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      schema: "gh_sp_unified_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
       threads: 4
 
     databricks:
       type: databricks
-      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      schema: "gh_sp_unified_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
       host: "{{ env_var('DATABRICKS_TEST_HOST') }}"
       http_path: "{{ env_var('DATABRICKS_TEST_HTTP_PATH') }}"
       token: "{{ env_var('DATABRICKS_TEST_TOKEN') }}"
@@ -71,7 +71,7 @@ integration_tests:
       type: spark
       method: odbc
       driver: "{{ env_var('DATABRICKS_TEST_HTTP_PATH') }}"
-      schema: "gh_sp_web_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
+      schema: "gh_sp_unified_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
       host: "{{ env_var('DATABRICKS_TEST_HOST') }}"
       token: "{{ env_var('DATABRICKS_TEST_TOKEN') }}"
       endpoint: "{{ env_var('DATABRICKS_TEST_ENDPOINT') }}"
