@@ -1,9 +1,9 @@
-{% macro unified_cluser_by(model) %}
-    {{ return(adapter.dispatch('unified_cluser_by', 'snowplow_unified')(model)) }}
+{% macro get_cluster_by_values(model) %}
+    {{ return(adapter.dispatch('get_cluster_by_values', 'snowplow_unified')(model)) }}
 {% endmacro %}
 
 
-{% macro default__unified_cluser_by(model) %}
+{% macro default__get_cluster_by_values(model) %}
     {% if model == 'lifecycle_manifest' %}
         {{ return(snowplow_utils.get_value_by_target_type(bigquery_val=["session_identifier"], snowflake_val=["to_date(start_tstamp)"])) }}
     {% elif model == 'app_errors' %}
