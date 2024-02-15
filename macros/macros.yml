@@ -99,8 +99,8 @@ macros:
     description: '{{ doc("macro_event_counts_string_query") }}'
   - name: conversion_query
     description: '{{ doc("macro_conversion_query") }}'
-  - name: cluster_by_values
-    description: '{{ doc("macro_cluster_by_values") }}'
+  - name: get_cluster_by_values
+    description: '{{ doc("macro_get_cluster_by_values") }}'
     arguments:
       - name: model
         type: string

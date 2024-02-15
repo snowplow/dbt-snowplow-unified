@@ -3,11 +3,15 @@ snowplow-unified 0.2.1 (2024-02-XX)
 ## Summary
 XXX
 
+## 🚨 Breaking Changes 🚨
+We have changed the behavior of the `allow_refresh` macro so now if `snowplow__allow_refresh` is set to `true` it will only refresh the manifest models if the `--full-refresh` flag is also set. If you require the old behavior where it would refresh the manifest models on an incremental run when `snowplow__allow_refresh` was set to `true`, please overwrite this macro. See the [Overriding Macros](https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-operation/macros-and-keys/#overriding-macros) guide for more details.
+
 ## Features
 - Add new passthrough aggregations to the views, sessions, and users table, enabled using `snowplow__view/session/user_aggregations`
 - Reorder and add some additional context fields to derived tables (non-breaking change)
 - Add `snowplow__custom_sql` to allow adding custom sql to the `snowplow_unified_base_events_this_run` and `snowplow_unified_events_this_run` models
 - Add macro to define cluster-by for tables to allow users to overwrite this if required
+- Add check for `--full-refresh` flag before allowing refresh of manifest models when `snowplow__allow_refresh` is set to `true`.
 
 ## Fixes
 - Fix a bug where if you ran the package in a period with no data, and had list all events enabled, the package would error rather than complete
