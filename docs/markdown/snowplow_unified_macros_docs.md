@@ -103,7 +103,7 @@ The sql to extract the columns from the yauaa context, or these columns as nulls
 This macro is used to determine if a full-refresh is allowed (depending on the environment), using the `snowplow__allow_refresh` variable.
 
 #### Returns
-`snowplow__allow_refresh` if environment is not `dev`, `none` otherwise.
+`snowplow__allow_refresh` if environment is not `dev`, `none` otherwise. Returns `none` if the `--full-refresh` flag is not present.
 
 {% endraw %}
 {% enddocs %}
