@@ -89,7 +89,7 @@ vars:
     snowplow__enable_deep_link_context: false
     snowplow__enable_screen_summary_context: false
     # add extra custom fields:
-    snowplow__page_view_passthroughs: []
+    snowplow__view_passthroughs: []
     snowplow__session_passthroughs: []
     snowplow__user_first_passthroughs: []
     snowplow__user_last_passthroughs: []
