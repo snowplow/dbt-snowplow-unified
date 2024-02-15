@@ -76,9 +76,9 @@ with prep as (
     ,row_number() over (partition by ev.view_id order by ev.derived_tstamp, ev.dvce_created_tstamp) as view_id_dedupe_index
     {% endif %}
 
-    {%- if var('snowplow__page_view_passthroughs', []) -%}
+    {%- if var('snowplow__view_passthroughs', []) -%}
       {%- set passthrough_names = [] -%}
-      {%- for identifier in var('snowplow__page_view_passthroughs', []) %}
+      {%- for identifier in var('snowplow__view_passthroughs', []) %}
       {# Check if it is a simple column or a sql+alias #}
         {%- if identifier is mapping -%}
           ,{{identifier['sql']}} as {{identifier['alias']}}
@@ -288,7 +288,7 @@ select
 
     , pve.useragent
 
-    {%- if var('snowplow__page_view_passthroughs', []) -%}
+    {%- if var('snowplow__view_passthroughs', []) -%}
       {%- for col in passthrough_names %}
         , pve.{{col}}
       {%- endfor -%}
