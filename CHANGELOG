@@ -13,7 +13,8 @@ XXX
 - Add `snowplow__custom_sql` to allow adding custom sql to the `snowplow_unified_base_events_this_run` and `snowplow_unified_events_this_run` models
 - Add macro to define cluster-by for tables to allow users to overwrite this if required
 - Add check for `--full-refresh` flag before allowing refresh of manifest models when `snowplow__allow_refresh` is set to `true`.
-- Rename 
+- Add ability to grant select to a list of users, principals or roles on tables created by the package using `snowplow__grant_select_to` for all warehouses except BigQuery  
+- Add auto-grant of `usage` on schemas to `snowplow__grant_select_to`, can be disabled using `snowplow__grant_schema_usage` (see docs at https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/package-features/table-grants/)
 
 ## Fixes
 - Fix a bug where if you ran the package in a period with no data, and had list all events enabled, the package would error rather than complete
