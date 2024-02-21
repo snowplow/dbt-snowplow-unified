@@ -42,6 +42,8 @@ vars:
     snowplow__ga4_categories_seed: snowplow_unified_dim_ga4_source_categories
     snowplow__geo_mapping_seed: snowplow_unified_dim_geo_country_mapping
     snowplow__rfc_5646_seed: snowplow_unified_dim_rfc_5646_language_mapping
+    snowplow__grant_select_to: []
+    snowplow__grant_schema_usage: true
 
     # OPERATION & LOGIC
     snowplow__allow_refresh: false
@@ -145,7 +147,7 @@ on-run-start:
 # Update manifest table with last event consumed per sucessfully executed node/model
 on-run-end:
   - "{{ snowplow_utils.snowplow_incremental_post_hook(package_name='snowplow_unified', incremental_manifest_table_name='snowplow_unified_incremental_manifest', base_events_this_run_table_name='snowplow_unified_base_events_this_run', session_timestamp=var('snowplow__session_timestamp')) }}"
-
+  - "{{ snowplow_utils.grant_usage_on_schemas_built_into(var('snowplow__grant_schemas', true)) }}"
 # Tag 'snowplow_unified_incremental' allows snowplow_incremental_post_hook to identify Snowplow models and add their last sucessfull collector_tstamp to the manifest.
 
 
