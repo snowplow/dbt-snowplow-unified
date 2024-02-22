@@ -1,11 +1,14 @@
-snowplow-unified 0.2.1 (2024-02-XX)
+snowplow-unified 0.3.0 (2024-02-26)
 ---------------------------------------
 ## Summary
-XXX
+This release adds one major new feature, which is custom aggregations on the views, sessions, and users tables. You can read more about it in our docs [here](https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/package-features/custom-aggregations/). We also added the ability to manage grants to all tables in the package via the `snowplow__grant_select_to` variable.
+
+Under the hood we did a lot of small tweaks and improvements including prefixing all macro calls for easier custom models, moved cluster by fields to macros, ensure that the manifest tables are only full refreshed when `snowplow__allow_refresh` is set to true AND there is a full refresh flag on the run, and added a few context fields to the derived tables that were being discarded previously.
 
 ## 🚨 Breaking Changes 🚨
 - We have changed the behavior of the `allow_refresh` macro so now if `snowplow__allow_refresh` is set to `true` it will only refresh the manifest models if the `--full-refresh` flag is also set. If you require the old behavior where it would refresh the manifest models on an incremental run when `snowplow__allow_refresh` was set to `true`, please overwrite this macro. See the [Overriding Macros](https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-operation/macros-and-keys/#overriding-macros) guide for more details.
 - Renamed `snowplow__page_view_passthroughs` to `snowplow__view_passthroughs` to be consistent with the rest of the package
+- Minimum `snowplow-utils` version is now 0.16.2
 
 ## Features
 - Add new passthrough aggregations to the views, sessions, and users table, enabled using `snowplow__view/session/user_aggregations`
@@ -18,6 +21,7 @@ XXX
 
 ## Fixes
 - Fix a bug where if you ran the package in a period with no data, and had list all events enabled, the package would error rather than complete
+- Fix incorrect tagging in app errors module tables
 
 ## Under the hood
 - Prefix all macro calls with package name for easier customization
@@ -25,7 +29,7 @@ XXX
 - Bump actions version numbers
 
 ## Upgrading
-Bump the snowplow-unified version in your `packages.yml` file.
+Bump the snowplow-unified version in your `packages.yml` file, paying attention to the breaking changes above..
 
 snowplow-unified 0.2.0 (2024-01-30)
 ---------------------------------------
