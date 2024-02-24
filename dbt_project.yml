@@ -169,7 +169,7 @@ models:
     optional_modules:
       app_errors:
         +schema: "derived"
-        +tags: "snowplow_mobile_incremental"
+        +tags: "snowplow_unified_incremental"
         scratch:
           +schema: "scratch"
           +tags: "scratch"
