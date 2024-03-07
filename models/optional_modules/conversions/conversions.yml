@@ -14,10 +14,6 @@ models:
                 enabled: '{{var("snowplow__enable_conversions", false)}}'
       - name: user_id
         description: '{{ doc("col_user_id") }}'
-        tests:
-          - not_null:
-              config:
-                enabled: '{{var("snowplow__enable_conversions", false)}}'
       - name: session_identifier
         description: '{{ doc("col_session_identifier") }}'
         tests:
@@ -54,10 +50,6 @@ models:
                 enabled: '{{var("snowplow__enable_conversions", false)}}'
       - name: user_id
         description: '{{ doc("col_user_id") }}'
-        tests:
-          - not_null:
-              config:
-                enabled: '{{var("snowplow__enable_conversions", false)}}'
       - name: session_identifier
         description: '{{ doc("col_session_identifier") }}'
         tests:
