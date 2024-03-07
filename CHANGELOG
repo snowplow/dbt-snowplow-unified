@@ -1,3 +1,15 @@
+snowplow-unified 0.3.1 (2024-03-11)
+---------------------------------------
+## Summary
+This release fixes an issue where it was not possible to full refresh a single table using the `models_to_remove` variable, as well as removing a non-valid tests on the conversions table.
+
+## Fixes
+- Fix missing argument in `snowplow_utils.snowplow_delete_from_manifest` call
+- Remove null test on `user_id` in conversions table
+
+## Upgrading
+Bump the snowplow-unified version in your `packages.yml` file.
+
 snowplow-unified 0.3.0 (2024-02-26)
 ---------------------------------------
 ## Summary
