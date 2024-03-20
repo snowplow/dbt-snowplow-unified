@@ -1335,3 +1335,7 @@ Percentage of page scrolled vertically.
 On Web, it is calculated based on the page ping events.
 On mobile, it is calculated using the `screen_summary` context.
 {% enddocs %}
+
+{% docs col_cv_id %}
+A unique surrogate key using a event_id and cv_type to uniquely identify a record in the conversions table.
+{% enddocs %}

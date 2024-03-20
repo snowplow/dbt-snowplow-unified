@@ -10,10 +10,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     materialized='incremental',
     enabled=var("snowplow__enable_conversions", false),
     on_schema_change='append_new_columns',
-    unique_key='event_id',
+    unique_key='cv_id',
     upsert_date_key='cv_tstamp',
     sort='cv_tstamp',
-    dist='event_id',
+    dist='cv_id',
     partition_by = snowplow_utils.get_value_by_target_type(bigquery_val = {
       "field": "cv_tstamp",
       "data_type": "timestamp"
