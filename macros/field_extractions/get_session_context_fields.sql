@@ -38,7 +38,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           enabled=true,
           col_prefix='contexts_com_snowplowanalytics_snowplow_client_session_1',
           fields=bq_session_context_fields,
-          relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
+          relation=ref('snowplow_unified_events_stg') if 'integration_tests' in project_name and 'snowplow' in project_name else source('atomic', 'events') ,
           relation_alias=none) }}
     {% else %}
       , cast(null as {{ dbt.type_string() }}) as session__session_id

@@ -39,7 +39,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           enabled=var('snowplow__enable_screen_context', false),
           col_prefix='contexts_com_snowplowanalytics_mobile_screen_1',
           fields=bq_screen_context_fields,
-         relation=source('atomic', 'events') if 'integration_tests' not in project_name and 'snowplow' not in project_name else ref('snowplow_unified_events_stg'),
+         relation=ref('snowplow_unified_events_stg') if 'integration_tests' in project_name and 'snowplow' in project_name else source('atomic', 'events') ,
           relation_alias=none) }}
     {% else %}
       , cast(null as {{ dbt.type_string() }}) as screen__id
