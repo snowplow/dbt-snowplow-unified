@@ -6,6 +6,9 @@ XXX
 ## 🚨 Breaking Changes 🚨
 - Adds a new surrogate key to the optional conversions table, to allow for the same event to be part of multiple conversions
 
+## Fixes
+- Fix an issue where having `snowplow` in your project name caused issue when using a bigquery target
+
 ## Upgrading
 Bump the snowplow-unified version in your `packages.yml` file. If you already make use of the conversions table and wish to not do a full refresh, you can add the new column by following the migration guide [here](https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/migration-guides/unified/#upgrading-to-040).
 
