@@ -1,7 +1,7 @@
 snowplow-unified 0.4.0 (2024-03-25)
 ---------------------------------------
 ## Summary
-XXX
+This release adds a surrogate key to the conversions table, in case of an event being valid against multiple conversion types, and fixes an issue with bigquery if `snowplow` was in your project name.
 
 ## 🚨 Breaking Changes 🚨
 - Adds a new surrogate key to the optional conversions table, to allow for the same event to be part of multiple conversions
