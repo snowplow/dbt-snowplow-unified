@@ -4,10 +4,16 @@ models:
   - name: snowplow_unified_conversions_this_run
     description: A scratch table used as a base for creating the incremental conversions derived table.
     columns:
-      - name: event_id
-        description: '{{ doc("col_event_id") }}'
+      - name: cv_id
+        description: '{{ doc("col_cv_id") }}'
         tags:
           - primary-key
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: event_id
+        description: '{{ doc("col_event_id") }}'
         tests:
           - not_null:
               config:
@@ -40,10 +46,16 @@ models:
   - name: snowplow_unified_conversions
     description: An incremental table which contains all relevant fields for unique conversion events.
     columns:
-      - name: event_id
-        description: '{{ doc("col_event_id") }}'
+      - name: cv_id
+        description: '{{ doc("col_cv_id") }}'
         tags:
           - primary-key
+        tests:
+          - not_null:
+              config:
+                enabled: '{{var("snowplow__enable_conversions", false)}}'
+      - name: event_id
+        description: '{{ doc("col_event_id") }}'
         tests:
           - not_null:
               config:

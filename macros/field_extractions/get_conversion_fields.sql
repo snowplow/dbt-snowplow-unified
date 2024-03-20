@@ -12,7 +12,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro default__get_conversion_fields(conv_def) %}
 
   select
-    
+    {{ dbt_utils.generate_surrogate_key(['event_id', "'" ~ conv_def['name'] ~ "'"])}} as cv_id,
     event_id,
     session_identifier,
     user_identifier,
