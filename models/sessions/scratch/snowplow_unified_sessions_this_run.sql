@@ -86,7 +86,12 @@ with session_firsts as (
 
     from {{ ref('snowplow_unified_events_this_run') }} ev
     left join
-        {{ ref(var('snowplow__ga4_categories_seed')) }} c on lower(trim(ev.mkt_source)) = lower(c.source)
+        {{ ref(var('snowplow__ga4_categories_seed')) }} c on 
+        {% if var('snowplow__use_refr_if_mkt_null', false) %}
+        lower(trim(coalesce(ev.mkt_source, ev.refr_source)) = lower(c.source)
+        {% else %}
+          lower(trim(ev.mkt_source)) = lower(c.source)
+        {% endif %}
     left join
         {{ ref(var('snowplow__rfc_5646_seed')) }} l on lower(ev.br_lang) = lower(l.lang_tag)
     left join
