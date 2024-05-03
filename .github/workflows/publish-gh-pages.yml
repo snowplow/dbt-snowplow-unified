@@ -114,7 +114,7 @@ jobs:
       run: |
         dbt run-operation post_ci_cleanup --target ${{ matrix.warehouse }}
         dbt seed --target ${{matrix.warehouse}} --full-refresh
-        dbt run --select snowplow_unified snowplow_unified_events_stg --target ${{matrix.warehouse}} --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 243, snowplow__enable_cwv: false, snowplow__view_passthroughs: [], snowplow__session_passthroughs: [], snowplow__user_first_passthroughs: [], snowplow__user_last_passthroughs: [], snowplow__view_aggregations: [], snowplow__session_aggregations: [], snowplow__user_aggregations: [], snowplow__conversion_events" []}'
+        dbt run --select snowplow_unified snowplow_unified_events_stg --target ${{matrix.warehouse}} --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 243, snowplow__enable_cwv: false, snowplow__view_passthroughs: [], snowplow__session_passthroughs: [], snowplow__user_first_passthroughs: [], snowplow__user_last_passthroughs: [], snowplow__view_aggregations: [], snowplow__session_aggregations: [], snowplow__user_aggregations: [], snowplow__conversion_events: []}'
         dbt docs generate --select snowplow_unified  --vars '{snowplow__atomic_schema: "${{ matrix.warehouse }}_snplw_unified_int_tests"}'
         rm -f ../docs/catalog.json
         rm -f ../docs/manifest.json
