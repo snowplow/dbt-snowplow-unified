@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - fix/remove-excess-cols-from-docs
 
 concurrency: dbt_integration_tests
 
