@@ -81,6 +81,14 @@ jobs:
       run: |
         echo "DEFAULT_TARGET=${{ matrix.warehouse }}" >> $GITHUB_ENV
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+  
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install jq
+
     - name: Python setup
       uses: actions/setup-python@v5
       with:
@@ -105,14 +113,15 @@ jobs:
       run: |
         dbt run-operation post_ci_cleanup --target ${{ matrix.warehouse }}
         dbt seed --target ${{matrix.warehouse}} --full-refresh
-        dbt run --target ${{matrix.warehouse}} --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 243, snowplow__enable_cwv: false}'
+        dbt run --select snowplow_unified snowplow_unified_events_stg --target ${{matrix.warehouse}} --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 243, snowplow__enable_cwv: false, snowplow__view_passthroughs: [], snowplow__session_passthroughs: [], snowplow__user_first_passthroughs: [], snowplow__user_last_passthroughs: [], snowplow__view_aggregations: [], snowplow__session_aggregations: [], snowplow__user_aggregations: [], snowplow__conversion_events: []}'
         dbt docs generate --vars '{snowplow__atomic_schema: "${{ matrix.warehouse }}_snplw_unified_int_tests"}'
         rm -f ../docs/catalog.json
         rm -f ../docs/manifest.json
         rm -f ../docs/run_results.json
         rm -f ../docs/index.html
+        jq 'walk(if type == "object" then with_entries(select(.key | contains("snowplow_unified_integration_tests") | not)) else . end)' target/manifest.json > target/new_manifest.json
         cp target/catalog.json ../docs/catalog.json
-        cp target/manifest.json ../docs/manifest.json
+        cp target/new_manifest.json ../docs/manifest.json
         cp target/run_results.json ../docs/run_results.json
         cp target/index.html ../docs/index.html
         dbt run-operation post_ci_cleanup --target ${{ matrix.warehouse }}
