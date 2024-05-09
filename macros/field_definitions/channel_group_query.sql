@@ -12,7 +12,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro bigquery__channel_group_query() %}
 case
-   when lower(trim(mkt_source)) = '(direct)' and lower(trim(mkt_medium)) in ('(not set)', '(none)') then 'Direct'
+   when lower(trim(mkt_source)) = 'direct' and lower(trim(mkt_medium)) in ('not set', 'none') then 'Direct'
    when lower(trim(mkt_medium)) like '%cross-network%' then 'Cross-network'
    when regexp_contains(trim(mkt_medium), r'(?i)^(.*cp.*|ppc|retargeting|paid.*)$') then
       case
@@ -42,7 +42,7 @@ end
 
 {% macro default__channel_group_query() %}
 case
-   when lower(trim(mkt_source)) = '(direct)' and lower(trim(mkt_medium)) in ('(not set)', '(none)') then 'Direct'
+   when lower(trim(mkt_source)) = 'direct' and lower(trim(mkt_medium)) in ('not set', 'none') then 'Direct'
    when lower(trim(mkt_medium)) like '%cross-network%' then 'Cross-network'
    when regexp_like(lower(trim(mkt_medium)), '^(.*cp.*|ppc|retargeting|paid.*)$') then
       case
@@ -72,7 +72,7 @@ end
 
 {% macro redshift__channel_group_query() %}
 case
-   when lower(trim(mkt_source)) = '(direct)' and lower(trim(mkt_medium)) in ('(not set)', '(none)') then 'Direct'
+   when lower(trim(mkt_source)) = 'direct' and lower(trim(mkt_medium)) in ('not set', 'none') then 'Direct'
    when lower(trim(mkt_medium)) like '%cross-network%' then 'Cross-network'
    when regexp_instr(lower(trim(mkt_medium)), '^(.*cp.*|ppc|retargeting|paid.*)$') then
       case
