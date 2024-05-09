@@ -92,7 +92,12 @@ with prep as (
 
     from {{ ref('snowplow_unified_events_this_run') }} as ev
 
-    left join {{ ref(var('snowplow__ga4_categories_seed')) }} c on lower(trim(ev.mkt_source)) = lower(c.source)
+    left join {{ ref(var('snowplow__ga4_categories_seed')) }} c on 
+      {% if var('snowplow__use_refr_if_mkt_null', false) %}
+        lower(trim(coalesce(ev.mkt_source, ev.refr_source)) = lower(c.source)
+      {% else %}
+        lower(trim(ev.mkt_source)) = lower(c.source)
+      {% endif %}
 
     where ev.event_name in ('page_view', 'screen_view')
     and ev.view_id is not null

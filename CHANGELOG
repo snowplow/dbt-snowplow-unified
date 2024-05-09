@@ -1,3 +1,17 @@
+snowplow-unified 0.4.1 (2024-0X-XX)
+---------------------------------------
+## Summary
+XXX
+
+## Features
+- New `snowplow__use_refr_if_mkt_null` variable to use `refr_` fields if `mkt_` ones are null in default channel group classification
+
+## Fixes
+- Fix an issue in the channel group classification where direct channels were sometimes ignored due to string checks
+
+## Upgrading
+Bump the snowplow-unified version in your `packages.yml` file. 
+
 snowplow-unified 0.4.0 (2024-03-25)
 ---------------------------------------
 ## Summary
