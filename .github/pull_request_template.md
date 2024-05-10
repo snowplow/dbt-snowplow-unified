@@ -22,32 +22,31 @@ If you would prefer to read this in advance of submitting your PR you can find i
 - [ ] ⏩ Revert
 
 ## Related Tickets & Documents
+
 <!-- 
 Please use this format link issue numbers: Fixes #123
 -->
 
 ## Checklist
-- [ ] ❗️ I have verified that these changes work on Redshift
+
 - [ ] 💣 Is your change a breaking change?
 - [ ] 📖 I have updated the CHANGELOG.md
 
 ### Added tests?
+
 - [ ] 👍 yes
 - [ ] 🙅 no, because they aren't needed
 - [ ] 🙋 no, because I need help
 
 ### Added to documentation?
+
 - [ ] 📓 internal package docs (ymls, macros, readme, if applicable)
-- [ ] 📕 I have raised a [Snowplow documentation](https://github.com/snowplow/documentation) PR if applicable (Link here if required)
+- [ ] 📕 I have raised a [Snowplow documentation](https://github.com/snowplow/documentation) PR if applicable (Link here)
 - [ ] 🙅 no documentation needed
 
 ## [optional] Are there any post-deployment tasks we need to perform?
 
-
-
 ## [optional] What gif best describes this PR or how it makes you feel?
-
-
 
 <!-- note: PRs with deleted sections will be marked invalid -->
 
