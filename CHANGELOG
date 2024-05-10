@@ -1,7 +1,7 @@
-snowplow-unified 0.4.1 (2024-0X-XX)
+snowplow-unified 0.4.1 (2024-05-13)
 ---------------------------------------
 ## Summary
-XXX
+This feature updates our `default_channel_group` definition to support the use of `refr_` fields in the case that the `mkt_` fields are null. This is a requested feature in particular for landing pages with redirects. This functionality is turned off by default.
 
 ## Features
 - New `snowplow__use_refr_if_mkt_null` variable to use `refr_` fields if `mkt_` ones are null in default channel group classification
