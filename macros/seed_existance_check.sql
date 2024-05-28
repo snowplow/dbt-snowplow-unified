@@ -6,33 +6,34 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 #}
 
 {% macro seed_existance_check() %}
+  {{ return(adapter.dispatch('seed_existance_check', 'snowplow_unified')()) }}
+{% endmacro %}
+
+{% macro default__seed_existance_check() %}
     {% if execute %}
         {# Ensure that this check is only performed during 'run' or 'build' commands #}
-        {%- if flags.WHICH in ('run') -%}
-            {% for node in graph.nodes.values() | selectattr("resource_type", "equalto", "seed") %}
+        {# Log the flags.WHICH#}
+        {%- if flags.WHICH in ('run', 'run-operation') -%}
+            {% for node in graph.nodes.values() | selectattr("resource_type", "equalto", "seed") | selectattr("package_name", "equalto", "snowplow_unified") %}
+
+                {# {{ log(node | tojson, info=True) }} #}
 
                 {# Convert schema and table names to uppercase to prevent case sensitivity issues #}
                 {% set schema = node.schema | upper %}
                 {% set table = node.alias | upper %}
                 
-                {# Construct a SQL query to check if the seed table exists in the information schema #}
-                {% set check_table_exists_query = """SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '" ~ schema ~ "' AND table_name = '" ~ table ~ "'" %}
+                {# Use dbt's method to get a list of relations matching the schema and table name pattern #}
+                {% set relations = dbt_utils.get_relations_by_pattern(schema_pattern=schema, table_pattern=table) %}
                 
-                {% set results = run_query(check_table_exists_query) %}
-                {% set table_exists = results.columns[0][0] if results and results.columns[0] else 0 %}
-                
-                {# Log an error and fail the run if the table does not exist #}
-                {% if table_exists | int == 0 %}
-                    {% do log(node.unique_id ~ " does not exist.", info=true) %}
+                {# Check if the relation exists by assessing the length of the relations list #}
+                {% if relations | length == 0 %}
 
-                    {# This is a bad way to handle this, but it's the only way to fail a dbt macro
-                    running in the on-run-start hook while in execution mode. We do this until the update #}
-                    
-                    {{ 0/0 }}
+                    {{ exceptions.raise_compiler_error(
+                    "Snowplow Error: " ~ table ~ " does not exist. Please ensure that the seed data are available before running dbt."
+                    ) }}
 
                 {% endif %}
             {% endfor %}
         {%- endif %}
     {% endif %}
 {% endmacro %}
- 
