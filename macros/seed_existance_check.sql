@@ -16,12 +16,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         {%- if flags.WHICH in ('run', 'run-operation') -%}
             {% for node in graph.nodes.values() | selectattr("resource_type", "equalto", "seed") | selectattr("package_name", "equalto", "snowplow_unified") %}
 
-                {# {{ log(node | tojson, info=True) }} #}
+                {% set schema = node.schema %}
+                {% set table = node.alias %}
 
-                {# Convert schema and table names to uppercase to prevent case sensitivity issues #}
-                {% set schema = node.schema | upper %}
-                {% set table = node.alias | upper %}
-                
                 {# Use dbt's method to get a list of relations matching the schema and table name pattern #}
                 {% set relations = dbt_utils.get_relations_by_pattern(schema_pattern=schema, table_pattern=table) %}
                 
