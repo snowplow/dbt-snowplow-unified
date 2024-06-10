@@ -26,7 +26,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
                 {% if relations | length == 0 %}
 
                     {{ exceptions.raise_compiler_error(
-                    "Snowplow Error: " ~ table ~ " does not exist. Please ensure that the seed data are available before running dbt."
+                    "Snowplow Error: " ~ schema ~ "." ~ table ~ " does not exist. Please ensure that the seed data are available before running dbt."
                     ) }}
 
                 {% endif %}
