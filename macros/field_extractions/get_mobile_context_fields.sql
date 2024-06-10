@@ -108,31 +108,31 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_mobile_context_fields() %}
   {% if var('snowplow__enable_mobile_context', false) %}
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.device_manufacturer')::STRING AS mobile__device_manufacturer
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.device_model')::STRING AS mobile__device_model
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.os_type')::STRING AS mobile__os_type
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.os_version')::STRING AS mobile__os_version
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.android_idfa')::STRING AS mobile__android_idfa
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.apple_idfa')::STRING AS mobile__apple_idfa
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.apple_idfv')::STRING AS mobile__apple_idfv
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.carrier')::STRING AS mobile__carrier
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.open_idfa')::STRING AS mobile__open_idfa
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.network_technology')::STRING AS mobile__network_technology
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.network_type')::STRING AS mobile__network_type
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.physical_memory')::INT AS mobile__physical_memory
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.system_available_memory')::INT AS mobile__system_available_memory
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.app_available_memory')::INT AS mobile__app_available_memory
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.battery_level')::INT AS mobile__battery_level
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.battery_state')::STRING AS mobile__battery_state
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.low_power_mode')::BOOLEAN AS mobile__low_power_mode
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.available_storage')::bigint AS mobile__available_storage
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.total_storage')::bigint AS mobile__total_storage
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.is_portrait')::BOOLEAN AS mobile__is_portrait
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.resolution')::STRING AS mobile__resolution
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.scale')::float AS mobile__scale
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.language')::STRING AS mobile__language
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.app_set_id')::STRING AS mobile__app_set_id
-    , get_json_object(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]::String,'$.app_set_id_scope')::STRING AS mobile__app_set_id_scope
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.device_manufacturer')::STRING AS mobile__device_manufacturer
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.device_model')::STRING AS mobile__device_model
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.os_type')::STRING AS mobile__os_type
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.os_version')::STRING AS mobile__os_version
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.android_idfa')::STRING AS mobile__android_idfa
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.apple_idfa')::STRING AS mobile__apple_idfa
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.apple_idfv')::STRING AS mobile__apple_idfv
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.carrier')::STRING AS mobile__carrier
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.open_idfa')::STRING AS mobile__open_idfa
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.network_technology')::STRING AS mobile__network_technology
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.network_type')::STRING AS mobile__network_type
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.physical_memory')::int AS mobile__physical_memory
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.system_available_memory')::int AS mobile__system_available_memory
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.app_available_memory')::int AS mobile__app_available_memory
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.battery_level')::int AS mobile__battery_level
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.battery_state')::STRING AS mobile__battery_state
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.low_power_mode')::BOOLEAN AS mobile__low_power_mode
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.available_storage')::bigint AS mobile__available_storage
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.total_storage')::bigint AS mobile__total_storage
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.is_portrait')::BOOLEAN AS mobile__is_portrait
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.resolution')::STRING AS mobile__resolution
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.scale')::float AS mobile__scale
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.language')::STRING AS mobile__language
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.app_set_id')::STRING AS mobile__app_set_id
+    , get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0])::String,'$.app_set_id_scope')::STRING AS mobile__app_set_id_scope
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as mobile__device_manufacturer
     , cast(null as {{ dbt.type_string() }}) as mobile__device_model
