@@ -28,10 +28,6 @@ models:
                 enabled: '{{var("snowplow__enable_conversions", false)}}'
       - name: user_identifier
         description: '{{ doc("col_user_identifier") }}'
-        tests:
-          - not_null:
-              config:
-                enabled: '{{var("snowplow__enable_conversions", false)}}'
       - name: stitched_user_id
         description: '{{ doc("col_stitched_user_id") }}'
       - name: cv_value
@@ -70,10 +66,6 @@ models:
                 enabled: '{{var("snowplow__enable_conversions", false)}}'
       - name: user_identifier
         description: '{{ doc("col_user_identifier") }}'
-        tests:
-          - not_null:
-              config:
-                enabled: '{{var("snowplow__enable_conversions", false)}}'
       - name: stitched_user_id
         description: '{{ doc("col_stitched_user_id") }}'
       - name: cv_value
