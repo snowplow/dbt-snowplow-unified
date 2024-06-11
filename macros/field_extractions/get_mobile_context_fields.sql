@@ -104,35 +104,35 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ dbt.type_string() }}) as mobile__app_set_id
     , cast(null as {{ dbt.type_string() }}) as mobile__app_set_id_scope
   {% endif %}
-{% endmacro %}
+{% endmacro %} 
 
 {% macro spark__get_mobile_context_fields() %}
   {% if var('snowplow__enable_mobile_context', false) %}
-  , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].device_manufacturer as STRING) AS mobile__device_manufacturer
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].device_model as STRING) AS mobile__device_model
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].os_type as STRING) AS mobile__os_type
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].os_version as STRING) AS mobile__os_version
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].android_idfa as STRING) AS mobile__android_idfa
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].apple_idfa as STRING) AS mobile__apple_idfa
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].apple_idfv as STRING) AS mobile__apple_idfv
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].carrier as STRING) AS mobile__carrier
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].open_idfa as STRING) AS mobile__open_idfa
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].network_technology as STRING) AS mobile__network_technology
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].network_type as STRING) AS mobile__network_type
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].physical_memory as INT) AS mobile__physical_memory
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].system_available_memory as INT) AS mobile__system_available_memory
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_available_memory as INT) AS mobile__app_available_memory
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].battery_level as INT) AS mobile__battery_level
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].battery_state as STRING) AS mobile__battery_state
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].low_power_mode as BOOLEAN) AS mobile__low_power_mode
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].available_storage as bigint) AS mobile__available_storage
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].total_storage as bigint) AS mobile__total_storage
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].is_portrait as BOOLEAN) AS mobile__is_portrait
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].resolution as STRING) AS mobile__resolution
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].scale as float) AS mobile__scale
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].language as STRING) AS mobile__language
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_set_id as STRING) AS mobile__app_set_id
-    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_set_id_scope as STRING) AS mobile__app_set_id_scope
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.device_manufacturer') AS STRING) AS mobile__device_manufacturer
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.device_model') AS STRING) AS mobile__device_model
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.os_type') AS STRING) AS mobile__os_type
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.os_version') AS STRING) AS mobile__os_version
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.android_idfa') AS STRING) AS mobile__android_idfa
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.apple_idfa') AS STRING) AS mobile__apple_idfa
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.apple_idfv') AS STRING) AS mobile__apple_idfv
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.carrier') AS STRING) AS mobile__carrier
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.open_idfa') AS STRING) AS mobile__open_idfa
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.network_technology') AS STRING) AS mobile__network_technology
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.network_type') AS STRING) AS mobile__network_type
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.physical_memory') AS INT) AS mobile__physical_memory
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.system_available_memory') AS INT) AS mobile__system_available_memory
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.app_available_memory') AS INT) AS mobile__app_available_memory
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.battery_level') AS INT) AS mobile__battery_level
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.battery_state') AS STRING) AS mobile__battery_state
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.low_power_mode') AS BOOLEAN) AS mobile__low_power_mode
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.available_storage') AS BIGINT) AS mobile__available_storage
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.total_storage') AS BIGINT) AS mobile__total_storage
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.is_portrait') AS BOOLEAN) AS mobile__is_portrait
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.resolution') AS STRING) AS mobile__resolution
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.scale') AS FLOAT) AS mobile__scale
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.language') AS STRING) AS mobile__language
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.app_set_id') AS STRING) AS mobile__app_set_id
+    , cast(get_json_object(to_json(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0]),'$.app_set_id_scope') AS STRING) AS mobile__app_set_id_scope
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as mobile__device_manufacturer
     , cast(null as {{ dbt.type_string() }}) as mobile__device_model
