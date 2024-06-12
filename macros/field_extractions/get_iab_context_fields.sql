@@ -45,10 +45,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_iab_context_fields() %}
   {%- if var('snowplow__enable_iab', false) -%}
-    , contexts_com_iab_snowplow_spiders_and_robots_1[0].category::STRING as iab__category
-    , contexts_com_iab_snowplow_spiders_and_robots_1[0].primary_impact::STRING as iab__primary_impact
-    , contexts_com_iab_snowplow_spiders_and_robots_1[0].reason::STRING as iab__reason
-    , contexts_com_iab_snowplow_spiders_and_robots_1[0].spider_or_robot::BOOLEAN as iab__spider_or_robot
+    , cast(contexts_com_iab_snowplow_spiders_and_robots_1[0].category as STRING) as iab__category
+    , cast(contexts_com_iab_snowplow_spiders_and_robots_1[0].primary_impact as STRING) as iab__primary_impact
+    , cast(contexts_com_iab_snowplow_spiders_and_robots_1[0].reason as STRING) as iab__reason
+    , cast(contexts_com_iab_snowplow_spiders_and_robots_1[0].spider_or_robot as BOOLEAN) as iab__spider_or_robot
   {%- else -%}
     , cast(null as {{ dbt.type_string() }}) as iab__category
     , cast(null as {{ dbt.type_string() }}) as iab__primary_impact
