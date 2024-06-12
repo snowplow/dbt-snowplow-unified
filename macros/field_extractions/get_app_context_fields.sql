@@ -39,8 +39,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_app_context_fields() %}
   {% if var('snowplow__enable_application_context', false) %}
-      , contexts_com_snowplowanalytics_mobile_application_1[0].build::STRING AS app__build
-      , contexts_com_snowplowanalytics_mobile_application_1[0].version::STRING AS app__version
+      , cast(contexts_com_snowplowanalytics_mobile_application_1[0].build as STRING) AS app__build
+      , cast(contexts_com_snowplowanalytics_mobile_application_1[0].version as STRING) AS app__version
   {% else %}
       , cast(null as {{ dbt.type_string() }}) as app__build
       , cast(null as {{ dbt.type_string() }}) as app__version

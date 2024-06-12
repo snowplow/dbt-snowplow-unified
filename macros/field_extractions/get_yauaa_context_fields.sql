@@ -93,26 +93,26 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_yauaa_context_fields() %}
   {%- if var('snowplow__enable_yauaa', false) -%}
-    , contexts_nl_basjes_yauaa_context_1[0].device_class::STRING as yauaa__device_class
-    , contexts_nl_basjes_yauaa_context_1[0].agent_class::STRING as yauaa__agent_class
-    , contexts_nl_basjes_yauaa_context_1[0].agent_name::STRING as yauaa__agent_name
-    , contexts_nl_basjes_yauaa_context_1[0].agent_name_version::STRING as yauaa__agent_name_version
-    , contexts_nl_basjes_yauaa_context_1[0].agent_name_version_major::STRING as yauaa__agent_name_version_major
-    , contexts_nl_basjes_yauaa_context_1[0].agent_version::STRING as yauaa__agent_version
-    , contexts_nl_basjes_yauaa_context_1[0].agent_version_major::STRING as yauaa__agent_version_major
-    , contexts_nl_basjes_yauaa_context_1[0].device_brand::STRING as yauaa__device_brand
-    , contexts_nl_basjes_yauaa_context_1[0].device_name::STRING as yauaa__device_name
-    , contexts_nl_basjes_yauaa_context_1[0].device_version::STRING as yauaa__device_version
-    , contexts_nl_basjes_yauaa_context_1[0].layout_engine_class::STRING as yauaa__layout_engine_class
-    , contexts_nl_basjes_yauaa_context_1[0].layout_engine_name::STRING as yauaa__layout_engine_name
-    , contexts_nl_basjes_yauaa_context_1[0].layout_engine_name_version::STRING as yauaa__layout_engine_name_version
-    , contexts_nl_basjes_yauaa_context_1[0].layout_engine_name_version_major::STRING as yauaa__layout_engine_name_version_major
-    , contexts_nl_basjes_yauaa_context_1[0].layout_engine_version::STRING as yauaa__layout_engine_version
-    , contexts_nl_basjes_yauaa_context_1[0].layout_engine_version_major::STRING as yauaa__layout_engine_version_major
-    , contexts_nl_basjes_yauaa_context_1[0].operating_system_class::STRING as yauaa__operating_system_class
-    , contexts_nl_basjes_yauaa_context_1[0].operating_system_name::STRING as yauaa__operating_system_name
-    , contexts_nl_basjes_yauaa_context_1[0].operating_system_name_version::STRING as yauaa__operating_system_name_version
-    , contexts_nl_basjes_yauaa_context_1[0].operating_system_version::STRING as yauaa__operating_system_version
+    , cast(contexts_nl_basjes_yauaa_context_1[0].device_class as STRING) as yauaa__device_class
+    , cast(contexts_nl_basjes_yauaa_context_1[0].agent_class as STRING) as yauaa__agent_class
+    , cast(contexts_nl_basjes_yauaa_context_1[0].agent_name as STRING) as yauaa__agent_name
+    , cast(contexts_nl_basjes_yauaa_context_1[0].agent_name_version as STRING) as yauaa__agent_name_version
+    , cast(contexts_nl_basjes_yauaa_context_1[0].agent_name_version_major as STRING) as yauaa__agent_name_version_major
+    , cast(contexts_nl_basjes_yauaa_context_1[0].agent_version as STRING) as yauaa__agent_version
+    , cast(contexts_nl_basjes_yauaa_context_1[0].agent_version_major as STRING) as yauaa__agent_version_major
+    , cast(contexts_nl_basjes_yauaa_context_1[0].device_brand as STRING) as yauaa__device_brand
+    , cast(contexts_nl_basjes_yauaa_context_1[0].device_name as STRING) as yauaa__device_name
+    , cast(contexts_nl_basjes_yauaa_context_1[0].device_version as STRING) as yauaa__device_version
+    , cast(contexts_nl_basjes_yauaa_context_1[0].layout_engine_class as STRING) as yauaa__layout_engine_class
+    , cast(contexts_nl_basjes_yauaa_context_1[0].layout_engine_name as STRING) as yauaa__layout_engine_name
+    , cast(contexts_nl_basjes_yauaa_context_1[0].layout_engine_name_version as STRING) as yauaa__layout_engine_name_version
+    , cast(contexts_nl_basjes_yauaa_context_1[0].layout_engine_name_version_major as STRING) as yauaa__layout_engine_name_version_major
+    , cast(contexts_nl_basjes_yauaa_context_1[0].layout_engine_version as STRING) as yauaa__layout_engine_version
+    , cast(contexts_nl_basjes_yauaa_context_1[0].layout_engine_version_major as STRING) as yauaa__layout_engine_version_major
+    , cast(contexts_nl_basjes_yauaa_context_1[0].operating_system_class as STRING) as yauaa__operating_system_class
+    , cast(contexts_nl_basjes_yauaa_context_1[0].operating_system_name as STRING) as yauaa__operating_system_name
+    , cast(contexts_nl_basjes_yauaa_context_1[0].operating_system_name_version as STRING) as yauaa__operating_system_name_version
+    , cast(contexts_nl_basjes_yauaa_context_1[0].operating_system_version as STRING) as yauaa__operating_system_version
   {%- else -%}
     , cast(null as {{ dbt.type_string() }}) as yauaa__device_class
     , cast(null as {{ dbt.type_string() }}) as yauaa__agent_class

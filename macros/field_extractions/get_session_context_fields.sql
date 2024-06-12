@@ -54,14 +54,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_session_context_fields() %}
   {% if var('snowplow__enable_mobile', false) %}
-    , contexts_com_snowplowanalytics_snowplow_client_session_1[0].session_id::STRING AS session__session_id
-    , contexts_com_snowplowanalytics_snowplow_client_session_1[0].session_index::INT AS session__session_index
-    , contexts_com_snowplowanalytics_snowplow_client_session_1[0].previous_session_id::STRING AS session__previous_session_id
-    , contexts_com_snowplowanalytics_snowplow_client_session_1[0].user_id::STRING AS session__user_id
-    , contexts_com_snowplowanalytics_snowplow_client_session_1[0].first_event_id::STRING AS session__first_event_id
-    , contexts_com_snowplowanalytics_snowplow_client_session_1[0].event_index::INT AS session__event_index
-    , contexts_com_snowplowanalytics_snowplow_client_session_1[0].storage_mechanism::STRING AS session__storage_mechanism
-    , contexts_com_snowplowanalytics_snowplow_client_session_1[0].first_event_timestamp::STRING AS session__first_event_timestamp
+    , cast(contexts_com_snowplowanalytics_snowplow_client_session_1[0].session_id as STRING) AS session__session_id
+    , cast(contexts_com_snowplowanalytics_snowplow_client_session_1[0].session_index as INT) AS session__session_index
+    , cast(contexts_com_snowplowanalytics_snowplow_client_session_1[0].previous_session_id as STRING) AS session__previous_session_id
+    , cast(contexts_com_snowplowanalytics_snowplow_client_session_1[0].user_id as STRING) AS session__user_id
+    , cast(contexts_com_snowplowanalytics_snowplow_client_session_1[0].first_event_id as STRING) AS session__first_event_id
+    , cast(contexts_com_snowplowanalytics_snowplow_client_session_1[0].event_index as INT) AS session__event_index
+    , cast(contexts_com_snowplowanalytics_snowplow_client_session_1[0].storage_mechanism as STRING) AS session__storage_mechanism
+    , cast(contexts_com_snowplowanalytics_snowplow_client_session_1[0].first_event_timestamp as STRING) AS session__first_event_timestamp
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as session__session_id
     , cast(null as {{ dbt.type_numeric() }}) as session__session_index

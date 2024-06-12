@@ -72,19 +72,19 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_browser_context_fields() %}
   {% if var('snowplow__enable_browser_context', false) %}
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].viewport::STRING AS browser__viewport
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].document_size::STRING AS browser__document_size
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].resolution::STRING AS browser__resolution
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].color_depth::INT AS browser__color_depth
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].device_pixel_ratio::FLOAT AS browser__device_pixel_ratio
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].cookies_enabled::BOOLEAN AS browser__cookies_enabled
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].online::BOOLEAN AS browser__online
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].browser_language::STRING AS browser__browser_language
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].document_language::STRING AS browser__document_language
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].webdriver::BOOLEAN AS browser__webdriver
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].device_memory::INT AS browser__device_memory
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].hardware_concurrency::INT AS browser__hardware_concurrency
-    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0].tab_id::STRING AS browser__tab_id
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].viewport as STRING) AS browser__viewport
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].document_size as STRING) AS browser__document_size
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].resolution as STRING) AS browser__resolution
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].color_depth as INT) AS browser__color_depth
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].device_pixel_ratio as FLOAT) AS browser__device_pixel_ratio
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].cookies_enabled as BOOLEAN) AS browser__cookies_enabled
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].online as BOOLEAN) AS browser__online
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].browser_language as STRING) AS browser__browser_language
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].document_language as STRING) AS browser__document_language
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].webdriver as BOOLEAN) AS browser__webdriver
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].device_memory as INT) AS browser__device_memory
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].hardware_concurrency as INT) AS browser__hardware_concurrency
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].tab_id as STRING) AS browser__tab_id
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as browser__viewport
     , cast(null as {{ dbt.type_string() }}) as browser__document_size

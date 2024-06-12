@@ -54,13 +54,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_consent_event_fields() %}
   {% if var('snowplow__enable_consent', false) %}
-    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.event_type::STRING as consent__event_type
-    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.basis_for_processing::STRING as consent__basis_for_processing
-    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.consent_url::STRING as consent__consent_url
-    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.consent_version::STRING as consent__consent_version
-    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.consent_scopes::ARRAY<STRING> as consent__consent_scopes
-    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.domains_applied::ARRAY<STRING> as consent__domains_applied
-    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.gdpr_applies::boolean as consent__gdpr_applies
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.event_type as STRING) as consent__event_type
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.basis_for_processing as STRING) as consent__basis_for_processing
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.consent_url as STRING) as consent__consent_url
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.consent_version as STRING) as consent__consent_version
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.consent_scopes as ARRAY<STRING>) as consent__consent_scopes
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.domains_applied as ARRAY<STRING>) as consent__domains_applied
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1.gdpr_applies as boolean) as consent__gdpr_applies
   {% else %}
       , cast(null as {{ dbt.type_string() }}) as consent__event_type
       , cast(null as {{ dbt.type_string() }}) as consent__basis_for_processing

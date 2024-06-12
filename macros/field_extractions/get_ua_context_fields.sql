@@ -70,18 +70,18 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_ua_context_fields() %}
   {%- if var('snowplow__enable_ua', false) -%}
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_family::STRING as ua__useragent_family
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_major::STRING as ua__useragent_major
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_minor::STRING as ua__useragent_minor
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_patch::STRING as ua__useragent_patch
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_version::STRING as ua__useragent_version
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_family::STRING as ua__os_family
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_major::STRING as ua__os_major
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_minor::STRING as ua__os_minor
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_patch::STRING as ua__os_patch
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_patch_minor::STRING as ua__os_patch_minor
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_version::STRING as ua__os_version
-    , contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].device_family::STRING as ua__device_family
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_family as STRING) as ua__useragent_family
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_major as STRING) as ua__useragent_major
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_minor as STRING) as ua__useragent_minor
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_patch as STRING) as ua__useragent_patch
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].useragent_version as STRING) as ua__useragent_version
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_family as STRING) as ua__os_family
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_major as STRING) as ua__os_major
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_minor as STRING) as ua__os_minor
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_patch as STRING) as ua__os_patch
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_patch_minor as STRING) as ua__os_patch_minor
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].os_version as STRING) as ua__os_version
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1[0].device_family as STRING) as ua__device_family
   {%- else -%}
     , cast(null as {{ dbt.type_string() }}) as ua__useragent_family
     , cast(null as {{ dbt.type_string() }}) as ua__useragent_major
