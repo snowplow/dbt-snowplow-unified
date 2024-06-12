@@ -50,9 +50,10 @@ vars:
     # OPERATION & LOGIC
     snowplow__allow_refresh: false
     snowplow__backfill_limit_days: 30
-    # snowplow__conversion_events: [{'name': 'view_page', 'condition': "event_name = 'page_view'", "list_events": true},
-    #                               {'name': 'sign_up', 'condition': "event_name = 'sign_up'", 'value': 5}
-    #                             ]
+    # For running optional_modules:conversions
+    snowplow__conversion_events: [{'name': 'view_page', 'condition': "event_name = 'page_view'", "list_events": true},
+                                   {'name': 'sign_up', 'condition': "event_name = 'sign_up'", 'value': 5}
+                                 ]
     snowplow__cwv_days_to_measure: 28
     snowplow__cwv_percentile: 75
     snowplow__days_late_allowed: 3
@@ -107,7 +108,7 @@ vars:
     snowplow__enable_consent: false
     snowplow__enable_cwv: false
     snowplow__enable_app_errors: false
-    snowplow__enable_conversions: false
+    snowplow__enable_conversions: true
 
     # WAREHOUSE SPECIFIC
 
@@ -160,14 +161,14 @@ models:
   snowplow_unified:
     +materialized: table
     +file_format: iceberg
-    +location_root: s3://dataeng-emr-eks-test/snowplow/validation/warehouse/snowplow_james
+    # +location_root: s3://dataeng-emr-eks-test/snowplow/validation/warehouse/snowplow_james
     +bind: false
     base:
       +tags: "base"
-      # manifest:
-      #  +schema: "snowplow_manifest"
+      manifest:
+        +schema: "manifest"
       scratch:
-        # +schema: "scratch"
+        +schema: "scratch"
         +tags: "scratch"
 
     optional_modules:
@@ -223,4 +224,4 @@ models:
 
 seeds:
   snowplow_unified:
-    +schema: snowplow_manifest
+    +schema: manifest
