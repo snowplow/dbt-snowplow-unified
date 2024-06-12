@@ -108,31 +108,31 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_mobile_context_fields() %}
   {% if var('snowplow__enable_mobile_context', false) %}
-  , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].device_manufacturer::STRING AS mobile__device_manufacturer
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].device_model::STRING AS mobile__device_model
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].os_type::STRING AS mobile__os_type
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].os_version::STRING AS mobile__os_version
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].android_idfa::STRING AS mobile__android_idfa
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].apple_idfa::STRING AS mobile__apple_idfa
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].apple_idfv::STRING AS mobile__apple_idfv
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].carrier::STRING AS mobile__carrier
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].open_idfa::STRING AS mobile__open_idfa
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].network_technology::STRING AS mobile__network_technology
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].network_type::STRING AS mobile__network_type
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].physical_memory::INT AS mobile__physical_memory
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].system_available_memory::INT AS mobile__system_available_memory
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_available_memory::INT AS mobile__app_available_memory
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].battery_level::INT AS mobile__battery_level
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].battery_state::STRING AS mobile__battery_state
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].low_power_mode::BOOLEAN AS mobile__low_power_mode
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].available_storage::bigint AS mobile__available_storage
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].total_storage::bigint AS mobile__total_storage
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].is_portrait::BOOLEAN AS mobile__is_portrait
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].resolution::STRING AS mobile__resolution
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].scale::float AS mobile__scale
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].language::STRING AS mobile__language
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_set_id::STRING AS mobile__app_set_id
-    , contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_set_id_scope::STRING AS mobile__app_set_id_scope
+  , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].device_manufacturer as STRING) AS mobile__device_manufacturer
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].device_model as STRING) AS mobile__device_model
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].os_type as STRING) AS mobile__os_type
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].os_version as STRING) AS mobile__os_version
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].android_idfa as STRING) AS mobile__android_idfa
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].apple_idfa as STRING) AS mobile__apple_idfa
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].apple_idfv as STRING) AS mobile__apple_idfv
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].carrier as STRING) AS mobile__carrier
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].open_idfa as STRING) AS mobile__open_idfa
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].network_technology as STRING) AS mobile__network_technology
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].network_type as STRING) AS mobile__network_type
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].physical_memory as INT) AS mobile__physical_memory
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].system_available_memory as INT) AS mobile__system_available_memory
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_available_memory as INT) AS mobile__app_available_memory
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].battery_level as INT) AS mobile__battery_level
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].battery_state as STRING) AS mobile__battery_state
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].low_power_mode as BOOLEAN) AS mobile__low_power_mode
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].available_storage as bigint) AS mobile__available_storage
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].total_storage as bigint) AS mobile__total_storage
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].is_portrait as BOOLEAN) AS mobile__is_portrait
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].resolution as STRING) AS mobile__resolution
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].scale as float) AS mobile__scale
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].language as STRING) AS mobile__language
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_set_id as STRING) AS mobile__app_set_id
+    , cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].app_set_id_scope as STRING) AS mobile__app_set_id_scope
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as mobile__device_manufacturer
     , cast(null as {{ dbt.type_string() }}) as mobile__device_model

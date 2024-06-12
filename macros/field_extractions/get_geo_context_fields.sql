@@ -54,13 +54,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_geo_context_fields() %}
   {% if var('snowplow__enable_geolocation_context', false) %}
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].latitude::double AS geo__latitude
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].longitude::double AS geo__longitude
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].latitude_longitude_accuracy::double AS geo__latitude_longitude_accuracy
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].altitude::double AS geo__altitude
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].altitude_accuracy::double AS geo__altitude_accuracy
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].bearing::double AS geo__bearing
-    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].speed::double AS geo__speed
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].latitude as double) AS geo__latitude
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].longitude as double) AS geo__longitude
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].latitude_longitude_accuracy as double) AS geo__latitude_longitude_accuracy
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].altitude as double) AS geo__altitude
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].altitude_accuracy as double) AS geo__altitude_accuracy
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].bearing as double) AS geo__bearing
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0].speed as double) AS geo__speed
   {% else %}
     , cast(null as double) as geo__latitude
     , cast(null as double) as geo__longitude

@@ -63,16 +63,16 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_screen_summary_context_fields() %}
   {% if var('snowplow__enable_screen_summary_context', false) %}
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].foreground_sec::FLOAT AS screen_summary__foreground_sec
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].background_sec::FLOAT AS screen_summary__background_sec
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].last_item_index::INT AS screen_summary__last_item_index
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].items_count::INT AS screen_summary__items_count
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].min_x_offset::INT AS screen_summary__min_x_offset
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].min_y_offset::INT AS screen_summary__min_y_offset
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].max_x_offset::INT AS screen_summary__max_x_offset
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].max_y_offset::INT AS screen_summary__max_y_offset
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].content_width::INT AS screen_summary__content_width
-    , contexts_com_snowplowanalytics_mobile_screen_summary_1[0].content_height::INT AS screen_summary__content_height
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].foreground_sec as FLOAT) AS screen_summary__foreground_sec
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].background_sec as FLOAT) AS screen_summary__background_sec
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].last_item_index as INT) AS screen_summary__last_item_index
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].items_count as INT) AS screen_summary__items_count
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].min_x_offset as INT) AS screen_summary__min_x_offset
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].min_y_offset as INT) AS screen_summary__min_y_offset
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].max_x_offset as INT) AS screen_summary__max_x_offset
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].max_y_offset as INT) AS screen_summary__max_y_offset
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].content_width as INT) AS screen_summary__content_width
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1[0].content_height as INT) AS screen_summary__content_height
   {% else %}
     , cast(null as {{ dbt.type_float() }}) as screen_summary__foreground_sec
     , cast(null as {{ dbt.type_float() }}) as screen_summary__background_sec
