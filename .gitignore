@@ -7,3 +7,5 @@ logs/
 dbt-service-account.json
 .vscode/settings.json
 package-lock.yml
+models/james
+.user.yml
