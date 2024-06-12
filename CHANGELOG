@@ -1,3 +1,18 @@
+snowplow-unified 0.4.2 (2024-06-12)
+---------------------------------------
+## Summary
+This release introduces enhancements to the initialization checks and refinements in data handling, particularly in Databricks/Spark environments. These updates ensure smoother operations and better data integrity checks.
+
+## Features
+- Introduced a new validation test to halt the process early if all required seeds are not present in the data warehouse. This ensures all necessary data components are available before proceeding.
+
+## Fixes
+- Revised the field casting approach within Databricks/Spark to enhance data handling and compatibility.
+- Removed the non-null constraint test on `user_identifier` to prevent unnecessary validation errors and allow for more flexible data integration.
+
+## Upgrading
+Update the snowplow-unified version in your `packages.yml` file to take advantage of these improvements.
+
 snowplow-unified 0.4.1 (2024-05-13)
 ---------------------------------------
 ## Summary
