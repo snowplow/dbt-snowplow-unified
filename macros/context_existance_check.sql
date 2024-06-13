@@ -9,7 +9,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro context_existance_check() %}
   {% set contexts = {
       "snowplow__enable_mobile_context": [
-          'contexts_com_snowplowanalytics_snowplow_mobile_context_12' if target.type not in ['redshift'] else var('snowplow__mobile_context')
+          'contexts_com_snowplowanalytics_snowplow_mobile_context_1' if target.type not in ['redshift'] else var('snowplow__mobile_context')
       ],
       "snowplow__enable_iab": [
           'contexts_com_iab_snowplow_spiders_and_robots_1' if target.type not in ['redshift'] else var('snowplow__iab_context')
@@ -60,50 +60,50 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro default__context_existance_check(contexts) %}
 
   {% if execute %}
+    {%- if flags.WHICH in ('run', 'run-operation') -%}
 
-    {% set relation = adapter.get_relation(
-        database=target.database,
-        schema=var('snowplow__atomic_schema', 'atomic'),
-        identifier=var('snowplow__events_table', 'events'))
-    %}
+      {% set relation = adapter.get_relation(
+          database=target.database,
+          schema=var('snowplow__atomic_schema', 'atomic'),
+          identifier=var('snowplow__events_table', 'events'))
+      %}
+      {% if relation %}
+        {% set available_contexts = dbt_utils.get_filtered_columns_in_relation(relation) %}
+        {% set available_contexts = available_contexts | map("lower") | list %}
 
-    {% set available_contexts = dbt_utils.get_filtered_columns_in_relation(relation) %}
-    {% set available_contexts = available_contexts | map("lower") | list %}
+        {# Loop through contexts dictionary keys #}
+        {% for context_key, context_value in contexts.items() %}
 
-    {# Loop through contexts dictionary keys #}
-    {% for context_key, context_value in contexts.items() %}
+          {# Check if the context flag is true and if we should check the existance of the columns #}
+          {% if var(context_key) | as_bool() %}
 
-      {# Check if the context flag is true and if we should check the existance of the columns #}
-      {% if var(context_key) | as_bool() %}
+            {# In case we have multiple (e.g consent loop through all the fields needed )#}
+            {% for context_value_i in context_value %}      
 
-        {# In case we have multiple (e.g consent loop through all the fields needed )#}
-        {% for context_value_i in context_value %}      
+              {% set flags = [0] %}
 
-          {% set flags = [0] %}
-
-          {# Looping through all available contexts #}
-          {% for available_context in available_contexts %}
-              {# we split by the column we want, if its a perfect match it will have a result of ["",""] other wise if its a suffix it will result in {"", "XXXXX"} #}
-              {% if available_context.split(context_value_i)[0] | length == 0 %}
-                  {% if flags[0] == 0 %}
-                      {% set _ = flags.append(1) %}
-                      {% set _ = flags.pop(0) %}
+              {# Looping through all available contexts #}
+              {% for available_context in available_contexts %}
+                  {# we split by the column we want, if its a perfect match it will have a result of ["",""] other wise if its a suffix it will result in {"", "XXXXX"} #}
+                  {% if available_context.split(context_value_i)[0] | length == 0 %}
+                      {% if flags[0] == 0 %}
+                          {% set _ = flags.append(1) %}
+                          {% set _ = flags.pop(0) %}
+                      {% endif %}
                   {% endif %}
+              {% endfor %}
+
+              {% if flags[0] == 0 %}
+                  {{ exceptions.raise_compiler_error(
+                      "Snowplow Error: " ~ context_value_i ~ " column not found. Please ensure the column is present when " ~ context_key ~ " is enabled."
+                  )}}
               {% endif %}
-          {% endfor %}
 
-          {% if flags[0] == 0 %}
-              {{ exceptions.raise_compiler_error(
-                  "Snowplow Error: " ~ context_value_i ~ " column not found. Please ensure the column is present when " ~ context_key ~ " is enabled."
-              )}}
+            {% endfor %}
           {% endif %}
-
         {% endfor %}
-      
       {% endif %}
-
-    {% endfor %}
-
+    {% endif %}
   {% endif %}
 
 {% endmacro %}
@@ -111,54 +111,53 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro redshift__context_existance_check(contexts) %}
 
   {% if execute %}
+    {%- if flags.WHICH in ('run', 'run-operation') -%}
+      {% set relation = adapter.get_relation(
+          database=target.database,
+          schema=var('snowplow__atomic_schema', 'atomic'),
+          identifier=var('snowplow__events_table', 'events'))
+      %}
+      {% if relation %}
+        {% set available_contexts = dbt_utils.dbt_utils.get_table_types_sql(relation) %}
+        {% set available_contexts = available_contexts | map("lower") | list %}
 
-    {% set relation = adapter.get_relation(
-        database=target.database,
-        schema=var('snowplow__atomic_schema', 'atomic'),
-        identifier=var('snowplow__events_table', 'events'))
-    %}
+        {# Loop through contexts dictionary keys #}
+        {% for context_key, context_value in contexts.items() %}
 
-    {% set available_contexts = dbt_utils.dbt_utils.get_table_types_sql(relation) %}
-    {% set available_contexts = available_contexts | map("lower") | list %}
+          {# Check if the context flag is true and if we should check the existance of the columns #}
+          {% if var(context_key) | as_bool() %}
 
-    {# Loop through contexts dictionary keys #}
-    {% for context_key, context_value in contexts.items() %}
+            {# In case we have multiple (e.g consent loop through all the fields needed )#}
+            {% for context_value_i in context_value %}      
 
-      {# Check if the context flag is true and if we should check the existance of the columns #}
-      {% if var(context_key) | as_bool() %}
+              {% set flags = [0] %}
 
-        {# In case we have multiple (e.g consent loop through all the fields needed )#}
-        {% for context_value_i in context_value %}      
+              {# Looping through all available contexts #}
+              {% for available_context in available_contexts %}
+                  {# we split by the column we want, if its a perfect match it will have a result of ["",""] other wise if its a suffix it will result in {"", "XXXXX"} #}
+                  
+                  {% set relations = dbt_utils.get_relations_by_pattern(schema_pattern=var('snowplow__atomic_schema', 'atomic'), table_pattern=available_context) %}
+                    
+                    {# Check if the relation exists by assessing the length of the relations list #}
+                    {% if relations | length > 0 %}
+                      {% if flags[0] == 0 %}
+                          {% set _ = flags.append(1) %}
+                          {% set _ = flags.pop(0) %}
+                      {% endif %}
+                    {% endif %}
+              {% endfor %}
 
-          {% set flags = [0] %}
+              {% if flags[0] == 0 %}
+                  {{ exceptions.raise_compiler_error(
+                      "Snowplow Error: " ~ context_value_i ~ " column not found. Please ensure the column is present when " ~ context_key ~ " is enabled."
+                  )}}
+              {% endif %}
 
-          {# Looping through all available contexts #}
-          {% for available_context in available_contexts %}
-              {# we split by the column we want, if its a perfect match it will have a result of ["",""] other wise if its a suffix it will result in {"", "XXXXX"} #}
-              
-              {% set relations = dbt_utils.get_relations_by_pattern(schema_pattern=var('snowplow__atomic_schema', 'atomic'), table_pattern=available_context) %}
-                
-                {# Check if the relation exists by assessing the length of the relations list #}
-                {% if relations | length > 0 %}
-                  {% if flags[0] == 0 %}
-                      {% set _ = flags.append(1) %}
-                      {% set _ = flags.pop(0) %}
-                  {% endif %}
-                {% endif %}
-          {% endfor %}
-
-          {% if flags[0] == 0 %}
-              {{ exceptions.raise_compiler_error(
-                  "Snowplow Error: " ~ context_value_i ~ " column not found. Please ensure the column is present when " ~ context_key ~ " is enabled."
-              )}}
+            {% endfor %}
           {% endif %}
-
         {% endfor %}
-      
       {% endif %}
-
-    {% endfor %}
-
+    {% endif %}
   {% endif %}
 
 {% endmacro %}
