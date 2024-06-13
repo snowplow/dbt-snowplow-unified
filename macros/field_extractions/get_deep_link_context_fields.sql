@@ -39,8 +39,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_deep_link_context_fields() %}
   {% if var('snowplow__enable_deep_link_context', false) %}
-    , contexts_com_snowplowanalytics_mobile_deep_link_1[0].url::STRING AS deep_link__url
-    , contexts_com_snowplowanalytics_mobile_deep_link_1[0].referrer::STRING AS deep_link__referrer
+    , cast(contexts_com_snowplowanalytics_mobile_deep_link_1[0].url as STRING) AS deep_link__url
+    , cast(contexts_com_snowplowanalytics_mobile_deep_link_1[0].referrer as STRING) AS deep_link__referrer
 
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as deep_link__url

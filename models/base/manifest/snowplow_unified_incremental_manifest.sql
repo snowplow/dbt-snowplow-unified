@@ -17,6 +17,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     pre_hook=["{{ snowplow_unified.seed_existance_check()}}",
               "{{ snowplow_unified.context_existance_check()}}"] 
         )
+
 }}
 
 {% set incremental_manifest_query = snowplow_utils.base_create_snowplow_incremental_manifest() %}
