@@ -14,8 +14,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       'delta.autoOptimize.optimizeWrite' : 'true',
       'delta.autoOptimize.autoCompact' : 'true'
     },
-    pre_hook="{{ snowplow_unified.seed_existance_check() }}",
-  )
+    pre_hook=["{{ snowplow_unified.seed_existance_check()}}",
+              "{{ snowplow_unified.context_existance_check()}}"] 
+        )
 }}
 
 {% set incremental_manifest_query = snowplow_utils.base_create_snowplow_incremental_manifest() %}
