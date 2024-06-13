@@ -108,7 +108,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% endmacro %}
 
-{% macro redshift__context_existance_check(contexts) %}
+{% macro postgres__context_existance_check(contexts) %}
 
   {% if execute %}
     {%- if flags.WHICH in ('run', 'run-operation') -%}
