@@ -9,44 +9,44 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro context_existance_check() %}
   {% set contexts = {
       "snowplow__enable_mobile_context": [
-          'contexts_com_snowplowanalytics_snowplow_mobile_context_1' if target.type not in ['redshift'] else var('snowplow__mobile_context')
+          'contexts_com_snowplowanalytics_snowplow_mobile_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__mobile_context')
       ],
       "snowplow__enable_iab": [
-          'contexts_com_iab_snowplow_spiders_and_robots_1' if target.type not in ['redshift'] else var('snowplow__iab_context')
+          'contexts_com_iab_snowplow_spiders_and_robots_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__iab_context')
       ],
       "snowplow__enable_yauaa": [
-          'contexts_nl_basjes_yauaa_context_1' if target.type not in ['redshift'] else var('snowplow__yauaa_context')
+          'contexts_nl_basjes_yauaa_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__yauaa_context')
       ],
       "snowplow__enable_ua": [
-          'contexts_com_snowplowanalytics_snowplow_ua_parser_context_1' if target.type not in ['redshift'] else var('snowplow__ua_parser_context')
+          'contexts_com_snowplowanalytics_snowplow_ua_parser_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__ua_parser_context')
       ],
       "snowplow__enable_application_context": [
-          'contexts_com_snowplowanalytics_mobile_application_1' if target.type not in ['redshift'] else var('snowplow__application_context')
+          'contexts_com_snowplowanalytics_mobile_application_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__application_context')
       ],
       "snowplow__enable_browser_context": [
-          'contexts_com_snowplowanalytics_snowplow_web_page_1' if target.type not in ['redshift'] else var('snowplow__browser_context')
+          'contexts_com_snowplowanalytics_snowplow_web_page_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__browser_context')
       ],
       "snowplow__enable_geolocation_context": [
-          'contexts_com_snowplowanalytics_snowplow_geolocation_context_1' if target.type not in ['redshift'] else var('snowplow__geolocation_context')
+          'contexts_com_snowplowanalytics_snowplow_geolocation_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__geolocation_context')
       ],
       "snowplow__enable_screen_context": [
-          'contexts_com_snowplowanalytics_mobile_screen_1' if target.type not in ['redshift'] else var('snowplow__screen_context')
+          'contexts_com_snowplowanalytics_mobile_screen_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__screen_context')
       ],
       "snowplow__enable_deep_link_context": [
-          'contexts_com_snowplowanalytics_mobile_deep_link_1' if target.type not in ['redshift'] else var('snowplow__deep_link_context')
+          'contexts_com_snowplowanalytics_mobile_deep_link_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__deep_link_context')
       ],
       "snowplow__enable_screen_summary_context": [
-          'contexts_com_snowplowanalytics_mobile_screen_summary_1' if target.type not in ['redshift'] else var('snowplow__screen_summary_context')
+          'contexts_com_snowplowanalytics_mobile_screen_summary_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__screen_summary_context')
       ],
       "snowplow__enable_consent": [
-          'unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1' if target.type not in ['redshift'] else var('com_snowplowanalytics_snowplow_cmp_visible_1'),
-          'unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1' if target.type not in ['redshift'] else var('com_snowplowanalytics_snowplow_consent_preferences_1')
+          'unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1' if target.type not in ['redshift', 'postgres'] else var('com_snowplowanalytics_snowplow_cmp_visible_1'),
+          'unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1' if target.type not in ['redshift', 'postgres'] else var('com_snowplowanalytics_snowplow_consent_preferences_1')
       ],
       "snowplow__enable_cwv": [
-          'unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1' if target.type not in ['redshift'] else var('snowplow__cwv_events')
+          'unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__cwv_events')
       ],
       "snowplow__enable_app_errors": [
-          'unstruct_event_com_snowplowanalytics_snowplow_application_error_1' if target.type not in ['redshift'] else var('com_snowplowanalytics_snowplow_application_error_1')
+          'unstruct_event_com_snowplowanalytics_snowplow_application_error_1' if target.type not in ['redshift', 'postgres'] else var('com_snowplowanalytics_snowplow_application_error_1')
       ]
   }
 
