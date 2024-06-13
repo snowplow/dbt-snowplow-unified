@@ -7,124 +7,158 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 
 {% macro context_existance_check() %}
-  {% set contexts = [
-    ['snowplow__enable_mobile_context','contexts_com_snowplowanalytics_snowplow_mobile_context_1', 'snowplow__mobile_context'],
-    ['snowplow__enable_iab', 'contexts_com_iab_snowplow_spiders_and_robots_1','snowplow__iab_context', 'snowplow__iab_context'],
-    ['snowplow__enable_yauaa', 'contexts_nl_basjes_yauaa_context_1','snowplow__yauaa_context'],
-    ['snowplow__enable_ua', 'contexts_com_snowplowanalytics_snowplow_ua_parser_context_1','snowplow__ua_parser_context'],
-    ['snowplow__enable_application_context', 'contexts_com_snowplowanalytics_mobile_application_1','snowplow__application_context'],
-    ['snowplow__enable_browser_context', 'contexts_com_snowplowanalytics_snowplow_web_page_1','snowplow__browser_context'],
-    ['snowplow__enable_mobile_context', 'contexts_com_snowplowanalytics_snowplow_mobile_context_1','snowplow__mobile_context'],
-    ['snowplow__enable_geolocation_context', 'contexts_com_snowplowanalytics_snowplow_geolocation_context_1','snowplow__geolocation_context'],
-    ['snowplow__enable_screen_context', 'contexts_com_snowplowanalytics_mobile_screen_1','snowplow__screen_context'],
-    ['snowplow__enable_deep_link_context', 'contexts_com_snowplowanalytics_mobile_deep_link_1','snowplow__deep_link_context'],
-    ['snowplow__enable_screen_summary_context', 'contexts_com_snowplowanalytics_mobile_screen_summary_1','snowplow__screen_summary_context'],
-    ['snowplow__enable_consent', 'unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1', '@!@!@!@!@!@!@!21'],
-    ['snowplow__enable_cwv', 'unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1','snowplow__cwv_events'],
-    ['snowplow__enable_app_errors', 'unstruct_event_com_snowplowanalytics_snowplow_application_error_1','@!@!@!@!@!@!@!21']
-  ] %}
+  {% set contexts = {
+      "snowplow__enable_mobile_context": [
+          'contexts_com_snowplowanalytics_snowplow_mobile_context_12' if target.type not in ['redshift'] else var('snowplow__mobile_context')
+      ],
+      "snowplow__enable_iab": [
+          'contexts_com_iab_snowplow_spiders_and_robots_1' if target.type not in ['redshift'] else var('snowplow__iab_context')
+      ],
+      "snowplow__enable_yauaa": [
+          'contexts_nl_basjes_yauaa_context_1' if target.type not in ['redshift'] else var('snowplow__yauaa_context')
+      ],
+      "snowplow__enable_ua": [
+          'contexts_com_snowplowanalytics_snowplow_ua_parser_context_1' if target.type not in ['redshift'] else var('snowplow__ua_parser_context')
+      ],
+      "snowplow__enable_application_context": [
+          'contexts_com_snowplowanalytics_mobile_application_1' if target.type not in ['redshift'] else var('snowplow__application_context')
+      ],
+      "snowplow__enable_browser_context": [
+          'contexts_com_snowplowanalytics_snowplow_web_page_1' if target.type not in ['redshift'] else var('snowplow__browser_context')
+      ],
+      "snowplow__enable_geolocation_context": [
+          'contexts_com_snowplowanalytics_snowplow_geolocation_context_1' if target.type not in ['redshift'] else var('snowplow__geolocation_context')
+      ],
+      "snowplow__enable_screen_context": [
+          'contexts_com_snowplowanalytics_mobile_screen_1' if target.type not in ['redshift'] else var('snowplow__screen_context')
+      ],
+      "snowplow__enable_deep_link_context": [
+          'contexts_com_snowplowanalytics_mobile_deep_link_1' if target.type not in ['redshift'] else var('snowplow__deep_link_context')
+      ],
+      "snowplow__enable_screen_summary_context": [
+          'contexts_com_snowplowanalytics_mobile_screen_summary_1' if target.type not in ['redshift'] else var('snowplow__screen_summary_context')
+      ],
+      "snowplow__enable_consent": [
+          'unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1' if target.type not in ['redshift'] else var('com_snowplowanalytics_snowplow_cmp_visible_1'),
+          'unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1' if target.type not in ['redshift'] else var('com_snowplowanalytics_snowplow_consent_preferences_1')
+      ],
+      "snowplow__enable_cwv": [
+          'unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1' if target.type not in ['redshift'] else var('snowplow__cwv_events')
+      ],
+      "snowplow__enable_app_errors": [
+          'unstruct_event_com_snowplowanalytics_snowplow_application_error_1' if target.type not in ['redshift'] else var('com_snowplowanalytics_snowplow_application_error_1')
+      ]
+  }
+
+
+  %}
+
   {{ return(adapter.dispatch('context_existance_check', 'snowplow_unified')(contexts)) }}
+
 {% endmacro %}
 
 {% macro default__context_existance_check(contexts) %}
 
-  {% if execute %} 
+  {% if execute %}
+
     {% set relation = adapter.get_relation(
         database=target.database,
         schema=var('snowplow__atomic_schema', 'atomic'),
         identifier=var('snowplow__events_table', 'events'))
     %}
 
-    {% set column_names = dbt_utils.get_filtered_columns_in_relation(relation) %}
+    {% set available_contexts = dbt_utils.get_filtered_columns_in_relation(relation) %}
+    {% set available_contexts = available_contexts | map("lower") | list %}
 
-    {% set column_names = column_names | map("lower") | list %}
+    {# Loop through contexts dictionary keys #}
+    {% for context_key, context_value in contexts.items() %}
 
-    {# {{log(contexts, info = True)}}   #}
+      {# Check if the context flag is true and if we should check the existance of the columns #}
+      {% if var(context_key) | as_bool() %}
 
-    {% for context in contexts %}
+        {# In case we have multiple (e.g consent loop through all the fields needed )#}
+        {% for context_value_i in context_value %}      
 
-      {% if var(context[0]) | as_bool() and context[1] | lower not in column_names %}
-        {# {{ log("Issue with : "~context[0], info=True)}} #}
-        {{ exceptions.raise_compiler_error(
-          "Snowplow Error: "~context[1]~" column not found. Please ensure the column is present when "~context[0]~" is enabled."
-        )}}
+          {% set flags = [0] %}
+
+          {# Looping through all available contexts #}
+          {% for available_context in available_contexts %}
+              {# we split by the column we want, if its a perfect match it will have a result of ["",""] other wise if its a suffix it will result in {"", "XXXXX"} #}
+              {% if available_context.split(context_value_i)[0] | length == 0 %}
+                  {% if flags[0] == 0 %}
+                      {% set _ = flags.append(1) %}
+                      {% set _ = flags.pop(0) %}
+                  {% endif %}
+              {% endif %}
+          {% endfor %}
+
+          {% if flags[0] == 0 %}
+              {{ exceptions.raise_compiler_error(
+                  "Snowplow Error: " ~ context_value_i ~ " column not found. Please ensure the column is present when " ~ context_key ~ " is enabled."
+              )}}
+          {% endif %}
+
+        {% endfor %}
+      
       {% endif %}
-      {# {{log("All Good with "~context[0], info=True)}} #}
 
     {% endfor %}
+
   {% endif %}
+
 {% endmacro %}
 
-{% macro postgress__context_existance_check(contexts) %}
+{% macro redshift__context_existance_check(contexts) %}
 
-  {% set relation = adapter.get_relation(
-      database=target.database,
-      schema=var('snowplow__atomic_schema', 'atomic'),
-      identifier=var('snowplow__events_table', 'events'))
-  %}
+  {% if execute %}
 
-  {% for context in contexts %}
-    
-    {% set context_flag = context[0] %}
-    {% set context_source = context[1] %}
-    {% set post_redshift_table = context[2] %}
-    {% if var(context_flag) %}
-      {% if relation %}
-        {% set query %}
-          SELECT DISTINCT table_name
-          FROM `{{ target.database }}.{{ relation.schema }}.INFORMATION_SCHEMA.COLUMNS`
-          WHERE table_name = '{{ post_redshift_table }}'
-        {% endset %}
+    {% set relation = adapter.get_relation(
+        database=target.database,
+        schema=var('snowplow__atomic_schema', 'atomic'),
+        identifier=var('snowplow__events_table', 'events'))
+    %}
 
-        {% set results = run_query(query) %}
-        {% if execute %}
-          {% set data = results.columns[0].values() %}
-          {% if var(context_flag) | as_bool() and data|length == 0 %}
-            {# {{ log("Issue with : "~context[0], info=True)}} #}
-            {{ exceptions.raise_compiler_error(
-              "Snowplow Error: "~post_redshift_table~" table not found. Please ensure the column is present when "~context_flag~" is enabled."
-            )}}        {% endif %}
-        {% endif %}
-      {% endif %}
-    {% endif %}
-    {# {{log("All Good with " ~ context_flag, info=True)}} #}
-  {% endfor %}
-{% endmacro %}
+    {% set available_contexts = dbt_utils.dbt_utils.get_table_types_sql(relation) %}
+    {% set available_contexts = available_contexts | map("lower") | list %}
 
-{% macro bigquery__context_existance_check(contexts) %}
+    {# Loop through contexts dictionary keys #}
+    {% for context_key, context_value in contexts.items() %}
 
-  {% set relation = adapter.get_relation(
-      database=target.database,
-      schema=var('snowplow__atomic_schema', 'atomic'),
-      identifier=var('snowplow__events_table', 'events'))
-  %}
+      {# Check if the context flag is true and if we should check the existance of the columns #}
+      {% if var(context_key) | as_bool() %}
 
-  {% for context in contexts %}
-    
-    {% set context_flag = context[0] %}
-    {% set context_source = context[1] %}
-    {% if var(context_flag) %}
-      {% if relation %}
-        {% set query %}
-          SELECT column_name
-          FROM `{{ target.database }}.{{ relation.schema }}.INFORMATION_SCHEMA.COLUMNS`
-          WHERE table_name = '{{ relation.name }}'
-          AND column_name LIKE LOWER('{{ context_source }}%')
-        {% endset %}
+        {# In case we have multiple (e.g consent loop through all the fields needed )#}
+        {% for context_value_i in context_value %}      
 
-        {% set results = run_query(query) %}
-        {% if execute %}
-          {% set data = results.columns[0].values() %}
-          {% if var(context_flag) | as_bool() and data|length == 0 %}
-            {# {{ log("Issue with : "~context[0], info=True)}} #}
-            {{ exceptions.raise_compiler_error(
-              "Snowplow Error: "~context[1]~" column not found. Please ensure the column is present when "~context[0]~" is enabled."
-            )}} 
+          {% set flags = [0] %}
+
+          {# Looping through all available contexts #}
+          {% for available_context in available_contexts %}
+              {# we split by the column we want, if its a perfect match it will have a result of ["",""] other wise if its a suffix it will result in {"", "XXXXX"} #}
+              
+              {% set relations = dbt_utils.get_relations_by_pattern(schema_pattern=var('snowplow__atomic_schema', 'atomic'), table_pattern=available_context) %}
+                
+                {# Check if the relation exists by assessing the length of the relations list #}
+                {% if relations | length > 0 %}
+                  {% if flags[0] == 0 %}
+                      {% set _ = flags.append(1) %}
+                      {% set _ = flags.pop(0) %}
+                  {% endif %}
+                {% endif %}
+          {% endfor %}
+
+          {% if flags[0] == 0 %}
+              {{ exceptions.raise_compiler_error(
+                  "Snowplow Error: " ~ context_value_i ~ " column not found. Please ensure the column is present when " ~ context_key ~ " is enabled."
+              )}}
           {% endif %}
-        {% endif %}
-      {% endif %}
-    {% endif %}
 
-    {# {{log("All Good with " ~ context[0], info=True)}} #}
-  {% endfor %}
+        {% endfor %}
+      
+      {% endif %}
+
+    {% endfor %}
+
+  {% endif %}
+
 {% endmacro %}
