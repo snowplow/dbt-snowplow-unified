@@ -7,6 +7,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 
 {% macro context_existance_check() %}
+
   {% set contexts = {
       "snowplow__enable_mobile_context": [
           'contexts_com_snowplowanalytics_snowplow_mobile_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__mobile_context')
@@ -39,20 +40,19 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           'contexts_com_snowplowanalytics_mobile_screen_summary_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__screen_summary_context')
       ],
       "snowplow__enable_consent": [
-          'unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1' if target.type not in ['redshift', 'postgres'] else var('com_snowplowanalytics_snowplow_cmp_visible_1'),
-          'unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1' if target.type not in ['redshift', 'postgres'] else var('com_snowplowanalytics_snowplow_consent_preferences_1')
+          'unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__cmp_visible_events'),
+          'unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__consent_preferences_events')
       ],
       "snowplow__enable_cwv": [
           'unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__cwv_events')
       ],
       "snowplow__enable_app_errors": [
-          'unstruct_event_com_snowplowanalytics_snowplow_application_error_1' if target.type not in ['redshift', 'postgres'] else var('com_snowplowanalytics_snowplow_application_error_1')
+          'unstruct_event_com_snowplowanalytics_snowplow_application_error_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__application_error_events')
       ]
   }
 
-
   %}
-
+  
   {{ return(adapter.dispatch('context_existance_check', 'snowplow_unified')(contexts)) }}
 
 {% endmacro %}
@@ -75,7 +75,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         {% for context_key, context_value in contexts.items() %}
 
           {# Check if the context flag is true and if we should check the existance of the columns #}
-          {% if var(context_key) | as_bool() %}
+          {% if var(context_key, false) | as_bool() %}
 
             {# In case we have multiple (e.g consent loop through all the fields needed )#}
             {% for context_value_i in context_value %}      
@@ -118,14 +118,12 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           identifier=var('snowplow__events_table', 'events'))
       %}
       {% if relation %}
-        {% set available_contexts = dbt_utils.dbt_utils.get_table_types_sql(relation) %}
-        {% set available_contexts = available_contexts | map("lower") | list %}
 
         {# Loop through contexts dictionary keys #}
         {% for context_key, context_value in contexts.items() %}
 
           {# Check if the context flag is true and if we should check the existance of the columns #}
-          {% if var(context_key) | as_bool() %}
+          {% if var(context_key, false) | as_bool() %}
 
             {# In case we have multiple (e.g consent loop through all the fields needed )#}
             {% for context_value_i in context_value %}      
