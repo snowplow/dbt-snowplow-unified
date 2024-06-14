@@ -95,7 +95,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
               {% if flags[0] == 0 %}
                   {{ exceptions.raise_compiler_error(
-                      "Snowplow Error: " ~ context_value_i ~ " column not found. Please ensure the column is present when " ~ context_key ~ " is enabled."
+                      "Snowplow Error: " ~ context_value_i ~ " column not found in " ~ relation ~". Please ensure the column is present when " ~ context_key ~ " is enabled."
                   )}}
               {% endif %}
 
