@@ -106,8 +106,8 @@ vars:
 
     # enable custom modules:
     snowplow__enable_consent: false
-    snowplow__enable_cwv: false
-    snowplow__enable_app_errors: false
+    snowplow__enable_cwv: true
+    snowplow__enable_app_errors: true
     snowplow__enable_conversions: true
 
     # WAREHOUSE SPECIFIC
