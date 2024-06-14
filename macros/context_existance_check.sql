@@ -64,6 +64,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
       {% set relation = adapter.get_relation(
           database=target.database,
+          database= var('snowplow__database', target.database) if target.type not in ['databricks', 'spark'] else var('snowplow__databricks_catalog', 'hive_metastore') if target.type in ['databricks'] else var('snowplow__atomic_schema', 'atomic'),
           schema=var('snowplow__atomic_schema', 'atomic'),
           identifier=var('snowplow__events_table', 'events'))
       %}
@@ -113,7 +114,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   {% if execute %}
     {%- if flags.WHICH in ('run', 'run-operation') -%}
       {% set relation = adapter.get_relation(
-          database=target.database,
+          database= var('snowplow__database', target.database) if target.type not in ['databricks', 'spark'] else var('snowplow__databricks_catalog', 'hive_metastore') if target.type in ['databricks'] else var('snowplow__atomic_schema', 'atomic'),
           schema=var('snowplow__atomic_schema', 'atomic'),
           identifier=var('snowplow__events_table', 'events'))
       %}
