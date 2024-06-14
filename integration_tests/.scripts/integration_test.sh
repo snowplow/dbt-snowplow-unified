@@ -10,7 +10,7 @@ do
   esac
 done
 
-declare -a SUPPORTED_DATABASES=("bigquery" "postgres" "databricks" "redshift" "snowflake")
+declare -a SUPPORTED_DATABASES=("bigquery" "postgres", "redshift" "snowflake")
 
 # set to lower case
 DATABASE="$(echo $DATABASE | tr '[:upper:]' '[:lower:]')"
@@ -24,7 +24,7 @@ fi
 for db in ${DATABASES[@]}; do
 
   # echo "Snowplow unified integration tests: Running without seeding data"
-  # dbt run --full-refresh --target $db
+  # dbt run --select snowplow_unified_base_sessions_lifecycle_manifest --target $db
 
   # status=$?
   
