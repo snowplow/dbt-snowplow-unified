@@ -118,6 +118,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           identifier=var('snowplow__events_table', 'events'))
       %}
       {% if relation %}
+        {{ log(relation, info=true) }}
 
         {# Loop through contexts dictionary keys #}
         {% for context_key, context_value in contexts.items() %}
@@ -131,23 +132,23 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
               {% set flags = [0] %}
 
               {# Looping through all available contexts #}
-              {% for available_context in available_contexts %}
                   {# we split by the column we want, if its a perfect match it will have a result of ["",""] other wise if its a suffix it will result in {"", "XXXXX"} #}
                   
-                  {% set relations = dbt_utils.get_relations_by_pattern(schema_pattern=var('snowplow__atomic_schema', 'atomic'), table_pattern=available_context) %}
-                    
-                    {# Check if the relation exists by assessing the length of the relations list #}
-                    {% if relations | length > 0 %}
-                      {% if flags[0] == 0 %}
-                          {% set _ = flags.append(1) %}
-                          {% set _ = flags.pop(0) %}
-                      {% endif %}
-                    {% endif %}
-              {% endfor %}
+              {% set relations = dbt_utils.get_relations_by_pattern(schema_pattern=var('snowplow__atomic_schema', 'atomic'), table_pattern= context_value_i) %}
+              {{ log("Contexts: " ~ context_value_i, info=true) }}
+              {{ log(relations, info=true) }}
+                
+                {# Check if the relation exists by assessing the length of the relations list #}
+              {% if relations | length > 0 %}
+                {% if flags[0] == 0 %}
+                    {% set _ = flags.append(1) %}
+                    {% set _ = flags.pop(0) %}
+                {% endif %}
+              {% endif %}
 
               {% if flags[0] == 0 %}
                   {{ exceptions.raise_compiler_error(
-                      "Snowplow Error: " ~ context_value_i ~ " column not found. Please ensure the column is present when " ~ context_key ~ " is enabled."
+                      "Snowplow Error: " ~ context_value_i ~ " table not found. Please ensure the column is present when " ~ context_key ~ " is enabled."
                   )}}
               {% endif %}
 
