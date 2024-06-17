@@ -94,6 +94,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
               {% endfor %}
 
               {% if flags[0] == 0 %}
+                  {{ log(relation, info = true)}}
+                  {{ log(available_contexts, info=true) }}
                   {{ exceptions.raise_compiler_error(
                       "Snowplow Error: " ~ context_value_i ~ " column not found in " ~ relation ~". Please ensure the column is present when " ~ context_key ~ " is enabled."
                   )}}
@@ -135,9 +137,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
                   {# we split by the column we want, if its a perfect match it will have a result of ["",""] other wise if its a suffix it will result in {"", "XXXXX"} #}
                   
               {% set relations = dbt_utils.get_relations_by_pattern(schema_pattern=var('snowplow__atomic_schema', 'atomic'), table_pattern= context_value_i) %}
-              {{ log("Contexts: " ~ context_value_i, info=true) }}
-              {{ log(relations, info=true) }}
-                
+
                 {# Check if the relation exists by assessing the length of the relations list #}
               {% if relations | length > 0 %}
                 {% if flags[0] == 0 %}
