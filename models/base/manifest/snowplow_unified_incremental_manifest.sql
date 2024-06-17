@@ -5,7 +5,13 @@ and you may not use this file except in compliance with the Snowplow Personal an
 You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 at https://docs.snowplow.io/personal-and-academic-license-1.0/
 #}
 
- -- depends_on: {{ ref('snowplow_unified_events_stg') }}
+
+{% set depends_on = "--depends_on: {{ ref('snowplow_unified_events_stg') }}" %}
+
+{%if target.profile == 'integration_tests' %}
+  {{ depends_on }}
+{% endif %}
+
 
 {{
   config(

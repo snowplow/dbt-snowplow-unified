@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Expected input:
-# -d (database) target database for dbt
+# (database) target database for dbt
 
 while getopts 'd:' opt
 do
@@ -38,16 +38,16 @@ for db in ${DATABASES[@]}; do
   eval "dbt seed --full-refresh --target $db --no-partial-parse" || exit 1;
 
   echo "Snowplow unified integration tests: Try run without data"
-  eval "dbt run -d --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 1, snowplow__enable_cwv: false, snowplow__start_date: 2010-01-01}' --target $db --no-partial-parse" || exit 1;
+  eval "dbt run --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 1, snowplow__enable_cwv: false, snowplow__start_date: 2010-01-01}' --target $db --no-partial-parse" || exit 1;
 
   echo "Snowplow unified integration tests: Conversions"
-  eval "dbt run -d --full-refresh --select snowplow_unified_integration_tests.source +snowplow_unified_conversions --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 220, snowplow__enable_cwv: false, snowplow__enable_conversions: true}' --target $db --no-partial-parse" || exit 1;
+  eval "dbt run --full-refresh --select snowplow_unified_integration_tests.source +snowplow_unified_conversions --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 220, snowplow__enable_cwv: false, snowplow__enable_conversions: true}' --target $db --no-partial-parse" || exit 1;
 
   echo "Snowplow unified integration tests: App errors module"
-  eval "dbt run -d --full-refresh --select snowplow_unified_integration_tests.source +snowplow_unified_app_errors --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 220, snowplow__enable_cwv: false, snowplow__enable_app_errors: true}' --target $db --no-partial-parse" || exit 1;
+  eval "dbt run --full-refresh --select snowplow_unified_integration_tests.source +snowplow_unified_app_errors --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 220, snowplow__enable_cwv: false, snowplow__enable_app_errors: true}' --target $db --no-partial-parse" || exit 1;
 
   echo "Snowplow unified integration tests: Late enabled contexts"
-  eval "dbt run -d --full-refresh --select snowplow_unified_integration_tests.source +test_late_enabled_contexts --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 220, snowplow__enable_cwv: false, snowplow__enable_mobile_context: false, snowplow__enable_geolocation_context: false, snowplow__enable_application_context: false, snowplow__enable_screen_context: false, snowplow__enable_app_errors: false, snowplow__enable_deep_link_context: false, snowplow__enable_cwv: false, snowplow__enable_iab: false, snowplow__enable_ua: false, snowplow__enable_browser_context: false, snowplow__enable_consent: false}' --target $db --no-partial-parse" || exit 1;
+  eval "dbt run --full-refresh --select snowplow_unified_integration_tests.source +test_late_enabled_contexts --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 220, snowplow__enable_cwv: false, snowplow__enable_mobile_context: false, snowplow__enable_geolocation_context: false, snowplow__enable_application_context: false, snowplow__enable_screen_context: false, snowplow__enable_app_errors: false, snowplow__enable_deep_link_context: false, snowplow__enable_cwv: false, snowplow__enable_iab: false, snowplow__enable_ua: false, snowplow__enable_browser_context: false, snowplow__enable_consent: false}' --target $db --no-partial-parse" || exit 1;
 
   eval "dbt run --select +test_late_enabled_contexts run --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 250, snowplow__enable_cwv: false}' --target $db"
   echo "Snowplow unified integration tests: Late enabled contexts test passed"
