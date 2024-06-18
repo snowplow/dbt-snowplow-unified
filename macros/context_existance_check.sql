@@ -60,7 +60,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro default__context_existance_check(contexts) %}
 
   {% if execute %}
-    {%- if flags.WHICH in ('run', 'run-operation') -%}
+    {%- if flags.WHICH in ('run', 'run-operation') and var('snowplow__enable_context_existance_check',false) -%}
 
       {% set relation = adapter.get_relation(
           database= var('snowplow__database', target.database) if target.type not in ['databricks', 'spark'] else var('snowplow__databricks_catalog', 'hive_metastore') if target.type in ['databricks'] else var('snowplow__atomic_schema', 'atomic'),
@@ -113,14 +113,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro postgres__context_existance_check(contexts) %}
 
   {% if execute %}
-    {%- if flags.WHICH in ('run', 'run-operation') -%}
+    {%- if flags.WHICH in ('run', 'run-operation') and var('snowplow__enable_context_existance_check',false) -%}
       {% set relation = adapter.get_relation(
           database= var('snowplow__database', target.database) if target.type not in ['databricks', 'spark'] else var('snowplow__databricks_catalog', 'hive_metastore') if target.type in ['databricks'] else var('snowplow__atomic_schema', 'atomic'),
           schema=var('snowplow__atomic_schema', 'atomic'),
           identifier=var('snowplow__events_table', 'events'))
       %}
       {% if relation %}
-      
+
         {# Loop through contexts dictionary keys #}
         {% for context_key, context_value in contexts.items() %}
 

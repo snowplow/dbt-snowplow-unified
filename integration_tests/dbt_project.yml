@@ -90,6 +90,7 @@ vars:
     snowplow__enable_screen_context: true
     snowplow__enable_app_errors: true
     snowplow__enable_deep_link_context: true
+    snowplow__enable_context_existance_check: true
   # These are at a full project level because they are using in both the unified and int test models to determine which columns are needed
   snowplow__enable_consent: true
   snowplow__enable_cwv: true
