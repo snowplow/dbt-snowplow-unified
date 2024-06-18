@@ -120,8 +120,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           identifier=var('snowplow__events_table', 'events'))
       %}
       {% if relation %}
-        {{ log(relation, info=true) }}
-
+      
         {# Loop through contexts dictionary keys #}
         {% for context_key, context_value in contexts.items() %}
 
