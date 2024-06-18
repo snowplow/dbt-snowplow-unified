@@ -47,3 +47,6 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 ) %}
 
 {{ sessions_lifecycle_manifest_query }}
+{% if target.type in ['databricks', 'spark'] %}
+  order by start_tstamp_date asc
+{% endif -%}
