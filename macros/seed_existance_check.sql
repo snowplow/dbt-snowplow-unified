@@ -13,7 +13,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     {% if execute %}
         {# Ensure that this check is only performed during 'run' or 'build' commands #}
         {# Log the flags.WHICH#}
-        {%- if flags.WHICH in ('run', 'run-operation') -%}
+        {%- if flags.WHICH in ('run', 'run-operation') and var('snowplow__enable_initial_checks',false) -%}
             {% for node in graph.nodes.values() | selectattr("resource_type", "equalto", "seed") | selectattr("package_name", "equalto", "snowplow_unified") %}
 
                 {% set schema = node.schema %}
@@ -38,7 +38,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro spark__seed_existance_check() %}
     {% if execute %}
         {# Ensure that this check is only performed during 'run' or 'build' commands #}
-        {%- if flags.WHICH in ('run', 'run-operation') -%}
+        {%- if flags.WHICH in ('run', 'run-operation') and var('snowplow__enable_initial_checks',false) -%}
             {% for node in graph.nodes.values() | selectattr("resource_type", "equalto", "seed") | selectattr("package_name", "equalto", "snowplow_unified") %}
                 
                 {% set schema = node.schema %}

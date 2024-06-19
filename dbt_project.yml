@@ -66,7 +66,7 @@ vars:
     # snowplow__total_all_conversions: false
     snowplow__upsert_lookback_days: 30
     snowplow__use_refr_if_mkt_null: false 
-    snowplow__enable_context_existance_check: true
+    snowplow__enable_initial_checks: false
 
     # please refer to the macros within identifiers.sql for default values
     snowplow__session_identifiers: []
