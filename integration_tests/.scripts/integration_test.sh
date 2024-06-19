@@ -23,17 +23,6 @@ fi
 
 for db in ${DATABASES[@]}; do
 
-  echo "Snowplow unified integration tests: Running without seeding data"
-  dbt run --full-refresh --target $db
-
-  status=$?
-  
-  if [ $status -ne 0 ] && [ $status -ne 1 ]; then
-    echo "dbt command failed for target $db with exit status $status"
-    exit $status
-    
-  fi
-
   echo "Snowplow unified integration tests: Seeding data"
   eval "dbt seed --full-refresh --target $db" || exit 1;
 
