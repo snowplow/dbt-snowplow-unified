@@ -545,7 +545,16 @@ select
         unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1[0].navigation_type::STRING as navigation_type) as unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1,
   contexts_nl_basjes_yauaa_context_1,
   contexts_com_iab_snowplow_spiders_and_robots_1,
-  struct(''::STRING as basis_for_processing, ''::STRING as id, ''::STRING as name, ''::STRING as previous_id, ''::STRING as transition_type, '' as type) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1
+  struct(''::STRING as basis_for_processing, ''::STRING as id, ''::STRING as name, ''::STRING as previous_id, ''::STRING as transition_type, '' as type) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1,
+    NULL as contexts_com_snowplowanalytics_snowplow_ua_parser_context_1,
+    NULL as contexts_com_snowplowanalytics_snowplow_client_session_1,
+    NULL as contexts_com_snowplowanalytics_snowplow_geolocation_context_1,
+    NULL as contexts_com_snowplowanalytics_mobile_application_1,
+    NULL as contexts_com_snowplowanalytics_mobile_deep_link_1,
+    NULL as contexts_com_snowplowanalytics_snowplow_browser_context_1,
+    NULL as contexts_com_snowplowanalytics_snowplow_mobile_context_1,
+    NULL as contexts_com_snowplowanalytics_mobile_screen_1,
+    NULL as unstruct_event_com_snowplowanalytics_snowplow_application_error_1
 
 from prep
 {% endif %}
