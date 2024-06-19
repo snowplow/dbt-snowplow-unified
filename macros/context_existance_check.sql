@@ -60,7 +60,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro default__context_existance_check(contexts) %}
 
   {% if execute %}
-    {%- if flags.WHICH in ('run', 'run-operation') and and var('snowplow__enable_initial_checks',false) -%}
+    {%- if flags.WHICH in ('run', 'run-operation') and var('snowplow__enable_initial_checks',false) -%}
 
       {% set relation = adapter.get_relation(
           database= var('snowplow__database', target.database) if target.type not in ['databricks', 'spark'] else var('snowplow__databricks_catalog', 'hive_metastore') if target.type in ['databricks'] else var('snowplow__atomic_schema', 'atomic'),
