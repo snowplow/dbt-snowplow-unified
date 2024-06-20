@@ -59,10 +59,18 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro snowflake__get_iab_context_fields() %}
   {%- if var('snowplow__enable_iab', false) %}
-    , contexts_com_iab_snowplow_spiders_and_robots_1[0]:category::VARCHAR as iab__category
-    , contexts_com_iab_snowplow_spiders_and_robots_1[0]:primaryImpact::VARCHAR as iab__primary_impact
-    , contexts_com_iab_snowplow_spiders_and_robots_1[0]:reason::VARCHAR as iab__reason
-    , contexts_com_iab_snowplow_spiders_and_robots_1[0]:spiderOrRobot::BOOLEAN as iab__spider_or_robot
+    {% if var('snowplow__snowflake_lakeloader', false) %}
+      , contexts_com_iab_snowplow_spiders_and_robots_1[0]:category::VARCHAR as iab__category
+      , contexts_com_iab_snowplow_spiders_and_robots_1[0]:primary_impact::VARCHAR as iab__primary_impact
+      , contexts_com_iab_snowplow_spiders_and_robots_1[0]:reason::VARCHAR as iab__reason
+      , contexts_com_iab_snowplow_spiders_and_robots_1[0]:spider_or_robot::BOOLEAN as iab__spider_or_robot
+    {% else %}
+      , contexts_com_iab_snowplow_spiders_and_robots_1[0]:category::VARCHAR as iab__category
+      , contexts_com_iab_snowplow_spiders_and_robots_1[0]:primaryImpact::VARCHAR as iab__primary_impact
+      , contexts_com_iab_snowplow_spiders_and_robots_1[0]:reason::VARCHAR as iab__reason
+      , contexts_com_iab_snowplow_spiders_and_robots_1[0]:spiderOrRobot::BOOLEAN as iab__spider_or_robot
+    {% endif %}
+
   {%- else -%}
     , cast(null as {{ dbt.type_string() }}) as iab__category
     , cast(null as {{ dbt.type_string() }}) as iab__primary_impact
