@@ -88,7 +88,7 @@ with session_firsts as (
     left join
         {{ ref(var('snowplow__ga4_categories_seed')) }} c on 
         {% if var('snowplow__use_refr_if_mkt_null', false) %}
-        lower(trim(coalesce(ev.mkt_source, ev.refr_source)) = lower(c.source)
+        lower(trim(coalesce(ev.mkt_source, ev.refr_source))) = lower(c.source)
         {% else %}
           lower(trim(ev.mkt_source)) = lower(c.source)
         {% endif %}
