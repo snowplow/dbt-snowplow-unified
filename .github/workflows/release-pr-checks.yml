@@ -25,7 +25,8 @@ jobs:
           pip install pyyaml semver
 
       - name: Run release checks
-        run: python .github/scripts/check_release.py > errors.txt || true
+        run: |
+          python .github/scripts/check_release.py > errors.txt || true
           cat errors.txt
 
       - name: Post PR comment on failure
