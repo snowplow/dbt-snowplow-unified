@@ -10,7 +10,7 @@ logs = []
 
 # Check final commit message
 def check_commit_message():
-    commit_message = os.popen("git log --no-merges --first-parent -1 --pretty=%B").read().strip()
+    commit_message = os.popen("git log -1 --pretty=%B").read().strip()
     if commit_message.lower() != "prepare for release":
         logs.append(
             f"❌ Error: Last commit message is not 'prepare for release'. Found: {commit_message}"
