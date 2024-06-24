@@ -13,7 +13,7 @@ with prep as (
     count(*) - count(distinct view_in_session_index)  as all_minus_dist_pvisi,
     count(*) - count(distinct view_id) as all_minus_dist_pvids
 
-  from {{ ref('snowplow_unified_views') }}
+  from {{ ref('snowplow_unified_views_this_run') }}
   group by 1
 )
 
