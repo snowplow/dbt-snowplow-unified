@@ -51,15 +51,21 @@ def check_dbt_project(file_path, new_version):
 def check_semver(new_version):
     with open('CHANGELOG', 'r') as f:
         lines = f.readlines()
+        old_versions = []
         for line in lines:
             match = re.match(r'^(\S+) (\d+\.\d+\.\d+) \((\d{4}-\d{2}-\d{2})\)$', line)
             if match:
                 _, old_version, _ = match.groups()
-                break
+                old_versions.append(old_version)
 
-    if semver.compare(new_version, old_version) <= 0:
-        errors.append(f"Error: New version ({new_version}) is not greater than the old version ({old_version})")
-        
+    if len(old_versions) < 2:
+        errors.append("Error: Not enough versions found in changelog to perform semver comparison")
+        return
+
+    next_newest_version = old_versions[1]
+    if semver.compare(new_version, next_newest_version) <= 0:
+        errors.append(f"Error: New version ({new_version}) is not greater than the next newest version ({next_newest_version})")
+
 
 if __name__ == "__main__":
     check_commit_message()

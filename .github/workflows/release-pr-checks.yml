@@ -26,11 +26,11 @@ jobs:
 
       - name: Run release checks
         run: |
-          python .github/scripts/check_release.py > errors.txt || true
-          cat errors.txt
+          python .github/scripts/check_release.py > errors.txt
+        continue-on-error: true
 
       - name: Post PR comment on failure
-        if: failure()
+        if: steps.release-check.outcome == 'failure'
         uses: actions/github-script@v6
         with:
           script: |
