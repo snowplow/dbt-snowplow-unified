@@ -13,7 +13,7 @@ def check_commit_message():
     commit_message = os.popen("git log -1 --pretty=%B").read().strip()
     if commit_message.lower() != "prepare for release":
         logs.append(
-            f"❌ Error: Last commit message is not 'prepare for release'. Found: {commit_message}"
+            f"❌ Error: Last commit message is not 'prepare for release'. Found: `{commit_message}`"
         )
     else:
         logs.append(f"✅ Pass: Last commit message is 'prepare for release'.")
@@ -26,7 +26,7 @@ def check_changelog():
         match = re.match(r"^(\S+) (\d+\.\d+\.\d+) \((\d{4}-\d{2}-\d{2})\)$", first_line)
         if not match:
             logs.append(
-                f"❌ Error: First line of changelog is not in the correct format. Found: {first_line}"
+                f"❌ Error: First line of changelog is not in the correct format. Found: `{first_line}`"
             )
         else:
             logs.append(f"✅ Pass: First line of changelog is in the correct format.")
@@ -58,11 +58,11 @@ def check_dbt_project(file_path, new_version):
     dbt_version = dbt_project["version"]
     if dbt_version != new_version:
         logs.append(
-            f"❌ Error: Version in {file_path} ({dbt_version}) does not match version in changelog ({new_version})."
+            f"❌ Error: Version in {file_path} (`{dbt_version}`) does not match version in changelog (`{new_version}`)."
         )
     else:
         logs.append(
-            f"✅ Pass: Version in {file_path} ({dbt_version}) matches version in changelog ({new_version})."
+            f"✅ Pass: Version in {file_path} (`{dbt_version}`) matches version in changelog (`{new_version}`)."
         )
 
 
@@ -79,18 +79,18 @@ def check_semver(new_version):
 
     if len(old_versions) < 2:
         logs.append(
-            "❌ Error: Not enough versions found in changelog to perform semver comparison"
+            "⚠️ Warning: Not enough versions found in changelog to perform semver comparison"
         )
         return
 
     next_newest_version = old_versions[1]
     if semver.compare(new_version, next_newest_version) <= 0:
         logs.append(
-            f"❌ Error: New version ({new_version}) is not greater than the next newest version ({next_newest_version})"
+            f"❌ Error: New version (`{new_version}`) is not greater than the next newest version (`{next_newest_version}`)"
         )
     else:
         logs.append(
-            f"✅ Pass: New version ({new_version}) is greater than the next newest version ({next_newest_version})"
+            f"✅ Pass: New version (`{new_version}`) is greater than the next newest version (`{next_newest_version}`)"
         )
 
 
