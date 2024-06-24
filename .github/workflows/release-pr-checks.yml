@@ -29,7 +29,7 @@ jobs:
           python .github/scripts/check_release.py > errors.txt
 
       - name: Post PR comment on failure
-        if: failure()
+        if: failure() || success()
         uses: actions/github-script@v6
         with:
           script: |
