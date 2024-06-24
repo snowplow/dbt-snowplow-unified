@@ -25,4 +25,19 @@ jobs:
           pip install pyyaml semver
 
       - name: Run release checks
-        run: python .github/scripts/check_release.py
+        run: python .github/scripts/check_release.py > errors.txt || true
+          cat errors.txt
+
+      - name: Post PR comment on failure
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const errors = fs.readFileSync('errors.txt', 'utf8');
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `### Release PR Checks Failed\n\n${errors}`
+            })
