@@ -5,12 +5,14 @@ from datetime import datetime
 import yaml
 import semver
 
+errors = []
+
 # Check final commit message
 def check_commit_message():
     commit_message = os.popen('git log -1 --pretty=%B').read().strip()
     if commit_message != 'prepare for release':
-        print(f"Error: Last commit message is not 'prepare for release'. Found: {commit_message}")
-        sys.exit(1)
+        errors.append(f"Error: Last commit message is not 'prepare for release'. Found: {commit_message}")
+        
 
 # Validate changelog
 def check_changelog():
@@ -18,16 +20,16 @@ def check_changelog():
         first_line = f.readline().strip()
         match = re.match(r'^(\S+) (\d+\.\d+\.\d+) \((\d{4}-\d{2}-\d{2})\)$', first_line)
         if not match:
-            print(f"Error: First line of changelog is not in the correct format. Found: {first_line}")
-            sys.exit(1)
+            errors.append(f"Error: First line of changelog is not in the correct format. Found: {first_line}")
+            
 
         package_name, new_version, date_str = match.groups()
         new_date = datetime.strptime(date_str, '%Y-%m-%d').date()
         today = datetime.today().date()
 
         if new_date < today:
-            print(f"Error: Changelog date {new_date} is before today {today}")
-            sys.exit(1)
+            errors.append(f"Error: Changelog date {new_date} is before today {today}")
+            
 
     return package_name, new_version
 
@@ -37,13 +39,13 @@ def check_dbt_project(file_path, new_version):
         dbt_project = yaml.safe_load(f)
 
     if 'version' not in dbt_project:
-        print(f"Error: 'version' not found in {file_path}")
-        sys.exit(1)
+        errors.append(f"Error: 'version' not found in {file_path}")
+        
 
     dbt_version = dbt_project['version']
     if dbt_version != new_version:
-        print(f"Error: Version in {file_path} ({dbt_version}) does not match version in changelog ({new_version})")
-        sys.exit(1)
+        errors.append(f"Error: Version in {file_path} ({dbt_version}) does not match version in changelog ({new_version})")
+        
 
 # Check semver
 def check_semver(new_version):
@@ -56,13 +58,18 @@ def check_semver(new_version):
                 break
 
     if semver.compare(new_version, old_version) <= 0:
-        print(f"Error: New version ({new_version}) is not greater than the old version ({old_version})")
-        sys.exit(1)
+        errors.append(f"Error: New version ({new_version}) is not greater than the old version ({old_version})")
+        
 
 if __name__ == "__main__":
     check_commit_message()
     package_name, new_version = check_changelog()
-    check_dbt_project('dbt_project.yml', new_version)
-    check_dbt_project('integration_tests/dbt_project.yml', new_version)
-    check_semver(new_version)
-    print("All checks passed successfully!")
+    if new_version:
+        check_dbt_project('dbt_project.yml', new_version)
+        check_dbt_project('integration_tests/dbt_project.yml', new_version)
+        check_semver(new_version)
+    if errors:
+        print("\n".join(errors))
+        sys.exit(1)
+    else:
+        print("All checks passed successfully!")
