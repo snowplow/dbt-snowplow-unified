@@ -49,7 +49,7 @@ def check_dbt_project(file_path, new_version):
 
 # Check semver
 def check_semver(new_version):
-    with open('CHANGELOG.md', 'r') as f:
+    with open('CHANGELOG', 'r') as f:
         lines = f.readlines()
         for line in lines:
             match = re.match(r'^(\S+) (\d+\.\d+\.\d+) \((\d{4}-\d{2}-\d{2})\)$', line)
