@@ -30,12 +30,12 @@ vars:
     # WAREHOUSE & TRACKER
     # See https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/unified/ for more information
     # snowplow__atomic_schema: 'atomic_data_sample' # Only set if not using 'atomic' schema for Snowplow events data
-    snowplow__database: snowplow_dev1 # Only set if not using target.database for Snowplow events data -- WILL BE IGNORED FOR DATABRICKS
+    # snowplow__database: # Only set if not using target.database for Snowplow events data -- WILL BE IGNORED FOR DATABRICKS
     snowplow__dev_target_name: dev
     snowplow__events: "{{ source('atomic', 'events') }}"
-    snowplow__events_table: "EVENTS_ICEBERG" # Only set if not using 'events' table for Snowplow events data
+    # snowplow__events_table: "events" # Only set if not using 'events' table for Snowplow events data
     snowplow__enable_web: true
-    snowplow__enable_mobile: false
+    snowplow__enable_mobile: true
     snowplow__heartbeat: 10
     snowplow__min_visit_length: 5
     snowplow__sessions_table: "{{ ref('snowplow_unified_sessions') }}" # Change to your custom sessions table if you have disabled the standard sessions table in favour of a custom version. Advanced config.
@@ -46,8 +46,8 @@ vars:
     snowplow__grant_schema_usage: true
 
     # OPERATION & LOGIC
-    snowplow__allow_refresh: true
-    snowplow__backfill_limit_days: 1
+    snowplow__allow_refresh: false
+    snowplow__backfill_limit_days: 30
     # snowplow__conversion_events: [{'name': 'view_page', 'condition': "event_name = 'page_view'", "list_events": true},
     #                               {'name': 'sign_up', 'condition': "event_name = 'sign_up'", 'value': 5}
     #                             ]
@@ -62,7 +62,7 @@ vars:
     snowplow__view_stitching: false
     snowplow__conversion_stitching: true
     snowplow__session_timestamp: collector_tstamp
-    snowplow__start_date: '2024-06-13'
+    snowplow__start_date: '2020-01-01'
     # snowplow__total_all_conversions: false
     snowplow__upsert_lookback_days: 30
     snowplow__use_refr_if_mkt_null: false 
@@ -81,9 +81,9 @@ vars:
 
     # ADDITIONS
     # add extra web fields:
-    snowplow__enable_yauaa: true
+    snowplow__enable_yauaa: false
     snowplow__enable_iab: false
-    snowplow__enable_ua: true
+    snowplow__enable_ua: false
     snowplow__enable_browser_context: false
     # add extra mobile fields:
     snowplow__enable_mobile_context: false
