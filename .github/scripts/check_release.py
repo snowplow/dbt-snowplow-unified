@@ -16,7 +16,7 @@ def check_commit_message():
             f"❌ Error: Last commit message is not 'prepare for release'. Found: `{commit_message}`"
         )
     else:
-        logs.append(f"✅ Pass: Last commit message is 'prepare for release'.")
+        logs.append(f"✅ Pass: Last commit message is `prepare for release`.")
 
 
 # Validate changelog
@@ -101,7 +101,7 @@ if __name__ == "__main__":
         check_dbt_project("dbt_project.yml", new_version)
         check_dbt_project("integration_tests/dbt_project.yml", new_version)
         check_semver(new_version)
-    if logs:
+    if any("❌" in s for s in logs):
         print("\n".join(logs))
         sys.exit(1)
     else:
