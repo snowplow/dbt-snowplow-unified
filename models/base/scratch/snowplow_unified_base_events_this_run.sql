@@ -103,8 +103,26 @@ with base_query as (
   {{ base_events_query }}
 )
 
+{% if var('snowplow__snowflake_lakeloader', False) -%}
+  {% set base_query_cols = get_column_schema_from_query( 'select * from (' + base_events_query +') a') %}
+{%- endif -%}
+
 select
+  {% if var('snowplow__snowflake_lakeloader', False) and target.type == 'snowflake' -%}
+    {% for col in base_query_cols | map(attribute='name') | list -%}
+      {% if col.startswith('CONTEXTS_')%}
+        cast({{col}} as array) as {{col}}
+      {% elif col.startswith('UNSTRUCT_')%}
+        cast({{col}} as object) as {{col}}
+      {%- else -%}
+        {{col}}
+      {%- endif -%}
+      {%- if not loop.last -%},{%- endif %}
+    {% endfor %}
+  {% else %}
   *
+  {%- endif -%}
+
   -- extract commonly used contexts / sdes (prefixed)
   {{ snowplow_unified.get_web_page_context_fields() }}
   {{ snowplow_unified.get_iab_context_fields() }}
