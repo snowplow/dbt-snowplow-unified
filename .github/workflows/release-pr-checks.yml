@@ -30,7 +30,7 @@ jobs:
         continue-on-error: true
 
       - name: Post PR comment on failure
-        if: steps.release-check.outcome == 'failure'
+        if: failure()
         uses: actions/github-script@v6
         with:
           script: |
