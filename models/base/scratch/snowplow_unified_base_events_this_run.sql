@@ -103,6 +103,8 @@ with base_query as (
   {{ base_events_query }}
 )
 
+{# NOTE: This lakeloader workaround should be removed when Snowflake support structured types in regular tables https://docs.snowflake.com/en/sql-reference/data-types-structured #}
+
 {% if var('snowplow__snowflake_lakeloader', False) -%}
   {% set base_query_cols = get_column_schema_from_query( 'select * from (' + base_events_query +') a') %}
 {%- endif -%}
