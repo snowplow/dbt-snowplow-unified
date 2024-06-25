@@ -74,13 +74,23 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro snowflake__get_cwv_fields() %}
     {% if var('snowplow__enable_cwv', false) %}
-    , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:lcp::decimal(14,4) as cwv__lcp
-    , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:fcp::decimal(14,4) as cwv__fcp
-    , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:fid::decimal(14,4) as cwv__fid
-    , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:cls::decimal(14,4) as cwv__cls
-    , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:inp::decimal(14,4) as cwv__inp
-    , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:ttfb::decimal(14,4) as cwv__ttfb
-    , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:navigationType::varchar as cwv__navigation_type
+      {% if var('snowplow__snowflake_lakeloader', false) %}
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:lcp::decimal(14,4) as cwv__lcp
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:fcp::decimal(14,4) as cwv__fcp
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:fid::decimal(14,4) as cwv__fid
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:cls::decimal(14,4) as cwv__cls
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:inp::decimal(14,4) as cwv__inp
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:ttfb::decimal(14,4) as cwv__ttfb
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:navigation_type::varchar as cwv__navigation_type
+      {% else %}
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:lcp::decimal(14,4) as cwv__lcp
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:fcp::decimal(14,4) as cwv__fcp
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:fid::decimal(14,4) as cwv__fid
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:cls::decimal(14,4) as cwv__cls
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:inp::decimal(14,4) as cwv__inp
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:ttfb::decimal(14,4) as cwv__ttfb
+      , unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1:navigationType::varchar as cwv__navigation_type
+      {% endif %}
     {% else %}
     , cast(null as decimal(14,4)) as cwv__lcp,
     , cast(null as decimal(14,4)) as cwv__fcp,

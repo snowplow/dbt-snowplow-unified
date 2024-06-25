@@ -39,11 +39,17 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
   {% else %}
 
+    {% if var('snowplow__snowflake_lakeloader', false) %}
+      {% set mobile_id_field = 'session_id' %}
+    {% else %}
+      {% set mobile_id_field = 'sessionId' %}
+    {% endif %}
+
     {% if var('snowplow__enable_web') and var('snowplow__enable_mobile') %}
-      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1', 'field': 'sessionId'}, {'schema': 'atomic', 'field': 'domain_sessionid'}] )}}
+      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1', 'field': mobile_id_field}, {'schema': 'atomic', 'field': 'domain_sessionid'}] )}}
 
     {% elif var('snowplow__enable_mobile') %}
-      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1', 'field': 'sessionId'}] )}}
+      {{ return([{'schema': 'contexts_com_snowplowanalytics_snowplow_client_session_1', 'field': mobile_id_field}] )}}
 
     {% else %}
       {{ return([{'schema': 'atomic', 'field': 'domain_sessionid'}] )}}
@@ -188,10 +194,3 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   {% endif %}
 
 {% endmacro %}
-
-
-
-
-
-
-

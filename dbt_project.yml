@@ -115,6 +115,7 @@ vars:
 
     # Snowflake:
     snowplow__query_tag: snowplow_dbt
+    snowplow__snowflake_lakeloader: false
 
     # Databricks:
     # Depending on the use case it should either be the catalog (for Unity Catalog users from databricks connector 1.1.1 onwards) or the same value as your snowplow__atomic_schema (unless changed it should be 'atomic')
