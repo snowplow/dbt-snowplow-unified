@@ -32,8 +32,8 @@ select
   -- device fields
   , a.platform as first_platform
   , c.last_platform
-  , a.on_web
-  , a.on_mobile
+  , cast(a.on_web as {{ dbt.type_boolean() }}) as on_web
+  , cast(a.on_mobile as {{ dbt.type_boolean() }}) as on_mobile
   , c.last_screen_resolution
   , c.last_os_type
   , c.last_os_version
