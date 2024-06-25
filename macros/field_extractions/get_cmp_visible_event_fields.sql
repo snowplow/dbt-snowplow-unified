@@ -46,7 +46,11 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro snowflake__get_cmp_visible_event_fields() %}
     {% if var('snowplow__enable_consent', false) %}
-    , unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1:elapsedTime::float as cmp__elapsed_time
+      {% if var('snowplow__snowflake_lakeloader', false) %}
+        , unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1:elapsed_time::float as cmp__elapsed_time
+      {% else %}
+        , unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1:elapsedTime::float as cmp__elapsed_time
+      {% endif %}
     {% else %}
       , cast(null as {{ dbt.type_float() }}) as cmp__elapsed_time
     {% endif %}

@@ -74,13 +74,23 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro snowflake__get_screen_view_event_fields() %}
   {% if var('snowplow__enable_mobile', false) %}
-    , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:id::varchar(36) AS screen_view__id
-    , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:name::varchar AS screen_view__name
-    , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:previousId::varchar(36) AS screen_view__previous_id
-    , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:previousName::varchar AS screen_view__previous_name
-    , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:previousType::varchar AS screen_view__previous_type
-    , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:transitionType::varchar AS screen_view__transition_type
-    , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:type::varchar AS screen_view__type
+    {% if var('snowplow__snowflake_lakeloader', false) %}
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:id::varchar(36) AS screen_view__id
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:name::varchar AS screen_view__name
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:previous_id::varchar(36) AS screen_view__previous_id
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:previous_name::varchar AS screen_view__previous_name
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:previous_type::varchar AS screen_view__previous_type
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:transition_type::varchar AS screen_view__transition_type
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:type::varchar AS screen_view__type
+    {% else %}
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:id::varchar(36) AS screen_view__id
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:name::varchar AS screen_view__name
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:previousId::varchar(36) AS screen_view__previous_id
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:previousName::varchar AS screen_view__previous_name
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:previousType::varchar AS screen_view__previous_type
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:transitionType::varchar AS screen_view__transition_type
+      , unstruct_event_com_snowplowanalytics_mobile_screen_view_1:type::varchar AS screen_view__type
+    {% endif %}
     {% else %}
       , cast(null as {{ dbt.type_string() }}) as screen_view__id
       , cast(null as {{ dbt.type_string() }}) as screen_view__name
