@@ -15,11 +15,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 select
   a.*,
-  case when platform = 'web' then true else false end on_web_base,
-  case when platform <> 'web' then true else false end on_mobile_base,
   min(a.start_tstamp) over(partition by a.user_identifier) as user_start_tstamp,
   max(a.end_tstamp) over(partition by a.user_identifier) as user_end_tstamp,
-  cast(max(cast(case when platform = 'web' then true else false end as {{ dbt.type_int() }}))  over(partition by user_identifier) as {{ dbt.type_boolean() }}) as on_web,
+  cast(max(cast(case when platform = 'web' then true else false end as {{ dbt.type_int() }})) over(partition by user_identifier) as {{ dbt.type_boolean() }}) as on_web,
   cast(max(cast(case when platform <> 'web' then true else false end as {{ dbt.type_int() }})) over(partition by user_identifier) as {{ dbt.type_boolean() }}) as on_mobile
 
 from {{ var('snowplow__sessions_table') }} a
