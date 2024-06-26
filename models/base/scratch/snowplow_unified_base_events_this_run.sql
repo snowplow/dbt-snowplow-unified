@@ -109,6 +109,7 @@ with base_query as (
   {% set base_query_cols = get_column_schema_from_query( 'select * from (' + base_events_query +') a') %}
 {%- endif -%}
 
+-- depends_on: {{ ref('snowplow_unified_base_sessions_this_run') }}
 select
   {% if var('snowplow__snowflake_lakeloader', false) and target.type == 'snowflake' -%}
     {% for col in base_query_cols | map(attribute='name') | list -%}
