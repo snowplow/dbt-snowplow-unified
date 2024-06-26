@@ -1,3 +1,20 @@
+snowplow-unified 0.4.4 (2024-06-26)
+---------------------------------------
+## Summary
+This release adds early-release support for running the models on a Snowflake lake loader Iceberg table. Please note this feature is actively in testing and not all features of the package may work as expected. Please [let us know](https://github.com/snowplow/dbt-snowplow-unified/issues/new/choose) if you find any issues.
+
+## Features
+- Add early release support for Snowflake Iceberg events tables via lake loader
+
+# Optimizations
+- Remove unused columns and attempt to improve window functions in user_sessions_this_run
+
+## Under the hood
+- Alter GH action to remove fail-fast on integration tests
+
+## Upgrading
+Update the snowplow-unified version in your `packages.yml` file.
+
 snowplow-unified 0.4.3 (2024-06-24)
 ---------------------------------------
 ## Summary
