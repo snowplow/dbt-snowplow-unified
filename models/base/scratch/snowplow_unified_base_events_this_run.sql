@@ -102,7 +102,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 with base_query as (
   {{ base_events_query }}
 )
-
+-- depends_on: {{ ref('snowplow_unified_base_sessions_this_run') }}
 select
   *
   -- extract commonly used contexts / sdes (prefixed)

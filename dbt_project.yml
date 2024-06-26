@@ -8,7 +8,7 @@ profile: 'snowplow_unified'
 
 dispatch:
   - macro_namespace: dbt
-    search_order: ['snowplow_unified', 'snowplow_utils', 'dbt']
+    search_order: ['snowplow_utils', 'dbt']
 
 model-paths: ["models"]
 test-paths: ["tests"]
