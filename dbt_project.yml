@@ -4,7 +4,7 @@ config-version: 2
 
 require-dbt-version: [">=1.6.0", "<2.0.0"]
 
-profile: 'snowplow_unified'
+profile: 'default'
 
 dispatch:
   - macro_namespace: dbt
@@ -31,11 +31,9 @@ vars:
     # See https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/unified/ for more information
     # snowplow__atomic_schema: 'atomic_data_sample' # Only set if not using 'atomic' schema for Snowplow events data
     # snowplow__database: # Only set if not using target.database for Snowplow events data -- WILL BE IGNORED FOR DATABRICKS
-    snowplow__database: 'snowplow'
-    snowplow__atomic_schema: 'snowplow'
     snowplow__dev_target_name: dev
-    # {# snowplow__events: "{{ source('atomic', 'events') }}" # use snowplow 'events' table #}
-    snowplow__events_table: "events" # Only set if not using 'events' table for Snowplow events data
+    snowplow__events: "{{ source('atomic', 'events') }}"
+    # snowplow__events_table: "events" # Only set if not using 'events' table for Snowplow events data
     snowplow__enable_web: true
     snowplow__enable_mobile: true
     snowplow__heartbeat: 10
@@ -50,10 +48,9 @@ vars:
     # OPERATION & LOGIC
     snowplow__allow_refresh: false
     snowplow__backfill_limit_days: 30
-    # For running optional_modules:conversions
-    snowplow__conversion_events: [{'name': 'view_page', 'condition': "event_name = 'page_view'", "list_events": true},
-                                   {'name': 'sign_up', 'condition': "event_name = 'sign_up'", 'value': 5}
-                                 ]
+    # snowplow__conversion_events: [{'name': 'view_page', 'condition': "event_name = 'page_view'", "list_events": true},
+    #                               {'name': 'sign_up', 'condition': "event_name = 'sign_up'", 'value': 5}
+    #                             ]
     snowplow__cwv_days_to_measure: 28
     snowplow__cwv_percentile: 75
     snowplow__days_late_allowed: 3
@@ -65,16 +62,16 @@ vars:
     snowplow__view_stitching: false
     snowplow__conversion_stitching: true
     snowplow__session_timestamp: collector_tstamp
-    snowplow__start_date: '2024-05-31'
+    snowplow__start_date: '2020-01-01'
     # snowplow__total_all_conversions: false
     snowplow__upsert_lookback_days: 30
-    snowplow__use_refr_if_mkt_null: false
-
+    snowplow__use_refr_if_mkt_null: false 
+    
     # please refer to the macros within identifiers.sql for default values
-    snowplow__session_identifiers: [{'schema': 'snowplow', 'field': 'domain_sessionid'}]
-    snowplow__user_identifiers: [{'schema': 'snowplow', 'field': 'domain_userid'}]
-    snowplow__session_sql: 'e.domain_sessionid'
-    snowplow__user_sql: 'e.domain_userid'
+    snowplow__session_identifiers: []
+    snowplow__user_identifiers: []
+    # snowplow__session_sql: 'e.domain_sessionid'
+    # snowplow__user_sql: 'e.domain_userid'
     # snowplow__custom_sql: ''
     snowplow__user_stitching_id: user_id
     # filter your data:
@@ -105,10 +102,10 @@ vars:
     snowplow__user_aggregations: []
 
     # enable custom modules:
-    snowplow__enable_consent: true
-    snowplow__enable_cwv: true
-    snowplow__enable_app_errors: true
-    snowplow__enable_conversions: true
+    snowplow__enable_consent: false
+    snowplow__enable_cwv: false
+    snowplow__enable_app_errors: false
+    snowplow__enable_conversions: false
 
     # WAREHOUSE SPECIFIC
 
@@ -160,13 +157,12 @@ on-run-end:
 models:
   snowplow_unified:
     +materialized: table
-    +file_format: iceberg
-    # +location_root: s3://dataeng-emr-eks-test/snowplow/validation/warehouse/snowplow_james
+    +file_format: delta
     +bind: false
     base:
       +tags: "base"
       manifest:
-        +schema: "manifest"
+        +schema: "snowplow_manifest"
       scratch:
         +schema: "scratch"
         +tags: "scratch"
@@ -224,4 +220,4 @@ models:
 
 seeds:
   snowplow_unified:
-    +schema: manifest
+    +schema: snowplow_manifest
