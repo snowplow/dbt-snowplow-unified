@@ -74,23 +74,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro snowflake__get_screen_context_fields() %}
   {% if var('snowplow__enable_screen_context', false) %}
-    {% if var('snowplow__snowflake_lakeloader', false) %}
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:id::varchar(36) AS screen__id
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:name::varchar AS screen__name
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:activity::varchar AS screen__activity
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:fragment::varchar AS screen__fragment
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:top_view_controller::varchar AS screen__top_view_controller
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:type::varchar AS screen__type
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:view_controller::varchar AS screen__view_controller
-    {% else %}
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:id::varchar(36) AS screen__id
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:name::varchar AS screen__name
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:activity::varchar AS screen__activity
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:fragment::varchar AS screen__fragment
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:topViewController::varchar AS screen__top_view_controller
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:type::varchar AS screen__type
-      , contexts_com_snowplowanalytics_mobile_screen_1[0]:viewController::varchar AS screen__view_controller
-    {% endif %}
+    , contexts_com_snowplowanalytics_mobile_screen_1[0]:id::varchar(36) AS screen__id
+    , contexts_com_snowplowanalytics_mobile_screen_1[0]:name::varchar AS screen__name
+    , contexts_com_snowplowanalytics_mobile_screen_1[0]:activity::varchar AS screen__activity
+    , contexts_com_snowplowanalytics_mobile_screen_1[0]:fragment::varchar AS screen__fragment
+    , contexts_com_snowplowanalytics_mobile_screen_1[0]:topViewController::varchar AS screen__top_view_controller
+    , contexts_com_snowplowanalytics_mobile_screen_1[0]:type::varchar AS screen__type
+    , contexts_com_snowplowanalytics_mobile_screen_1[0]:viewController::varchar AS screen__view_controller
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as screen__id
     , cast(null as {{ dbt.type_string() }}) as screen__name

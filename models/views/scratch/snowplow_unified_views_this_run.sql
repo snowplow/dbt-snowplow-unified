@@ -72,7 +72,7 @@ with prep as (
       {{ snowplow_unified.mobile_context_fields('ev')}}
     {% endif %}
 
-    {% if target.type == 'postgres' %}
+    {% if target.type in ['spark', 'postgres'] %}
     ,row_number() over (partition by ev.view_id order by ev.derived_tstamp, ev.dvce_created_tstamp) as view_id_dedupe_index
     {% endif %}
 
@@ -92,9 +92,9 @@ with prep as (
 
     from {{ ref('snowplow_unified_events_this_run') }} as ev
 
-    left join {{ ref(var('snowplow__ga4_categories_seed')) }} c on 
+    left join {{ ref(var('snowplow__ga4_categories_seed')) }} c on
       {% if var('snowplow__use_refr_if_mkt_null', false) %}
-        lower(trim(coalesce(ev.mkt_source, ev.refr_source))) = lower(c.source)
+        lower(trim(coalesce(ev.mkt_source, ev.refr_source)) = lower(c.source)
       {% else %}
         lower(trim(ev.mkt_source)) = lower(c.source)
       {% endif %}
@@ -106,26 +106,26 @@ with prep as (
       {{ snowplow_unified.filter_bots('ev') }}
     {% endif %}
 
-    {% if target.type not in ['postgres'] %}
+    {% if target.type not in ['spark', 'postgres'] %}
       qualify row_number() over (partition by ev.view_id order by ev.derived_tstamp, ev.dvce_created_tstamp) = 1
     {% endif %}
 )
 
 {% if var('snowplow__view_aggregations', []) %}
 , view_aggs as (
-  select 
+  select
     view_id
     , session_identifier
     {% for agg in var('snowplow__view_aggregations') %}
       , {{ snowplow_utils.parse_agg_dict(agg)}}
     {% endfor %}
     from {{ ref('snowplow_unified_events_this_run') }} as ev
-    where 1=1 
+    where 1=1
     {% if var("snowplow__ua_bot_filter", true) %}
       {{ snowplow_unified.filter_bots('ev') }}
     {% endif %}
     group by 1, 2
-  
+
 )
 {% endif %}
 
@@ -165,7 +165,7 @@ with prep as (
   left join {{ ref('snowplow_unified_pv_scroll_depth') }} sd
   on p.view_id = sd.view_id and p.session_identifier = sd.session_identifier
 
-  {% if target.type == 'postgres' %}
+  {% if target.type in ['spark', 'postgres'] %}
     where view_id_dedupe_index = 1
   {% endif %}
 

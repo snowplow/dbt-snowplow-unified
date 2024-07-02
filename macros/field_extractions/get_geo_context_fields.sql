@@ -74,23 +74,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro snowflake__get_geo_context_fields() %}
   {% if var('snowplow__enable_geolocation_context', false) %}
-    {% if var('snowplow__snowflake_lakeloader', false) %}
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:latitude::float AS geo__latitude
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:longitude::float AS geo__longitude
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:latitude_longitude_accuracy::float AS geo__latitude_longitude_accuracy
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:altitude::float AS geo__altitude
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:altitude_accuracy::float AS geo__altitude_accuracy
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:bearing::float AS geo__bearing
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:speed::float AS geo__speed
-    {% else %}
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:latitude::float AS geo__latitude
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:longitude::float AS geo__longitude
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:latitudeLongitudeAccuracy::float AS geo__latitude_longitude_accuracy
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:altitude::float AS geo__altitude
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:altitudeAccuracy::float AS geo__altitude_accuracy
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:bearing::float AS geo__bearing
-      , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:speed::float AS geo__speed
-    {% endif %}
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:latitude::float AS geo__latitude
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:longitude::float AS geo__longitude
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:latitudeLongitudeAccuracy::float AS geo__latitude_longitude_accuracy
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:altitude::float AS geo__altitude
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:altitudeAccuracy::float AS geo__altitude_accuracy
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:bearing::float AS geo__bearing
+    , contexts_com_snowplowanalytics_snowplow_geolocation_context_1[0]:speed::float AS geo__speed
   {% else %}
     , cast(null as {{ dbt.type_float() }}) as geo__latitude
     , cast(null as {{ dbt.type_float() }}) as geo__longitude

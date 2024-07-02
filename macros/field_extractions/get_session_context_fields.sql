@@ -76,16 +76,6 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro snowflake__get_session_context_fields() %}
   {% if var('snowplow__enable_mobile', false) %}
-    {% if var('snowplow__snowflake_lakeloader', false) %}
-      , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:session_id::varchar(36) AS session__session_id
-      , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:session_index::int AS session__session_index
-      , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:previous_session_id::varchar(36) AS session__previous_session_id
-      , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:user_id::varchar(36) AS session__user_id
-      , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:first_event_id::varchar(36) AS session__first_event_id
-      , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:event_index::int AS session__event_index
-      , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:storage_mechanism::varchar(36) AS session__storage_mechanism
-      , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:first_event_timestamp::varchar(36) AS session__first_event_timestamp
-    {% else %}
       , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:sessionId::varchar(36) AS session__session_id
       , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:sessionIndex::int AS session__session_index
       , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:previousSessionId::varchar(36) AS session__previous_session_id
@@ -94,15 +84,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:eventIndex::int AS session__event_index
       , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:storageMechanism::varchar(36) AS session__storage_mechanism
       , contexts_com_snowplowanalytics_snowplow_client_session_1[0]:firstEventTimestamp::varchar(36) AS session__first_event_timestamp
-    {% endif %}
-  {% else %}
-    , cast(null as {{ dbt.type_string() }}) as session__session_id
-    , cast(null as {{ dbt.type_numeric() }}) as session__session_index
-    , cast(null as {{ dbt.type_string() }}) as session__previous_session_id
-    , cast(null as {{ dbt.type_string() }}) as session__user_id
-    , cast(null as {{ dbt.type_string() }}) as session__first_event_id
-    , cast(null as {{ dbt.type_numeric() }}) as session__event_index
-    , cast(null as {{ dbt.type_string() }}) as session__storage_mechanism
-    , cast(null as {{ dbt.type_string() }}) as session__first_event_timestamp
+    {% else %}
+      , cast(null as {{ dbt.type_string() }}) as session__session_id
+      , cast(null as {{ dbt.type_numeric() }}) as session__session_index
+      , cast(null as {{ dbt.type_string() }}) as session__previous_session_id
+      , cast(null as {{ dbt.type_string() }}) as session__user_id
+      , cast(null as {{ dbt.type_string() }}) as session__first_event_id
+      , cast(null as {{ dbt.type_numeric() }}) as session__event_index
+      , cast(null as {{ dbt.type_string() }}) as session__storage_mechanism
+      , cast(null as {{ dbt.type_string() }}) as session__first_event_timestamp
   {% endif %}
 {% endmacro %}

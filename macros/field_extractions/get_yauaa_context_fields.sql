@@ -139,28 +139,6 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro snowflake__get_yauaa_context_fields() %}
 {%- if var('snowplow__enable_yauaa', false) -%}
-  {% if var('snowplow__snowflake_lakeloader', false) %}
-    , contexts_nl_basjes_yauaa_context_1[0]:device_class::VARCHAR as yauaa__device_class
-    , contexts_nl_basjes_yauaa_context_1[0]:agent_class::VARCHAR as yauaa__agent_class
-    , contexts_nl_basjes_yauaa_context_1[0]:agent_name::VARCHAR as yauaa__agent_name
-    , contexts_nl_basjes_yauaa_context_1[0]:agent_name_version::VARCHAR as yauaa__agent_name_version
-    , contexts_nl_basjes_yauaa_context_1[0]:agent_name_version_major::VARCHAR as yauaa__agent_name_version_major
-    , contexts_nl_basjes_yauaa_context_1[0]:agent_version::VARCHAR as yauaa__agent_version
-    , contexts_nl_basjes_yauaa_context_1[0]:agent_version_major::VARCHAR as yauaa__agent_version_major
-    , contexts_nl_basjes_yauaa_context_1[0]:device_brand::VARCHAR as yauaa__device_brand
-    , contexts_nl_basjes_yauaa_context_1[0]:device_name::VARCHAR as yauaa__device_name
-    , contexts_nl_basjes_yauaa_context_1[0]:device_version::VARCHAR as yauaa__device_version
-    , contexts_nl_basjes_yauaa_context_1[0]:layout_engine_class::VARCHAR as yauaa__layout_engine_class
-    , contexts_nl_basjes_yauaa_context_1[0]:layout_engine_name::VARCHAR as yauaa__layout_engine_name
-    , contexts_nl_basjes_yauaa_context_1[0]:layout_engine_name_version::VARCHAR as yauaa__layout_engine_name_version
-    , contexts_nl_basjes_yauaa_context_1[0]:layout_engine_name_version_major::VARCHAR as yauaa__layout_engine_name_version_major
-    , contexts_nl_basjes_yauaa_context_1[0]:layout_engine_version::VARCHAR as yauaa__layout_engine_version
-    , contexts_nl_basjes_yauaa_context_1[0]:layout_engine_version_major::VARCHAR as yauaa__layout_engine_version_major
-    , contexts_nl_basjes_yauaa_context_1[0]:operating_system_class::VARCHAR as yauaa__operating_system_class
-    , contexts_nl_basjes_yauaa_context_1[0]:operating_system_name::VARCHAR as yauaa__operating_system_name
-    , contexts_nl_basjes_yauaa_context_1[0]:operating_system_name_version::VARCHAR as yauaa__operating_system_name_version
-    , contexts_nl_basjes_yauaa_context_1[0]:operating_system_version::VARCHAR as yauaa__operating_system_version
-  {% else %}
     , contexts_nl_basjes_yauaa_context_1[0]:deviceClass::VARCHAR as yauaa__device_class
     , contexts_nl_basjes_yauaa_context_1[0]:agentClass::VARCHAR as yauaa__agent_class
     , contexts_nl_basjes_yauaa_context_1[0]:agentName::VARCHAR as yauaa__agent_name
@@ -181,7 +159,6 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , contexts_nl_basjes_yauaa_context_1[0]:operatingSystemName::VARCHAR as yauaa__operating_system_name
     , contexts_nl_basjes_yauaa_context_1[0]:operatingSystemNameVersion::VARCHAR as yauaa__operating_system_name_version
     , contexts_nl_basjes_yauaa_context_1[0]:operatingSystemVersion::VARCHAR as yauaa__operating_system_version
-  {% endif %}
 {%- else -%}
     , cast(null as {{ dbt.type_string() }}) as yauaa__device_class
     , cast(null as {{ dbt.type_string() }}) as yauaa__agent_class

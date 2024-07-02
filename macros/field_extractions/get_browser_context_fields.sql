@@ -105,35 +105,19 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro snowflake__get_browser_context_fields() %}
   {% if var('snowplow__enable_browser_context', false) %}
-    {% if var('snowplow__snowflake_lakeloader', false) %}
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:viewport::varchar AS browser__viewport
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:document_size::varchar AS browser__document_size
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:resolution::varchar AS browser__resolution
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:color_depth::int AS browser__color_depth
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:device_pixel_ratio::float AS browser__device_pixel_ratio
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:cookies_enabled::boolean AS browser__cookies_enabled
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:online::boolean AS browser__online
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:browser_language::varchar AS browser__browser_language
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:document_language::varchar AS browser__document_language
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:webdriver::boolean AS browser__webdriver
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:device_memory::int AS browser__device_memory
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:hardware_concurrency::int AS browser__hardware_concurrency
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:tab_id::varchar AS browser__tab_id
-    {% else %}
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:viewport::varchar AS browser__viewport
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:documentSize::varchar AS browser__document_size
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:resolution::varchar AS browser__resolution
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:colorDepth::int AS browser__color_depth
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:devicePixelRatio::float AS browser__device_pixel_ratio
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:cookiesEnabled::boolean AS browser__cookies_enabled
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:online::boolean AS browser__online
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:browserLanguage::varchar AS browser__browser_language
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:documentLanguage::varchar AS browser__document_language
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:webdriver::boolean AS browser__webdriver
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:deviceMemory::int AS browser__device_memory
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:hardwareConcurrency::int AS browser__hardware_concurrency
-      , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:tabId::varchar AS browser__tab_id
-    {% endif %}
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:viewport::varchar AS browser__viewport
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:documentSize::varchar AS browser__document_size
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:resolution::varchar AS browser__resolution
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:colorDepth::int AS browser__color_depth
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:devicePixelRatio::float AS browser__device_pixel_ratio
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:cookiesEnabled::boolean AS browser__cookies_enabled
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:online::boolean AS browser__online
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:browserLanguage::varchar AS browser__browser_language
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:documentLanguage::varchar AS browser__document_language
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:webdriver::boolean AS browser__webdriver
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:deviceMemory::int AS browser__device_memory
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:hardwareConcurrency::int AS browser__hardware_concurrency
+    , contexts_com_snowplowanalytics_snowplow_browser_context_1[0]:tabId::varchar AS browser__tab_id
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as browser__viewport
     , cast(null as {{ dbt.type_string() }}) as browser__document_size

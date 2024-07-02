@@ -39,3 +39,6 @@ select *
   {%- endif %}
 from {{ ref('snowplow_unified_conversions_this_run') }}
 where {{ snowplow_utils.is_run_with_new_events('snowplow_unified') }} --returns false if run doesn't contain new events.
+{% if target.type in ['databricks', 'spark'] -%}
+order by cv_tstamp_date asc
+{%- endif %}

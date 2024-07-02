@@ -74,32 +74,23 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% endmacro %}
 
 {% macro snowflake__get_consent_event_fields() %}
-  {% if var('snowplow__enable_consent', false) %}
-    {% if var('snowplow__snowflake_lakeloader', false) %}
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:event_type::varchar as consent__event_type
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:basis_for_processing::varchar as consent__basis_for_processing
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:consent_url::varchar as consent__consent_url
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:consent_version::varchar as consent__consent_version
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:consent_scopes::array as consent__consent_scopes
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:domains_applied::array as consent__domains_applied
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:gdpr_applies::boolean as consent__gdpr_applies
-    {% else %}
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:eventType::varchar as consent__event_type
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:basisForProcessing::varchar as consent__basis_for_processing
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:consentUrl::varchar as consent__consent_url
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:consentVersion::varchar as consent__consent_version
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:consentScopes::array as consent__consent_scopes
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:domainsApplied::array as consent__domains_applied
-      , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:gdprApplies::boolean as consent__gdpr_applies
-    {% endif %}
+    {% if var('snowplow__enable_consent', false) %}
 
-  {% else %}
-    , cast(null as {{ dbt.type_string() }}) as consent__event_type
-    , cast(null as {{ dbt.type_string() }}) as consent__basis_for_processing
-    , cast(null as {{ dbt.type_string() }}) as consent__consent_url
-    , cast(null as {{ dbt.type_string() }}) as consent__consent_version
-    , cast(null as array) as consent__consent_scopes
-    , cast(null as array) as consent__domains_applied
-    , cast(null as {{ dbt.type_boolean() }}) as consent__gdpr_applies
-  {% endif %}
+    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:eventType::varchar as consent__event_type
+    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:basisForProcessing::varchar as consent__basis_for_processing
+    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:consentUrl::varchar as consent__consent_url
+    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:consentVersion::varchar as consent__consent_version
+    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:consentScopes::array as consent__consent_scopes
+    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:domainsApplied::array as consent__domains_applied
+    , unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1:gdprApplies::boolean as consent__gdpr_applies
+
+    {% else %}
+      , cast(null as {{ dbt.type_string() }}) as consent__event_type
+      , cast(null as {{ dbt.type_string() }}) as consent__basis_for_processing
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_url
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_version
+      , cast(null as array) as consent__consent_scopes
+      , cast(null as array) as consent__domains_applied
+      , cast(null as {{ dbt.type_boolean() }}) as consent__gdpr_applies
+    {% endif %}
 {% endmacro %}
