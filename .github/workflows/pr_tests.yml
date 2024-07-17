@@ -113,7 +113,7 @@ jobs:
       # Install latest patch version. Upgrade if cache contains old patch version.
       - name: Install dependencies
         run: |
-          pip install --upgrade pip wheel setuptools
+          pip install pip wheel setuptools
           pip install -Iv dbt-${{ matrix.warehouse }}==${{ matrix.dbt_version }} --upgrade
           dbt deps
         if: ${{matrix.warehouse != 'spark'}}
