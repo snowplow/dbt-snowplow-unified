@@ -95,7 +95,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
                               snowplow_events_schema=var('snowplow__atomic_schema', 'atomic'),
                               snowplow_events_table=var('snowplow__events_table', 'events'),
                               entities_or_sdes=contexts,
-                              custom_sql=var('snowplow__custom_sql', none)
+                              custom_sql=var('snowplow__custom_sql', none),
+                              allow_null_dvce_tstamps=var('snowplow__allow_null_dvce_tstamps', false)
                               ) %}
 
 

@@ -54,6 +54,7 @@ vars:
     snowplow__cwv_days_to_measure: 28
     snowplow__cwv_percentile: 75
     snowplow__days_late_allowed: 3
+    # snowplow__allow_null_dvce_tstamps: false
     snowplow__list_event_counts: false
     snowplow__lookback_window_hours: 6
     snowplow__max_session_days: 3
