@@ -1,3 +1,14 @@
+snowplow-unified 0.4.5 (2024-07-30)
+---------------------------------------
+## Summary
+This release extends support for those users who would like to use the Snowplow incremental base macros but are using specific older versions of the AMP tracker or the Pixel tracker which do not send dvce_created / dvce_sent_tstamp fields. 
+
+## Features
+- Add support for allow_null_dvce_tstamps var
+
+## Upgrading
+Update the snowplow-unified version in your `packages.yml` file.
+
 snowplow-unified 0.4.4 (2024-06-26)
 ---------------------------------------
 ## Summary
