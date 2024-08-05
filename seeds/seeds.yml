@@ -25,3 +25,14 @@ seeds:
     columns:
       - name: lang_tag
       - name: name
+  - name: snowplow_unified_dim_iso_639_2t
+    description: A mapping between the ISO 639-1 and ISO 639-2/T language code to the full name of the language. Source https://www.loc.gov/standards/iso639-2/php/code_list.php
+    columns:
+      - name: iso_639_2t_code
+      - name: iso_639_1_code
+      - name: name
+  - name: snowplow_unified_dim_iso_639_3
+    description: A mapping between the ISO 639-3 language code to the full name of the language. Source https://iso639-3.sil.orgg/code_tables/download_tables
+    columns:
+      - name: iso_639_3_code
+      - name: name
