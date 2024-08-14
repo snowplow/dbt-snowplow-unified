@@ -92,7 +92,17 @@ jobs:
         run: echo "SCHEMA_SUFFIX=$(echo ${DBT_VERSION%.*} | tr . _)" >> $GITHUB_ENV
         env:
           DBT_VERSION: ${{ matrix.dbt_version }}
-
+      - name: Configure Docker credentials
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
       - name: Set DEFAULT_TARGET env
         run: |
          echo "DEFAULT_TARGET=${{ matrix.warehouse }}" >> $GITHUB_ENV
@@ -122,8 +132,22 @@ jobs:
       - name: Install spark dependencies
         run: |
           pip install --upgrade pip wheel setuptools
-          pip install -Iv "dbt-${{ matrix.warehouse }}[ODBC]"==${{ matrix.dbt_version }} --upgrade
+          pip install -Iv "dbt-${{ matrix.warehouse }}[PyHive]"==${{ matrix.dbt_version }} --upgrade
           dbt deps
+        if: ${{matrix.warehouse == 'spark'}}
+      
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      
+      - name: Build and start Spark cluster
+        working-directory: .github/workflows/spark_deployment
+        run: |
+          docker-compose up -d
+          echo "Waiting for Spark services to start..."
+          sleep 90
         if: ${{matrix.warehouse == 'spark'}}
 
       - name: "Pre-test: Drop ci schemas"

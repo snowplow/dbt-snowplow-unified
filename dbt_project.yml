@@ -29,13 +29,13 @@ vars:
 
     # WAREHOUSE & TRACKER
     # See https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/unified/ for more information
-    # snowplow__atomic_schema: 'atomic_data_sample' # Only set if not using 'atomic' schema for Snowplow events data
-    # snowplow__database: # Only set if not using target.database for Snowplow events data -- WILL BE IGNORED FOR DATABRICKS
+    snowplow__atomic_schema: 'ilias_snowplow_iceberg' # Only set if not using 'atomic' schema for Snowplow events data
+    #snowplow__database: 'glue' # Only set if not using target.database for Snowplow events data -- WILL BE IGNORED FOR DATABRICKS
     snowplow__dev_target_name: dev
-    snowplow__events: "{{ source('atomic', 'events') }}"
+    snowplow__events: "{{ source('ilias_snowplow_iceberg', 'events') }}"
     # snowplow__events_table: "events" # Only set if not using 'events' table for Snowplow events data
-    snowplow__enable_web: true
-    snowplow__enable_mobile: true
+    snowplow__enable_web: False
+    snowplow__enable_mobile: True
     snowplow__heartbeat: 10
     snowplow__min_visit_length: 5
     snowplow__sessions_table: "{{ ref('snowplow_unified_sessions') }}" # Change to your custom sessions table if you have disabled the standard sessions table in favour of a custom version. Advanced config.
@@ -62,11 +62,11 @@ vars:
     snowplow__view_stitching: false
     snowplow__conversion_stitching: true
     snowplow__session_timestamp: collector_tstamp
-    snowplow__start_date: '2020-01-01'
+    snowplow__start_date: '2024-07-01'
     # snowplow__total_all_conversions: false
     snowplow__upsert_lookback_days: 30
     snowplow__use_refr_if_mkt_null: false 
-    snowplow__enable_initial_checks: false
+    snowplow__enable_initial_checks: True
 
     # please refer to the macros within identifiers.sql for default values
     snowplow__session_identifiers: []
@@ -76,7 +76,7 @@ vars:
     # snowplow__custom_sql: ''
     snowplow__user_stitching_id: user_id
     # filter your data:
-    snowplow__app_id: []
+    snowplow__app_id: [] # ["snowplow-python-demo"]
     snowplow__ua_bot_filter: true
 
     # ADDITIONS
@@ -86,8 +86,8 @@ vars:
     snowplow__enable_ua: false
     snowplow__enable_browser_context: false
     # add extra mobile fields:
-    snowplow__enable_mobile_context: false
-    snowplow__enable_geolocation_context: false
+    snowplow__enable_mobile_context: True
+    snowplow__enable_geolocation_context: True
     snowplow__enable_application_context: false
     snowplow__enable_screen_context: false
     snowplow__enable_deep_link_context: false
@@ -159,10 +159,12 @@ on-run-end:
 models:
   snowplow_unified:
     +materialized: table
-    +file_format: delta
+    +file_format: iceberg
+    +location_root: s3://ian-test-iceberg/ilias_iceberg/
     +bind: false
     base:
       +tags: "base"
+      +materialized: table
       manifest:
         +schema: "snowplow_manifest"
       scratch:

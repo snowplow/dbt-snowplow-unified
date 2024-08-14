@@ -27,7 +27,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       'delta.autoOptimize.optimizeWrite' : 'true',
       'delta.autoOptimize.autoCompact' : 'true'
     },
-    snowplow_optimize = true
+    snowplow_optimize = true,
+    incremental_strategy = 'delete+insert' if target.type in ['postgres', 'redshift'] else 'merge',
+    file_format='iceberg' if target.type in ['spark'] else 'delta'
   )
 }}
 

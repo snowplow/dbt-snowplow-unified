@@ -13,10 +13,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     upsert_date_key='start_tstamp',
     sort='start_tstamp',
     dist='view_id',
-    partition_by = snowplow_utils.get_value_by_target_type(bigquery_val = {
-      "field": "start_tstamp",
-      "data_type": "timestamp"
-    }, databricks_val='start_tstamp_date'),
+    partition_by = snowplow_utils.get_value_by_target_type(
+      bigquery_val = {
+        "field": "start_tstamp",
+        "data_type": "timestamp"
+      }, 
+      databricks_val='start_tstamp_date',
+      spark_val='start_tstamp_date'
+    ),
     cluster_by=snowplow_unified.get_cluster_by_values('views'),
     tags=["derived"],
     post_hook="{{ snowplow_unified.stitch_user_identifiers(
@@ -27,7 +31,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       'delta.autoOptimize.optimizeWrite' : 'true',
       'delta.autoOptimize.autoCompact' : 'true'
     },
-    snowplow_optimize = true
+    snowplow_optimize = true,
+    incremental_strategy = 'delete+insert' if target.type in ['postgres', 'redshift'] else 'merge',
+    file_format='iceberg' if target.type in ['spark'] else 'delta'
   )
 }}
 

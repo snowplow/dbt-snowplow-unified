@@ -10,14 +10,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 select
 -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+{% if target.type in ['redshift', 'postgres', 'databricks', 'spark'] -%}
   case when event_id in ('1b4b3b57-3cb7-4df2-a7fd-526afa9e3c76', '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f') then 'true base' else app_id end as app_id,
 {% else %}
   app_id,
 {% endif %}
 
   -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+{% if target.type in ['redshift', 'postgres', 'databricks', 'spark'] -%}
   case when event_id = '1b4b3b57-3cb7-4df2-a7fd-526afa9e3c76' then '2021-03-01 20:56:33.286'
   when event_id = '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' then '2021-02-26 10:50:43.000'
   else dvce_created_tstamp end as dvce_created_tstamp,
@@ -26,7 +26,7 @@ select
 {% endif %}
 
   -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+{% if target.type in ['redshift', 'postgres', 'databricks', 'spark'] -%}
   case when event_id = '1b4b3b57-3cb7-4df2-a7fd-526afa9e3c76' then '2021-03-01 20:56:39.192'
   when event_id = '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' then '2021-02-26 10:50:47.000'
   else derived_tstamp end as derived_tstamp,
@@ -35,7 +35,7 @@ select
 {% endif %}
 
   -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+{% if target.type in ['redshift', 'postgres', 'databricks', 'spark'] -%}
   case when event_id = '1b4b3b57-3cb7-4df2-a7fd-526afa9e3c76' then '2021-03-01 20:56:39.192'
   when event_id = '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' then '2021-02-26 10:50:47.000'
   else start_tstamp end as start_tstamp,
@@ -44,7 +44,7 @@ select
 {% endif %}
 
   -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+{% if target.type in ['redshift', 'postgres', 'databricks', 'spark'] -%}
   case when event_id = '1b4b3b57-3cb7-4df2-a7fd-526afa9e3c76' then '2021-03-01 20:56:39.192'
   when event_id = '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' then '2021-02-26 10:50:47.000'
   else end_tstamp end as end_tstamp,
@@ -58,7 +58,7 @@ event_id,
 session_identifier,
 
   -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+{% if target.type in ['redshift', 'postgres', 'databricks', 'spark'] -%}
   case when event_id = '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' then 1
   when event_id = 'b3eca04e-d277-45e0-9c7c-76dc7e8c16ff' then 2
   else view_in_session_index end as view_in_session_index,
@@ -73,7 +73,7 @@ user_identifier,
 stitched_user_id,
 
  -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+{% if target.type in ['redshift', 'postgres', 'databricks', 'spark'] -%}
   case when event_id = '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' then '0e77779ebe3beec35d423f1c1952b81d69ecda6325902921c8e761856835808d'
   else network_userid end as network_userid,
 {% else %}

@@ -64,7 +64,7 @@ with session_firsts as (
           {{ snowplow_unified.mobile_context_fields('ev')}}
         {% endif %}
 
-        {% if target.type == 'postgres' %}
+        {% if target.type in ['postgres','spark'] %}
           , row_number() over (partition by ev.session_identifier order by ev.derived_tstamp, ev.dvce_created_tstamp, ev.event_id) as session_dedupe_index
         {% endif %}
 
@@ -103,7 +103,7 @@ with session_firsts as (
       {{ snowplow_unified.filter_bots() }}
     {% endif %}
 
-    {% if target.type not in ['postgres'] %}
+    {% if target.type not in ['postgres','spark'] %}
       qualify row_number() over (partition by session_identifier order by derived_tstamp, dvce_created_tstamp, event_id) = 1
     {% endif %}
 )
@@ -136,7 +136,7 @@ with session_firsts as (
         ev.screen_view__type as last_screen_view__type,
       {% endif %}
 
-      {% if target.type == 'postgres' %}
+      {% if target.type in ['postgres','spark'] %}
         row_number() over (partition by ev.session_identifier order by ev.derived_tstamp desc, ev.dvce_created_tstamp desc, ev.event_id) AS session_dedupe_index,
       {% endif %}
 
@@ -154,7 +154,7 @@ with session_firsts as (
             {{ snowplow_unified.filter_bots() }}
         {% endif %}
 
-    {% if target.type not in ['postgres'] %}
+    {% if target.type not in ['postgres','spark'] %}
       qualify row_number() over (partition by session_identifier order by derived_tstamp desc, dvce_created_tstamp desc, event_id) = 1
     {% endif %}
 )
@@ -184,7 +184,7 @@ with session_firsts as (
                             (count(distinct case when event_name = 'page_ping' and view_id is not null then view_id else null end) * {{ var("snowplow__min_visit_length", 5) }}) as engaged_time_in_s_web
       {% endif %}
 
-      , {{ snowplow_utils.timestamp_diff('min(derived_tstamp)', 'max(derived_tstamp)', 'second') }} as absolute_time_in_s
+      , {{ snowplow_utils.timestamp_diff('min(derived_tstamp)', 'max(derived_tstamp)', "'second'") }} as absolute_time_in_s
 
       {% if var("snowplow__enable_app_errors", false) %}
         , count(distinct case when event_name = 'application_error' then 1 end) as app_errors
@@ -275,7 +275,7 @@ select
 
   -- timestamp fields
   -- when the session starts with a ping we need to add the min visit length to get when the session actually started
-  , case when f.event_name = 'page_ping' then {{ snowplow_utils.timestamp_add(datepart="second", interval=-var("snowplow__min_visit_length", 5), tstamp="a.start_tstamp") }} else a.start_tstamp end as start_tstamp
+  , case when f.event_name = 'page_ping' then {{ snowplow_utils.timestamp_add(datepart='second', interval=-var("snowplow__min_visit_length", 5), tstamp="a.start_tstamp") }} else a.start_tstamp end as start_tstamp
   , a.end_tstamp -- only page views with pings will have a row in table t
   , {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
 
@@ -461,7 +461,7 @@ from session_firsts f
 left join session_lasts l
 on f.session_identifier = l.session_identifier
 
-{% if target.type == 'postgres' %}
+{% if target.type in ['postgres','spark'] %}
   and l.session_dedupe_index = 1
 {%- endif %}
 
@@ -472,6 +472,6 @@ on f.session_identifier = a.session_identifier
 left join session_convs d on f.session_identifier = d.session_identifier
 {%- endif %}
 
-{% if target.type == 'postgres' %}
+{% if target.type in ['postgres','spark'] %}
    where f.session_dedupe_index = 1
 {%- endif %}
