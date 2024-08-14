@@ -1,5 +1,5 @@
 name: 'snowplow_unified_integration_tests'
-version: '0.4.4'
+version: '0.4.5'
 config-version: 2
 
 profile: 'integration_tests'
@@ -43,6 +43,7 @@ models:
 vars:
   snowplow__enable_custom_example: false
   snowplow_unified:
+    snowplow__allow_null_dvce_tstamps: true
     snowplow__atomic_schema: "{{target.schema ~ '_snplw_unified_int_tests'}}"
     snowplow__events_table: snowplow_unified_events_stg
     snowplow__events: "{{ ref('snowplow_unified_events_stg') }}"
