@@ -378,14 +378,136 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     )
 
     select
-        * except (
-            unstruct_event_com_snowplowanalytics_mobile_screen_view_1,
-            contexts_com_snowplowanalytics_snowplow_client_session_1,
-            contexts_com_snowplowanalytics_snowplow_mobile_context_1,
-            contexts_com_snowplowanalytics_mobile_application_1,
-            contexts_com_snowplowanalytics_mobile_screen_1
-        ),
-
+        app_id,
+        platform,
+        etl_tstamp,
+        collector_tstamp,
+        dvce_created_tstamp,
+        event,
+        event_id,
+        txn_id,
+        name_tracker,
+        v_tracker,
+        v_collector,
+        v_etl,
+        user_id,
+        user_ipaddress,
+        user_fingerprint,
+        domain_userid,
+        domain_sessionidx,
+        network_userid,
+        geo_country,
+        geo_region,
+        geo_city,
+        geo_zipcode,
+        geo_latitude,
+        geo_longitude,
+        geo_region_name,
+        ip_isp,
+        ip_organization,
+        ip_domain,
+        ip_netspeed,
+        page_url,
+        page_title,
+        page_referrer,
+        page_urlscheme,
+        page_urlhost,
+        page_urlport,
+        page_urlpath,
+        page_urlquery,
+        page_urlfragment,
+        refr_urlscheme,
+        refr_urlhost,
+        refr_urlport,
+        refr_urlpath,
+        refr_urlquery,
+        refr_urlfragment,
+        refr_medium,
+        refr_source,
+        refr_term,
+        mkt_medium,
+        mkt_source,
+        mkt_term,
+        mkt_content,
+        mkt_campaign,
+        se_category,
+        se_action,
+        se_label,
+        se_property,
+        se_value,
+        tr_orderid,
+        tr_affiliation,
+        tr_total,
+        tr_tax,
+        tr_shipping,
+        tr_city,
+        tr_state,
+        tr_country,
+        ti_orderid,
+        ti_sku,
+        ti_name,
+        ti_category,
+        ti_price,
+        ti_quantity,
+        pp_xoffset_min,
+        pp_xoffset_max,
+        pp_yoffset_min,
+        pp_yoffset_max,
+        useragent,
+        br_name,
+        br_family,
+        br_version,
+        br_type,
+        br_renderengine,
+        br_lang,
+        br_features_pdf,
+        br_features_flash,
+        br_features_java,
+        br_features_director,
+        br_features_quicktime,
+        br_features_realplayer,
+        br_features_windowsmedia,
+        br_features_gears,
+        br_features_silverlight,
+        br_cookies,
+        br_colordepth,
+        br_viewwidth,
+        br_viewheight,
+        os_name,
+        os_family,
+        os_manufacturer,
+        os_timezone,
+        dvce_type,
+        dvce_ismobile,
+        dvce_screenwidth,
+        dvce_screenheight,
+        doc_charset,
+        doc_width,
+        doc_height,
+        tr_currency,
+        tr_total_base,
+        tr_tax_base,
+        tr_shipping_base,
+        ti_currency,
+        ti_price_base,
+        base_currency,
+        geo_timezone,
+        mkt_clickid,
+        mkt_network,
+        etl_tags,
+        dvce_sent_tstamp,
+        refr_domain_userid,
+        refr_device_tstamp,
+        domain_sessionid,
+        derived_tstamp,
+        event_vendor,
+        event_name,
+        event_format,
+        event_version,
+        event_fingerprint,
+        true_tstamp,
+        load_tstamp,
+        contexts_com_snowplowanalytics_mobile_screen_summary_1,
         struct(
             cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0].id as STRING) AS id,
             cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1[0].name as STRING) AS name,
@@ -441,21 +563,27 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 
 
-        array(struct(contexts_com_snowplowanalytics_mobile_application_1[0].version::string AS version,
-            contexts_com_snowplowanalytics_mobile_application_1[0].build::string AS build)) as contexts_com_snowplowanalytics_mobile_application_1,
-        array(struct(contexts_com_snowplowanalytics_mobile_screen_1[0].id::string AS id,
-            contexts_com_snowplowanalytics_mobile_screen_1[0].name::string AS name,
-            contexts_com_snowplowanalytics_mobile_screen_1[0].activity::string AS activity,
-            contexts_com_snowplowanalytics_mobile_screen_1[0].fragment::string AS fragment,
-            contexts_com_snowplowanalytics_mobile_screen_1[0].topViewController::string AS top_view_controller,
-            contexts_com_snowplowanalytics_mobile_screen_1[0].type::string AS type,
-            contexts_com_snowplowanalytics_mobile_screen_1[0].viewController::string AS view_controller)) as contexts_com_snowplowanalytics_mobile_screen_1
+        array(
+            struct(
+                cast(contexts_com_snowplowanalytics_mobile_application_1[0].version as STRING) AS version,
+                cast(contexts_com_snowplowanalytics_mobile_application_1[0].build as STRING) AS build
+            )
+        ) as contexts_com_snowplowanalytics_mobile_application_1,
+        array(
+            struct(
+                cast(contexts_com_snowplowanalytics_mobile_screen_1[0].id as STRING) AS id,
+                cast(contexts_com_snowplowanalytics_mobile_screen_1[0].name as STRING) AS name,
+                cast(contexts_com_snowplowanalytics_mobile_screen_1[0].activity as STRING) AS activity,
+                cast(contexts_com_snowplowanalytics_mobile_screen_1[0].fragment as STRING) AS fragment,
+                cast(contexts_com_snowplowanalytics_mobile_screen_1[0].topViewController as STRING) AS top_view_controller,
+                cast(contexts_com_snowplowanalytics_mobile_screen_1[0].type as STRING) AS type,
+                cast(contexts_com_snowplowanalytics_mobile_screen_1[0].viewController as STRING) AS view_controller
+            )
+        ) as contexts_com_snowplowanalytics_mobile_screen_1
 
     from prep
 
 {% else %}
--- page view context is given as json string in csv. Parse json
-
   with prep as (
     select
     *,
@@ -465,6 +593,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     from_json(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1_0_0, 'array<struct<cls:string, fcp:string, fid:string, inp:string, lcp:string, navigation_type:string, ttfb:string>>') as unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1,
     from_json(contexts_nl_basjes_yauaa_context_1_0_0, 'array<struct<device_class:string, agent_class:string, agent_name:string, agent_name_version:string, agent_name_version_major:string, agent_version:string, agent_version_major:string, device_brand:string, device_name:string, device_version:string, layout_engine_class:string, layout_engine_name:string, layout_engine_name_version:string, layout_engine_name_version_major:string, layout_engine_version:string, layout_engine_version_major:string, operating_system_class:string, operating_system_name:string, operating_system_name_version:string, operating_system_version:string>>') as contexts_nl_basjes_yauaa_context_1,
     from_json(contexts_com_iab_snowplow_spiders_and_robots_1_0_0, 'array<struct<category:string, primary_impact:string, reason:string, spider_or_robot:string>>') as contexts_com_iab_snowplow_spiders_and_robots_1
+    {# from_json(unstruct_event_com_snowplowanalytics_mobile_screen_view_1_0_0,'array<struct<id:string,name:string,previousId:string,previousName:string,previousType:string,transitionType:string,type:string>>') as unstruct_event_com_snowplowanalytics_mobile_screen_view_1 #}
+
 
   from {{ ref('snowplow_unified_web_vital_events') }}
 
@@ -636,15 +766,117 @@ select
         cast('' as STRING) as transition_type,
         cast('' as STRING) as type
     ) as unstruct_event_com_snowplowanalytics_mobile_screen_view_1,
-    NULL as contexts_com_snowplowanalytics_snowplow_ua_parser_context_1,
-    NULL as contexts_com_snowplowanalytics_snowplow_client_session_1,
-    NULL as contexts_com_snowplowanalytics_snowplow_geolocation_context_1,
-    NULL as contexts_com_snowplowanalytics_mobile_application_1,
-    NULL as contexts_com_snowplowanalytics_mobile_deep_link_1,
-    NULL as contexts_com_snowplowanalytics_snowplow_browser_context_1,
-    NULL as contexts_com_snowplowanalytics_snowplow_mobile_context_1,
-    NULL as contexts_com_snowplowanalytics_mobile_screen_1,
-    NULL as unstruct_event_com_snowplowanalytics_snowplow_application_error_1
+    CAST(array() AS array<struct<
+    device_family: string,
+    os_family: string,
+    os_major: string,
+    os_minor: string,
+    os_patch: string,
+    os_patch_minor: string,
+    os_version: string,
+    useragent_family: string,
+    useragent_major: string,
+    useragent_minor: string,
+    useragent_patch: string,
+    useragent_version: string
+    >>) AS contexts_com_snowplowanalytics_snowplow_ua_parser_context_1,
+CAST(array() AS array<struct<
+  firstEventId: string,
+  previousSessionId: string,
+  sessionId: string,
+  sessionIndex: int,
+  userId: string,
+  eventIndex: int,
+  storageMechanism: string,
+  firstEventTimestamp: timestamp  
+>>) AS contexts_com_snowplowanalytics_snowplow_client_session_1,
+
+CAST(array() AS array<struct<
+  latitude: string,
+  longitude: string,
+  latitudeLongitudeAccuracy: string,
+  altitude: string,
+  altitudeAccuracy: string,
+  bearing: string,
+  speed: string,
+  timestamp: timestamp  
+>>) AS contexts_com_snowplowanalytics_snowplow_geolocation_context_1,
+  
+CAST(array() AS array<struct<
+  version: string,
+  build: string
+>>) AS contexts_com_snowplowanalytics_mobile_application_1,
+
+CAST(array() AS array<struct<
+  url: string,
+  referrer: string  
+>>) AS contexts_com_snowplowanalytics_mobile_deep_link_1,
+
+CAST(array() AS array<struct<
+  viewport: string,
+  documentSize: string,
+  resolution: string,
+  colorDepth: int,
+  devicePixelRatio: double,
+  cookiesEnabled: boolean,
+  online: boolean,
+  browserLanguage: string,
+  documentLanguage: string,
+  webdriver: boolean,
+  deviceMemory: int,
+  hardwareConcurrency: int,
+  tabId: string
+>>) AS contexts_com_snowplowanalytics_snowplow_browser_context_1,
+
+CAST(array() AS array<struct<
+  deviceManufacturer: string,
+  deviceModel: string,
+  osType: string,
+  osVersion: string,
+  androidIdfa: string,
+  appleIdfa: string,
+  appleIdfv: string,
+  carrier: string,
+  openIdfa: string,
+  networkTechnology: string,
+  networkType: string,
+  physicalMemory: int,
+  systemAvailableMemory: int,
+  appAvailableMemory: int,
+  batteryLevel: int,
+  batteryState: string,
+  lowPowerMode: boolean,
+  availableStorage: int,
+  totalStorage: bigint,
+  isPortrait: string,
+  resolution: string,
+  scale: string,
+  language: string,
+  appSetId: string,
+  appSetIdScope: string  
+>>) AS contexts_com_snowplowanalytics_snowplow_mobile_context_1,
+
+CAST(array() AS array<struct<
+  id: string,
+  name: string,
+  activity: string,
+  fragment: string,
+  topViewController: string,
+  type: string,
+  viewController: string
+>>) AS contexts_com_snowplowanalytics_mobile_screen_1,
+
+CAST(array() AS array<struct<
+  message: string,
+  programmingLanguage: string,
+  className: string,
+  exceptionName: string,
+  isFatal: boolean,
+  lineNumber: double,
+  stackTrace: string,
+  threadId: int,
+  threadName: string  
+>>) AS unstruct_event_com_snowplowanalytics_snowplow_application_error_1
 
 from prep
 {% endif %}

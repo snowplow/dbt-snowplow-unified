@@ -29,6 +29,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       'delta.autoOptimize.autoCompact' : 'true'
     },
     snowplow_optimize = true
+ 
   )
 }}
 

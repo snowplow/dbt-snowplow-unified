@@ -39,13 +39,12 @@ env:
   SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.SNOWFLAKE_TEST_WAREHOUSE }}
 
   # Postgres Connection
-  POSTGRES_TEST_HOST: ${{ secrets.POSTGRES_TEST_HOST }}
   POSTGRES_TEST_USER: ${{ secrets.POSTGRES_TEST_USER }}
   POSTGRES_TEST_PASS: ${{ secrets.POSTGRES_TEST_PASS }}
-  POSTGRES_TEST_PORT: ${{ secrets.POSTGRES_TEST_PORT }}
   POSTGRES_TEST_DBNAME: ${{ secrets.POSTGRES_TEST_DBNAME }}
+  POSTGRES_TEST_HOST: ${{ secrets.POSTGRES_TEST_HOST }}
+  POSTGRES_TEST_PORT: ${{ secrets.POSTGRES_TEST_PORT }}
 
-  # Databricks Connection
   DATABRICKS_TEST_HOST: ${{ secrets.DATABRICKS_TEST_HOST }}
   DATABRICKS_TEST_HTTP_PATH: ${{ secrets.DATABRICKS_TEST_HTTP_PATH }}
   DATABRICKS_TEST_TOKEN: ${{ secrets.DATABRICKS_TEST_TOKEN }}
@@ -60,11 +59,9 @@ jobs:
         # Run tests from integration_tests sub dir
         working-directory: ./integration_tests
     strategy:
-      fail-fast: false
       matrix:
         dbt_version: ["1.*"]
-        warehouse: ["postgres", "bigquery", "snowflake", "databricks", "redshift"] # TODO: Add RS self-hosted runner
-
+        warehouse: ["postgres", "bigquery", "snowflake", "databricks", "redshift", "spark_iceberg"] # TODO: Add RS self-hosted runner
     services:
       postgres:
         image: postgres:latest
@@ -103,38 +100,53 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
+      - name: Set warehouse variables
+        id: set_warehouse
+        run: |
+          WAREHOUSE_PLATFORM=$(echo ${{ matrix.warehouse }} | cut -d'_' -f1)
+          WAREHOUSE_SPECIFIC=$(echo ${{ matrix.warehouse }} | cut -s -d'_' -f2)
+          echo "WAREHOUSE_PLATFORM=${WAREHOUSE_PLATFORM}" >> $GITHUB_ENV
+          echo "WAREHOUSE_SPECIFIC=${WAREHOUSE_SPECIFIC}" >> $GITHUB_ENV
+          echo "warehouse_platform=${WAREHOUSE_PLATFORM}" >> $GITHUB_OUTPUT
+          echo "warehouse_specific=${WAREHOUSE_SPECIFIC}" >> $GITHUB_OUTPUT
+      # Remove '*' and replace '.' with '_' in DBT_VERSION & set as SCHEMA_SUFFIX.
+      # SCHEMA_SUFFIX allows us to run multiple versions of dbt in parallel without overwriting the output tables
+      - name: Set SCHEMA_SUFFIX env
+        run: echo "SCHEMA_SUFFIX=$(echo ${DBT_VERSION%.*} | tr . _)" >> $GITHUB_ENV
+        env:
+          DBT_VERSION: ${{ matrix.dbt_version }}
+
       - name: Set DEFAULT_TARGET env
         run: |
-         echo "DEFAULT_TARGET=${{ matrix.warehouse }}" >> $GITHUB_ENV
+         echo "DEFAULT_TARGET=${{matrix.warehouse}}" >> $GITHUB_ENV
 
       - name: Python setup
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
          python-version: "3.8.x"
 
       - name: Pip cache
-        uses: actions/cache@v4
+        uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.dbt_version }}-${{ matrix.warehouse }}
+          key: ${{ runner.os }}-pip-${{ matrix.dbt_version }}-${{env.WAREHOUSE_PLATFORM}}
           restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.dbt_version }}-${{ matrix.warehouse }}
+            ${{ runner.os }}-pip-${{ matrix.dbt_version }}-${{env.WAREHOUSE_PLATFORM}}
 
       # Install latest patch version. Upgrade if cache contains old patch version.
       - name: Install dependencies
         run: |
-          pip install pip wheel setuptools
-          pip install -Iv dbt-${{ matrix.warehouse }}==${{ matrix.dbt_version }} --upgrade
+          pip install wheel setuptools
+          pip install -Iv dbt-${{env.WAREHOUSE_PLATFORM}}==${{ matrix.dbt_version }} --upgrade
           dbt deps
-        if: ${{matrix.warehouse != 'spark'}}
-
+        if: ${{env.WAREHOUSE_PLATFORM != 'spark'}}
 
       - name: Install spark dependencies
         run: |
           pip install --upgrade pip wheel setuptools
-          pip install -Iv "dbt-${{ matrix.warehouse }}[PyHive]"==${{ matrix.dbt_version }} --upgrade
+          pip install -Iv "dbt-${{ env.WAREHOUSE_PLATFORM }}[PyHive]"==${{ matrix.dbt_version }} --upgrade
           dbt deps
-        if: ${{matrix.warehouse == 'spark'}}
+        if: ${{env.WAREHOUSE_PLATFORM == 'spark'}}
       
       - name: Install Docker Compose
         run: |
@@ -148,16 +160,15 @@ jobs:
           docker-compose up -d
           echo "Waiting for Spark services to start..."
           sleep 90
-        if: ${{matrix.warehouse == 'spark'}}
-
+        if: ${{env.WAREHOUSE_PLATFORM == 'spark'}}
+    
       - name: "Pre-test: Drop ci schemas"
         run: |
-          dbt run-operation post_ci_cleanup --target ${{ matrix.warehouse }}
+          dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}
 
       - name: Run tests
-        run: ./.scripts/integration_test.sh -d ${{ matrix.warehouse }}
+        run: ./.scripts/integration_tests.sh -d ${{matrix.warehouse}}
 
-      # post_ci_cleanup sits in utils package
       - name: "Post-test: Drop ci schemas"
         run: |
-          dbt run-operation post_ci_cleanup --target ${{ matrix.warehouse }}
+          dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}

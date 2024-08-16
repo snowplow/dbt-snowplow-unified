@@ -44,6 +44,7 @@ vars:
     snowplow__rfc_5646_seed: snowplow_unified_dim_rfc_5646_language_mapping
     snowplow__grant_select_to: []
     snowplow__grant_schema_usage: true
+  
 
     # OPERATION & LOGIC
     snowplow__allow_refresh: false
@@ -122,6 +123,9 @@ vars:
     # Depending on the use case it should either be the catalog (for Unity Catalog users from databricks connector 1.1.1 onwards) or the same value as your snowplow__atomic_schema (unless changed it should be 'atomic')
     snowplow__databricks_catalog: 'hive_metastore'
 
+    # Datalake:
+    snowplow__datalake_file_format: 'iceberg'
+
     # Redshift/postgres:
     snowplow__entities_or_sdes: []
     snowplow__cmp_visible_events: com_snowplowanalytics_snowplow_cmp_visible_1
@@ -160,8 +164,8 @@ on-run-end:
 models:
   snowplow_unified:
     +materialized: table
-    +file_format: iceberg
-    +location_root: s3://ian-test-iceberg/ilias_iceberg/
+    +file_format: "{{ var('snowplow__datalake_file_format', 'iceberg') }}"
+    +incremental_strategy: "{{ 'delete+insert' if target.type in ['postgres', 'redshift'] else 'merge' }}"
     +bind: false
     base:
       +tags: "base"
