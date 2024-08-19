@@ -275,7 +275,7 @@ select
 
   -- timestamp fields
   -- when the session starts with a ping we need to add the min visit length to get when the session actually started
-  , case when f.event_name = 'page_ping' then {{ snowplow_utils.timestamp_add(datepart='second', interval=-var("snowplow__min_visit_length", 5), tstamp="a.start_tstamp") }} else a.start_tstamp end as start_tstamp
+  , case when f.event_name = 'page_ping' then {{ snowplow_utils.timestamp_add(datepart="second", interval=-var("snowplow__min_visit_length", 5), tstamp="a.start_tstamp") }} else a.start_tstamp end as start_tstamp
   , a.end_tstamp -- only page views with pings will have a row in table t
   , {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp
 
