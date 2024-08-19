@@ -59,6 +59,7 @@ jobs:
         # Run tests from integration_tests sub dir
         working-directory: ./integration_tests
     strategy:
+      fail-fast: false
       matrix:
         dbt_version: ["1.*"]
         warehouse: ["postgres", "bigquery", "snowflake", "databricks", "redshift", "spark_iceberg"] # TODO: Add RS self-hosted runner
