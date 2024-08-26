@@ -184,7 +184,7 @@ with session_firsts as (
                             (count(distinct case when event_name = 'page_ping' and view_id is not null then view_id else null end) * {{ var("snowplow__min_visit_length", 5) }}) as engaged_time_in_s_web
       {% endif %}
 
-      , {{ snowplow_utils.timestamp_diff('min(derived_tstamp)', 'max(derived_tstamp)', 'second') }} as absolute_time_in_s
+      , {{ snowplow_utils.timestamp_diff('min(derived_tstamp)', 'max(derived_tstamp)', "second") }} as absolute_time_in_s
 
       {% if var("snowplow__enable_app_errors", false) %}
         , count(distinct case when event_name = 'application_error' then 1 end) as app_errors
