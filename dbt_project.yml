@@ -144,7 +144,7 @@ vars:
 
 
     # schema versions
-    snowplow__browser_context_schema_version: '2'
+    snowplow__browser_context_schema_version: '1'
 
 # Completely or partially remove models from the manifest during run start.
 on-run-start:
