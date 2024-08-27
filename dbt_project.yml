@@ -85,7 +85,8 @@ vars:
     snowplow__enable_yauaa: false
     snowplow__enable_iab: false
     snowplow__enable_ua: false
-    snowplow__enable_browser_context: false
+    snowplow__enable_browser_context: True
+    snowplow__enable_browser_context_2 : True
     # add extra mobile fields:
     snowplow__enable_mobile_context: false
     snowplow__enable_geolocation_context: false
@@ -132,6 +133,7 @@ vars:
     snowplow__yauaa_context: nl_basjes_yauaa_context_1
     snowplow__cwv_events: com_snowplowanalytics_snowplow_web_vitals_1
     snowplow__browser_context: com_snowplowanalytics_snowplow_browser_context_1
+    snowplow__browser_context_2: com_snowplowanalytics_snowplow_browser_context_2
     snowplow__session_context: com_snowplowanalytics_snowplow_client_session_1
     snowplow__mobile_context: com_snowplowanalytics_snowplow_mobile_context_1
     snowplow__geolocation_context: com_snowplowanalytics_snowplow_geolocation_context_1
@@ -142,9 +144,6 @@ vars:
     snowplow__deep_link_context: com_snowplowanalytics_mobile_deep_link_1
     snowplow__screen_summary_context: com_snowplowanalytics_mobile_screen_summary_1
 
-
-    # schema versions
-    snowplow__browser_context_schema_version: '1'
 
 # Completely or partially remove models from the manifest during run start.
 on-run-start:
