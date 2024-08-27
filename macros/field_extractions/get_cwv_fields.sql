@@ -54,13 +54,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro spark__get_cwv_fields() %}
   {% if var('snowplow__enable_cwv', false) %}
-    , CAST (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.lcp AS DECIMAL(14,4)) AS cwv__lcp
-    , CAST (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.fcp AS DECIMAL(14,4)) AS cwv__fcp
-    , CAST (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.fid AS DECIMAL(14,4)) AS cwv__fid
-    , CAST (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.cls AS DECIMAL(14,4)) AS cwv__cls
-    , CAST (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.inp AS DECIMAL(14,4)) AS cwv__inp
-    , CAST (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.ttfb AS DECIMAL(14,4)) AS cwv__ttfb
-    , CAST (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.navigation_type AS STRING) AS cwv__navigation_type
+    , cast (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.lcp as decimal(14,4)) as cwv__lcp
+    , cast (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.fcp as decimal(14,4)) as cwv__fcp
+    , cast (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.fid as decimal(14,4)) as cwv__fid
+    , cast (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.cls as decimal(14,4)) as cwv__cls
+    , cast (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.inp as decimal(14,4)) as cwv__inp
+    , cast (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.ttfb as decimal(14,4)) as cwv__ttfb
+    , cast (unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1.navigation_type as string) as cwv__navigation_type
   {% else %}
     , cast(null as decimal(14,4)) as cwv__lcp,
     , cast(null as decimal(14,4)) as cwv__fcp,
