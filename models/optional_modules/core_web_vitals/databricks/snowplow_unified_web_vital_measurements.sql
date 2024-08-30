@@ -8,7 +8,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {{
   config(
     materialized='table',
-    enabled=var("snowplow__enable_cwv", false) and target.type in ('databricks', 'spark') | as_bool()
+    enabled=var("snowplow__enable_cwv", false) and target.type in ('databricks') | as_bool()
   )
 }}
 
@@ -87,3 +87,5 @@ select
   {{ dbt.concat(['page_url', "'-'" , 'device_class', "'-'" , 'geo_country', "'-'" , 'time_period' ]) }} compound_key,
   *
 from coalesce
+
+
