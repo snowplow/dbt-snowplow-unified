@@ -66,6 +66,7 @@ select
     , a.mobile__resolution
     , a.mobile__scale
     , a.mobile__language
+    , a.mobile__language_name
     , a.mobile__app_set_id
     , a.mobile__app_set_id_scope
   {% endif %}
