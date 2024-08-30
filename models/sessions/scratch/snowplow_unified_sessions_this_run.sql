@@ -297,7 +297,7 @@ select
 
   {% if var('snowplow__enable_mobile_context')  %}
     {{ snowplow_unified.mobile_context_fields('f')}}
-    , coalesce(ml2.name, ml3.name, mobile__language) as mobile_language_name
+    , coalesce(iso_639_2t_2_char.name, iso_639_2t_3.name, iso_639_3.name, mobile__language) as mobile_language_name
   {% endif %}
 
   -- geo fields
@@ -474,14 +474,13 @@ left join session_convs d on f.session_identifier = d.session_identifier
 {%- endif %}
 {% if var('snowplow__enable_mobile_context') %}
 
-left join {{ ref(var('snowplow__iso_639_2t_seed')) }} ml2 on
   -- if the language uses a two letter code we can match on that
-  (lower(f.mobile__language) = lower(ml2.iso_639_1_code))
+left join {{ ref(var('snowplow__iso_639_2t_seed')) }} iso_639_2t_2_char on lower(f.mobile__language) = lower(iso_639_2t_2_char.iso_639_1_code)
   -- if the language uses a three letter code we can match on that
-  or (lower(f.mobile__language) = lower(ml2.iso_639_2t_code)) 
+left join {{ ref(var('snowplow__iso_639_2t_seed')) }} iso_639_2t_3_char on lower(f.mobile__language) = lower(iso_639_2t_3_char.iso_639_2t_code)
 -- A fallback to the three letter code, with a more complete list, we first try to join on the other dataset the three letter code
 -- in order to get a language name that will match the mapping of the two letter code
-left join {{ ref(var('snowplow__iso_639_3_seed')) }} ml3 on lower(f.mobile__language) = lower(ml3.iso_639_3_code)
+left join {{ ref(var('snowplow__iso_639_3_seed')) }} iso_639_3 on lower(f.mobile__language) = lower(iso_639_3.iso_639_3_code)
 {%- endif %}
 {% if target.type == 'postgres' %}
    where f.session_dedupe_index = 1
