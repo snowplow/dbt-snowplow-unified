@@ -85,8 +85,8 @@ vars:
     snowplow__enable_yauaa: false
     snowplow__enable_iab: false
     snowplow__enable_ua: false
-    snowplow__enable_browser_context: True
-    snowplow__enable_browser_context_2 : True
+    snowplow__enable_browser_context: false
+    snowplow__enable_browser_context_2 : false
     # add extra mobile fields:
     snowplow__enable_mobile_context: false
     snowplow__enable_geolocation_context: false
