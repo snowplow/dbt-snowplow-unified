@@ -56,7 +56,7 @@ with prep as (
     , ceil(e.cwv__fcp, 3) as fcp
     , ceil(e.cwv__fid, 3) as fid
     , ceil(e.cwv__cls, 3) as cls
-    , ceil(e.cwv__inp, 3)as inp
+    , ceil(e.cwv__inp, 3) as inp
     , ceil(e.cwv__ttfb, 3) as ttfb
     , e.cwv__navigation_type as navigation_type
 

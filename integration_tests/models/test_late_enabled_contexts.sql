@@ -7,7 +7,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 {{
   config(
-    materialized='incremental'
+    materialized='incremental',
     )
 }}
 
