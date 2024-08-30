@@ -297,7 +297,7 @@ select
 
   {% if var('snowplow__enable_mobile_context')  %}
     {{ snowplow_unified.mobile_context_fields('f')}}
-    , coalesce(iso_639_2t_2_char.name, iso_639_2t_3.name, iso_639_3.name, mobile__language) as mobile_language_name
+    , coalesce(iso_639_2t_2_char.name, iso_639_2t_3_char.name, iso_639_3.name, mobile__language) as mobile_language_name
   {% endif %}
 
   -- geo fields
