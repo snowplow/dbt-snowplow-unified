@@ -92,7 +92,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].device_memory as INT) AS browser__device_memory
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].hardware_concurrency as INT) AS browser__hardware_concurrency
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].tab_id as STRING) AS browser__tab_id
-  {% elif not var('snowplow__enable_browser_context', false) and not var('snowplow__enable_browser_context_2', false) %}
+  {% elif not var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2[0].viewport as STRING) AS browser__viewport
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2[0].document_size as STRING) AS browser__document_size
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2[0].resolution as STRING) AS browser__resolution
@@ -106,7 +106,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2[0].device_memory as INT) AS browser__device_memory
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2[0].hardware_concurrency as INT) AS browser__hardware_concurrency
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2[0].tab_id as STRING) AS browser__tab_id
-  {% elif var('snowplow__enable_browser_context', false) and not var('snowplow__enable_browser_context_2', false) %}
+  {% elif var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
     , coalesce(
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_2[0].viewport as STRING),
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].viewport as STRING)
