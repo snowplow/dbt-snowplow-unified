@@ -46,20 +46,68 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     {'field':('tab_id', 'browser__tab_id'), 'dtype':'string'}
     ] %}
 
-  {% if var('snowplow__enable_browser_context', false) %}
+  {% set bq_browser_context_fields_1 = [
+    {'field':('viewport', 'browser1__viewport'), 'dtype':'string'},
+    {'field':('document_size', 'browser1__document_size'), 'dtype':'string'},
+    {'field':('resolution', 'browser1__resolution'), 'dtype':'string'},
+    {'field':('color_depth', 'browser1__color_depth'), 'dtype':'integer'},
+    {'field':('device_pixel_ratio', 'browser1__device_pixel_ratio'), 'dtype':'float64'},
+    {'field':('cookies_enabled', 'browser1__cookies_enabled'), 'dtype':'boolean'},
+    {'field':('online', 'browser1__online'), 'dtype':'boolean'},
+    {'field':('browser_language', 'browser1__browser_language'), 'dtype':'string'},
+    {'field':('document_language', 'browser1__document_language'), 'dtype':'string'},
+    {'field':('webdriver', 'browser1__webdriver'), 'dtype':'boolean'},
+    {'field':('device_memory', 'browser1__device_memory'), 'dtype':'integer'},
+    {'field':('hardware_concurrency', 'browser1__hardware_concurrency'), 'dtype':'integer'},
+    {'field':('tab_id', 'browser1__tab_id'), 'dtype':'string'}
+    ] %}
+
+  {% set bq_browser_context_fields_2 = [
+    {'field':('viewport', 'browser2__viewport'), 'dtype':'string'},
+    {'field':('document_size', 'browser2__document_size'), 'dtype':'string'},
+    {'field':('resolution', 'browser2__resolution'), 'dtype':'string'},
+    {'field':('color_depth', 'browser2__color_depth'), 'dtype':'integer'},
+    {'field':('device_pixel_ratio', 'browser2__device_pixel_ratio'), 'dtype':'float64'},
+    {'field':('cookies_enabled', 'browser2__cookies_enabled'), 'dtype':'boolean'},
+    {'field':('online', 'browser2__online'), 'dtype':'boolean'},
+    {'field':('browser_language', 'browser2__browser_language'), 'dtype':'string'},
+    {'field':('document_language', 'browser2__document_language'), 'dtype':'string'},
+    {'field':('webdriver', 'browser2__webdriver'), 'dtype':'boolean'},
+    {'field':('device_memory', 'browser2__device_memory'), 'dtype':'integer'},
+    {'field':('hardware_concurrency', 'browser2__hardware_concurrency'), 'dtype':'integer'},
+    {'field':('tab_id', 'browser2__tab_id'), 'dtype':'string'}
+    ] %}
+
+  {% if var('snowplow__enable_browser_context', false) and not var('snowplow__enable_browser_context', false) %}
     ,{{ snowplow_utils.get_optional_fields(
           enabled=var('snowplow__enable_browser_context', false),
           col_prefix='contexts_com_snowplowanalytics_snowplow_browser_context_1',
           fields=bq_browser_context_fields,
           relation=ref('snowplow_unified_events_stg') if 'integration_tests' in project_name and 'snowplow' in project_name else source('atomic', 'events') ,
-          relation_alias=none) }}
-  {% elif var('snowplow__enable_browser_context_2', false) %}
+          relation_alias=none)
+    }}
+  {% elif not var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
+    ,{{ snowplow_utils.get_optional_fields(
+          enabled=var('snowplow__enable_browser_context_2', false),
+          col_prefix='contexts_com_snowplowanalytics_snowplow_browser_context_2',
+          fields=bq_browser_context_fields,
+          relation=ref('snowplow_unified_events_stg') if 'integration_tests' in project_name and 'snowplow' in project_name else source('atomic', 'events') ,
+          relation_alias=none)
+    }}
+  {% elif var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
     ,{{ snowplow_utils.get_optional_fields(
       enabled=var('snowplow__enable_browser_context', false),
-      col_prefix='contexts_com_snowplowanalytics_snowplow_browser_context_2',
-      fields=bq_browser_context_fields,
+      col_prefix='contexts_com_snowplowanalytics_snowplow_browser_context_1',
+      fields=bq_browser_context_fields_1,
       relation=ref('snowplow_unified_events_stg') if 'integration_tests' in project_name and 'snowplow' in project_name else source('atomic', 'events') ,
       relation_alias=none) }}
+    ,{{ snowplow_utils.get_optional_fields(
+      enabled=var('snowplow__enable_browser_context_2', false),
+      col_prefix='contexts_com_snowplowanalytics_snowplow_browser_context_2',
+      fields=bq_browser_context_fields_2,
+      relation=ref('snowplow_unified_events_stg') if 'integration_tests' in project_name and 'snowplow' in project_name else source('atomic', 'events') ,
+      relation_alias=none) }}
+
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as browser__viewport
     , cast(null as {{ dbt.type_string() }}) as browser__document_size

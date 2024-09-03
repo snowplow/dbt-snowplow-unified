@@ -37,12 +37,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     {% do contexts.append({'schema': var('snowplow__cwv_events'), 'prefix': 'cwv_', 'single_entity': True}) %}
   {% endif -%}
 
-  {% if var('snowplow__enable_browser_context', false) -%}
+  {% if var('snowplow__enable_browser_context', false) and not var('snowplow__enable_browser_context_2', false) %}
     {% do contexts.append({'schema': var('snowplow__browser_context'), 'prefix': 'browser_', 'single_entity': True}) %}
-  {% elif  var('snowplow__enable_browser_context_2', false) %}
+  {% elif not var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
     {% do contexts.append({'schema': var('snowplow__browser_context_2'), 'prefix': 'browser_', 'single_entity': True}) %}
+  {% elif var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
+    {% do contexts.append({'schema': var('snowplow__browser_context'), 'prefix': 'browser1_', 'single_entity': True}) %}
+    {% do contexts.append({'schema': var('snowplow__browser_context_2'), 'prefix': 'browser2_', 'single_entity': True}) %}
   {% endif -%}
-
 
 {% endif -%}
 
@@ -105,7 +107,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 with base_query as (
   {{ base_events_query }}
-)
+),
 
 {# NOTE: This lakeloader workaround should be removed when Snowflake support structured types in regular tables https://docs.snowflake.com/en/sql-reference/data-types-structured #}
 
@@ -113,6 +115,7 @@ with base_query as (
   {% set base_query_cols = get_column_schema_from_query( 'select * from (' + base_events_query +') a') %}
 {%- endif -%}
 
+base_query_2 AS (
 select
   {% if var('snowplow__snowflake_lakeloader', false) and target.type == 'snowflake' -%}
     {% for col in base_query_cols | map(attribute='name') | list -%}
@@ -145,7 +148,6 @@ select
   {{ snowplow_unified.get_app_error_event_fields() }}
   {{ snowplow_unified.get_screen_summary_context_fields() }}
 
-
 {% if var('snowplow__enable_consent', false) -%}
   {{ snowplow_unified.get_consent_event_fields() }}
   {{ snowplow_unified.get_cmp_visible_event_fields() }}
@@ -155,3 +157,24 @@ select
   {{ snowplow_unified.get_cwv_fields() }}
 {% endif -%}
 from base_query
+)
+
+SELECT *
+{% if target.type in ['bigquery','postgres'] and var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
+
+  , coalesce(browser1__viewport, browser2__viewport) AS browser__viewport
+  , coalesce(browser1__document_size, browser2__document_size ) AS browser__document_size
+  , coalesce(browser1__resolution, browser2__resolution) AS browser__resolution
+  , coalesce(browser1__color_depth, browser2__color_depth) AS browser__color_depth
+  , coalesce(browser1__device_pixel_ratio, browser2__device_pixel_ratio) AS browser__device_pixel_ratio
+  , coalesce(browser1__cookies_enabled, browser2__cookies_enabled) AS browser__cookies_enabled
+  , coalesce(browser1__online, browser2__online) AS browser__online
+  , coalesce(browser1__browser_language, browser2__browser_language) AS browser__browser_language
+  , coalesce(browser1__document_language, browser2__document_language) AS browser__document_language
+  , coalesce(browser1__webdriver, browser2__webdriver) AS browser__webdriver
+  , coalesce(browser1__device_memory, browser2__device_memory) AS browser__device_memory
+  , coalesce(browser1__hardware_concurrency, browser2__hardware_concurrency) AS browser__hardware_concurrency
+  , coalesce(browser1__tab_id, browser2__tab_id) AS browser__tab_id
+
+{% endif -%}
+FROM base_query_2
