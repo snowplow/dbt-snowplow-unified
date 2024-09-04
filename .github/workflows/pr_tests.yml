@@ -93,8 +93,8 @@ jobs:
       - name: Configure Docker credentials
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_SNOWPLOWCI_READ_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_SNOWPLOWCI_READ_PASSWORD }}
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

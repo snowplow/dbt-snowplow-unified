@@ -168,7 +168,7 @@ models:
           'delta' if target.type != 'spark' else 'iceberg'
         ) 
       }}
-    +incremental_strategy: "{{ none if target.type not in ['spark'] else 'merge' }}"
+    +incremental_strategy: "{{ None if target.type not in ['spark'] else 'merge' }}"
     +bind: false
     base:
       +tags: "base"
