@@ -68,6 +68,8 @@ select
     , a.mobile__language
     , a.mobile__app_set_id
     , a.mobile__app_set_id_scope
+    -- Derivative fields
+    , a.mobile_language_name
   {% endif %}
 
   -- geo fields
