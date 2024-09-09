@@ -297,7 +297,7 @@ select
 
   {% if var('snowplow__enable_mobile_context')  %}
     {{ snowplow_unified.mobile_context_fields('f')}}
-    , coalesce(iso_639_2t_2_char.name, iso_639_2t_3_char.name, iso_639_3.name, mobile__language) as mobile_language_name
+    , coalesce(iso_639_2t_2_char.name, iso_639_2t_3_char.name, iso_639_3.name, f.mobile__language) as mobile_language_name
   {% endif %}
 
   -- geo fields
@@ -472,7 +472,7 @@ on f.session_identifier = a.session_identifier
 {%- if var('snowplow__conversion_events', none) %}
 left join session_convs d on f.session_identifier = d.session_identifier
 {%- endif %}
-{% if var('snowplow__enable_mobile_context') %}
+{%- if var('snowplow__enable_mobile_context') %}
 
     -- if the language uses a two letter code we can match on that
   left join {{ ref(var('snowplow__iso_639_2t_seed')) }} iso_639_2t_2_char on lower(f.mobile__language) = lower(iso_639_2t_2_char.iso_639_1_code)
