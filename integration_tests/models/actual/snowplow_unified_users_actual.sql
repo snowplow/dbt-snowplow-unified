@@ -116,7 +116,7 @@ select
   ,fatal_app_errors
 
 -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-{% if target.type in ['redshift', 'postgres', 'databricks', 'bigquery'] -%}
+{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
   , case when first_event_id = 'b3eca04e-d277-45e0-9c7c-76dc7e8c16ff' then '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' else first_event_id end as first_event_id
   , case when first_event_id2 = 'b3eca04e-d277-45e0-9c7c-76dc7e8c16ff-first' then '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f-first' else first_event_id2 end as first_event_id2
   , case when last_event_id = 'b3eca04e-d277-45e0-9c7c-76dc7e8c16ff' then '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' else last_event_id end as last_event_id

@@ -10,7 +10,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {%- endmacro -%}
 
 {% macro postgres__get_browser_context_fields() %}
-  {% if var('snowplow__enable_browser_context', false) %}
+  {% if var('snowplow__enable_browser_context', false) or var('snowplow__enable_browser_context_2', false)  %}
   {% else %}
     , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__viewport
     , cast(null as {{ snowplow_utils.type_max_string() }}) as browser__document_size

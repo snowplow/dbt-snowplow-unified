@@ -160,7 +160,7 @@ from base_query
 )
 
 SELECT *
-{% if target.type in ['bigquery','postgres'] and var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
+{% if target.type in ['bigquery','postgres', 'redshift'] and var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
 
   , coalesce(browser1__viewport, browser2__viewport) AS browser__viewport
   , coalesce(browser1__document_size, browser2__document_size ) AS browser__document_size
