@@ -172,7 +172,6 @@ models:
     +bind: false
     base:
       +tags: "base"
-      +materialized: table
       manifest:
         +schema: "snowplow_manifest"
       scratch:
