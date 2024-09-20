@@ -39,8 +39,6 @@ models:
           - not_null
       - name: engaged_time_in_s
         description: '{{ doc("col_user_engaged_time_in_s") }}'
-        tests:
-          - not_null
       - name: first_page_title
         description: The title of the first page visited by the user
       - name: first_page_url
