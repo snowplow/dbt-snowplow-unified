@@ -42,61 +42,61 @@ models:
         tests:
           - not_null
       - name: first_page_title
-        description: The title of the first page visited by the user
+        description: The title of the first page visited by the user '{{doc("first_user")}}'
       - name: first_page_url
-        description: The url of the first page visited by the user
+        description: The url of the first page visited by the user '{{doc("first_user")}}'
       - name: first_page_urlscheme
-        description: The urlscheme of the first page visited by the user
+        description: The urlscheme of the first page visited by the user '{{doc("first_user")}}'
       - name: first_page_urlhost
-        description: The urlhost of the first page visited by the user
+        description: The urlhost of the first page visited by the user '{{doc("first_user")}}'
       - name: first_page_urlpath
-        description: The urlpath of the first page visited by the user
+        description: The urlpath of the first page visited by the user '{{doc("first_user")}}'
       - name: first_page_urlquery
-        description: The urlquery of the first page visited by the user
+        description: The urlquery of the first page visited by the user '{{doc("first_user")}}'
       - name: first_page_urlfragment
-        description: The urlfragment of the first page visited by the user
+        description: The urlfragment of the first page visited by the user '{{doc("first_user")}}'
       - name: first_geo_country
-        description: '{{ doc("col_geo_country") }}'
+        description: '{{ doc("col_geo_country") }} {{doc("first_user")}}'
       - name: first_geo_country_name
-        description: '{{ doc("col_geo_country_name") }}'
+        description: '{{ doc("col_geo_country_name") }} {{doc("first_user")}}'
       - name: first_geo_continent
-        description: '{{ doc("col_geo_continent") }}'
+        description: '{{ doc("col_geo_continent") }} {{doc("first_user")}}'
       - name: first_geo_city
-        description: '{{ doc("col_geo_city") }}'
+        description: '{{ doc("col_geo_city") }} {{doc("first_user")}}'
       - name: first_geo_region_name
-        description: '{{ doc("col_geo_region_name") }}'
+        description: '{{ doc("col_geo_region_name") }} {{doc("first_user")}}'
       - name: first_br_lang
-        description: '{{ doc("col_br_lang") }}'
+        description: '{{ doc("col_br_lang") }} {{doc("first_user")}}'
       - name: first_br_lang_name
-        description: '{{ doc("col_br_lang_name") }}'
+        description: '{{ doc("col_br_lang_name") }} {{doc("first_user")}}'
       - name: last_page_title
-        description: The title of the last page visited by the user
+        description: The title of the last page visited by the user.  '{{doc("last_user")}}'
       - name: last_page_url
-        description: The url of the last page visited by the user
+        description: The url of the last page visited by the user.  '{{doc("last_user")}}'
       - name: last_page_urlscheme
-        description: The urlscheme of the last page visited by the user
+        description: The urlscheme of the last page visited by the user. '{{doc("last_user")}}'
       - name: last_page_urlhost
-        description: The urlhost of the last page visited by the user
+        description: The urlhost of the last page visited by the user. '{{doc("last_user")}}'
       - name: last_page_urlpath
-        description: The urlpath of the last page visited by the user
+        description: The urlpath of the last page visited by the user. '{{doc("last_user")}}'
       - name: last_page_urlquery
-        description: The urlquery of the last page visited by the user
+        description: The urlquery of the last page visited by the user. '{{doc("last_user")}}'
       - name: last_page_urlfragment
-        description: The urlfragment of the last page visited by the user
+        description: The urlfragment of the last page visited by the user. '{{doc("last_user")}}'
       - name: last_geo_country
-        description: '{{ doc("col_geo_country") }}'
+        description: '{{ doc("col_geo_country") }}  {{doc("last_user")}}'
       - name: last_geo_country_name
-        description: '{{ doc("col_geo_country_name") }}'
+        description: '{{ doc("col_geo_country_name") }}  {{doc("last_user")}}'
       - name: last_geo_continent
-        description: '{{ doc("col_geo_continent") }}'
+        description: '{{ doc("col_geo_continent") }}  {{doc("last_user")}}'
       - name: last_geo_city
-        description: '{{ doc("col_geo_city") }}'
+        description: '{{ doc("col_geo_city") }}  {{doc("last_user")}}'
       - name: last_geo_region_name
-        description: '{{ doc("col_geo_region_name") }}'
+        description: '{{ doc("col_geo_region_name") }}  {{doc("last_user")}}'
       - name: last_br_lang
-        description: '{{ doc("col_br_lang") }}'
+        description: '{{ doc("col_br_lang") }}  {{doc("last_user")}}'
       - name: last_br_lang_name
-        description: '{{ doc("col_br_lang_name") }}'
+        description: '{{ doc("col_br_lang_name") }}  {{doc("last_user")}}'
       - name: refr_urlscheme
         description: '{{ doc("col_refr_urlscheme") }}'
       - name: refr_urlhost
@@ -132,31 +132,31 @@ models:
       - name: default_channel_group
         description: '{{ doc("col_default_channel_group") }}'
       - name: first_platform
-        description: '{{ doc("col_platform") }}'
+        description: '{{ doc("col_platform") }} {{doc("first_user")}}'
       - name: last_platform
-        description: '{{ doc("col_platform") }}'
+        description: '{{ doc("col_platform") }}  {{doc("last_user")}}'
       - name: on_web
         description: 'Binary value indicating if the user has been seen on a web platform'
       - name: on_mobile
         description: 'Binary value indicating if the user has been seen on a mobile platform'
       - name: last_screen_resolution
-        description: '{{ doc("col_screen_resolution") }}'
+        description: '{{ doc("col_screen_resolution") }}  {{doc("last_user")}}'
       - name: last_os_type
-        description: '{{ doc("col_os_type") }}'
+        description: '{{ doc("col_os_type") }}  {{doc("last_user")}}'
       - name: last_os_version
-        description: '{{ doc("col_os_version") }}'
+        description: '{{ doc("col_os_version") }}  {{doc("last_user")}}'
       - name: first_mobile__device_manufacturer
-        description: '{{ doc("col_device_manufacturer") }}'
+        description: '{{ doc("col_device_manufacturer") }} {{doc("first_user")}}'
       - name: first_mobile__device_model
-        description: '{{ doc("col_device_model") }}'
+        description: '{{ doc("col_device_model") }} {{doc("first_user")}}'
       - name: first_mobile__carrier
-        description: '{{ doc("col_carrier") }}'
+        description: '{{ doc("col_carrier") }} {{doc("first_user")}}'
       - name: last_mobile__device_manufacturer
-        description: '{{ doc("col_device_manufacturer") }}'
+        description: '{{ doc("col_device_manufacturer") }}  {{doc("last_user")}}'
       - name: last_mobile__device_model
-        description: '{{ doc("col_device_model") }}'
+        description: '{{ doc("col_device_model") }}  {{doc("last_user")}}'
       - name: last_mobile__carrier
-        description: '{{ doc("col_carrier") }}'
+        description: '{{ doc("col_carrier") }}  {{doc("last_user")}}'
       - name: mobile__os_type
         description: '{{ doc("col_os_type") }}'
       - name: mobile__os_version
@@ -218,15 +218,15 @@ models:
       - name: page_referrer
         description: '{{ doc("col_page_referrer") }}'
       - name: first_screen_view__name
-        description: '{{ doc("col_screen_view_name") }}'
+        description: '{{ doc("col_screen_view_name") }}  {{doc("first_user")}}'
       - name: first_screen_view__type
-        description: '{{ doc("col_screen_view_type") }}'
+        description: '{{ doc("col_screen_view_type") }}  {{doc("first_user")}}'
       - name: last_screen_view__name
-        description: '{{ doc("col_screen_view_name") }}'
+        description: '{{ doc("col_screen_view_name") }} {{doc("last_user")}}'
       - name: last_screen_view__transition_type
-        description: '{{ doc("col_screen_view_transition_type") }}'
+        description: '{{ doc("col_screen_view_transition_type") }} {{doc("last_user")}}'
       - name: last_screen_view__type
-        description: '{{ doc("col_screen_view_type") }}'
+        description: '{{ doc("col_screen_view_type") }} {{doc("last_user")}}'
       - name: app_errors
         description: '{{ doc("col_app_errors") }}'
       - name: fatal_app_errors
