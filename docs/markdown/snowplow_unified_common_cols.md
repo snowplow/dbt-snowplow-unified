@@ -1340,8 +1340,6 @@ On mobile, it is calculated using the `screen_summary` context.
 A unique surrogate key using a event_id and cv_type to uniquely identify a record in the conversions table.
 {% enddocs %}
 
-
-
 {% docs first_session %}
 This attribute identifies the first occurrence of an event within a session, determined by the earliest timestamp, thereby allowing for insights into the initial user interactions during that session.
 {% enddocs %}

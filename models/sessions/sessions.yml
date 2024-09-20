@@ -57,19 +57,19 @@ models:
         tests:
           - not_null
       - name: first_page_title
-        description: The title of the first page visited within the session. '{% docs first_session %}'
+        description: The title of the first page visited within the session. '{{ doc("first_session") }}'
       - name: first_page_url
-        description: The url of the first page visited within the session. '{% docs first_session %}'
+        description: The url of the first page visited within the session. '{{ doc("first_session") }}'
       - name: first_page_urlscheme
-        description: The urlscheme of the first page visited within the session. '{% docs first_session %}'
+        description: The urlscheme of the first page visited within the session. '{{ doc("first_session") }}'
       - name: first_page_urlhost
-        description: The urlhost of the first page visited within the session. '{% docs first_session %}'
+        description: The urlhost of the first page visited within the session. '{{ doc("first_session") }}'
       - name: first_page_urlpath
-        description: The urlpath of the first page visited within the session. '{% docs first_session %}'
+        description: The urlpath of the first page visited within the session. '{{ doc("first_session") }}'
       - name: first_page_urlquery
-        description: The urlquery of the first page visited within the session. '{% docs first_session %}'
+        description: The urlquery of the first page visited within the session. '{{ doc("first_session") }}'
       - name: first_page_urlfragment
-        description: The urlfragment of the first page visited within the session. '{% docs first_session %}'
+        description: The urlfragment of the first page visited within the session. '{{ doc("first_session") }}'
       - name: last_page_title
         description: The title of the last page visited within the session
       - name: last_page_url
@@ -159,13 +159,13 @@ models:
         description: '{{ doc("col_app_set_id_scope") }}'
         description: '{{ doc("col_geo_country") }}'
       - name: first_geo_country_name
-        description: '{{ doc("col_geo_country_name") }} {% docs first_session %}'
+        description: '{{ doc("col_geo_country_name") }} {{ doc("first_session") }}'
       - name: first_geo_continent
-        description: '{{ doc("col_geo_continent") }} {% docs first_session %}'
+        description: '{{ doc("col_geo_continent") }} {{ doc("first_session") }}'
       - name: first_geo_city
-        description: '{{ doc("col_geo_city") }} {% docs first_session %}'
+        description: '{{ doc("col_geo_city") }} {{ doc("first_session") }}'
       - name: first_geo_region_name
-        description: '{{ doc("col_geo_region_name") }} {% docs first_session %}'
+        description: '{{ doc("col_geo_region_name") }} {{ doc("first_session") }}'
       - name: last_geo_country
         description: '{{ doc("col_geo_country") }}'
       - name: last_geo_country_name
@@ -227,9 +227,9 @@ models:
       - name: br_renderengine
         description: '{{ doc("col_br_renderengine") }}'
       - name: first_br_lang
-        description: '{{ doc("col_br_lang") }} {% docs first_session %}'
+        description: '{{ doc("col_br_lang") }} {{ doc("first_session") }}'
       - name: first_br_lang_name
-        description: '{{ doc("col_br_lang_name") }} {% docs first_session %}'
+        description: '{{ doc("col_br_lang_name") }} {{ doc("first_session") }}'
       - name: last_br_lang
         description: '{{ doc("col_br_lang") }}'
       - name: last_br_lang_name
@@ -307,23 +307,23 @@ models:
       - name: screen_view__previous_type
         description: '{{ doc("col_screen_view_previous_type") }}'
       - name: first_app__build
-        description: '{{ doc("col_build") }} {% docs first_session %}'
+        description: '{{ doc("col_build") }} {{ doc("first_session") }}'
       - name: first_app__version
-        description: '{{ doc("col_version") }} {% docs first_session %}'
+        description: '{{ doc("col_version") }} {{ doc("first_session") }}'
       - name: first_geo__altitude
-        description: '{{ doc("col_device_altitude") }} {% docs first_session %}'
+        description: '{{ doc("col_device_altitude") }} {{ doc("first_session") }}'
       - name: first_geo__altitude_accuracy
-        description: '{{ doc("col_device_altitude_accuracy") }} {% docs first_session %}'
+        description: '{{ doc("col_device_altitude_accuracy") }} {{ doc("first_session") }}'
       - name: first_geo__bearing
-        description: '{{ doc("col_device_bearing") }} {% docs first_session %}'
+        description: '{{ doc("col_device_bearing") }} {{ doc("first_session") }}'
       - name: first_geo__latitude
-        description: '{{ doc("col_device_latitude") }} {% docs first_session %}'
+        description: '{{ doc("col_device_latitude") }} {{ doc("first_session") }}'
       - name: first_geo__latitude_longitude_accuracy
-        description: '{{ doc("col_device_latitude_longitude_accuracy") }} {% docs first_session %}'
+        description: '{{ doc("col_device_latitude_longitude_accuracy") }} {{ doc("first_session") }}'
       - name: first_geo__longitude
-        description: '{{ doc("col_device_longitude") }} {% docs first_session %}'
+        description: '{{ doc("col_device_longitude") }} {{ doc("first_session") }}'
       - name: first_geo__speed
-        description: '{{ doc("col_device_speed") }} {% docs first_session %}'
+        description: '{{ doc("col_device_speed") }} {{ doc("first_session") }}'
       - name: screen__fragment
         description: '{{ doc("col_screen_fragment") }}'
       - name: screen__top_view_controller
