@@ -7,7 +7,12 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 
 select *
 from {{ ref('snowplow_unified_sessions') }}
-where user_identifier is null --cannot be null from other tests
+where 1 = 0 
+{# 
+this is a condition that is always false.
+Since it never evaluates to true, no rows will be returned 
+from the query if the condition
+#}
 {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
       or engaged_time_in_s is null -- where there are no pings, engaged time is 0.
       or absolute_time_in_s is null 
