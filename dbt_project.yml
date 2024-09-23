@@ -161,13 +161,7 @@ on-run-end:
 models:
   snowplow_unified:
     +materialized: table
-    +file_format: >
-      {{ 
-        var(
-          'snowplow__datalake_file_format',
-          'delta' if target.type != 'spark' else 'iceberg'
-        ) 
-      }}
+    +file_format:  "{{ 'delta' if target.type not in ['spark'] else 'iceberg'}}"
     +incremental_strategy: "{{ None if target.type not in ['spark'] else 'merge' }}"
     +bind: false
     base:
