@@ -167,45 +167,45 @@ models:
       - name: first_geo_region_name
         description: '{{ doc("col_geo_region_name") }} {{ doc("first_session") }}'
       - name: last_geo_country
-        description: '{{ doc("col_geo_country") }}'
+        description: '{{ doc("col_geo_country") }}  {{ doc("last_session") }}'
       - name: last_geo_country_name
-        description: '{{ doc("col_geo_country_name") }}'
+        description: '{{ doc("col_geo_country_name") }}  {{ doc("last_session") }}'
       - name: last_geo_continent
-        description: '{{ doc("col_geo_continent") }}'
+        description: '{{ doc("col_geo_continent") }}  {{ doc("last_session") }}'
       - name: last_geo_city
-        description: '{{ doc("col_geo_city") }}'
+        description: '{{ doc("col_geo_city") }}  {{ doc("last_session") }}'
       - name: last_geo_region_name
-        description: '{{ doc("col_geo_region_name") }}'
+        description: '{{ doc("col_geo_region_name") }}  {{ doc("last_session") }}'
       - name: geo_zipcode
-        description: '{{ doc("col_geo_zipcode") }}'
+        description: '{{ doc("col_geo_zipcode") }} {{ doc("first_session") }}'
       - name: geo_latitude
-        description: '{{ doc("col_geo_latitude") }}'
+        description: '{{ doc("col_geo_latitude") }} {{ doc("first_session") }}'
       - name: geo_longitude
-        description: '{{ doc("col_geo_longitude") }}'
+        description: '{{ doc("col_geo_longitude") }} {{ doc("first_session") }}'
       - name: geo_timezone
-        description: '{{ doc("col_geo_timezone") }}'
+        description: '{{ doc("col_geo_timezone") }} {{ doc("first_session") }}'
       - name: user_ipaddress
-        description: '{{ doc("col_user_ipaddress") }}'
+        description: '{{ doc("col_user_ipaddress") }} {{ doc("first_session") }}'
       - name: screen_names_viewed
         description: '{{ doc("col_screen_names_viewed") }}'
       - name: mkt_medium
-        description: '{{ doc("col_mkt_medium") }}'
+        description: '{{ doc("col_mkt_medium") }} {{ doc("first_session") }}'
       - name: mkt_source
-        description: '{{ doc("col_mkt_source") }}'
+        description: '{{ doc("col_mkt_source") }} {{ doc("first_session") }}'
       - name: mkt_term
-        description: '{{ doc("col_mkt_term") }}'
+        description: '{{ doc("col_mkt_term") }} {{ doc("first_session") }}'
       - name: mkt_content
-        description: '{{ doc("col_mkt_content") }}'
+        description: '{{ doc("col_mkt_content") }} {{ doc("first_session") }}'
       - name: mkt_campaign
-        description: '{{ doc("col_mkt_campaign") }}'
+        description: '{{ doc("col_mkt_campaign") }} {{ doc("first_session") }}'
       - name: mkt_clickid
-        description: '{{ doc("col_mkt_clickid") }}'
+        description: '{{ doc("col_mkt_clickid") }} {{ doc("first_session") }}'
       - name: mkt_network
-        description: '{{ doc("col_mkt_network") }}'
+        description: '{{ doc("col_mkt_network") }} {{ doc("first_session") }}'
       - name: default_channel_group
         description: '{{ doc("col_default_channel_group") }}'
       - name: mkt_source_platform
-        description: '{{ doc("col_mkt_source_platform") }}'
+        description: '{{ doc("col_mkt_source_platform") }} {{ doc("first_session") }}'
       - name: page_referrer
         description: '{{ doc("col_page_referrer") }}'
       - name: refr_medium
@@ -231,9 +231,9 @@ models:
       - name: first_br_lang_name
         description: '{{ doc("col_br_lang_name") }} {{ doc("first_session") }}'
       - name: last_br_lang
-        description: '{{ doc("col_br_lang") }}'
+        description: '{{ doc("col_br_lang") }}   {{ doc("last_session") }}'
       - name: last_br_lang_name
-        description: '{{ doc("col_br_lang_name") }}'
+        description: '{{ doc("col_br_lang_name") }}  {{ doc("last_session") }}'
       - name: iab__category
         description: '{{ doc("col_category") }}'
       - name: iab__primary_impact
@@ -295,11 +295,11 @@ models:
       - name: first_screen_view__type
         description: '{{ doc("col_screen_view_type") }}'
       - name: last_screen_view__name
-        description: '{{ doc("col_screen_view_name") }}'
+        description: '{{ doc("col_screen_view_name") }}  {{ doc("last_session") }}'
       - name: last_screen_view__transition_type
-        description: '{{ doc("col_screen_view_transition_type") }}'
+        description: '{{ doc("col_screen_view_transition_type") }}  {{ doc("last_session") }}'
       - name: last_screen_view__type
-        description: '{{ doc("col_screen_view_type") }}'
+        description: '{{ doc("col_screen_view_type") }}  {{ doc("last_session") }}'
       - name: screen_view__previous_id
         description: '{{ doc("col_screen_view_previous_id") }}'
       - name: screen_view__previous_name
