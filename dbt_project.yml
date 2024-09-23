@@ -34,7 +34,7 @@ vars:
     snowplow__dev_target_name: dev
     snowplow__events: "{{ source('atomic', 'events') }}"
     # snowplow__events_table: "events" # Only set if not using 'events' table for Snowplow events data
-    snowplow__enable_web: false
+    snowplow__enable_web: true
     snowplow__enable_mobile: true
     snowplow__heartbeat: 10
     snowplow__min_visit_length: 5
