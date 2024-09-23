@@ -6,7 +6,7 @@ You may obtain a copy of the Snowplow Community License Version 1.0 at https://d
 #}
 
 select *
-from {{ ref('snowplow_unified_users_agg') }}
+from {{ ref('snowplow_unified_views_this_run') }}
 where user_identifier is null --cannot be null from other tests
 {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
       or engaged_time_in_s is null -- where there are no pings, engaged time is 0.
