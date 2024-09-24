@@ -84,7 +84,7 @@ vars:
     snowplow__session_aggregations: [{'type': 'count', 'field': "case when event_name = 'page_view' then 1 else null end", 'alias': 'agg_test'}]
     snowplow__user_aggregations: [{'type': 'sum', 'field': "agg_test", 'alias': 'agg_test'}]
     # add extra web fields:
-    snowplow__enable_browser_context: false
+    snowplow__enable_browser_context: true
     snowplow__enable_browser_context_2: false
     # add extra mobile fields:
     snowplow__enable_mobile_context: true
