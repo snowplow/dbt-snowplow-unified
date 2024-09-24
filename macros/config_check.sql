@@ -26,7 +26,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       {{ exceptions.raise_compiler_error(
       "Snowplow Error: Ua context is enabled but it cannot be processed as `snowplow__enable_web` is currently disabled."
       ) }}
-    {% elif var('snowplow__enable_browser_context') %}
+    {% elif var('snowplow__enable_browser_context') or var('snowplow__enable_browser_context_2') %}
       {{ exceptions.raise_compiler_error(
       "Snowplow Error: Browser context is enabled but it cannot be processed as `snowplow__enable_web` is currently disabled."
       ) }}
