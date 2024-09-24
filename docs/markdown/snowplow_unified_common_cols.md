@@ -1339,3 +1339,22 @@ On mobile, it is calculated using the `screen_summary` context.
 {% docs col_cv_id %}
 A unique surrogate key using a event_id and cv_type to uniquely identify a record in the conversions table.
 {% enddocs %}
+
+{% docs first_session %}
+This attribute identifies the first occurrence of an event within a session, determined by the earliest timestamp, thereby allowing for insights into the initial user interactions during that session.
+{% enddocs %}
+
+
+{% docs last_session %}
+This attribute identifies the last occurrence of an event within a session, determined by the latest timestamp, facilitating the analysis of final user interactions and session conclusions.
+{% enddocs %}
+
+
+{% docs first_user %}
+This attribute derives from the first session associated with a user, identified by the earliest session start timestamp, reflecting the user’s initial interactions within that session.
+{% enddocs %}
+
+
+{% docs last_user %}
+This attribute derives from the last session associated with a user, identified by the latest session end timestamp, capturing the user’s final interactions within that session.
+{% enddocs %}
