@@ -148,6 +148,11 @@ with prep as (
       , sd.vmax as vertical_pixels_scrolled
       , sd.relative_hmax as horizontal_percentage_scrolled
       , sd.relative_vmax as vertical_percentage_scrolled
+    {%else%}
+      , coalesce(
+        t.absolute_time_in_s,
+        {{ dbt.datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }}
+      ) as absolute_time_in_s
     {% endif %}
     {% if var('snowplow__enable_screen_summary_context', false) %}
       , sd.last_list_item_index
@@ -227,6 +232,8 @@ select
       , pve.vertical_pixels_scrolled
       , pve.horizontal_percentage_scrolled
       , pve.vertical_percentage_scrolled
+    {% else %}
+      , pve.absolute_time_in_s
     {% endif %}
     {% if var('snowplow__enable_screen_summary_context', false) %}
       , pve.last_list_item_index
