@@ -134,16 +134,15 @@ with prep as (
 
     p.*
 
-    , row_number() over (partition by p.session_identifier order by p.derived_tstamp, p.dvce_created_tstamp, p.event_id) AS view_in_session_index
+    , row_number() over (partition by p.session_identifier order by p.derived_tstamp, p.dvce_created_tstamp, p.event_id) as view_in_session_index
 
     , coalesce(t.end_tstamp, p.derived_tstamp) as end_tstamp -- only page views with pings will have a row in table t
 
+    , coalesce(t.absolute_time_in_s,{{ dbt.datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }}) as absolute_time_in_s
+
     {% if var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) %}
       , coalesce(t.engaged_time_in_s, 0) as engaged_time_in_s -- where there are no pings, engaged time is 0.
-      , coalesce(
-        t.absolute_time_in_s,
-        {{ dbt.datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }}
-      ) as absolute_time_in_s
+
       , sd.hmax as horizontal_pixels_scrolled
       , sd.vmax as vertical_pixels_scrolled
       , sd.relative_hmax as horizontal_percentage_scrolled
@@ -227,6 +226,8 @@ select
       , pve.vertical_pixels_scrolled
       , pve.horizontal_percentage_scrolled
       , pve.vertical_percentage_scrolled
+    {% else %}
+      , pve.absolute_time_in_s
     {% endif %}
     {% if var('snowplow__enable_screen_summary_context', false) %}
       , pve.last_list_item_index

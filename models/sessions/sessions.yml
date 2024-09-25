@@ -56,8 +56,7 @@ models:
       - name: absolute_time_in_s
         description: '{{ doc("col_session_absolute_time_in_s") }}'
         tests:
-          - not_null:
-              enabled: "{{ var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) }}"
+          - not_null
       - name: first_page_title
         description: The title of the first page visited within the session
       - name: first_page_url

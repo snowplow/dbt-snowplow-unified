@@ -72,8 +72,7 @@ models:
       - name: absolute_time_in_s
         description: '{{ doc("col_absolute_time_in_s") }}'
         tests:
-          - not_null:
-              enabled: "{{ var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) }}"
+          - not_null
       - name: horizontal_pixels_scrolled
         description: '{{ doc("col_horizontal_pixels_scrolled") }}'
       - name: vertical_pixels_scrolled
