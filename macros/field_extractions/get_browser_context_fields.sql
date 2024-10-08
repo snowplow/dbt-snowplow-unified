@@ -78,7 +78,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     {'field':('tab_id', 'browser2__tab_id'), 'dtype':'string'}
     ] %}
 
-  {% if var('snowplow__enable_browser_context', false) and not var('snowplow__enable_browser_context', false) %}
+  {% if var('snowplow__enable_browser_context', false) and not var('snowplow__enable_browser_context_2', false) %}
     ,{{ snowplow_utils.get_optional_fields(
           enabled=var('snowplow__enable_browser_context', false),
           col_prefix='contexts_com_snowplowanalytics_snowplow_browser_context_1',
