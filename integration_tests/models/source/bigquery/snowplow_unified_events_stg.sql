@@ -202,6 +202,25 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       from unnest(contexts_com_snowplowanalytics_snowplow_browser_context_1_0_0) as json_array
       ) as contexts_com_snowplowanalytics_snowplow_browser_context_1_0_0,
 
+
+    array(
+      select as struct
+        JSON_EXTRACT_scalar(json_array,'$.viewport') as viewport,
+        JSON_EXTRACT_scalar(json_array,'$.documentSize') as document_size,
+        JSON_EXTRACT_scalar(json_array,'$.resolution') as resolution,
+        cast(JSON_EXTRACT_scalar(json_array,'$.colorDepth') as integer) as color_depth,
+        cast(JSON_EXTRACT_scalar(json_array,'$.devicePixelRatio') as FLOAT64) as device_pixel_ratio,
+        cast(JSON_EXTRACT_scalar(json_array,'$.cookiesEnabled') as boolean) as cookies_enabled,
+        cast(JSON_EXTRACT_scalar(json_array,'$.online') as boolean) as online,
+        JSON_EXTRACT_scalar(json_array,'$.browserLanguage') as browser_language,
+        JSON_EXTRACT_scalar(json_array,'$.documentLanguage') as document_language,
+        cast(JSON_EXTRACT_scalar(json_array,'$.webdriver') as boolean) as webdriver,
+        cast(JSON_EXTRACT_scalar(json_array,'$.deviceMemory') as integer) as device_memory,
+        cast(JSON_EXTRACT_scalar(json_array,'$.hardwareConcurrency') as integer) as hardware_concurrency,
+        JSON_EXTRACT_scalar(json_array,'$.tab_id') as tab_id
+      from unnest(contexts_com_snowplowanalytics_snowplow_browser_context_1_0_0) as json_array
+      ) as contexts_com_snowplowanalytics_snowplow_browser_context_2_0_0,
+
     array(
     select as struct JSON_EXTRACT_scalar(json_array,'$.version') as version,
                     JSON_EXTRACT_scalar(json_array,'$.build') as build

@@ -58,6 +58,7 @@ vars:
     snowplow__iab_context: snowplow_unified_spider_context_stg
     snowplow__ua_parser_context: snowplow_unified_ua_context_stg
     snowplow__browser_context: snowplow_unified_browser_context_stg
+    snowplow__browser_context_2: snowplow_unified_browser_context_2_stg
     # mobile only contexts
     snowplow__screen_view_events: snowplow_unified_screen_view_event_stg
     snowplow__session_context: snowplow_unified_session_context_stg
@@ -85,6 +86,7 @@ vars:
     snowplow__user_aggregations: [{'type': 'sum', 'field': "agg_test", 'alias': 'agg_test'}]
     # add extra web fields:
     snowplow__enable_browser_context: true
+    snowplow__enable_browser_context_2: false
     # add extra mobile fields:
     snowplow__enable_mobile_context: true
     snowplow__enable_geolocation_context: true

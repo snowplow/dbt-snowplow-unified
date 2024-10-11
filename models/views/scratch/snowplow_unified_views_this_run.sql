@@ -25,7 +25,7 @@ with prep as (
       {{ snowplow_unified.web_only_fields('ev') }}
       , {{ snowplow_unified.content_group_query() }} as content_group
       , coalesce(
-      {% if var('snowplow__enable_browser_context') %}
+      {% if var('snowplow__enable_browser_context') or var('snowplow__enable_browser_context_2') %}
         cast(ev.browser__color_depth as {{ dbt.type_string() }}),
       {% else %}
         ev.br_colordepth,
