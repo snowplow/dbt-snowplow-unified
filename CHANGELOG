@@ -1,3 +1,21 @@
+snowplow-unified 0.5.0 (2024-10-14)
+---------------------------------------
+## Summary
+This release brings significant updates to support Apache Spark with the Iceberg file format, enhances browser context support, improves documentation, and refines language mapping and column tests.
+
+## Features
+- Add support for Apache Spark with Iceberg file format
+- Introduce support for browser_context_2
+- Implement unified language mapping for Android and iOS to produce a common language name
+- Enhance documentation for previously undocumented fields in derived tables
+
+## Under the hood
+- Modify integration tests to support Spark
+- Adjust column tests for conditional scenarios
+
+## Upgrading
+Update the snowplow-unified version in your `packages.yml` file.
+
 snowplow-unified 0.4.5 (2024-07-30)
 ---------------------------------------
 ## Summary
