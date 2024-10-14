@@ -494,7 +494,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       select as struct JSON_EXTRACT_scalar(json_array,'$.category') as category,
                     JSON_EXTRACT_scalar(json_array,'$.primary_impact') as primary_impact,
                     JSON_EXTRACT_scalar(json_array,'$.reason') as reason,
-                    JSON_EXTRACT_scalar(json_array,'$.spider_or_robot') as spider_or_robot
+                    cast(JSON_EXTRACT_scalar(json_array,'$.spider_or_robot') as boolean) as spider_or_robot
 
       from unnest(contexts_com_iab_snowplow_spiders_and_robots_1_0_0) as json_array
       ) as contexts_com_iab_snowplow_spiders_and_robots_1_0_0
