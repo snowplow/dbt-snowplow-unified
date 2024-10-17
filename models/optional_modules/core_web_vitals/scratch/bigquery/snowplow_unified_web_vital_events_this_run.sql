@@ -70,14 +70,6 @@ with prep as (
 
   -- exclude bot traffic
 
-  {% if var('snowplow__enable_iab', false) %}
-    and not {{ snowplow_utils.get_field(column_name = 'contexts_com_iab_snowplow_spiders_and_robots_1_0_0',
-                              field_name = 'spider_or_robot',
-                              table_alias = 'e',
-                              type = 'boolean',
-                              array_index = 0)}} = True
-  {% endif %}
-
   {{ snowplow_unified.filter_bots() }}
 
 )

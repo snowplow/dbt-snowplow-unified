@@ -69,10 +69,6 @@ with prep as (
 
   -- exclude bot traffic
 
-  {% if var('snowplow__enable_iab', false) %}
-    and not e.iab__spider_or_robot = True
-  {% endif %}
-
   {{ snowplow_unified.filter_bots() }}
 
 )
