@@ -38,7 +38,8 @@ models:
       - name: engaged_time_in_s
         description: '{{ doc("col_user_engaged_time_in_s") }}'
         tests:
-          - not_null
+          - not_null:
+              enabled: "{{ var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) }}"
       - name: absolute_time_in_s
         description: '{{ doc("col_user_absolute_time_in_s") }}'
       - name: first_page_title

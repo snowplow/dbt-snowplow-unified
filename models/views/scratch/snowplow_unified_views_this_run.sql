@@ -25,7 +25,7 @@ with prep as (
       {{ snowplow_unified.web_only_fields('ev') }}
       , {{ snowplow_unified.content_group_query() }} as content_group
       , coalesce(
-      {% if var('snowplow__enable_browser_context') %}
+      {% if var('snowplow__enable_browser_context') or var('snowplow__enable_browser_context_2') %}
         cast(ev.browser__color_depth as {{ dbt.type_string() }}),
       {% else %}
         ev.br_colordepth,
@@ -72,7 +72,7 @@ with prep as (
       {{ snowplow_unified.mobile_context_fields('ev')}}
     {% endif %}
 
-    {% if target.type == 'postgres' %}
+    {% if target.type in ['postgres','spark'] %}
     ,row_number() over (partition by ev.view_id order by ev.derived_tstamp, ev.dvce_created_tstamp) as view_id_dedupe_index
     {% endif %}
 
@@ -106,7 +106,7 @@ with prep as (
       {{ snowplow_unified.filter_bots('ev') }}
     {% endif %}
 
-    {% if target.type not in ['postgres'] %}
+    {% if target.type not in ['postgres','spark'] %}
       qualify row_number() over (partition by ev.view_id order by ev.derived_tstamp, ev.dvce_created_tstamp) = 1
     {% endif %}
 )
@@ -148,6 +148,11 @@ with prep as (
       , sd.vmax as vertical_pixels_scrolled
       , sd.relative_hmax as horizontal_percentage_scrolled
       , sd.relative_vmax as vertical_percentage_scrolled
+    {%else%}
+      , coalesce(
+        t.absolute_time_in_s,
+        {{ dbt.datediff('p.derived_tstamp', 'coalesce(t.end_tstamp, p.derived_tstamp)', 'second') }}
+      ) as absolute_time_in_s
     {% endif %}
     {% if var('snowplow__enable_screen_summary_context', false) %}
       , sd.last_list_item_index
@@ -165,7 +170,7 @@ with prep as (
   left join {{ ref('snowplow_unified_pv_scroll_depth') }} sd
   on p.view_id = sd.view_id and p.session_identifier = sd.session_identifier
 
-  {% if target.type == 'postgres' %}
+  {% if target.type in ['postgres','spark'] %}
     where view_id_dedupe_index = 1
   {% endif %}
 
@@ -227,6 +232,8 @@ select
       , pve.vertical_pixels_scrolled
       , pve.horizontal_percentage_scrolled
       , pve.vertical_percentage_scrolled
+    {% else %}
+      , pve.absolute_time_in_s
     {% endif %}
     {% if var('snowplow__enable_screen_summary_context', false) %}
       , pve.last_list_item_index
