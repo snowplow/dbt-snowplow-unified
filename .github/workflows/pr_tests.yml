@@ -168,7 +168,7 @@ jobs:
           dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}
 
       - name: Run tests
-        run: ./.scripts/integration_test.sh -d ${{ matrix.warehouse }}
+        run: ./.scripts/integration_test_core.sh -d ${{ matrix.warehouse }}
 
       - name: "Post-test: Drop ci schemas"
         run: |
