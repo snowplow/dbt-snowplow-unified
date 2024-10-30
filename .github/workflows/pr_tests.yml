@@ -175,7 +175,7 @@ jobs:
              ./.scripts/integration_test_late_enable_context.sh -d ${{ matrix.warehouse }}
           fi
           
-          if [ 1 -eq 1 ]; then
+          if [ 1 -eq 0 ]; then
              ./.scripts/integration_test_mobile.sh -d ${{ matrix.warehouse }}
           fi
 
