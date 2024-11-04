@@ -27,9 +27,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2G
+          memory: 4G
         reservations:
-          memory: 1G
+          memory: 2G
     entrypoint: ["/bin/bash", "/setup.sh"]
     command: ["/bin/bash", "-c", "/spark/sbin/start-master.sh -h spark-master --properties-file /spark/conf/spark-defaults.conf && tail -f /spark/logs/spark--org.apache.spark.deploy.master.Master-1-*.out"]
     networks:
@@ -57,9 +57,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 4G
+          memory: 8G
         reservations:
-          memory: 2G
+          memory: 4G
     entrypoint: ["/bin/bash", "/setup.sh"]
     command: ["/bin/bash", "-c", "sleep 10 && /spark/sbin/start-worker.sh spark://spark-master:7077 --properties-file /spark/conf/spark-defaults.conf && tail -f /spark/logs/spark--org.apache.spark.deploy.worker.Worker-*.out"]
     networks:
@@ -87,9 +87,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 3G
+          memory: 4G
         reservations:
-          memory: 1G
+          memory: 2G
     entrypoint: ["/bin/bash", "/setup.sh"]
     command: ["/bin/bash", "-c", "sleep 30 && /spark/sbin/start-thriftserver.sh --master spark://spark-master:7077 --conf spark.driver.memory=2g --conf spark.executor.memory=2g --hiveconf hive.server2.thrift.port=10000 --hiveconf hive.server2.thrift.bind.host=0.0.0.0 && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
     networks:
