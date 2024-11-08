@@ -5,53 +5,11 @@ networks:
     driver: bridge
 
 services:
-  spark-master:
-    image: snowplow/spark-s3-iceberg:latest
-    hostname: spark-master
-    ports:
-      - '8080:8080'
-      - '7077:7077'
-    environment:
-      - SPARK_LOCAL_IP=spark-master
-      - SPARK_MASTER_HOST=spark-master
-      - SPARK_MASTER_PORT=7077
-      # AWS credentials
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-    volumes:
-      - ./spark-defaults.conf:/spark/conf/spark-defaults.conf.template
-      - ./setup.sh:/setup.sh
-    entrypoint: ["/bin/bash", "/setup.sh"]
-    command: ["/bin/bash", "-c", "/spark/sbin/start-master.sh -h spark-master --properties-file /spark/conf/spark-defaults.conf && tail -f /spark/logs/spark--org.apache.spark.deploy.master.Master-1-*.out"]
-    networks:
-      - spark-network
-
-  spark-worker:
-    image: snowplow/spark-s3-iceberg:latest
-    depends_on:
-      - spark-master
-    environment:
-      - SPARK_LOCAL_IP=spark-worker
-      - SPARK_MASTER=spark://spark-master:7077
-      # AWS credentials
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-    volumes:
-      - ./spark-defaults.conf:/spark/conf/spark-defaults.conf.template
-      - ./setup.sh:/setup.sh
-    entrypoint: ["/bin/bash", "/setup.sh"]
-    command: ["/bin/bash", "-c", "sleep 10 && /spark/sbin/start-worker.sh spark://spark-master:7077 --properties-file /spark/conf/spark-defaults.conf && tail -f /spark/logs/spark--org.apache.spark.deploy.worker.Worker-*.out"]
-    networks:
-      - spark-network
-
   thrift-server:
     image: snowplow/spark-s3-iceberg:latest
     ports:
       - '10000:10000'
       - '4040:4040'
-    depends_on:
-      - spark-master
-      - spark-worker
     environment:
       - SPARK_LOCAL_IP=thrift-server
       # AWS credentials
@@ -61,6 +19,15 @@ services:
       - ./spark-defaults.conf:/spark/conf/spark-defaults.conf.template
       - ./setup.sh:/setup.sh
     entrypoint: ["/bin/bash", "/setup.sh"]
-    command: ["/bin/bash", "-c", "sleep 30 && /spark/sbin/start-thriftserver.sh --master spark://spark-master:7077 --driver-memory 2g --executor-memory 3g --hiveconf hive.server2.thrift.port=10000 --hiveconf hive.server2.thrift.bind.host=0.0.0.0 --conf spark.sql.hive.thriftServer.async=true --conf spark.sql.hive.thriftServer.workerQueue.size=2000 --conf spark.sql.hive.thriftServer.maxWorkerThreads=100 --conf spark.sql.hive.thriftServer.minWorkerThreads=50 && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
+    command: ["/bin/bash", "-c", "/spark/sbin/start-thriftserver.sh \
+              --master local[*] \
+              --driver-memory 8g \
+              --executor-memory 4g \
+              --hiveconf hive.server2.thrift.port=10000 \
+              --hiveconf hive.server2.thrift.bind.host=0.0.0.0 \
+              --conf spark.sql.hive.thriftServer.async=true \
+              --conf spark.sql.hive.thriftServer.maxWorkerThreads=8 \
+              --conf spark.sql.hive.thriftServer.minWorkerThreads=4 \
+              && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
     networks:
       - spark-network
