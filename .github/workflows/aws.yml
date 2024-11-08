@@ -12,20 +12,22 @@ permissions:
   id-token: write   # This is required for requesting the JWT
   contents: read    # This is required for actions/checkout
 
+
+
 jobs:
   list_s3_objects:
     name: list_s3_objects
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        # Run tests from integration_tests sub dir
-        working-directory: ./integration_tests
     strategy:
       fail-fast: false
       matrix:
         dbt_version: ["1.*"]
         warehouse: ["spark_iceberg"]
     steps:
+    # Move checkout earlier in the process
+    - name: Check out repository
+      uses: actions/checkout@v4
+
     - name: Configure AWS CLI with OIDC role assumption
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -42,32 +44,38 @@ jobs:
       run: |
         aws s3 ls s3://${{ env.S3_BUCKET }} --recursive
 
-    # You can now use the credentials in subsequent steps like this:
     - name: Example Next Step
       env:
         AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
         AWS_SESSION_TOKEN: ${{ env.AWS_SESSION_TOKEN }}
       run: |
-        # Your commands here will have access to the temporary credentials
         echo "Credentials are available in this step"
 
-    - name: Check out
-      uses: actions/checkout@v4
-
-    # Remove '*' and replace '.' with '_' in DBT_VERSION & set as SCHEMA_SUFFIX.
-    # SCHEMA_SUFFIX allows us to run multiple versions of dbt in parallel without overwriting the output tables
+    # Set up integration tests directory
+    - name: Create integration tests directory
+      run: |
+        mkdir -p integration_tests
+        
+    - name: Set working directory
+      run: |
+        cd integration_tests
+      
     - name: Set SCHEMA_SUFFIX env
+      working-directory: ./integration_tests
       run: echo "SCHEMA_SUFFIX=$(echo ${DBT_VERSION%.*} | tr . _)" >> $GITHUB_ENV
       env:
         DBT_VERSION: ${{ matrix.dbt_version }}
+
     - name: Configure Docker credentials
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_SNOWPLOWCI_READ_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SNOWPLOWCI_READ_PASSWORD }}
+
     - name: Set warehouse variables
       id: set_warehouse
+      working-directory: ./integration_tests
       run: |
         WAREHOUSE_PLATFORM=$(echo ${{ matrix.warehouse }} | cut -d'_' -f1)
         WAREHOUSE_SPECIFIC=$(echo ${{ matrix.warehouse }} | cut -s -d'_' -f2)
@@ -75,14 +83,9 @@ jobs:
         echo "WAREHOUSE_SPECIFIC=${WAREHOUSE_SPECIFIC}" >> $GITHUB_ENV
         echo "warehouse_platform=${WAREHOUSE_PLATFORM}" >> $GITHUB_OUTPUT
         echo "warehouse_specific=${WAREHOUSE_SPECIFIC}" >> $GITHUB_OUTPUT
-    # Remove '*' and replace '.' with '_' in DBT_VERSION & set as SCHEMA_SUFFIX.
-    # SCHEMA_SUFFIX allows us to run multiple versions of dbt in parallel without overwriting the output tables
-    - name: Set SCHEMA_SUFFIX env
-      run: echo "SCHEMA_SUFFIX=$(echo ${DBT_VERSION%.*} | tr . _)" >> $GITHUB_ENV
-      env:
-        DBT_VERSION: ${{ matrix.dbt_version }}
 
     - name: Set DEFAULT_TARGET env
+      working-directory: ./integration_tests
       run: |
         echo "DEFAULT_TARGET=${{matrix.warehouse}}" >> $GITHUB_ENV
 
@@ -100,6 +103,7 @@ jobs:
           ${{ runner.os }}-pip-${{ matrix.dbt_version }}-${{env.WAREHOUSE_PLATFORM}}
 
     - name: Install spark dependencies
+      working-directory: ./integration_tests
       run: |
         pip install --upgrade pip wheel setuptools
         pip install -Iv "dbt-${{ env.WAREHOUSE_PLATFORM }}[PyHive]"==${{ matrix.dbt_version }} --upgrade
@@ -111,7 +115,6 @@ jobs:
         sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         sudo chmod +x /usr/local/bin/docker-compose
 
-    
     - name: Build and start Spark cluster
       working-directory: .github/workflows/spark_deployment
       run: |
@@ -121,12 +124,15 @@ jobs:
       if: ${{env.WAREHOUSE_PLATFORM == 'spark'}}
   
     - name: "Pre-test: Drop ci schemas"
+      working-directory: ./integration_tests
       run: |
         dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}
 
     - name: Run tests
+      working-directory: ./integration_tests
       run: ./.scripts/integration_test.sh -d ${{matrix.warehouse}}
 
     - name: "Post-test: Drop ci schemas"
+      working-directory: ./integration_tests
       run: |
         dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}
