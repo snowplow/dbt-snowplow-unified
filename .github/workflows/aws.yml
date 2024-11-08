@@ -6,7 +6,7 @@ on:
 env:
   AWS_REGION: eu-west-1 
   AWS_ROLE_ARN: "arn:aws:iam::719197435995:role/DbtSparkTestingActions"
-  S3_BUCKET: "dbt-testing-automation" 
+  S3_BUCKET: "dbt-spark-iceberg/github-integration-testing" 
   
 permissions:
   id-token: write   # This is required for requesting the JWT
@@ -16,6 +16,10 @@ jobs:
   list_s3_objects:
     name: list_s3_objects
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        # Run tests from integration_tests sub dir
+        working-directory: .github/workflows/spark_deployment
     steps:
     # Move checkout earlier in the process
     - name: Check out repository
@@ -62,22 +66,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_SNOWPLOWCI_READ_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SNOWPLOWCI_READ_PASSWORD }}
 
-    # Set up integration tests directory
-    - name: Create integration tests directory
-      run: |
-        mkdir -p integration_tests
-        mkdir -p .github/workflows/spark_deployment
-
-    # Copy necessary configuration files
-    - name: Setup Spark configuration
-      run: |
-        cp docker-compose.yml .github/workflows/spark_deployment/
-        cp spark-defaults.conf .github/workflows/spark_deployment/
-        cp setup.sh .github/workflows/spark_deployment/
-        chmod +x .github/workflows/spark_deployment/setup.sh
-
     - name: Build and start Spark cluster
-      working-directory: .github/workflows/spark_deployment
       run: |
         # Use environment variables from .env file
         set -a
