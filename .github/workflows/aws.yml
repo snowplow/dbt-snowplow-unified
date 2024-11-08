@@ -101,7 +101,7 @@ jobs:
     - name: Verify Spark cluster
       run: |
         docker ps
-        docker logs
+        docker logs spark_deployment_thrift-server_1
 
     - name: "DBT Debug"
       working-directory: ./integration_tests
@@ -112,7 +112,7 @@ jobs:
       if: always()
       run: |
         docker ps
-        docker logs
+        docker logs spark_deployment_thrift-server_1
       
     - name: "Pre-test: Drop ci schemas"
       working-directory: ./integration_tests
