@@ -1,0 +1,28 @@
+name: List S3 Objects - AWS
+
+on:
+  workflow_dispatch: 
+
+env:
+  AWS_REGION: eu-west-1 
+  AWS_ROLE_ARN: "arn:aws:iam::719197435995:role/DbtSparkTestingActions"
+  S3_BUCKET: "dbt-testing-automation" 
+  
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  list_s3_objects:
+    runs-on: devops-base
+
+    steps:
+    - name: Configure AWS CLI with OIDC role assumption
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ env.AWS_ROLE_ARN }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: List objects from S3 bucket
+      run: |
+        aws s3 ls s3://${{ env.S3_BUCKET }} --recursive
