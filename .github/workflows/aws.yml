@@ -1,7 +1,7 @@
 name: List S3 Objects - AWS
 
 on:
-  workflow_dispatch: 
+  pull_request:
 
 env:
   AWS_REGION: eu-west-1 
@@ -14,7 +14,8 @@ permissions:
 
 jobs:
   list_s3_objects:
-    runs-on: devops-base
+    name: list_s3_objects
+    runs-on: ubuntu-latest
 
     steps:
     - name: Configure AWS CLI with OIDC role assumption
