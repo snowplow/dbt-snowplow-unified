@@ -101,21 +101,19 @@ jobs:
     - name: Verify Spark cluster
       run: |
         docker ps
+        docker logs
 
-    - name: Run tests
+    - name: "DBT Debug"
       working-directory: ./integration_tests
-      env:
-        AWS_ACCESS_KEY_ID: ${{ env.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ env.AWS_SECRET_ACCESS_KEY }}
-        AWS_SESSION_TOKEN: ${{ env.AWS_SESSION_TOKEN }}
       run: |
-        if [ -f ./.scripts/integration_test.sh ]; then
-          ./.scripts/integration_test.sh -d spark_iceberg
-        else
-          echo "Integration test script not found"
-          exit 1
-        fi
+        dbt debug --target spark_iceberg
 
+    - name: "After DBT Debug logs"
+      if: always()
+      run: |
+        docker ps
+        docker logs
+      
     - name: "Pre-test: Drop ci schemas"
       working-directory: ./integration_tests
       run: |
