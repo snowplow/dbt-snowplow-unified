@@ -44,7 +44,7 @@ jobs:
 
     - name: List objects from S3 bucket
       run: |
-        aws s3 ls s3://${{ env.S3_BUCKET }} --recursive
+        aws s3 ls s3://${{ env.S3_BUCKET }}
 
     # Set up Docker environment with AWS credentials
     - name: Configure Docker environment
