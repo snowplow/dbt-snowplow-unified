@@ -68,10 +68,10 @@ jobs:
 
     - name: Build and start Spark cluster
       run: |
-        # Use environment variables from .env file
-        set -a
-        source ./.env
-        set +a
+        # # Use environment variables from .env file
+        # set -a
+        # source ./.env
+        # set +a
         
         docker-compose up -d
         echo "Waiting for Spark services to start..."
