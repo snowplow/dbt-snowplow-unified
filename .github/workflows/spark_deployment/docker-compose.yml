@@ -15,6 +15,8 @@ services:
       # AWS credentials
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=eu-west-1  # Add this line
+      - AWS_DEFAULT_REGION=eu-west-1  # Add this line too
     volumes:
       - ./spark-defaults.conf:/spark/conf/spark-defaults.conf.template
       - ./setup.sh:/setup.sh
