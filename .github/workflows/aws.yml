@@ -32,9 +32,15 @@ jobs:
         role-to-assume: ${{ env.AWS_ROLE_ARN }}
         aws-region: ${{ env.AWS_REGION }}
         mask-aws-account-id: true
+        mask-aws-role-arn: true
         role-session-name: GithubActionsSession
         role-duration-seconds: 3600
         output-credentials: true
+
+    - name: Install Docker Compose
+      run: |
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
 
     # Verify AWS credentials are working
     - name: Verify AWS CLI configuration
@@ -44,7 +50,7 @@ jobs:
 
     - name: List objects from S3 bucket
       run: |
-        aws s3 ls s3://${{ env.S3_BUCKET }}
+        aws s3 ls s3://${{ env.S3_BUCKET }} --summarize
 
     # Set up Docker environment with AWS credentials
     - name: Configure Docker environment
