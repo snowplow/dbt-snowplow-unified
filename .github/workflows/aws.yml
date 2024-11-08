@@ -70,7 +70,7 @@ jobs:
       run: |
         # Use environment variables from .env file
         set -a
-        source ../../.env
+        source ./.env
         set +a
         
         docker-compose up -d
