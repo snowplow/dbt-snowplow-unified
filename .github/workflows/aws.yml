@@ -99,7 +99,6 @@ jobs:
     - name: Verify Spark cluster
       run: |
         docker ps
-        docker logs spark-master
 
     - name: Run tests
       working-directory: ./integration_tests
