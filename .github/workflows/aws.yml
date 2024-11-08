@@ -100,7 +100,6 @@ jobs:
       run: |
         docker ps
         docker logs spark-master
-        curl -s http://localhost:8080 || echo "Spark Master UI not accessible"
 
     - name: Run tests
       working-directory: ./integration_tests
