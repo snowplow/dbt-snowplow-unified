@@ -113,6 +113,8 @@ jobs:
       run: |
         docker ps
         docker logs spark_deployment_thrift-server_1
+        docker exec spark_deployment_thrift-server_1 beeline -u "jdbc:hive2://localhost:10000"
+        docker exec spark_deployment_thrift-server_1 ls -l /spark/logs
       
     - name: "Pre-test: Drop ci schemas"
       working-directory: ./integration_tests
