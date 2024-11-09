@@ -12,25 +12,15 @@ services:
       - '4040:4040'
     environment:
       - SPARK_LOCAL_IP=thrift-server
-      # AWS credentials
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
-      - AWS_REGION=eu-west-1  # Add this line
-      - AWS_DEFAULT_REGION=eu-west-1  # Add this line too
+      - AWS_REGION=eu-west-1
+      - AWS_DEFAULT_REGION=eu-west-1
     volumes:
       - ./spark-defaults.conf:/spark/conf/spark-defaults.conf.template
       - ./setup.sh:/setup.sh
     entrypoint: ["/bin/bash", "/setup.sh"]
-    command: ["/bin/bash", "-c", "/spark/sbin/start-thriftserver.sh \
-              --master local[*] \
-              --driver-memory 8g \
-              --executor-memory 4g \
-              --hiveconf hive.server2.thrift.port=10000 \
-              --hiveconf hive.server2.thrift.bind.host=0.0.0.0 \
-              --conf spark.sql.hive.thriftServer.async=true \
-              --conf spark.sql.hive.thriftServer.maxWorkerThreads=8 \
-              --conf spark.sql.hive.thriftServer.minWorkerThreads=4 \
-              && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
+    command: ["start-thriftserver.sh", "--master", "local[4]", "--driver-memory", "8g", "--hiveconf", "hive.server2.thrift.port=10000", "--hiveconf", "hive.server2.thrift.bind.host=0.0.0.0"]
     networks:
       - spark-network
