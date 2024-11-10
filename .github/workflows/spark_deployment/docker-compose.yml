@@ -21,6 +21,6 @@ services:
       - ./spark-defaults.conf:/spark/conf/spark-defaults.conf.template
       - ./setup.sh:/setup.sh
     entrypoint: ["/bin/bash", "/setup.sh"]
-    command: ["start-thriftserver.sh", "--master", "local[4]", "--driver-memory", "8g", "--hiveconf", "hive.server2.thrift.port=10000", "--hiveconf", "hive.server2.thrift.bind.host=0.0.0.0"]
+    command: ["/bin/bash", "-c", "/spark/sbin/start-thriftserver.sh --master local[4] --driver-memory 8g --hiveconf hive.server2.thrift.port=10000 --hiveconf hive.server2.thrift.bind.host=0.0.0.0"]
     networks:
       - spark-network

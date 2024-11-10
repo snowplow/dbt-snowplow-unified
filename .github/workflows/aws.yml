@@ -84,6 +84,7 @@ jobs:
         docker-compose up -d
         echo "Waiting for Spark services to start..."
         sleep 90
+        
 
     - name: Python setup
       uses: actions/setup-python@v4
@@ -102,6 +103,7 @@ jobs:
       run: |
         docker ps
         docker logs spark_deployment_thrift-server_1
+        docker exec spark_deployment_thrift-server_1 cat /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out
 
     - name: "DBT Debug"
       working-directory: ./integration_tests
