@@ -8,7 +8,6 @@ env:
   AWS_ROLE_ARN: "arn:aws:iam::719197435995:role/DbtSparkTestingActions"
   S3_BUCKET: "dbt-spark-iceberg/github-integration-testing"
   DBT_PROFILES_DIR: ./ci
-  CONTAINER_NAME: "2ceda09cbca2"  # We'll get this dynamically
   
 permissions:
   id-token: write
@@ -76,14 +75,15 @@ jobs:
         docker volume prune -f
 
     - name: Build and start Spark cluster
+      id: spark-startup
       run: |
         docker-compose up -d
         echo "Waiting for Spark services to start..."
         sleep 30  # Initial wait
         
         # Get container ID and store it
-        export CONTAINER_NAME=$(docker ps --format '{{.Names}}' | grep thrift-server)
-        echo "CONTAINER_NAME=${CONTAINER_NAME}" >> $GITHUB_ENV
+        CONTAINER_NAME=$(docker ps --format '{{.Names}}' | grep thrift-server)
+        echo "container_name=${CONTAINER_NAME}" >> $GITHUB_OUTPUT
         
         # Wait for Spark to be fully initialized
         for i in {1..30}; do
@@ -115,14 +115,14 @@ jobs:
     - name: Verify Spark cluster and connection
       run: |
         docker ps
-        docker logs ${CONTAINER_NAME}
-        docker exec ${CONTAINER_NAME} beeline -u "jdbc:hive2://localhost:10000" -e "show databases;"
+        docker logs ${{ steps.spark-startup.outputs.container_name }}
+        docker exec ${{ steps.spark-startup.outputs.container_name }} beeline -u "jdbc:hive2://localhost:10000" -e "show databases;"
 
     - name: Run DBT Debug
       working-directory: ./integration_tests
       run: |
         # Get service logs before attempting debug
-        docker logs ${CONTAINER_NAME}
+        docker logs ${{ steps.spark-startup.outputs.container_name }}
         dbt debug --target spark_iceberg
 
     - name: Clean up before tests
@@ -139,7 +139,7 @@ jobs:
       if: failure()
       run: |
         echo "Capturing Spark logs..."
-        docker logs ${CONTAINER_NAME} > spark_logs.txt
+        docker logs ${{ steps.spark-startup.outputs.container_name }} > spark_logs.txt
         cat spark_logs.txt
         
         echo "Capturing Spark UI details..."
@@ -148,12 +148,14 @@ jobs:
 
     - name: Upload logs as artifact
       if: failure()
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: spark-logs
         path: |
           spark_logs.txt
           spark_ui.txt
+        compression-level: 6  # Moderate compression
+        retention-days: 5     # Keep logs for 5 days
 
     - name: Cleanup
       if: always()
