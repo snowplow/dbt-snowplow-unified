@@ -104,13 +104,25 @@ jobs:
       with:
         python-version: "3.8.x"
         cache: 'pip'
+        cache-dependency-path: |
+          ./integration_tests/requirements.txt
+          ./integration_tests/requirements-dev.txt
 
-    - name: Install spark dependencies
+    - name: Setup Python dependencies
       working-directory: ./integration_tests
       run: |
+        # Create requirements files if they don't exist
+        echo "dbt-spark[PyHive]~=1.7.0" > requirements.txt
+        echo "pytest>=6.0.0" > requirements-dev.txt
+        
+        # Install dependencies
         pip install --upgrade pip wheel setuptools
-        pip install "dbt-spark[PyHive]~=1.7.0" --upgrade
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
         dbt deps
+        
+        # Generate pip freeze for future cache hits
+        pip freeze > requirements-lock.txt
 
     - name: Verify Spark cluster and connection
       run: |
