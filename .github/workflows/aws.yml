@@ -108,7 +108,6 @@ jobs:
       run: |
         pip install --upgrade pip wheel setuptools
         pip install -Iv "dbt-spark[PyHive]"==1.7.0 --upgrade
-        dbt deps
 
     - name: Verify Spark cluster and connection
       run: |
@@ -121,6 +120,7 @@ jobs:
       run: |
         # Get service logs before attempting debug
         docker logs ${{ steps.spark-startup.outputs.container_name }}
+        dbt deps
         dbt debug --target spark_iceberg
 
     - name: Clean up before tests
