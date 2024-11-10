@@ -8,11 +8,11 @@ env:
   AWS_ROLE_ARN: "arn:aws:iam::719197435995:role/DbtSparkTestingActions"
   S3_BUCKET: "dbt-spark-iceberg/github-integration-testing"
   DBT_PROFILES_DIR: ./ci
-
+  CONTAINER_NAME: "2ceda09cbca2"  # We'll get this dynamically
   
 permissions:
-  id-token: write   # This is required for requesting the JWT
-  contents: read    # This is required for actions/checkout
+  id-token: write
+  contents: read
 
 jobs:
   list_s3_objects:
@@ -20,14 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        # Run tests from integration_tests sub dir
         working-directory: .github/workflows/spark_deployment
     steps:
-    # Move checkout earlier in the process
     - name: Check out repository
       uses: actions/checkout@v4
 
-    # Configure AWS credentials using OIDC
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -39,22 +36,21 @@ jobs:
         role-duration-seconds: 3600
         output-credentials: true
 
+    - name: Verify AWS credentials and S3 access
+      run: |
+        aws sts get-caller-identity
+        aws s3 ls s3://${{ env.S3_BUCKET }} --summarize
+        # Test S3 write access
+        echo "test" > test.txt
+        aws s3 cp test.txt s3://${{ env.S3_BUCKET }}/test.txt
+        aws s3 rm s3://${{ env.S3_BUCKET }}/test.txt
+
     - name: Install Docker Compose
       run: |
         sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
         sudo chmod +x /usr/local/bin/docker-compose
+        docker-compose --version
 
-    # Verify AWS credentials are working
-    - name: Verify AWS CLI configuration
-      run: |
-        aws sts get-caller-identity
-        aws configure list
-
-    - name: List objects from S3 bucket
-      run: |
-        aws s3 ls s3://${{ env.S3_BUCKET }} --summarize
-
-    # Set up Docker environment with AWS credentials
     - name: Configure Docker environment
       run: |
         # Export AWS credentials from assumed role
@@ -62,11 +58,11 @@ jobs:
         export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key)
         export AWS_SESSION_TOKEN=$(aws configure get aws_session_token)
         
-        # Create Docker environment file
-        echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" >> .env
-        echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" >> .env
-        echo "AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN" >> .env
-        echo "AWS_REGION=${{ env.AWS_REGION }}" >> .env
+        # Create Docker environment file with proper escaping
+        echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" > .env
+        echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" > .env
+        echo "AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}" >> .env
+        echo "AWS_REGION=${AWS_REGION}" >> .env
 
     - name: Configure Docker credentials
       uses: docker/login-action@v2
@@ -74,22 +70,40 @@ jobs:
         username: ${{ secrets.DOCKERHUB_SNOWPLOWCI_READ_USERNAME }}
         password: ${{ secrets.DOCKERHUB_SNOWPLOWCI_READ_PASSWORD }}
 
+    - name: Clean up Docker
+      run: |
+        docker system prune -af
+        docker volume prune -f
+
     - name: Build and start Spark cluster
       run: |
-        # # Use environment variables from .env file
-        # set -a
-        # source ./.env
-        # set +a
-        
         docker-compose up -d
         echo "Waiting for Spark services to start..."
-        sleep 90
+        sleep 30  # Initial wait
         
+        # Get container ID and store it
+        export CONTAINER_NAME=$(docker ps --format '{{.Names}}' | grep thrift-server)
+        echo "CONTAINER_NAME=${CONTAINER_NAME}" >> $GITHUB_ENV
+        
+        # Wait for Spark to be fully initialized
+        for i in {1..30}; do
+          if docker logs ${CONTAINER_NAME} 2>&1 | grep -q "HiveThriftServer2 started"; then
+            echo "Spark initialized successfully"
+            break
+          fi
+          echo "Waiting for Spark initialization... attempt $i"
+          sleep 3
+        done
+        
+        # Verify Spark is running
+        docker ps
+        docker logs ${CONTAINER_NAME}
 
     - name: Python setup
       uses: actions/setup-python@v4
       with:
         python-version: "3.8.x"
+        cache: 'pip'
 
     - name: Install spark dependencies
       working-directory: ./integration_tests
@@ -98,42 +112,52 @@ jobs:
         pip install "dbt-spark[PyHive]~=1.7.0" --upgrade
         dbt deps
 
-    # Verify Spark cluster is running
-    - name: Verify Spark cluster
+    - name: Verify Spark cluster and connection
       run: |
         docker ps
-        docker logs spark_deployment_thrift-server_1
-        docker exec spark_deployment_thrift-server_1 cat /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out
+        docker logs ${CONTAINER_NAME}
+        docker exec ${CONTAINER_NAME} beeline -u "jdbc:hive2://localhost:10000" -e "show databases;"
 
-    - name: "DBT Debug"
+    - name: Run DBT Debug
       working-directory: ./integration_tests
       run: |
+        # Get service logs before attempting debug
+        docker logs ${CONTAINER_NAME}
         dbt debug --target spark_iceberg
 
-    - name: "After DBT Debug logs"
-      if: always()
-      run: |
-        docker ps
-        docker logs spark_deployment_thrift-server_1
-        docker exec spark_deployment_thrift-server_1 beeline -u "jdbc:hive2://localhost:10000"
-        docker exec spark_deployment_thrift-server_1 ls -l /spark/logs
-      
-    - name: "Pre-test: Drop ci schemas"
+    - name: Clean up before tests
       working-directory: ./integration_tests
-      run: |
-        dbt run-operation post_ci_cleanup --target spark_iceberg
+      run: dbt run-operation post_ci_cleanup --target spark_iceberg
 
     - name: Run tests
       working-directory: ./integration_tests
-      run: ./.scripts/integration_test.sh -d spark_iceberg
-
-    - name: "Post-test: Drop ci schemas"
-      working-directory: ./integration_tests
       run: |
-        dbt run-operation post_ci_cleanup --target spark_iceberg
+        set -e
+        ./.scripts/integration_test.sh -d spark_iceberg
+
+    - name: Capture Spark logs on failure
+      if: failure()
+      run: |
+        echo "Capturing Spark logs..."
+        docker logs ${CONTAINER_NAME} > spark_logs.txt
+        cat spark_logs.txt
+        
+        echo "Capturing Spark UI details..."
+        curl -v http://localhost:4040/api/v1/applications > spark_ui.txt || true
+        cat spark_ui.txt
+
+    - name: Upload logs as artifact
+      if: failure()
+      uses: actions/upload-artifact@v2
+      with:
+        name: spark-logs
+        path: |
+          spark_logs.txt
+          spark_ui.txt
 
     - name: Cleanup
       if: always()
       run: |
-        docker-compose -f .github/workflows/spark_deployment/docker-compose.yml down
-        rm -f .env  # Remove the environment file with credentials
+        docker-compose down
+        docker system prune -af
+        rm -f .env
