@@ -41,7 +41,7 @@ services:
               --conf spark.sql.catalog.spark_catalog.warehouse=s3a://dbt-spark-iceberg/github-integration-testing \
               --conf spark.sql.catalog.spark_catalog.io-impl=org.apache.iceberg.aws.s3.S3FileIO \
               --conf spark.sql.defaultCatalog=spark_catalog \
-              --conf spark.sql.catalog.spark_catalog.default-namespace=default_snowplow_manifest \
+              --conf spark.sql.catalog.spark_catalog.default-namespace=default \
               --conf spark.sql.catalog.spark_catalog.table-default.write.object-storage.enabled=true \
               --conf spark.sql.catalog.spark_catalog.table-default.write.wap.enabled=true \
               --conf spark.sql.catalog.spark_catalog.table-default.merge.cardinality.check.enabled=false \
