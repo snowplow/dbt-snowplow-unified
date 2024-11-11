@@ -30,21 +30,6 @@ services:
       - ./spark-defaults.conf:/spark/conf/spark-defaults.conf
       - ./setup.sh:/setup.sh
     entrypoint: ["/bin/bash", "/setup.sh"]
-    command: ["/bin/bash", "-c", "/spark/sbin/start-thriftserver.sh \
-              --master local[3] \
-              --driver-memory 10g \
-              --executor-memory 3g \
-              --conf spark.sql.hive.thriftServer.async=true \
-              --conf spark.sql.hive.thriftServer.maxWorkerThreads=6 \
-              --conf spark.sql.warehouse.dir=s3a://dbt-spark-iceberg/github-integration-testing \
-              --conf spark.sql.catalog.glue=org.apache.iceberg.spark.SparkCatalog \
-              --conf spark.sql.catalog.glue.catalog-impl=org.apache.iceberg.aws.glue.GlueCatalog \
-              --conf spark.sql.catalog.glue.warehouse=s3a://dbt-spark-iceberg/github-integration-testing \
-              --conf spark.sql.catalog.glue.io-impl=org.apache.iceberg.aws.s3.S3FileIO \
-              --conf spark.sql.defaultCatalog=glue \
-              --conf spark.sql.catalog.glue.database=dbt-spark-iceberg \
-              --conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
-              --conf spark.sql.iceberg.handle-timestamp-without-timezone=true \
-              && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
+    command: ["/bin/bash", "-c", "/spark/sbin/start-thriftserver.sh && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
     networks:
       - spark-network
