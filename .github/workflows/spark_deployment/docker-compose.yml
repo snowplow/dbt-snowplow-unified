@@ -36,21 +36,15 @@ services:
               --executor-memory 3g \
               --conf spark.sql.hive.thriftServer.async=true \
               --conf spark.sql.hive.thriftServer.maxWorkerThreads=6 \
-              --conf spark.sql.catalog.spark_catalog=org.apache.iceberg.spark.SparkCatalog \
-              --conf spark.sql.catalog.spark_catalog.catalog-impl=org.apache.iceberg.aws.glue.GlueCatalog \
-              --conf spark.sql.catalog.spark_catalog.warehouse=s3a://dbt-spark-iceberg/github-integration-testing \
-              --conf spark.sql.catalog.spark_catalog.io-impl=org.apache.iceberg.aws.s3.S3FileIO \
-              --conf spark.sql.defaultCatalog=spark_catalog \
-              --conf spark.sql.catalog.spark_catalog.default-namespace=default \
-              --conf spark.sql.catalog.spark_catalog.table-default.write.object-storage.enabled=true \
-              --conf spark.sql.catalog.spark_catalog.table-default.write.wap.enabled=true \
-              --conf spark.sql.catalog.spark_catalog.table-default.merge.cardinality.check.enabled=false \
-              --conf spark.sql.catalog.spark_catalog.table-default.write.distribution-mode=none \
-              --conf spark.sql.catalog.spark_catalog.table-default.write.update.mode=merge-on-read \
-              --conf spark.sql.catalog.spark_catalog.table-default.write.delete.mode=merge-on-read \
-              --conf spark.sql.catalog.spark_catalog.table-default.format-version=2 \
-              --conf spark.sql.catalog.spark_catalog.table-default.write.format.default=parquet \
+              --conf spark.sql.warehouse.dir=s3a://dbt-spark-iceberg/github-integration-testing \
+              --conf spark.sql.catalog.glue=org.apache.iceberg.spark.SparkCatalog \
+              --conf spark.sql.catalog.glue.catalog-impl=org.apache.iceberg.aws.glue.GlueCatalog \
+              --conf spark.sql.catalog.glue.warehouse=s3a://dbt-spark-iceberg/github-integration-testing \
+              --conf spark.sql.catalog.glue.io-impl=org.apache.iceberg.aws.s3.S3FileIO \
+              --conf spark.sql.defaultCatalog=glue \
+              --conf spark.sql.catalog.glue.database=dbt-spark-iceberg \
               --conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
+              --conf spark.sql.iceberg.handle-timestamp-without-timezone=true \
               && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
     networks:
       - spark-network
