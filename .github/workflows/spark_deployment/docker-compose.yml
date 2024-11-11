@@ -30,6 +30,10 @@ services:
       - ./spark-defaults.conf:/spark/conf/spark-defaults.conf
       - ./setup.sh:/setup.sh
     entrypoint: ["/bin/bash", "/setup.sh"]
-    command: ["/bin/bash", "-c", "/spark/sbin/start-thriftserver.sh && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
+    command: ["/bin/bash", "-c", "/spark/sbin/start-thriftserver.sh \
+              --master local[3] \
+              --driver-memory 10g \
+              --executor-memory 3g \
+              && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
     networks:
       - spark-network
