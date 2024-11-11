@@ -18,6 +18,11 @@ services:
       - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
       - AWS_REGION=eu-west-1
       - AWS_DEFAULT_REGION=eu-west-1
+      # Spark specific env vars
+      - SPARK_SCALA_VERSION=2.12
+      - SPARK_SQL_WAREHOUSE_DIR=s3a://dbt-spark-iceberg/github-integration-testing
+      - SPARK_CONF_DIR=/spark/conf
+      - SPARK_DEFAULT_CATALOG=glue
     deploy:
       resources:
         limits:
@@ -26,25 +31,25 @@ services:
         reservations:
           cpus: '2'
           memory: 10GB
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
     volumes:
       - ./spark-defaults.conf:/spark/conf/spark-defaults.conf
+      - ./spark-init.sql:/spark/init/spark-init.sql
       - ./setup.sh:/setup.sh
     entrypoint: ["/bin/bash", "/setup.sh"]
-    command: ["/bin/bash", "-c", "/spark/sbin/start-thriftserver.sh \
-              --master local[3] \
-              --driver-memory 10g \
-              --executor-memory 3g \
-              --conf spark.sql.hive.thriftServer.async=true \
-              --conf spark.sql.hive.thriftServer.maxWorkerThreads=6 \
-              --conf spark.sql.hive.thriftServer.minWorkerThreads=3 \
-              --conf spark.hadoop.fs.s3a.connection.timeout=1200000 \
-              --conf spark.hadoop.fs.s3a.connection.establish.timeout=1200000 \
-              --conf spark.memory.offHeap.enabled=true \
-              --conf spark.memory.offHeap.size=2g \
-              && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
+    command: ["/bin/bash", "-c", "
+      /spark/sbin/start-thriftserver.sh \
+      --master local[3] \
+      --driver-memory 10g \
+      --executor-memory 3g \
+      --conf spark.sql.hive.thriftServer.async=true \
+      --conf spark.sql.hive.thriftServer.maxWorkerThreads=6 \
+      --conf spark.sql.catalog.glue=org.apache.iceberg.spark.SparkCatalog \
+      --conf spark.sql.catalog.glue.catalog-impl=org.apache.iceberg.aws.glue.GlueCatalog \
+      --conf spark.sql.catalog.glue.warehouse=s3a://dbt-spark-iceberg/github-integration-testing \
+      --conf spark.sql.defaultCatalog=glue \
+      --conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
+      --conf spark.sql.catalog.glue.default-namespace=default_snowplow_manifest \
+      --init-file /spark/init/spark-init.sql \
+      && tail -f /spark/logs/spark--org.apache.spark.sql.hive.thriftserver.HiveThriftServer2-*.out"]
     networks:
       - spark-network

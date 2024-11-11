@@ -49,6 +49,9 @@ models:
       write.format.default: parquet
       engine.hive.enabled: true
       write.distribution-mode: none
+      write.wap.enabled : true
+      write.object-storage.enabled: true
+      
 vars:
   snowplow_unified:
     snowplow__allow_null_dvce_tstamps: true
