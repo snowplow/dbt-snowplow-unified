@@ -27,6 +27,15 @@ quoting:
 models:
   snowplow_unified_integration_tests:
     +materialized: table
+    +tblproperties:
+      write.format.default: parquet
+      write.metadata.delete-after-commit.enabled: true
+      write.distribution-mode: hash
+      write.merge.mode: copy-on-write
+      format-version: '2'
+      write.target-file-size-bytes: '536870912'
+      write.metadata.previous-versions-max: '100'
+      write.update.mode: merge-on-read
     bind: false
     +schema: "snplw_unified_int_tests"
     source:
@@ -43,14 +52,14 @@ models:
   snowplow_unified:
     +file_format: iceberg
     +tblproperties:
-      format-version: '2'
-      write.update.mode: merge-on-read
-      write.delete.mode: merge-on-read
       write.format.default: parquet
-      engine.hive.enabled: true
-      write.distribution-mode: none
-      write.wap.enabled : true
-      write.object-storage.enabled: true
+      write.metadata.delete-after-commit.enabled: true
+      write.distribution-mode: hash
+      write.merge.mode: copy-on-write
+      format-version: '2'
+      write.target-file-size-bytes: '536870912'
+      write.metadata.previous-versions-max: '100'
+      write.update.mode: merge-on-read
       
 vars:
   snowplow_unified:
