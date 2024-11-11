@@ -40,6 +40,15 @@ models:
         +enabled: "{{ target.type == 'snowflake' | as_bool() }}"
       spark:
         +enabled: "{{ target.type == 'spark' | as_bool() }}"
+  snowplow_unified:
+    +file_format: iceberg
+    +tblproperties:
+      format-version: '2'
+      write.update.mode: merge-on-read
+      write.delete.mode: merge-on-read
+      write.format.default: parquet
+      engine.hive.enabled: true
+      write.distribution-mode: none
 vars:
   snowplow_unified:
     snowplow__allow_null_dvce_tstamps: true
