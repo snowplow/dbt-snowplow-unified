@@ -31,11 +31,12 @@ models:
       write.format.default: parquet
       write.metadata.delete-after-commit.enabled: true
       write.distribution-mode: hash
-      write.merge.mode: copy-on-write
+      write.merge.mode: merge-on-read
+      write.update.mode: merge-on-read
+      write.delete.mode: merge-on-read
       format-version: '2'
       write.target-file-size-bytes: '536870912'
       write.metadata.previous-versions-max: '100'
-      write.update.mode: merge-on-read
     bind: false
     +schema: "snplw_unified_int_tests"
     source:
@@ -55,12 +56,12 @@ models:
       write.format.default: parquet
       write.metadata.delete-after-commit.enabled: true
       write.distribution-mode: hash
-      write.merge.mode: copy-on-write
+      write.merge.mode: merge-on-read
+      write.update.mode: merge-on-read
+      write.delete.mode: merge-on-read
       format-version: '2'
       write.target-file-size-bytes: '536870912'
       write.metadata.previous-versions-max: '100'
-      write.update.mode: merge-on-read
-      
 vars:
   snowplow_unified:
     snowplow__allow_null_dvce_tstamps: true
