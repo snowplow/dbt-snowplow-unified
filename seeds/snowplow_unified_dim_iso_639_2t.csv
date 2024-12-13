@@ -11,7 +11,6 @@ afr,af,Afrikaans
 ain,,Ainu
 aka,ak,Akan
 akk,,Akkadian
-sqi,sq,Albanian
 ale,,Aleut
 alg,,Algonquian languages
 alt,,Southern Altai
@@ -42,7 +41,6 @@ bak,ba,Bashkir
 bal,,Baluchi
 bam,bm,Bambara
 ban,,Balinese
-eus,eu,Basque
 bas,,Basa
 bat,,Baltic languages
 bej,,Beja; Bedawiyet
@@ -102,8 +100,6 @@ crh,,Crimean Tatar; Crimean Turkish
 crp,,Creoles and pidgins
 csb,,Kashubian
 cus,,Cushitic languages
-cym,cy,Welsh
-ces,cs,Czech
 dak,,Dakota
 dan,da,Danish
 dar,,Dargwa
@@ -119,7 +115,6 @@ dra,,Dravidian languages
 dsb,,Lower Sorbian
 dua,,Duala
 dum,,"Dutch, Middle (ca.1050-1350)"
-nld,nl,Dutch; Flemish
 dyu,,Dyula
 dzo,dz,Dzongkha
 efi,,Efik
@@ -144,7 +139,6 @@ fin,fi,Finnish
 fiu,,Finno-Ugrian languages
 fon,,Fon
 fra,fr,French
-fra,fr,French
 frm,,"French, Middle (ca.1400-1600)"
 fro,,"French, Old (842-ca.1400)"
 frr,,Northern Frisian
@@ -157,7 +151,6 @@ gay,,Gayo
 gba,,Gbaya
 gem,,Germanic languages
 kat,ka,Georgian
-deu,de,German
 gez,,Geez
 gil,,Gilbertese
 gla,gd,Gaelic; Scottish Gaelic
@@ -171,7 +164,6 @@ gor,,Gorontalo
 got,,Gothic
 grb,,Grebo
 grc,,"Greek, Ancient (to 1453)"
-ell,el,"Greek, Modern (1453-)"
 grn,gn,Guarani
 gsw,,Swiss German; Alemannic; Alsatian
 guj,gu,Gujarati
@@ -192,10 +184,8 @@ hrv,hr,Croatian
 hsb,,Upper Sorbian
 hun,hu,Hungarian
 hup,,Hupa
-hye,hy,Armenian
 iba,,Iban
 ibo,ig,Igbo
-isl,is,Icelandic
 ido,io,Ido
 iii,ii,Sichuan Yi; Nuosu
 ijo,,Ijo languages
@@ -225,7 +215,6 @@ kam,,Kamba
 kan,kn,Kannada
 kar,,Karen languages
 kas,ks,Kashmiri
-kat,ka,Georgian
 kau,kr,Kanuri
 kaw,,Kawi
 kaz,kk,Kazakh
@@ -272,7 +261,6 @@ lui,,Luiseno
 lun,,Lunda
 luo,,Luo (Kenya and Tanzania)
 lus,,Lushai
-mkd,mk,Macedonian
 mad,,Madurese
 mag,,Magahi
 mah,mh,Marshallese
@@ -280,11 +268,9 @@ mai,,Maithili
 mak,,Makasar
 mal,ml,Malayalam
 man,,Mandingo
-mri,mi,Maori
 map,,Austronesian languages
 mar,mr,Marathi
 mas,,Masai
-msa,ms,Malay
 mdf,,Moksha
 mdr,,Mandar
 men,,Mende
@@ -309,7 +295,6 @@ mun,,Munda languages
 mus,,Creek
 mwl,,Mirandese
 mwr,,Marwari
-mya,my,Burmese
 myn,,Mayan languages
 myv,,Erzya
 nah,,Nahuatl languages
@@ -357,7 +342,6 @@ pan,pa,Panjabi; Punjabi
 pap,,Papiamento
 pau,,Palauan
 peo,,"Persian, Old (ca.600-400 B.C.)"
-fas,fa,Persian
 phi,,Philippine languages
 phn,,Phoenician
 pli,pi,Pali
@@ -375,7 +359,6 @@ rar,,Rarotongan; Cook Islands Maori
 roa,,Romance languages
 roh,rm,Romansh
 rom,,Romany
-ron,ro,Romanian; Moldavian; Moldovan
 ron,ro,Romanian; Moldavian; Moldovan
 run,rn,Rundi
 rup,,Aromanian; Arumanian; Macedo-Romanian
@@ -401,7 +384,6 @@ sin,si,Sinhala; Sinhalese
 sio,,Siouan languages
 sit,,Sino-Tibetan languages
 sla,,Slavic languages
-slk,sk,Slovak
 slk,sk,Slovak
 slv,sl,Slovenian
 sma,,Southern Sami
@@ -445,7 +427,6 @@ tet,,Tetum
 tgk,tg,Tajik
 tgl,tl,Tagalog
 tha,th,Thai
-bod,bo,Tibetan
 tig,,Tigre
 tir,ti,Tigrinya
 tiv,,Tiv
@@ -500,7 +481,6 @@ zbl,,Blissymbols; Blissymbolics; Bliss
 zen,,Zenaga
 zgh,,Standard Moroccan Tamazight
 zha,za,Zhuang; Chuang
-zho,zh,Chinese
 znd,,Zande languages
 zul,zu,Zulu
 zun,,Zuni
