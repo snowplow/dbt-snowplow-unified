@@ -25,7 +25,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           'contexts_com_snowplowanalytics_mobile_application_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__application_context')
       ],
       "snowplow__enable_browser_context": [
-          'contexts_com_snowplowanalytics_snowplow_web_page_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__browser_context')
+          'com_snowplowanalytics_snowplow_browser_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__browser_context')
       ],
       "snowplow__enable_geolocation_context": [
           'contexts_com_snowplowanalytics_snowplow_geolocation_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__geolocation_context')
@@ -48,7 +48,15 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       ],
       "snowplow__enable_app_errors": [
           'unstruct_event_com_snowplowanalytics_snowplow_application_error_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__application_error_events')
+      ],
+      "snowplow__enable_mobile": [
+          'contexts_com_snowplowanalytics_snowplow_client_session_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__session_context'),
+          'unstruct_event_com_snowplowanalytics_mobile_screen_view_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__screen_context'),
+      ],
+      "snowplow__enable_web": [
+          'contexts_com_snowplowanalytics_snowplow_web_page_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__page_view_context'),
       ]
+      
   }
 
   %}
