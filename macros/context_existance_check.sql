@@ -51,10 +51,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       ],
       "snowplow__enable_mobile": [
           'contexts_com_snowplowanalytics_snowplow_client_session_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__session_context'),
-          'unstruct_event_com_snowplowanalytics_mobile_screen_view_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__screen_context'),
+          'unstruct_event_com_snowplowanalytics_mobile_screen_view_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__screen_context')
       ],
       "snowplow__enable_web": [
-          'contexts_com_snowplowanalytics_snowplow_web_page_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__page_view_context'),
+          'contexts_com_snowplowanalytics_snowplow_web_page_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__page_view_context')
       ]
       
   }
