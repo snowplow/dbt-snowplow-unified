@@ -29,6 +29,9 @@ seeds:
     description: A mapping between the ISO 639-1 and ISO 639-2/T language code to the full name of the language. Source https://www.loc.gov/standards/iso639-2/php/code_list.php
     columns:
       - name: iso_639_2t_code
+        data_tests:
+          - unique
+          - not_null
       - name: iso_639_1_code
       - name: name
   - name: snowplow_unified_dim_iso_639_3
