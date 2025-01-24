@@ -27,6 +27,16 @@ quoting:
 models:
   snowplow_unified_integration_tests:
     +materialized: table
+    +tblproperties:
+      write.format.default: parquet
+      write.metadata.delete-after-commit.enabled: true
+      write.distribution-mode: hash
+      write.merge.mode: merge-on-read
+      write.update.mode: merge-on-read
+      write.delete.mode: merge-on-read
+      format-version: '2'
+      write.target-file-size-bytes: '536870912'
+      write.metadata.previous-versions-max: '100'
     bind: false
     +schema: "snplw_unified_int_tests"
     source:
@@ -40,6 +50,18 @@ models:
         +enabled: "{{ target.type == 'snowflake' | as_bool() }}"
       spark:
         +enabled: "{{ target.type == 'spark' | as_bool() }}"
+  snowplow_unified:
+    +file_format: iceberg
+    +tblproperties:
+      write.format.default: parquet
+      write.metadata.delete-after-commit.enabled: true
+      write.distribution-mode: hash
+      write.merge.mode: merge-on-read
+      write.update.mode: merge-on-read
+      write.delete.mode: merge-on-read
+      format-version: '2'
+      write.target-file-size-bytes: '536870912'
+      write.metadata.previous-versions-max: '100'
 vars:
   snowplow_unified:
     snowplow__allow_null_dvce_tstamps: true
