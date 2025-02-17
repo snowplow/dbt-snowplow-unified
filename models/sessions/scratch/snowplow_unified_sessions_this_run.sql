@@ -64,7 +64,7 @@ with session_firsts as (
           {{ snowplow_unified.mobile_context_fields('ev')}}
         {% endif %}
 
-        {% if target.type in ['postgres','spark'] %}
+        {% if target.type in ['postgres','spark','redshift'] %}
           , row_number() over (partition by ev.session_identifier order by ev.derived_tstamp, ev.dvce_created_tstamp, ev.event_id) as session_dedupe_index
         {% endif %}
 
@@ -103,7 +103,7 @@ with session_firsts as (
       {{ snowplow_unified.filter_bots() }}
     {% endif %}
 
-    {% if target.type not in ['postgres','spark'] %}
+    {% if target.type not in ['postgres','spark','redshift'] %}
       qualify row_number() over (partition by session_identifier order by derived_tstamp, dvce_created_tstamp, event_id) = 1
     {% endif %}
 )
@@ -136,7 +136,7 @@ with session_firsts as (
         ev.screen_view__type as last_screen_view__type,
       {% endif %}
 
-      {% if target.type in ['postgres','spark'] %}
+      {% if target.type in ['postgres','spark','redshift'] %}
         row_number() over (partition by ev.session_identifier order by ev.derived_tstamp desc, ev.dvce_created_tstamp desc, ev.event_id) AS session_dedupe_index,
       {% endif %}
 
@@ -154,7 +154,7 @@ with session_firsts as (
             {{ snowplow_unified.filter_bots() }}
         {% endif %}
 
-    {% if target.type not in ['postgres','spark'] %}
+    {% if target.type not in ['postgres','spark','redshift'] %}
       qualify row_number() over (partition by session_identifier order by derived_tstamp desc, dvce_created_tstamp desc, event_id) = 1
     {% endif %}
 )
@@ -462,7 +462,7 @@ from session_firsts f
 left join session_lasts l
 on f.session_identifier = l.session_identifier
 
-{% if target.type in ['postgres','spark'] %}
+{% if target.type in ['postgres','spark','redshift'] %}
   and l.session_dedupe_index = 1
 {%- endif %}
 
@@ -482,6 +482,6 @@ left join session_convs d on f.session_identifier = d.session_identifier
   -- in order to get a language name that will match the mapping of the two letter code
   left join {{ ref(var('snowplow__iso_639_3_seed')) }} iso_639_3 on lower(f.mobile__language) = lower(iso_639_3.iso_639_3_code)
 {%- endif %}
-{% if target.type in ['postgres','spark'] %}
+{% if target.type in ['postgres','spark','redshift'] %}
 where f.session_dedupe_index = 1
 {%- endif %}
