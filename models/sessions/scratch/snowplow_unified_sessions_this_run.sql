@@ -236,6 +236,16 @@ with session_firsts as (
   {% endif %}
 )
 
+{%- if var('snowplow__enable_mobile_context') %}
+
+, iso_639_3_deduped AS (
+    select *,
+      row_number() over (partition by iso_639_3_code ORDER BY name) as row_num
+    from {{ ref(var('snowplow__iso_639_3_seed')) }}
+)
+
+{% endif %}
+
 -- Redshift does not allow listagg and other aggregations in the same CTE
 {%- if var('snowplow__conversion_events', none) %}
 ,session_convs as (
@@ -480,7 +490,8 @@ left join session_convs d on f.session_identifier = d.session_identifier
   left join {{ ref(var('snowplow__iso_639_2t_seed')) }} iso_639_2t_3_char on lower(f.mobile__language) = lower(iso_639_2t_3_char.iso_639_2t_code)
   -- A fallback to the three letter code, with a more complete list, we first try to join on the other dataset the three letter code
   -- in order to get a language name that will match the mapping of the two letter code
-  left join {{ ref(var('snowplow__iso_639_3_seed')) }} iso_639_3 on lower(f.mobile__language) = lower(iso_639_3.iso_639_3_code)
+  left join iso_639_3_deduped iso_639_3 on lower(f.mobile__language) = lower(iso_639_3.iso_639_3_code)
+    and iso_639_3.row_num = 1
 {%- endif %}
 {% if target.type in ['postgres','spark'] %}
 where f.session_dedupe_index = 1
