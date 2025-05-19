@@ -25,10 +25,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
           'contexts_com_snowplowanalytics_mobile_application_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__application_context')
       ],
       "snowplow__enable_browser_context": [
-          'com_snowplowanalytics_snowplow_browser_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__browser_context')
+          'contexts_com_snowplowanalytics_snowplow_browser_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__browser_context')
       ],
       "snowplow__enable_browser_context_2": [
-          'com_snowplowanalytics_snowplow_browser_context_2' if target.type not in ['redshift', 'postgres'] else var('snowplow__browser_context_2')
+          'contexts_com_snowplowanalytics_snowplow_browser_context_2' if target.type not in ['redshift', 'postgres'] else var('snowplow__browser_context_2')
       ],
       "snowplow__enable_geolocation_context": [
           'contexts_com_snowplowanalytics_snowplow_geolocation_context_1' if target.type not in ['redshift', 'postgres'] else var('snowplow__geolocation_context')
