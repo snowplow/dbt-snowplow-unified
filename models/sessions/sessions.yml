@@ -158,7 +158,6 @@ models:
         description: '{{ doc("col_app_set_id") }}'
       - name: mobile__app_set_id_scope
         description: '{{ doc("col_app_set_id_scope") }}'
-        description: '{{ doc("col_geo_country") }}'
       - name: first_geo_country_name
         description: '{{ doc("col_geo_country_name") }} {{ doc("first_session") }}'
       - name: first_geo_continent
