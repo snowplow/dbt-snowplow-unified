@@ -11,7 +11,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro default__conversion_query(conv_object, names_only = false) %}
 {% if execute %}
-{% do exceptions.raise_compiler_error('Macro get_field only supports Bigquery, Snowflake, Spark, Databricks, Postgres, and Redshift, it is not supported for ' ~ target.type) %}
+{% do exceptions.raise_compiler_error('Macro get_field only supports Bigquery, Snowflake, Spark, Databricks, Postgres, and Redshift, DuckDB it is not supported for ' ~ target.type) %}
 {% endif %}
 {% endmacro %}
 
@@ -168,6 +168,37 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {%- endif %}
 {%- if conv_object.get('value', none) %}
 ,coalesce(cv_{{ conv_object['name'] }}_values, cast(null as super)) as cv_{{ conv_object['name'] }}_values
+,coalesce(cv_{{ conv_object['name'] }}_total, 0) as cv_{{ conv_object['name'] }}_total
+{%- endif %}
+,cv_{{ conv_object['name'] }}_first_conversion
+,coalesce(cv_{{ conv_object['name'] }}_converted, false) as cv_{{ conv_object['name'] }}_converted
+{%- endif %}
+{% endmacro %}
+
+{% macro duckdb__conversion_query(conv_object = {}, names_only = false) %}
+
+{% set when_condition = "cv_type = '"~ conv_object['name'] ~"'" if var('snowplow__enable_conversions', false) else conv_object['condition'] %}
+{% set then_condition = "cv_value" if var('snowplow__enable_conversions', false) else conv_object['value'] %}
+{% set tstamp_field = "cv_tstamp" if var('snowplow__enable_conversions', false) else "derived_tstamp" %}
+
+{%- if not names_only %}
+,COUNT(CASE WHEN {{ when_condition }} THEN 1 END) AS cv_{{ conv_object['name'] }}_volume
+{%- if conv_object.get('list_events', false) %}
+,ARRAY_AGG(CASE WHEN {{ when_condition }} THEN event_id END ORDER BY {{ tstamp_field }}, dvce_created_tstamp, event_id) FILTER (WHERE CASE WHEN {{ when_condition }} THEN event_id END IS NOT NULL) AS cv_{{ conv_object['name'] }}_events
+{%- endif -%}
+{%- if conv_object.get('value', none) %}
+,ARRAY_AGG(CASE WHEN {{ when_condition }} THEN coalesce({{ then_condition }},{{ conv_object.get('default_value', 0) }}) END ORDER BY {{ tstamp_field }}, dvce_created_tstamp, event_id) FILTER (WHERE CASE WHEN {{ when_condition }} THEN {{ then_condition }} END IS NOT NULL) AS cv_{{ conv_object['name'] }}_values
+,SUM(CASE WHEN {{ when_condition }} THEN coalesce({{ then_condition }}, {{ conv_object.get('default_value', 0) }}) ELSE 0 END) AS cv_{{ conv_object['name'] }}_total
+{%- endif -%}
+,MIN(CASE WHEN {{ when_condition }} THEN {{ tstamp_field }} END) AS cv_{{ conv_object['name'] }}_first_conversion
+,CAST(MAX(CASE WHEN {{ when_condition }} THEN 1 ELSE 0 END) AS BOOL) AS cv_{{ conv_object['name'] }}_converted
+{%- else -%}
+,coalesce(cv_{{ conv_object['name'] }}_volume, 0) as cv_{{ conv_object['name'] }}_volume
+{%- if conv_object.get('list_events', false) %}
+,coalesce(cv_{{ conv_object['name'] }}_events, ARRAY[]) as cv_{{ conv_object['name'] }}_events
+{%- endif %}
+{%- if conv_object.get('value', none) %}
+,coalesce(cv_{{ conv_object['name'] }}_values, ARRAY[]) as cv_{{ conv_object['name'] }}_values
 ,coalesce(cv_{{ conv_object['name'] }}_total, 0) as cv_{{ conv_object['name'] }}_total
 {%- endif %}
 ,cv_{{ conv_object['name'] }}_first_conversion

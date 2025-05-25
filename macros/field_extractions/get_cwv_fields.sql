@@ -101,3 +101,23 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ dbt.type_string() }}) as cwv__navigation_type
     {% endif %}
 {% endmacro %}
+
+{% macro duckdb__get_cwv_fields() %}
+  {% if var('snowplow__enable_cwv', false) %}
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'lcp' as decimal(14,4)) as cwv__lcp
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'fcp' as decimal(14,4)) as cwv__fcp
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'fid' as decimal(14,4)) as cwv__fid
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'cls' as decimal(14,4)) as cwv__cls
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'inp' as decimal(14,4)) as cwv__inp
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'ttfb' as decimal(14,4)) as cwv__ttfb
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'navigation_type' as string) as cwv__navigation_type
+  {% else %}
+    , cast(null as decimal(14,4)) as cwv__lcp,
+    , cast(null as decimal(14,4)) as cwv__fcp,
+    , cast(null as decimal(14,4)) as cwv__fid,
+    , cast(null as decimal(14,4)) as cwv__cls,
+    , cast(null as decimal(14,4)) as cwv__inp,
+    , cast(null as decimal(14,4)) as cwv__ttfb,
+    , cast(null as {{ dbt.type_string() }}) as cwv__navigation_type
+  {% endif %}
+{% endmacro %}

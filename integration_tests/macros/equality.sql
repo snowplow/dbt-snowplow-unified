@@ -106,6 +106,8 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
     {% set compare_cols_csv = compare_columns | join(', ') %}
 
+    {{ log("compare_cols_csv: " ~ compare_cols_csv, info=True) }}
+
 {% else %}
     {#-
         If rounding is required, we need to get the types, so it can't be ephermeral
@@ -131,7 +133,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
     {% set compare_cols_csv = columns_list | join(', ') %}
 
+    {{ log("compare_cols_csv: " ~ compare_cols_csv, info=True) }}
+
 {% endif %}
+
+{{ log("model: " ~ model, info=True) }}
+{{ log("compare_model: " ~ compare_model, info=True) }}
+{{ log("compare_cols_csv: " ~ compare_cols_csv, info=True) }}
 
 with a as (
 

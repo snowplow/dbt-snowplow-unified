@@ -23,7 +23,7 @@ Select
     ('content_height', 'int'),
     ('content_width', 'int'),
   ] %}
-    {% if target.type == 'postgres' -%}
+    {% if target.type in ['postgres', 'duckdb'] -%}
       (
         {{ col }}::json->0 ->>'{{ att }}'
       )::{{ type}} as {{ att }},

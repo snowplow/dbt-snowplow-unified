@@ -54,10 +54,14 @@ env:
   POSTGRES_TEST_HOST: ${{ secrets.POSTGRES_TEST_HOST }}
   POSTGRES_TEST_PORT: ${{ secrets.POSTGRES_TEST_PORT }}
 
+  # Databricks Connection
   DATABRICKS_TEST_HOST: ${{ secrets.DATABRICKS_TEST_HOST }}
   DATABRICKS_TEST_HTTP_PATH: ${{ secrets.DATABRICKS_TEST_HTTP_PATH }}
   DATABRICKS_TEST_TOKEN: ${{ secrets.DATABRICKS_TEST_TOKEN }}
   DATABRICKS_TEST_ENDPOINT: ${{ secrets.DATABRICKS_TEST_ENDPOINT }}
+
+  # DuckDB Connection
+  DUCKDB_DB_PATH: "test.db"
 
 jobs:
   pr_tests:
@@ -71,7 +75,7 @@ jobs:
       fail-fast: false
       matrix:
         dbt_version: ["1.*"]
-        warehouse: ["postgres", "bigquery", "snowflake", "databricks", "redshift", "spark_iceberg"] # TODO: Add RS self-hosted runner
+        warehouse: ["postgres", "bigquery", "snowflake", "databricks", "redshift", "spark_iceberg", "duckdb"] # TODO: Add RS self-hosted runner
     services:
       postgres:
         image: postgres:latest
@@ -163,6 +167,7 @@ jobs:
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
+        if: ${{env.WAREHOUSE_PLATFORM != 'duckdb'}}
 
       
       - name: Build and start Spark cluster

@@ -118,3 +118,27 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ dbt.type_string() }}) as app_error__thread_name
   {% endif %}
 {% endmacro %}
+
+{% macro duckdb__get_app_error_event_fields() %}
+  {% if var('snowplow__enable_app_errors', false) %}
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_application_error_1->>'message' as STRING) AS app_error__message
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_application_error_1->>'programming_language' as STRING) AS app_error__programming_language
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_application_error_1->>'class_name' as STRING) AS app_error__class_name
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_application_error_1->>'exception_name' as STRING) AS app_error__exception_name
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_application_error_1->>'is_fatal' as BOOLEAN) AS app_error__is_fatal
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_application_error_1->>'line_number' as INT) AS app_error__line_number
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_application_error_1->>'stack_trace' as STRING) AS app_error__stack_trace
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_application_error_1->>'thread_id' as INT) AS app_error__thread_id
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_application_error_1->>'thread_name' as STRING) AS app_error__thread_name
+  {% else %}
+    , cast(null as {{ dbt.type_string() }}) as app_error__message
+    , cast(null as {{ dbt.type_string() }}) as app_error__programming_language
+    , cast(null as {{ dbt.type_string() }}) as app_error__class_name
+    , cast(null as {{ dbt.type_string() }}) as app_error__exception_name
+    , cast(null as {{ dbt.type_boolean() }}) as app_error__is_fatal
+    , cast(null as {{ dbt.type_int() }}) as app_error__line_number
+    , cast(null as {{ dbt.type_string() }}) as app_error__stack_trace
+    , cast(null as {{ dbt.type_int() }}) as app_error__thread_id
+    , cast(null as {{ dbt.type_string() }}) as app_error__thread_name
+  {% endif %}
+{% endmacro %}

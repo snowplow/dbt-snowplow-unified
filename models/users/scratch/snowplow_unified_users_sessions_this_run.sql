@@ -18,7 +18,7 @@ select
   min(a.start_tstamp) over(partition by a.user_identifier) as user_start_tstamp,
   max(a.end_tstamp) over(partition by a.user_identifier) as user_end_tstamp,
   
-{% if target.type in ['redshift', 'postgres'] %}
+{% if target.type in ['redshift', 'postgres','duckdb'] %}
   max(cast(case when platform = 'web' then true else false end as {{ dbt.type_int() }})) over(partition by user_identifier) as on_web,
   max(cast(case when platform <> 'web' then true else false end as {{ dbt.type_int() }})) over(partition by user_identifier) as on_mobile
 

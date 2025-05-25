@@ -49,3 +49,11 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       , cast(null as {{ dbt.type_string() }}) as page_view__id
     {% endif %}
 {% endmacro %}
+
+{% macro duckdb__get_web_page_context_fields() %}
+    {% if var('snowplow__enable_web', false) %}
+      , contexts_com_snowplowanalytics_snowplow_web_page_1->0->>'id'::varchar as page_view__id
+    {% else %}
+      , cast(null as {{ dbt.type_string() }}) as page_view__id
+    {% endif %}
+{% endmacro %}

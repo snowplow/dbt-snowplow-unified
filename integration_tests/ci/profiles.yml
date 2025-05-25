@@ -19,6 +19,13 @@ integration_tests:
       schema: "gh_sp_unified_dbt_{{ env_var('SCHEMA_SUFFIX') }}"
       threads: 4
 
+    duckdb:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_DB_PATH') }}"
+      dbname: "test"
+      schema: "main"
+      threads: 1
+
     redshift:
       type: redshift
       host: "{{ env_var('REDSHIFT_TEST_HOST') }}"
