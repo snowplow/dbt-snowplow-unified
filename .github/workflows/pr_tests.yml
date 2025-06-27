@@ -107,7 +107,7 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ env.AWS_ROLE_ARN }}Add commentMore actions
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
           role-session-name: dbt-pr-tests-${{ github.run_number }}
           aws-region: ${{ env.AWS_REGION }}
       - name: Set warehouse variables
