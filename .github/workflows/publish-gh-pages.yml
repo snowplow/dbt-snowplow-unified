@@ -106,7 +106,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install pip wheel setuptools
-        pip install -Iv dbt-${{ matrix.warehouse }}==${{ matrix.dbt_version }} --upgrade
+        pip install -Iv certifi==2025.1.31 dbt-${{ matrix.warehouse }}==${{ matrix.dbt_version }} --upgrade
         dbt deps
 
     - name: Create dbt docs
