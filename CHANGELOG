@@ -1,3 +1,12 @@
+snowplow-unified 0.5.4 (2025-07-04)
+---------------------------------------
+
+## Summary
+This release updates the `channel_group_query()` macro so that the new `chatbot` referer medium category is recognised and classified as a separate channel category.
+
+## Upgrading
+- Update the snowplow-unified version in your `packages.yml` file. If you have a custom version of this macro overridden in your project, please review and update it accordingly to ensure the new chatbot category is handled correctly.
+
 snowplow-unified 0.5.3 (2025-05-23)
 ---------------------------------------
 

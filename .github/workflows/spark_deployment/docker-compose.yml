@@ -19,6 +19,7 @@ services:
       - SPARK_MASTER_OPTS="-Dspark.driver.memory=2g"
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
       - AWS_REGION=eu-west-1
       - AWS_DEFAULT_REGION=eu-west-1
     volumes:
@@ -39,6 +40,7 @@ services:
       - SPARK_MASTER=spark://spark-master:7077
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
       - AWS_REGION=eu-west-1
       - AWS_DEFAULT_REGION=eu-west-1
     volumes:
@@ -58,6 +60,7 @@ services:
       - SPARK_LOCAL_IP=thrift-server
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
       - AWS_REGION=eu-west-1
       - AWS_DEFAULT_REGION=eu-west-1
     volumes:
