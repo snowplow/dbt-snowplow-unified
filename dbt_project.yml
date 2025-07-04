@@ -146,6 +146,7 @@ vars:
     snowplow__screen_view_events: com_snowplowanalytics_mobile_screen_view_1
     snowplow__deep_link_context: com_snowplowanalytics_mobile_deep_link_1
     snowplow__screen_summary_context: com_snowplowanalytics_mobile_screen_summary_1
+    snowplow__license_accepted: false
 
 
 # Completely or partially remove models from the manifest during run start.
