@@ -1,3 +1,11 @@
+# This packages.yml has been modified to enable fetching the dependencies from the snowplow utils github branch that contains the license checking macro ("feature/AISP-514/utils-license-acceptance-check").
+# This is being done for testing purposes and will be reverted back to the original once testing has completed and snowplow utils has been released (at which stage the license checking macro will become part of utils main branch).
+
 packages:
-  - package: snowplow/snowplow_utils
-    version: [">=0.17.0", "<0.18.0"]
+  - git: "https://github.com/snowplow/dbt-snowplow-utils.git" # git repo URL
+    revision: "feature/AISP-514/utils-license-acceptance-check" # name of branch containing `dbt_project.yml`
+
+
+# for local testing:
+#packages:
+#  - local: "/Users/asad.manzoor/Documents/repos/dbt-snowplow-utils"
