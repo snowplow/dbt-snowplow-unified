@@ -58,7 +58,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro duckdb__get_cmp_visible_event_fields() %}
   {% if var('snowplow__enable_consent', false) %}
-      , cast(unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1.elapsed_time as float) as cmp__elapsed_time
+      , cast(unstruct_event_com_snowplowanalytics_snowplow_cmp_visible_1->>'elapsed_time' as float) as cmp__elapsed_time
 
   {% else %}
       , cast(null as {{ dbt.type_float() }}) as cmp__elapsed_time
