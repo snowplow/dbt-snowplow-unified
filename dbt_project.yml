@@ -28,7 +28,7 @@ vars:
     # Please only add those that you change the values of to your root dbt_project.yml file, do not copy all values as this can lead to unexpected issues
     
     # LICENSE
-    snowplow__license_accepted: true
+    snowplow__license_accepted: false
     
     # WAREHOUSE & TRACKER
     # See https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/unified/ for more information
