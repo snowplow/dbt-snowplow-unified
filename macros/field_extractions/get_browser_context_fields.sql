@@ -337,84 +337,84 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro duckdb__get_browser_context_fields() %}
   {% if var('snowplow__enable_browser_context', false) and not var('snowplow__enable_browser_context_2', false) %}
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'viewport' as STRING) AS browser__viewport
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'document_size' as STRING) AS browser__document_size
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'documentSize' as STRING) AS browser__document_size
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'resolution' as STRING) AS browser__resolution
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'color_depth' as INT) AS browser__color_depth
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'device_pixel_ratio' as FLOAT) AS browser__device_pixel_ratio
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'cookies_enabled' as BOOLEAN) AS browser__cookies_enabled
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'colorDepth' as INT) AS browser__color_depth
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'devicePixelRatio' as FLOAT) AS browser__device_pixel_ratio
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'cookiesEnabled' as BOOLEAN) AS browser__cookies_enabled
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'online' as BOOLEAN) AS browser__online
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'browser_language' as STRING) AS browser__browser_language
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'document_language' as STRING) AS browser__document_language
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'browserLanguage' as STRING) AS browser__browser_language
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'documentLanguage' as STRING) AS browser__document_language
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'webdriver' as BOOLEAN) AS browser__webdriver
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'device_memory' as INT) AS browser__device_memory
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'hardware_concurrency' as INT) AS browser__hardware_concurrency
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'tab_id' as STRING) AS browser__tab_id
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'deviceMemory' as INT) AS browser__device_memory
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'hardwareConcurrency' as INT) AS browser__hardware_concurrency
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'tabId' as STRING) AS browser__tab_id
   {% elif not var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'viewport' as STRING) AS browser__viewport
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'document_size' as STRING) AS browser__document_size
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'documentSize' as STRING) AS browser__document_size
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'resolution' as STRING) AS browser__resolution
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'color_depth' as INT) AS browser__color_depth
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'device_pixel_ratio' as FLOAT) AS browser__device_pixel_ratio
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'cookies_enabled' as BOOLEAN) AS browser__cookies_enabled
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'colorDepth' as INT) AS browser__color_depth
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'devicePixelRatio' as FLOAT) AS browser__device_pixel_ratio
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'cookiesEnabled' as BOOLEAN) AS browser__cookies_enabled
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'online' as BOOLEAN) AS browser__online
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'browser_language' as STRING) AS browser__browser_language
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'document_language' as STRING) AS browser__document_language
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'browserLanguage' as STRING) AS browser__browser_language
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'documentLanguage' as STRING) AS browser__document_language
     , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'webdriver' as BOOLEAN) AS browser__webdriver
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'device_memory' as INT) AS browser__device_memory
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'hardware_concurrency' as INT) AS browser__hardware_concurrency
-    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'tab_id' as STRING) AS browser__tab_id
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'deviceMemory' as INT) AS browser__device_memory
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'hardwareConcurrency' as INT) AS browser__hardware_concurrency
+    , cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'tabId' as STRING) AS browser__tab_id
   {% elif var('snowplow__enable_browser_context', false) and var('snowplow__enable_browser_context_2', false) %}
     , coalesce(
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'viewport' as STRING),
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'viewport' as STRING)
       ) AS browser__viewport
     , coalesce(
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'document_size' as STRING),
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'document_size' as STRING)
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'documentSize' as STRING),
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'documentSize' as STRING)
       ) AS browser__document_size
     , coalesce(
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'resolution' as STRING),
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'resolution' as STRING)
       ) AS browser__resolution
     , coalesce(
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'color_depth' as INT),
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'color_depth' as INT)
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'colorDepth' as INT),
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'colorDepth' as INT)
       ) AS browser__color_depth
     , coalesce(
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'device_pixel_ratio' as FLOAT),
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'device_pixel_ratio' as FLOAT)
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'devicePixelRatio' as FLOAT),
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'devicePixelRatio' as FLOAT)
       ) AS browser__device_pixel_ratio
     , coalesce(
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'cookies_enabled' as BOOLEAN),
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'cookies_enabled' as BOOLEAN)
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'cookiesEnabled' as BOOLEAN),
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'cookiesEnabled' as BOOLEAN)
       ) AS browser__cookies_enabled
     , coalesce(
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'online' as BOOLEAN),
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'online' as BOOLEAN)
       ) AS browser__online
     , coalesce(
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'browser_language' as STRING),
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'browser_language' as STRING)
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'browserLanguage' as STRING),
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'browserLanguage' as STRING)
       ) AS browser__browser_language
     , coalesce(
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'document_language' as STRING),
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'document_language' as STRING)
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'documentLanguage' as STRING),
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'documentLanguage' as STRING)
       ) AS browser__document_language
     , coalesce(
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'webdriver' as BOOLEAN),
         cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'webdriver' as BOOLEAN)
       ) AS browser__webdriver
     , coalesce(
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'device_memory' as INT),
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'device_memory' as INT)
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'deviceMemory' as INT),
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'deviceMemory' as INT)
       ) AS browser__device_memory
     , coalesce(
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'hardware_concurrency' as INT),
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'hardware_concurrency' as INT)
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'hardwareConcurrency' as INT),
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'hardwareConcurrency' as INT)
       ) AS browser__hardware_concurrency
     , coalesce(
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'tab_id' as STRING),
-        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'tab_id' as STRING)
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_2->0->>'tabId' as STRING),
+        cast(contexts_com_snowplowanalytics_snowplow_browser_context_1->0->>'tabId' as STRING)
       ) AS browser__tab_id
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as browser__viewport

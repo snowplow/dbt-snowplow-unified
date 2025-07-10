@@ -108,9 +108,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(contexts_com_snowplowanalytics_mobile_screen_1->0->>'name' as STRING) AS screen__name
     , cast(contexts_com_snowplowanalytics_mobile_screen_1->0->>'activity' as STRING) AS screen__activity
     , cast(contexts_com_snowplowanalytics_mobile_screen_1->0->>'fragment' as STRING) AS screen__fragment
-    , cast(contexts_com_snowplowanalytics_mobile_screen_1->0->>'top_view_controller' as STRING) AS screen__top_view_controller
+    , cast(contexts_com_snowplowanalytics_mobile_screen_1->0->>'topViewController' as STRING) AS screen__top_view_controller
     , cast(contexts_com_snowplowanalytics_mobile_screen_1->0->>'type' as STRING) AS screen__type
-    , cast(contexts_com_snowplowanalytics_mobile_screen_1->0->>'view_controller' as STRING) AS screen__view_controller
+    , cast(contexts_com_snowplowanalytics_mobile_screen_1->0->>'viewController' as STRING) AS screen__view_controller
   {% else %}
     , cast(null as {{ dbt.type_string() }}) as screen__id
     , cast(null as {{ dbt.type_string() }}) as screen__name

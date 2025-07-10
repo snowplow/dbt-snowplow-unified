@@ -110,7 +110,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'cls' as decimal(14,4)) as cwv__cls
     , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'inp' as decimal(14,4)) as cwv__inp
     , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'ttfb' as decimal(14,4)) as cwv__ttfb
-    , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'navigation_type' as string) as cwv__navigation_type
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_web_vitals_1->>'navigationType' as string) as cwv__navigation_type
   {% else %}
     , cast(null as decimal(14,4)) as cwv__lcp,
     , cast(null as decimal(14,4)) as cwv__fcp,

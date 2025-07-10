@@ -106,10 +106,10 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   {% if var('snowplow__enable_mobile', false) %}
     , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'id' as STRING) AS screen_view__id
     , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'name' as STRING) AS screen_view__name
-    , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'previous_id' as STRING) AS screen_view__previous_id
-    , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'previous_name' as STRING) AS screen_view__previous_name
-    , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'previous_type' as STRING) AS screen_view__previous_type
-    , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'transition_type' as STRING) AS screen_view__transition_type
+    , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'previousId' as STRING) AS screen_view__previous_id
+    , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'previousName' as STRING) AS screen_view__previous_name
+    , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'previousType' as STRING) AS screen_view__previous_type
+    , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'transitionType' as STRING) AS screen_view__transition_type
     , cast(unstruct_event_com_snowplowanalytics_mobile_screen_view_1->>'type' as STRING) AS screen_view__type
     {% else %}
       , cast(null as {{ dbt.type_string() }}) as screen_view__id
