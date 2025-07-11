@@ -339,14 +339,9 @@ seeds:
       snowplow_unified_spider_context:
         +enabled: "{{ target.type in ['redshift', 'postgres', 'duckdb'] | as_bool() }}"
       snowplow_unified_ua_context:
-        +enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
+        +enabled: "{{ target.type in ['redshift', 'postgres', 'duckdb'] | as_bool() }}"
       snowplow_unified_yauaa_context:
         +enabled: "{{ target.type in ['redshift', 'postgres', 'duckdb'] | as_bool() }}"
-    
-    # Import seperately as "null" import is not supported by DBT's csv parser
-    duckdb:
-      snowplow_unified_ua_context:
-        +enabled: "{{ target.type in ['duckdb'] | as_bool() }}"
 
     expected:
       snowplow_unified_consent_versions_expected:
