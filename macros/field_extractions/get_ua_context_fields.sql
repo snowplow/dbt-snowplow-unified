@@ -142,3 +142,33 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   , cast(null as {{ dbt.type_string() }}) as ua__device_family
 {% endif %}
 {% endmacro %}
+
+{% macro duckdb__get_ua_context_fields() %}
+  {% if var('snowplow__enable_ua', false) %}
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'useragentFamily' as STRING) as ua__useragent_family
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'useragentMajor' as STRING) as ua__useragent_major
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'useragentMinor' as STRING) as ua__useragent_minor
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'useragentPatch' as STRING) as ua__useragent_patch
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'useragentVersion' as STRING) as ua__useragent_version
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'osFamily' as STRING) as ua__os_family
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'osMajor' as STRING) as ua__os_major
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'osMinor' as STRING) as ua__os_minor
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'osPatch' as STRING) as ua__os_patch
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'osPatchMinor' as STRING) as ua__os_patch_minor
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'osVersion' as STRING) as ua__os_version
+    , cast(contexts_com_snowplowanalytics_snowplow_ua_parser_context_1->0->>'deviceFamily' as STRING) as ua__device_family
+  {% else %}
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_family
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_major
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_minor
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_patch
+    , cast(null as {{ dbt.type_string() }}) as ua__useragent_version
+    , cast(null as {{ dbt.type_string() }}) as ua__os_family
+    , cast(null as {{ dbt.type_string() }}) as ua__os_major
+    , cast(null as {{ dbt.type_string() }}) as ua__os_minor
+    , cast(null as {{ dbt.type_string() }}) as ua__os_patch
+    , cast(null as {{ dbt.type_string() }}) as ua__os_patch_minor
+    , cast(null as {{ dbt.type_string() }}) as ua__os_version
+    , cast(null as {{ dbt.type_string() }}) as ua__device_family
+  {% endif %}
+{% endmacro %}

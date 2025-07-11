@@ -33,7 +33,7 @@ select
   e.collector_tstamp,
   e.derived_tstamp,
 
-  {% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+  {% if target.type in ['redshift', 'postgres', 'databricks', 'duckdb'] -%}
     CURRENT_TIMESTAMP as model_tstamp,
   {% else %}
      {{ snowplow_utils.current_timestamp_in_utc() }} as model_tstamp,

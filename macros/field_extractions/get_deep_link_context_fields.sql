@@ -59,3 +59,14 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
   {% endif %}
 {% endmacro %}
+
+{% macro duckdb__get_deep_link_context_fields() %}
+  {% if var('snowplow__enable_deep_link_context', false) %}
+    , contexts_com_snowplowanalytics_mobile_deep_link_1->0->>'url'::varchar AS deep_link__url
+    , contexts_com_snowplowanalytics_mobile_deep_link_1->0->>'referrer'::varchar AS deep_link__referrer
+  {% else %}
+    , cast(null as {{ dbt.type_string() }}) as deep_link__url
+    , cast(null as {{ dbt.type_string() }}) as deep_link__referrer
+
+  {% endif %}
+{% endmacro %}

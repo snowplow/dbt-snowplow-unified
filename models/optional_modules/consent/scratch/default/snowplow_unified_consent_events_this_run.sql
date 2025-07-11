@@ -8,7 +8,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {{
   config(
     tags=["this_run"],
-    enabled=var("snowplow__enable_consent", false) and target.type in ['redshift', 'postgres'] | as_bool(),
+    enabled=var("snowplow__enable_consent", false) and target.type in ['redshift', 'postgres', 'duckdb'] | as_bool(),
   )
 }}
 
@@ -30,8 +30,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , e.consent__basis_for_processing as basis_for_processing
     , e.consent__consent_url as consent_url
     , e.consent__consent_version as consent_version
+    {% if target.type == 'duckdb' %}
+    , array_to_string(e.consent__consent_scopes, ', ') as consent_scopes
+    , array_to_string(e.consent__domains_applied, ', ') as domains_applied
+    {% else %}
     , replace(translate(e.consent__consent_scopes, '"[]', ''), ',', ', ') as consent_scopes
     , replace(translate(e.consent__domains_applied, '"[]', ''), ',', ', ') as domains_applied
+    {% endif %}
     , coalesce(e.consent__gdpr_applies, false) as gdpr_applies
     , e.cmp__elapsed_time as cmp_load_time
 

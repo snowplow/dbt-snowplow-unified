@@ -101,3 +101,23 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ dbt.type_float() }}) as geo__speed
   {% endif %}
 {% endmacro %}
+
+{% macro duckdb__get_geo_context_fields() %}
+  {% if var('snowplow__enable_geolocation_context', false) %}
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1->0->>'latitude' as double) AS geo__latitude
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1->0->>'longitude' as double) AS geo__longitude
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1->0->>'latitudeLongitudeAccuracy' as double) AS geo__latitude_longitude_accuracy
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1->0->>'altitude' as double) AS geo__altitude
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1->0->>'altitudeAccuracy' as double) AS geo__altitude_accuracy
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1->0->>'bearing' as double) AS geo__bearing
+    , cast(contexts_com_snowplowanalytics_snowplow_geolocation_context_1->0->>'speed' as double) AS geo__speed
+  {% else %}
+    , cast(null as double) as geo__latitude
+    , cast(null as double) as geo__longitude
+    , cast(null as double) as geo__latitude_longitude_accuracy
+    , cast(null as double) as geo__altitude
+    , cast(null as double) as geo__altitude_accuracy
+    , cast(null as double) as geo__bearing
+    , cast(null as double) as geo__speed
+  {% endif %}
+{% endmacro %}

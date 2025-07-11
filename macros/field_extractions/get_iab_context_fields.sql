@@ -78,3 +78,17 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as boolean) as iab__spider_or_robot
   {%- endif -%}
 {% endmacro %}
+
+{% macro duckdb__get_iab_context_fields() %}
+  {%- if var('snowplow__enable_iab', false) -%}
+    , cast(contexts_com_iab_snowplow_spiders_and_robots_1->0->>'category' as STRING) as iab__category
+    , cast(contexts_com_iab_snowplow_spiders_and_robots_1->0->>'primaryImpact' as STRING) as iab__primary_impact
+    , cast(contexts_com_iab_snowplow_spiders_and_robots_1->0->>'reason' as STRING) as iab__reason
+    , cast(contexts_com_iab_snowplow_spiders_and_robots_1->0->>'spiderOrRobot' as BOOLEAN) as iab__spider_or_robot
+  {%- else -%}
+    , cast(null as {{ dbt.type_string() }}) as iab__category
+    , cast(null as {{ dbt.type_string() }}) as iab__primary_impact
+    , cast(null as {{ dbt.type_string() }}) as iab__reason
+    , cast(null as boolean) as iab__spider_or_robot
+  {%- endif -%}
+{% endmacro %}

@@ -103,3 +103,24 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ dbt.type_boolean() }}) as consent__gdpr_applies
   {% endif %}
 {% endmacro %}
+
+
+{% macro duckdb__get_consent_event_fields() %}
+  {% if var('snowplow__enable_consent', false) %}
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1->>'eventType' as STRING) as consent__event_type
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1->>'basisForProcessing' as STRING) as consent__basis_for_processing
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1->>'consentUrl' as STRING) as consent__consent_url
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1->>'consentVersion' as STRING) as consent__consent_version
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1->>'consentScopes' as STRING[]) as consent__consent_scopes
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1->>'domainsApplied' as STRING[]) as consent__domains_applied
+    , cast(unstruct_event_com_snowplowanalytics_snowplow_consent_preferences_1->>'gdprApplies' as boolean) as consent__gdpr_applies
+  {% else %}
+      , cast(null as {{ dbt.type_string() }}) as consent__event_type
+      , cast(null as {{ dbt.type_string() }}) as consent__basis_for_processing
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_url
+      , cast(null as {{ dbt.type_string() }}) as consent__consent_version
+      , cast(null as STRING[]) as consent__consent_scopes
+      , cast(null as STRING[]) as consent__domains_applied
+      , cast(null as {{ dbt.type_boolean() }}) as consent__gdpr_applies
+  {% endif %}
+{% endmacro %}

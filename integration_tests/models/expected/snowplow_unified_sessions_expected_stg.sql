@@ -19,6 +19,9 @@ SELECT
     {% if target.type in ['snowflake'] %}
         ,AS_ARRAY(parse_json(cv_view_page_events)) as cv_view_page_events
         ,AS_ARRAY(parse_json(cv_view_page_values)) as cv_view_page_values  
+    {% elif target.type in ['duckdb'] %}
+        ,json(cv_view_page_events) as cv_view_page_events
+        ,json(cv_view_page_values) as cv_view_page_values
     {% elif target.type in ['bigquery'] %}
         {# BQ cannott compare array columns #}
         ,to_json_string(array(select replace(x, '"', '') from unnest(json_extract_array(cv_view_page_events,'$')) as x)) as cv_view_page_events
@@ -52,8 +55,8 @@ SELECT
     ,start_tstamp
     ,end_tstamp
 
-    -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-    {% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+    -- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks/duckdb
+    {% if target.type in ['redshift', 'postgres', 'databricks', 'duckdb'] -%}
     , case when event_id = 'b3eca04e-d277-45e0-9c7c-76dc7e8c16ff' then 'true base' else app_id end as app_id
     {% else %}
     , app_id
@@ -215,8 +218,8 @@ SELECT
     ,fatal_app_errors
     ,useragent
 
--- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks
-{% if target.type in ['redshift', 'postgres', 'databricks'] -%}
+-- hard-coding due to non-deterministic outcome from row_number for Redshift/Postgres/databricks/duckdb
+{% if target.type in ['redshift', 'postgres', 'databricks', 'duckdb'] -%}
   , case when event_id = 'b3eca04e-d277-45e0-9c7c-76dc7e8c16ff' then '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' else event_id end as event_id
   , case when event_id2 = 'b3eca04e-d277-45e0-9c7c-76dc7e8c16ff' then '3cfe1cd4-a20e-4fc7-952a-a5cb7f7d063f' else event_id2 end as event_id2
 {% else %}

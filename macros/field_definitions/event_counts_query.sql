@@ -28,3 +28,7 @@ cast(event_counts_string as json)
 {% macro snowflake__event_counts_query() %}
   try_parse_json(event_counts_string)
 {% endmacro %}
+
+{% macro duckdb__event_counts_query() %}
+  json(event_counts_string)
+{% endmacro %}

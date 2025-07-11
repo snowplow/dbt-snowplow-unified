@@ -112,3 +112,29 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ dbt.type_int() }}) as screen_summary__content_height
   {% endif %}
 {% endmacro %}
+
+{% macro duckdb__get_screen_summary_context_fields() %}
+  {% if var('snowplow__enable_screen_summary_context', false) %}
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'foregroundSec' as FLOAT) AS screen_summary__foreground_sec
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'backgroundSec' as FLOAT) AS screen_summary__background_sec
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'lastItemIndex' as INT) AS screen_summary__last_item_index
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'itemsCount' as INT) AS screen_summary__items_count
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'minXOffset' as INT) AS screen_summary__min_x_offset
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'minYOffset' as INT) AS screen_summary__min_y_offset
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'maxXOffset' as INT) AS screen_summary__max_x_offset
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'maxYOffset' as INT) AS screen_summary__max_y_offset
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'contentWidth' as INT) AS screen_summary__content_width
+    , cast(contexts_com_snowplowanalytics_mobile_screen_summary_1->0->>'contentHeight' as INT) AS screen_summary__content_height
+  {% else %}
+    , cast(null as {{ dbt.type_float() }}) as screen_summary__foreground_sec
+    , cast(null as {{ dbt.type_float() }}) as screen_summary__background_sec
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__last_item_index
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__items_count
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__min_x_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__min_y_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__max_x_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__max_y_offset
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__content_width
+    , cast(null as {{ dbt.type_int() }}) as screen_summary__content_height
+  {% endif %}
+{% endmacro %}

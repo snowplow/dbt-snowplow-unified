@@ -205,3 +205,49 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
     , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_version
 {%- endif -%}
 {% endmacro %}
+
+{% macro duckdb__get_yauaa_context_fields() %}
+  {%- if var('snowplow__enable_yauaa', false) -%}
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'deviceClass' as STRING) as yauaa__device_class
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'agentClass' as STRING) as yauaa__agent_class
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'agentName' as STRING) as yauaa__agent_name
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'agentNameVersion' as STRING) as yauaa__agent_name_version
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'agentNameVersionMajor' as STRING) as yauaa__agent_name_version_major
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'agentVersion' as STRING) as yauaa__agent_version
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'agentVersionMajor' as STRING) as yauaa__agent_version_major
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'deviceBrand' as STRING) as yauaa__device_brand
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'deviceName' as STRING) as yauaa__device_name
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'deviceVersion' as STRING) as yauaa__device_version
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'layoutEngineClass' as STRING) as yauaa__layout_engine_class
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'layoutEngineName' as STRING) as yauaa__layout_engine_name
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'layoutEngineNameVersion' as STRING) as yauaa__layout_engine_name_version
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'layoutEngineNameVersionMajor' as STRING) as yauaa__layout_engine_name_version_major
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'layoutEngineVersion' as STRING) as yauaa__layout_engine_version
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'layoutEngineVersionMajor' as STRING) as yauaa__layout_engine_version_major
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'operatingSystemClass' as STRING) as yauaa__operating_system_class
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'operatingSystemName' as STRING) as yauaa__operating_system_name
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'operatingSystemNameVersion' as STRING) as yauaa__operating_system_name_version
+    , cast(contexts_nl_basjes_yauaa_context_1->0->>'operatingSystemVersion' as STRING) as yauaa__operating_system_version
+  {%- else -%}
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_name_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__agent_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_brand
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__device_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_name_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__layout_engine_version_major
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_class
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_name
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_name_version
+    , cast(null as {{ dbt.type_string() }}) as yauaa__operating_system_version
+  {%- endif -%}
+{% endmacro %}

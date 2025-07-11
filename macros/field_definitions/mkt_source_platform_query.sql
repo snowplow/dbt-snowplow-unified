@@ -28,3 +28,7 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro snowflake__mkt_source_platform_query() %}
   regexp_substr(page_urlquery, 'utm_source_platform=([^?&#]*)', 1, 1, 'e')
 {% endmacro %}
+
+{% macro duckdb__mkt_source_platform_query() %}
+  nullif(regexp_extract(page_urlquery ,'utm_source_platform=([^?&#]*)'), '')
+{% endmacro %}

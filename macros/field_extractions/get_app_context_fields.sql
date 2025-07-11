@@ -56,3 +56,13 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
       , cast(null as {{ dbt.type_string() }}) as app__version
     {% endif %}
 {% endmacro %}
+
+{% macro duckdb__get_app_context_fields() %}
+    {% if var('snowplow__enable_application_context', false) %}
+      , contexts_com_snowplowanalytics_mobile_application_1->0->>'build'::varchar(255) AS app__build
+      , contexts_com_snowplowanalytics_mobile_application_1->0->>'version'::varchar(255) AS app__version
+    {% else %}
+      , cast(null as {{ dbt.type_string() }}) as app__build
+      , cast(null as {{ dbt.type_string() }}) as app__version
+    {% endif %}
+{% endmacro %}
