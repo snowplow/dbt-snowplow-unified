@@ -26,7 +26,10 @@ vars:
   snowplow_unified:
     # See https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/unified/ for more information and an interactive tool to help you with the variable setup
     # Please only add those that you change the values of to your root dbt_project.yml file, do not copy all values as this can lead to unexpected issues
-
+    
+    # LICENSE
+    snowplow__license_accepted: false
+    
     # WAREHOUSE & TRACKER
     # See https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/unified/ for more information
     #snowplow__atomic_schema: 'atomic_data_sample' # Only set if not using 'atomic' schema for Snowplow events data
@@ -150,6 +153,7 @@ vars:
 
 # Completely or partially remove models from the manifest during run start.
 on-run-start:
+  - "{{ snowplow_utils.license_check(var('snowplow__license_accepted')) }}"
   - "{{ snowplow_utils.snowplow_delete_from_manifest(var('models_to_remove',[]), ref('snowplow_unified_incremental_manifest')) }}"
 # Check inconsistencies within the variable setup.
   - "{{ snowplow_unified.config_check() }}"
