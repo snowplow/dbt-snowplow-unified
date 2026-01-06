@@ -6,11 +6,12 @@ models:
     columns:
       - name: session_identifier
         description: '{{ doc("col_session_identifier") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
       - name: user_identifier
         description: '{{ doc("col_user_identifier") }}'
       - name: start_tstamp
@@ -26,11 +27,12 @@ models:
     columns:
       - name: model
         description: The name of the model.
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
       - name: last_success
         description: The latest event consumed by the model, based on `collector_tstamp`
   - name: snowplow_unified_base_quarantined_sessions
@@ -38,8 +40,9 @@ models:
     columns:
       - name: session_identifier
         description: The `session_identifier` of the quarantined session
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key

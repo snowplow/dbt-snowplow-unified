@@ -6,11 +6,12 @@ models:
     columns:
       - name: view_id
         description: '{{ doc("col_view_id") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
       - name: event_id
         description: '{{ doc("col_event_id") }}'
         tests:
@@ -68,7 +69,8 @@ models:
         description: '{{ doc("col_engaged_time_in_s") }}'
         tests:
           - not_null:
-              enabled: "{{ var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) }}"
+              config:
+                enabled: "{{ var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) }}"
       - name: absolute_time_in_s
         description: '{{ doc("col_absolute_time_in_s") }}'
         tests:

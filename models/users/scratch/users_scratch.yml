@@ -8,11 +8,12 @@ models:
         description: '{{ doc("col_user_id") }}'
       - name: user_identifier
         description: '{{ doc("col_user_identifier") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
       - name: network_userid
         description: '{{ doc("col_network_userid") }}'
         tests:
@@ -39,7 +40,8 @@ models:
         description: '{{ doc("col_user_engaged_time_in_s") }}'
         tests:
           - not_null:
-              enabled: "{{ var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) }}"
+              config:
+                enabled: "{{ var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) }}"
       - name: absolute_time_in_s
         description: '{{ doc("col_user_absolute_time_in_s") }}'
       - name: first_page_title
@@ -140,28 +142,31 @@ models:
     columns:
       - name: user_identifier
         description: '{{ doc("col_user_identifier") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
   - name: snowplow_unified_users_lasts
     description: '{{ doc("table_users_lasts") }}'
     columns:
       - name: user_identifier
         description: '{{ doc("col_user_identifier") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
   - name: snowplow_unified_users_sessions_this_run
     description: '{{ doc("table_users_sessions_this_run") }}'
     columns:
       - name: session_identifier
         description: '{{ doc("col_session_identifier") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key

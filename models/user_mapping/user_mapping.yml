@@ -6,11 +6,12 @@ models:
     columns:
       - name: user_identifier
         description: '{{ doc("col_user_identifier") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
       - name: user_id
         description: '{{ doc("col_user_id") }}'
         tests:

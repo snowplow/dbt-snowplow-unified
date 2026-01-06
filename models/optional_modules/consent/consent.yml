@@ -39,7 +39,8 @@ models:
         description: The action for the consent preferences of a user E.g allow_all
         tests:
           - accepted_values:
-              values: ['deny_all', 'allow_all', 'allow_selected', 'pending', 'implicit_consent' , 'withdrawn', 'expired']
+              arguments:
+                values: ['deny_all', 'allow_all', 'allow_selected', 'pending', 'implicit_consent', 'withdrawn', 'expired']
       - name: basis_for_processing
         description: GDPR lawful basis for data collection & processing
       - name: consent_url
@@ -60,8 +61,8 @@ models:
     columns:
       - name: user_identifier
         tests:
-            - unique
-            - not_null
+          - unique
+          - not_null
         description: '{{ doc("col_user_identifier") }}'
       - name: user_id
         description: '{{ doc("col_user_id") }}'
@@ -121,7 +122,9 @@ models:
       - name: expired
         description: Total number of users whose last consent event sent from the latest consent version has type expired
       - name: implicit_consent
-        describtion: Total number of users whose last consent event sent from the latest consent version has type implicit_consent
+        config:
+          meta:
+            describtion: Total number of users whose last consent event sent from the latest consent version has type implicit_consent
       - name: withdrawn
         description: Total number of users whose last consent event sent from the latest consent version has type withdrawn
       - name: expires_in_six_months
