@@ -147,17 +147,20 @@ jobs:
       # Install latest patch version. Upgrade if cache contains old patch version.
       - name: Install dependencies
         run: |
-          pip install wheel setuptools
-          pip install -Iv dbt-${{env.WAREHOUSE_PLATFORM}}==${{ matrix.dbt_version }} --upgrade
+          pip install --upgrade pip wheel setuptools
+          pip install dbt-core==${{ matrix.dbt_version }} --upgrade
+          pip install dbt-${{ env.WAREHOUSE_PLATFORM }} --upgrade
+          dbt --version
           dbt deps
-        if: ${{env.WAREHOUSE_PLATFORM != 'spark'}}
+        if: ${{ env.WAREHOUSE_PLATFORM != 'spark' }}
 
       - name: Install spark dependencies
         run: |
           pip install --upgrade pip wheel setuptools
-          pip install -Iv "dbt-${{ env.WAREHOUSE_PLATFORM }}[PyHive]"==${{ matrix.dbt_version }} --upgrade
+          pip install dbt-core==${{ matrix.dbt_version }}
+          pip install "dbt-${{ env.WAREHOUSE_PLATFORM }}[PyHive]"
           dbt deps
-        if: ${{env.WAREHOUSE_PLATFORM == 'spark'}}
+        if: ${{ env.WAREHOUSE_PLATFORM == 'spark' }}
       
       - name: Install Docker Compose
         run: |
