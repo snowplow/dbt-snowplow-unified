@@ -280,7 +280,6 @@ seeds:
           geo_country: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           page_title: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           page_referrer: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          refr_device_tstamp: timestamp
           refr_urlfragment: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           refr_medium: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           refr_source: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
@@ -324,7 +323,7 @@ seeds:
           etl_tags: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           dvce_sent_tstamp: timestamp
           refr_domain_userid: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          refr_dvce_tstamp: timestamp
+          refr_device_tstamp: timestamp
           derived_tstamp: timestamp
           true_tstamp: timestamp
           load_tstamp: timestamp
@@ -369,7 +368,7 @@ seeds:
       snowplow_unified_consent_scope_status_expected:
         +column_types:
           scope: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          total: integer
+          total_consent: integer
       snowplow_unified_consent_totals_expected:
         +column_types:
           consent_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
@@ -392,9 +391,9 @@ seeds:
       snowplow_unified_consent_cmp_stats_expected:
         +column_types:
           event_id: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          domain_userid: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          page_view_id: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          domain_sessionid: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          user_identifier: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          view_id: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          session_identifier: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           cmp_load_time: float
           cmp_tstamp: timestamp
           first_consent_event_tstamp: timestamp
@@ -418,7 +417,7 @@ seeds:
           mobile__available_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
       snowplow_unified_consent_users_expected:
         +column_types:
-          domain_userid: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          user_identifier: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           user_id: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           geo_country: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           cmp_events: integer
@@ -435,11 +434,11 @@ seeds:
       snowplow_unified_consent_log_expected:
         +column_types:
           event_id: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          domain_userid: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          user_identifier: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           user_id: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           geo_country: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          page_view_id: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          domain_sessionid: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          view_id: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          session_identifier: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           derived_tstamp: timestamp
           load_tstamp: timestamp
           event_name: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
@@ -451,7 +450,6 @@ seeds:
           domains_applied: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           gdpr_applies: boolean
           cmp_load_time: float
-          derived_tstamp_date: date
       snowplow_unified_views_expected:
         +column_types:
           app_id: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
@@ -471,42 +469,25 @@ seeds:
           refr_term: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           br_colordepth: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           br_renderengine: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          category: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          primary_impact: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          reason: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          spider_or_robot: boolean
-          useragent_family: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          useragent_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          useragent_minor: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          useragent_patch: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          useragent_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          os_family: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          os_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          os_minor: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          os_patch: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          os_patch_minor: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          os_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          device_family: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          device_class: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          agent_class: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          agent_name: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          agent_name_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          agent_name_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          agent_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          agent_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          device_brand: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          device_name: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          device_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          layout_engine_class: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          layout_engine_name: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          layout_engine_name_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          layout_engine_name_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          layout_engine_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          layout_engine_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          operating_system_class: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          operating_system_name: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          operating_system_name_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-          operating_system_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          iab__category: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          iab__primary_impact: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          iab__reason: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"          
+          yauaa__device_class: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__agent_class: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__agent_name: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__agent_name_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__agent_name_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__device_brand: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__device_name: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__device_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__layout_engine_class: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__layout_engine_name: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__layout_engine_name_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__layout_engine_name_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__operating_system_class: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__operating_system_name: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__operating_system_name_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
+          yauaa__operating_system_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
           geo_longitude: "{{ 'double' if target.type in ['databricks', 'spark'] else 'float' }}"
           geo_latitude: "{{ 'double' if target.type in ['databricks', 'spark'] else 'float' }}"
           mobile__scale: float
@@ -558,42 +539,31 @@ seeds:
             mkt_term: string
             mkt_content: string
             br_renderengine: string
-            category: string
-            primary_impact: string
-            reason: string
-            spider_or_robot: boolean
-            useragent_family: string
-            useragent_major: string
-            useragent_minor: string
-            useragent_patch: string
-            useragent_version: string
-            os_family: string
-            os_major: string
-            os_minor: string
-            os_patch: string
-            os_patch_minor: string
-            os_version: string
-            device_family: string
-            device_class: string
-            agent_class: string
-            agent_name: string
-            agent_name_version: string
-            agent_name_version_major: string
-            agent_version: string
-            agent_version_major: string
-            device_brand: string
-            device_name: string
-            device_version: string
-            layout_engine_class: string
-            layout_engine_name: string
-            layout_engine_name_version: string
-            layout_engine_name_version_major: string
-            layout_engine_version: string
-            layout_engine_version_major: string
-            operating_system_class: string
-            operating_system_name: string
-            operating_system_name_version: string
-            operating_system_version: string
+            iab__category: string
+            iab__primary_impact: string
+            iab__reason: string
+            iab__spider_or_robot: boolean
+            ua__device_family: string
+            yauaa__device_class: string
+            yauaa__agent_class: string
+            yauaa__agent_name: string
+            yauaa__agent_name_version: string
+            yauaa__agent_name_version_major: string
+            yauaa__agent_version: string
+            yauaa__agent_version_major: string
+            yauaa__device_brand: string
+            yauaa__device_name: string
+            yauaa__device_version: string
+            yauaa__layout_engine_class: string
+            yauaa__layout_engine_name: string
+            yauaa__layout_engine_name_version: string
+            yauaa__layout_engine_name_version_major: string
+            yauaa__layout_engine_version: string
+            yauaa__layout_engine_version_major: string
+            yauaa__operating_system_class: string
+            yauaa__operating_system_name: string
+            yauaa__operating_system_name_version: string
+            yauaa__operating_system_version: string
             cv_view_page_volume: integer
             cv_view_page_total: float
             cv_view_page_first_conversion: timestamp
@@ -641,42 +611,32 @@ seeds:
             mkt_term: string
             mkt_content: string
             br_renderengine: string
-            category: string
-            primary_impact: string
-            reason: string
-            spider_or_robot: boolean
-            useragent_family: string
-            useragent_major: string
-            useragent_minor: string
-            useragent_patch: string
-            useragent_version: string
-            os_family: string
-            os_major: string
-            os_minor: string
-            os_patch: string
-            os_patch_minor: string
+            iab__category: string
+            iab__primary_impact: string
+            iab__reason: string
+            iab__spider_or_robot: boolean
             os_version: string
-            device_family: string
-            device_class: string
-            agent_class: string
-            agent_name: string
-            agent_name_version: string
-            agent_name_version_major: string
-            agent_version: string
-            agent_version_major: string
-            device_brand: string
-            device_name: string
-            device_version: string
-            layout_engine_class: string
-            layout_engine_name: string
-            layout_engine_name_version: string
-            layout_engine_name_version_major: string
-            layout_engine_version: string
-            layout_engine_version_major: string
-            operating_system_class: string
-            operating_system_name: string
-            operating_system_name_version: string
-            operating_system_version: string
+            ua__device_family: string
+            yauaa__device_class: string
+            yauaa__agent_class: string
+            yauaa__agent_name: string
+            yauaa__agent_name_version: string
+            yauaa__agent_name_version_major: string
+            yauaa__agent_version: string
+            yauaa__agent_version_major: string
+            yauaa__device_brand: string
+            yauaa__device_name: string
+            yauaa__device_version: string
+            yauaa__layout_engine_class: string
+            yauaa__layout_engine_name: string
+            yauaa__layout_engine_name_version: string
+            yauaa__layout_engine_name_version_major: string
+            yauaa__layout_engine_version: string
+            yauaa__layout_engine_version_major: string
+            yauaa__operating_system_class: string
+            yauaa__operating_system_name: string
+            yauaa__operating_system_name_version: string
+            yauaa__operating_system_version: string
             cv_view_page_volume: integer
             cv_view_page_total: decimal(9, 1)
             cv_view_page_first_conversion: timestamp
@@ -701,13 +661,13 @@ seeds:
             ua__device_family: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             geo_longitude: "{{ 'double' if target.type in ['databricks', 'spark'] else 'float' }}"
             geo_latitude: "{{ 'double' if target.type in ['databricks', 'spark'] else 'float' }}"
-            geo__altitude: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
-            geo__altitude_accuracy: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
-            geo__bearing: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
-            geo__latitude: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
-            geo__latitude_longitude_accuracy: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
-            geo__longitude: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
-            geo__speed: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
+            first_geo__altitude: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
+            first_geo__altitude_accuracy: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
+            first_geo__bearing: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
+            first_geo__latitude: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
+            first_geo__latitude_longitude_accuracy: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
+            first_geo__longitude: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
+            first_geo__speed: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
       databricks:
         +enabled: "{{ target.type in ['databricks'] | as_bool() }}"
         snowplow_unified_web_vital_measurements_expected:
@@ -732,42 +692,32 @@ seeds:
             mkt_term: string
             mkt_content: string
             br_renderengine: string
-            category: string
-            primary_impact: string
-            reason: string
-            spider_or_robot: boolean
-            useragent_family: string
-            useragent_major: string
-            useragent_minor: string
-            useragent_patch: string
-            useragent_version: string
-            os_family: string
-            os_major: string
-            os_minor: string
-            os_patch: string
-            os_patch_minor: string
+            iab__category: string
+            iab__primary_impact: string
+            iab__reason: string
+            iab__spider_or_robot: boolean
             os_version: string
-            device_family: string
-            device_class: string
-            agent_class: string
-            agent_name: string
-            agent_name_version: string
-            agent_name_version_major: string
-            agent_version: string
-            agent_version_major: string
-            device_brand: string
-            device_name: string
-            device_version: string
-            layout_engine_class: string
-            layout_engine_name: string
-            layout_engine_name_version: string
-            layout_engine_name_version_major: string
-            layout_engine_version: string
-            layout_engine_version_major: string
-            operating_system_class: string
-            operating_system_name: string
-            operating_system_name_version: string
-            operating_system_version: string
+            ua__device_family: string
+            yauaa__device_class: string
+            yauaa__agent_class: string
+            yauaa__agent_name: string
+            yauaa__agent_name_version: string
+            yauaa__agent_name_version_major: string
+            yauaa__agent_version: string
+            yauaa__agent_version_major: string
+            yauaa__device_brand: string
+            yauaa__device_name: string
+            yauaa__device_version: string
+            yauaa__layout_engine_class: string
+            yauaa__layout_engine_name: string
+            yauaa__layout_engine_name_version: string
+            yauaa__layout_engine_name_version_major: string
+            yauaa__layout_engine_version: string
+            yauaa__layout_engine_version_major: string
+            yauaa__operating_system_class: string
+            yauaa__operating_system_name: string
+            yauaa__operating_system_name_version: string
+            yauaa__operating_system_version: string
             cv_view_page_volume: integer
             cv_view_page_total: decimal(9, 1)
             cv_view_page_first_conversion: timestamp
@@ -817,42 +767,32 @@ seeds:
             mkt_content: varchar
             last_page_urlquery: varchar
             br_renderengine: varchar
-            category: varchar
-            primary_impact: varchar
-            reason: varchar
-            spider_or_robot: boolean
-            useragent_family: varchar
-            useragent_major: varchar
-            useragent_minor: varchar
-            useragent_patch: varchar
-            useragent_version: varchar
-            os_family: varchar
-            os_major: varchar
-            os_minor: varchar
-            os_patch: varchar
-            os_patch_minor: varchar
+            iab__category: varchar
+            iab__primary_impact: varchar
+            iab__reason: varchar
+            iab__spider_or_robot: boolean
             os_version: varchar
-            device_family: varchar
-            device_class: varchar
-            agent_class: varchar
-            agent_name: varchar
-            agent_name_version: varchar
-            agent_name_version_major: varchar
-            agent_version: varchar
-            agent_version_major: varchar
-            device_brand: varchar
-            device_name: varchar
-            device_version: varchar
-            layout_engine_class: varchar
-            layout_engine_name: varchar
-            layout_engine_name_version: varchar
-            layout_engine_name_version_major: varchar
-            layout_engine_version: varchar
-            layout_engine_version_major: varchar
-            operating_system_class: varchar
-            operating_system_name: varchar
-            operating_system_name_version: varchar
-            operating_system_version: varchar
+            ua__device_family: varchar
+            yauaa__device_class: varchar
+            yauaa__agent_class: varchar
+            yauaa__agent_name: varchar
+            yauaa__agent_name_version: varchar
+            yauaa__agent_name_version_major: varchar
+            yauaa__agent_version: varchar
+            yauaa__agent_version_major: varchar
+            yauaa__device_brand: varchar
+            yauaa__device_name: varchar
+            yauaa__device_version: varchar
+            yauaa__layout_engine_class: varchar
+            yauaa__layout_engine_name: varchar
+            yauaa__layout_engine_name_version: varchar
+            yauaa__layout_engine_name_version_major: varchar
+            yauaa__layout_engine_version: varchar
+            yauaa__layout_engine_version_major: varchar
+            yauaa__operating_system_class: varchar
+            yauaa__operating_system_name: varchar
+            yauaa__operating_system_name_version: varchar
+            yauaa__operating_system_version: varchar
             cv_view_page_first_conversion: timestamp
             mobile__total_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
             mobile__os_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
@@ -892,42 +832,31 @@ seeds:
             mkt_content: varchar
             last_page_urlquery: varchar
             br_renderengine: varchar
-            category: varchar
-            primary_impact: varchar
-            reason: varchar
-            spider_or_robot: boolean
-            useragent_family: varchar
-            useragent_major: varchar
-            useragent_minor: varchar
-            useragent_patch: varchar
-            useragent_version: varchar
-            os_family: varchar
-            os_major: varchar
-            os_minor: varchar
-            os_patch: varchar
-            os_patch_minor: varchar
+            iab__category: varchar
+            iab__primary_impact: varchar
+            iab__reason: varchar
+            iab__spider_or_robot: boolean
             os_version: varchar
-            device_family: varchar
-            device_class: varchar
-            agent_class: varchar
-            agent_name: varchar
-            agent_name_version: varchar
-            agent_name_version_major: varchar
-            agent_version: varchar
-            agent_version_major: varchar
-            device_brand: varchar
-            device_name: varchar
-            device_version: varchar
-            layout_engine_class: varchar
-            layout_engine_name: varchar
-            layout_engine_name_version: varchar
-            layout_engine_name_version_major: varchar
-            layout_engine_version: varchar
-            layout_engine_version_major: varchar
-            operating_system_class: varchar
-            operating_system_name: varchar
-            operating_system_name_version: varchar
-            operating_system_version: varchar
+            yauaa__device_class: varchar
+            yauaa__agent_class: varchar
+            yauaa__agent_name: varchar
+            yauaa__agent_name_version: varchar
+            yauaa__agent_name_version_major: varchar
+            yauaa__agent_version: varchar
+            yauaa__agent_version_major: varchar
+            yauaa__device_brand: varchar
+            yauaa__device_name: varchar
+            yauaa__device_version: varchar
+            yauaa__layout_engine_class: varchar
+            yauaa__layout_engine_name: varchar
+            yauaa__layout_engine_name_version: varchar
+            yauaa__layout_engine_name_version_major: varchar
+            yauaa__layout_engine_version: varchar
+            yauaa__layout_engine_version_major: varchar
+            yauaa__operating_system_class: varchar
+            yauaa__operating_system_name: varchar
+            yauaa__operating_system_name_version: varchar
+            yauaa__operating_system_version: varchar
             cv_view_page_volume: integer
             cv_view_page_total: float
             cv_view_page_first_conversion: timestamp
