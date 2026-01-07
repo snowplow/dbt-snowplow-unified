@@ -543,7 +543,6 @@ seeds:
             iab__primary_impact: string
             iab__reason: string
             iab__spider_or_robot: boolean
-            ua__device_family: string
             yauaa__device_class: string
             yauaa__agent_class: string
             yauaa__agent_name: string
@@ -571,10 +570,6 @@ seeds:
             mobile__total_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
             mobile__os_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             mobile__available_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
-            yauaa__agent_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__agent_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_family: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_minor: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
@@ -616,7 +611,6 @@ seeds:
             iab__reason: string
             iab__spider_or_robot: boolean
             os_version: string
-            ua__device_family: string
             yauaa__device_class: string
             yauaa__agent_class: string
             yauaa__agent_name: string
@@ -643,10 +637,6 @@ seeds:
             cv_view_page_converted: boolean
             mobile__os_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             mobile__available_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
-            yauaa__agent_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__agent_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_family: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_minor: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
@@ -697,7 +687,6 @@ seeds:
             iab__reason: string
             iab__spider_or_robot: boolean
             os_version: string
-            ua__device_family: string
             yauaa__device_class: string
             yauaa__agent_class: string
             yauaa__agent_name: string
@@ -724,10 +713,6 @@ seeds:
             cv_view_page_converted: boolean
             mobile__os_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             mobile__available_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
-            yauaa__agent_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__agent_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_family: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_minor: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
@@ -772,7 +757,6 @@ seeds:
             iab__reason: varchar
             iab__spider_or_robot: boolean
             os_version: varchar
-            ua__device_family: varchar
             yauaa__device_class: varchar
             yauaa__agent_class: varchar
             yauaa__agent_name: varchar
@@ -797,10 +781,6 @@ seeds:
             mobile__total_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
             mobile__os_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             mobile__available_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
-            yauaa__agent_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__agent_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_family: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             ua__useragent_minor: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
@@ -863,10 +843,6 @@ seeds:
             cv_view_page_converted: boolean
             mobile__os_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             mobile__available_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
-            yauaa__agent_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__agent_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
-            yauaa__layout_engine_version_major: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
   +quote_columns: false
 flags:
   require_generic_test_arguments_property: true
