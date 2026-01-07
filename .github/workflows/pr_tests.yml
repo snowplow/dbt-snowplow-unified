@@ -134,7 +134,7 @@ jobs:
       - name: Python setup
         uses: actions/setup-python@v4
         with:
-         python-version: "3.9.x"
+         python-version: "3.10.x"
 
       - name: Pip cache
         uses: actions/cache@v3
@@ -144,12 +144,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.dbt_version }}-${{env.WAREHOUSE_PLATFORM}}
 
-      # Install latest patch version. Upgrade if cache contains old patch version.
+      # Install latest patch version. Upgrade if cache contains old patch version. For redshift we need at least 1.10.0 to avoid dispatch bug on delete insert merge macro.
       - name: Install dependencies
         run: |
           pip install --upgrade pip wheel setuptools
           pip install dbt-core==${{ matrix.dbt_version }} --upgrade
-          pip install dbt-${{ env.WAREHOUSE_PLATFORM }} --upgrade
+          if [ "${{ env.WAREHOUSE_PLATFORM }}" = "redshift" ]; then
+            pip install "dbt-redshift>=1.10.0" --upgrade 
+          else
+            pip install dbt-${{ env.WAREHOUSE_PLATFORM }} --upgrade
+          fi
           dbt --version
           dbt deps
         if: ${{ env.WAREHOUSE_PLATFORM != 'spark' }}
