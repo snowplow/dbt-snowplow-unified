@@ -32,9 +32,9 @@ models:
       bigquery:
         +enabled: "{{ target.type == 'bigquery' | as_bool() }}"
       databricks:
-        +enabled: "{{ target.type in ['databricks'] | as_bool() }}"
+        +enabled: "{{ (target.type in ['databricks']) | as_bool() }}"
       default:
-        +enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
+        +enabled: "{{ (target.type in ['redshift', 'postgres']) | as_bool() }}"
       snowflake:
         +enabled: "{{ target.type == 'snowflake' | as_bool() }}"
       spark:
@@ -350,11 +350,11 @@ seeds:
           root_tstamp: timestamp
           elapsed_time: float
       snowplow_unified_spider_context:
-        +enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
+        +enabled: "{{ (target.type in ['redshift', 'postgres']) | as_bool() }}"
       snowplow_unified_ua_context:
-        +enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
+        +enabled: "{{ (target.type in ['redshift', 'postgres']) | as_bool() }}"
       snowplow_unified_yauaa_context:
-        +enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
+        +enabled: "{{ (target.type in ['redshift', 'postgres']) | as_bool() }}"
     expected:
       snowplow_unified_consent_versions_expected:
         +column_types:
@@ -659,7 +659,7 @@ seeds:
             first_geo__longitude: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
             first_geo__speed: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
       databricks:
-        +enabled: "{{ target.type in ['databricks'] | as_bool() }}"
+        +enabled: "{{ (target.type in ['databricks']) | as_bool() }}"
         snowplow_unified_web_vital_measurements_expected:
           +column_types:
             lcp_75p: decimal(19,3)
@@ -735,7 +735,7 @@ seeds:
             geo__longitude: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
             geo__speed: "{{ 'double' if target.type in ['spark', 'databricks'] else 'float' }}"
       default:
-        +enabled: "{{ target.type in ['redshift', 'postgres'] | as_bool() }}"
+        +enabled: "{{ (target.type in ['redshift', 'postgres']) | as_bool() }}"
         snowplow_unified_sessions_expected:
           +column_types:
             app_id: varchar
