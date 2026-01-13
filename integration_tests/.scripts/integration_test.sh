@@ -30,10 +30,10 @@ for db in ${DATABASES[@]}; do
   eval "dbt run --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 1, snowplow__enable_cwv: false, snowplow__start_date: 2010-01-01}' --target $db" || exit 1;
 
   echo "Snowplow unified integration tests: Try run without data for browser_context_2 only enabled"
-  eval "dbt run --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__enable_browser_context: false, snowplow__enable_browser_context_2:true, snowplow__backfill_limit_days: 1, snowplow__enable_cwv: false, snowplow__start_date: 2010-01-01}' --target $db" || exit 1;
+  eval "dbt run --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__enable_browser_context: false, snowplow__enable_browser_context_2: true, snowplow__backfill_limit_days: 1, snowplow__enable_cwv: false, snowplow__start_date: 2010-01-01}' --target $db" || exit 1;
 
   echo "Snowplow unified integration tests: Try run without data for browser_context_2 and browser_context enabled"
-  eval "dbt run --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__enable_browser_context:true, snowplow__enable_browser_context_2:true, snowplow__backfill_limit_days: 1, snowplow__enable_cwv: false, snowplow__start_date: 2010-01-01}' --target $db" || exit 1;
+  eval "dbt run --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__enable_browser_context: true, snowplow__enable_browser_context_2: true, snowplow__backfill_limit_days: 1, snowplow__enable_cwv: false, snowplow__start_date: 2010-01-01}' --target $db" || exit 1;
 
   echo "Snowplow unified integration tests: Conversions"
   eval "dbt run --full-refresh --select +snowplow_unified_conversions snowplow_unified_integration_tests.source --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 220, snowplow__enable_cwv: false, snowplow__enable_conversions: true}' --target $db" || exit 1;
