@@ -844,6 +844,8 @@ seeds:
             mobile__os_version: "{{ 'string' if target.type in ['bigquery', 'databricks', 'spark'] else 'varchar' }}"
             mobile__available_storage: "{{ 'bigint' if target.type in ['postgres', 'spark', 'databricks', 'redshift'] else 'integer' }}"
   +quote_columns: false
+tests:
+  +store_failures: "{{ var('store_failures', false) }}"
 flags:
   require_generic_test_arguments_property: true
   send_anonymous_usage_stats: False
