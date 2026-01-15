@@ -150,7 +150,7 @@ jobs:
           pip install --upgrade pip wheel setuptools
           pip install dbt-core==${{ matrix.dbt_version }} --upgrade
           if [ "${{ env.WAREHOUSE_PLATFORM }}" = "redshift" ]; then
-            pip install "dbt-redshift==1.9.5" --upgrade 
+            pip install "dbt-redshift==1.10.0" --upgrade 
           else
             pip install dbt-${{ env.WAREHOUSE_PLATFORM }} --upgrade
           fi
