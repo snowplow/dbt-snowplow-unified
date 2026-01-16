@@ -71,9 +71,9 @@ jobs:
       with:
         fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
     # Remove '*' and replace '.' with '_' in DBT_VERSION & set as SCHEMA_SUFFIX.
-      # SCHEMA_SUFFIX allows us to run multiple versions of dbt in parallel without overwriting the output tables
+      # SCHEMA_SUFFIX allows us to run multiple versions of dbt in parallel without overwriting the output tables. Freeze for now as we only need to publish one version.
     - name: Set SCHEMA_SUFFIX env
-      run: echo "SCHEMA_SUFFIX=$(echo ${DBT_VERSION%.*} | tr . _)" >> $GITHUB_ENV
+      run: echo "SCHEMA_SUFFIX=1" >> $GITHUB_ENV
       env:
         DBT_VERSION: ${{ matrix.dbt_version }}
 
