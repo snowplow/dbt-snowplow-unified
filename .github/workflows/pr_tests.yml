@@ -144,27 +144,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.dbt_version }}-${{env.WAREHOUSE_PLATFORM}}
 
-      # Install latest patch version. Upgrade if cache contains old patch version. For redshift we need at least 1.10.0 to avoid dispatch bug on delete insert merge macro.
       - name: Install dependencies
         run: |
-          pip install --upgrade pip wheel setuptools
-          pip install dbt-core==${{ matrix.dbt_version }} --upgrade
-          if [ "${{ env.WAREHOUSE_PLATFORM }}" = "redshift" ]; then
-            pip install "dbt-redshift==1.10.0" --upgrade 
+          pip cache remove "dbt-*"
+          if [ "$WAREHOUSE_PLATFORM" = "spark" ]; then
+              ADAPTER="dbt-spark[PyHive]>=1.10.0,<1.11.0"
+          elif [ "$WAREHOUSE_PLATFORM" = "snowflake" ]; then
+              ADAPTER="dbt-snowflake>=1.9.0,<1.10.0"
+          elif [ "$WAREHOUSE_PLATFORM" = "redshift" ]; then
+              ADAPTER="dbt-redshift==1.10.0"
           else
-            pip install dbt-${{ env.WAREHOUSE_PLATFORM }} --upgrade
+              ADAPTER="dbt-$WAREHOUSE_PLATFORM>=1.10.0,<1.11.0"
           fi
-          dbt --version
+          pip install --no-cache-dir "dbt-core==${{ matrix.dbt_version }}" "$ADAPTER"
           dbt deps
-        if: ${{ env.WAREHOUSE_PLATFORM != 'spark' }}
-
-      - name: Install spark dependencies
-        run: |
-          pip install --upgrade pip wheel setuptools
-          pip install dbt-core==${{ matrix.dbt_version }}
-          pip install "dbt-${{ env.WAREHOUSE_PLATFORM }}[PyHive]"
-          dbt deps
-        if: ${{ env.WAREHOUSE_PLATFORM == 'spark' }}
       
       - name: Install Docker Compose
         run: |
