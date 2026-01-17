@@ -181,6 +181,7 @@ jobs:
         if: ${{env.WAREHOUSE_PLATFORM == 'spark'}}
     
       - name: "Pre-test: Drop ci schemas"
+        if: ${{ matrix.warehouse != 'bigquery' }}
         run: |
           dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}
 
@@ -188,5 +189,6 @@ jobs:
         run: ./.scripts/integration_test.sh -d ${{matrix.warehouse}}
 
       - name: "Post-test: Drop ci schemas"
+        if: ${{ matrix.warehouse != 'bigquery' }}
         run: |
           dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}
