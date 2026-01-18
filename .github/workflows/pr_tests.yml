@@ -70,7 +70,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dbt_version: ["1.10.6"]
+        dbt_version: ["1.*"]
         warehouse: ["postgres", "bigquery", "snowflake", "databricks", "redshift", "spark_iceberg"] # TODO: Add RS self-hosted runner
     services:
       postgres:
@@ -144,21 +144,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.dbt_version }}-${{env.WAREHOUSE_PLATFORM}}
 
-      - name: Install dependencies
+      - name: Install dbt dependencies
         run: |
-          pip cache remove "dbt-*"
+          pip install --upgrade pip wheel setuptools
           if [ "$WAREHOUSE_PLATFORM" = "spark" ]; then
-              ADAPTER="dbt-spark[PyHive]>=1.10.0,<1.11.0"
-          elif [ "$WAREHOUSE_PLATFORM" = "snowflake" ]; then
-              ADAPTER="dbt-snowflake>=1.9.0,<1.10.0"
+            ADAPTER="dbt-spark[PyHive]"
           elif [ "$WAREHOUSE_PLATFORM" = "redshift" ]; then
-              ADAPTER="dbt-redshift==1.10.0"
-          elif [ "$WAREHOUSE_PLATFORM" = "postgres" ]; then
-              ADAPTER="dbt-postgres>=1.9.0,<1.10.0"
+            ADAPTER="dbt-redshift>=1.10.0"
           else
-              ADAPTER="dbt-$WAREHOUSE_PLATFORM>=1.10.0,<1.11.0"
+            ADAPTER="dbt-$WAREHOUSE_PLATFORM"
           fi
-          pip install --no-cache-dir "dbt-core==${{ matrix.dbt_version }}" "$ADAPTER"
+          pip install "dbt-core==${{ matrix.dbt_version }}" "$ADAPTER"
           dbt deps
       
       - name: Install Docker Compose
