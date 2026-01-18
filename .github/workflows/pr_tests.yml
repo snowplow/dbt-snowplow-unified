@@ -153,6 +153,8 @@ jobs:
               ADAPTER="dbt-snowflake>=1.9.0,<1.10.0"
           elif [ "$WAREHOUSE_PLATFORM" = "redshift" ]; then
               ADAPTER="dbt-redshift==1.10.0"
+          elif [ "$WAREHOUSE_PLATFORM" = "postgres" ]; then
+              ADAPTER="dbt-postgres>=1.9.0,<1.10.0"
           else
               ADAPTER="dbt-$WAREHOUSE_PLATFORM>=1.10.0,<1.11.0"
           fi
