@@ -6,12 +6,13 @@ models:
     columns:
       - name: cv_id
         description: '{{ doc("col_cv_id") }}'
-        tags:
-          - primary-key
         tests:
           - not_null:
               config:
                 enabled: '{{var("snowplow__enable_conversions", false)}}'
+        config:
+          tags:
+            - primary-key
       - name: event_id
         description: '{{ doc("col_event_id") }}'
         tests:
@@ -38,18 +39,19 @@ models:
         description: '{{ doc("col_dvce_created_tstamp") }}'
       - name: as cv_type
         description: The type of conversion, taken from the 'name' value of the user defined conversion definition
-      
+
   - name: snowplow_unified_conversions
     description: An incremental table which contains all relevant fields for unique conversion events.
     columns:
       - name: cv_id
         description: '{{ doc("col_cv_id") }}'
-        tags:
-          - primary-key
         tests:
           - not_null:
               config:
                 enabled: '{{var("snowplow__enable_conversions", false)}}'
+        config:
+          tags:
+            - primary-key
       - name: event_id
         description: '{{ doc("col_event_id") }}'
         tests:
@@ -76,4 +78,3 @@ models:
         description: '{{ doc("col_dvce_created_tstamp") }}'
       - name: as cv_type
         description: The type of conversion, taken from the 'name' value of the user defined conversion definition
-      

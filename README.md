@@ -1,4 +1,4 @@
-[![early-release]][tracker-classification] [![License][license-image]][license] [![Discourse posts][discourse-image]][discourse]
+[![early-release]][tracker-classification] [![License][license-image]][license]
 
 ![snowplow-logo](https://raw.githubusercontent.com/snowplow/dbt-snowplow-utils/main/assets/snowplow_logo.png)
 
@@ -53,9 +53,6 @@ Please refer to the [dbt doc site](https://snowplow.github.io/dbt-snowplow-unifi
 # Join the Snowplow community
 
 We welcome all ideas, questions and contributions!
-
-For support requests, please use our community support [Discourse][discourse] forum.
-
 If you find a bug, please report an issue on GitHub.
 
 # Copyright and license
@@ -71,5 +68,3 @@ This distribution is all licensed under the [Snowplow Personal and Academic Lice
 [tracker-docs]: https://docs.snowplow.io/docs/collecting-data/collecting-from-own-applications/javascript-trackers/
 [webpage-context]: https://docs.snowplow.io/docs/collecting-data/collecting-from-own-applications/javascript-trackers/javascript-tracker/javascript-tracker-v3/tracker-setup/initialization-options/#adding-predefined-contexts
 [dbt-package-docs]: https://docs.getdbt.com/docs/building-a-dbt-project/package-management
-[discourse-image]: https://img.shields.io/discourse/posts?server=https%3A%2F%2Fdiscourse.snowplow.io%2F
-[discourse]: http://discourse.snowplow.io/

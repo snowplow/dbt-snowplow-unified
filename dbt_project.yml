@@ -15,18 +15,15 @@ test-paths: ["tests"]
 macro-paths: ["macros"]
 docs-paths: ["docs"]
 asset-paths: ["assets"]
-
-target-path: "target"
 clean-targets:
-    - "target"
-    - "dbt_modules"
-    - "dbt_packages"
+  - "target"
+  - "dbt_modules"
+  - "dbt_packages"
 
 vars:
   snowplow_unified:
     # See https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/unified/ for more information and an interactive tool to help you with the variable setup
     # Please only add those that you change the values of to your root dbt_project.yml file, do not copy all values as this can lead to unexpected issues
-    
     # WAREHOUSE & TRACKER
     # See https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/unified/ for more information
     #snowplow__atomic_schema: 'atomic_data_sample' # Only set if not using 'atomic' schema for Snowplow events data
@@ -46,7 +43,7 @@ vars:
     snowplow__iso_639_3_seed: snowplow_unified_dim_iso_639_3
     snowplow__grant_select_to: []
     snowplow__grant_schema_usage: true
-  
+
 
     # OPERATION & LOGIC
     snowplow__license_accepted: false
@@ -70,7 +67,7 @@ vars:
     snowplow__start_date: '2020-01-01'
     # snowplow__total_all_conversions: false
     snowplow__upsert_lookback_days: 30
-    snowplow__use_refr_if_mkt_null: false 
+    snowplow__use_refr_if_mkt_null: false
     snowplow__enable_initial_checks: false
 
     # please refer to the macros within identifiers.sql for default values
@@ -90,7 +87,7 @@ vars:
     snowplow__enable_iab: false
     snowplow__enable_ua: false
     snowplow__enable_browser_context: false
-    snowplow__enable_browser_context_2 : false
+    snowplow__enable_browser_context_2: false
     # add extra mobile fields:
     snowplow__enable_mobile_context: false
     snowplow__enable_geolocation_context: false
@@ -168,7 +165,7 @@ on-run-end:
 models:
   snowplow_unified:
     +materialized: table
-    +file_format:  "{{ 'delta' if target.type not in ['spark'] else 'iceberg'}}"
+    +file_format: "{{ 'delta' if target.type not in ['spark'] else 'iceberg'}}"
     +incremental_strategy: "{{ None if target.type not in ['spark'] else 'merge' }}"
     +bind: false
     base:
@@ -233,3 +230,5 @@ models:
 seeds:
   snowplow_unified:
     +schema: snowplow_manifest
+flags:
+  require_generic_test_arguments_property: true

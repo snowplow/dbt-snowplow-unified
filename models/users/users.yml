@@ -8,11 +8,12 @@ models:
         description: '{{ doc("col_user_id") }}'
       - name: user_identifier
         description: '{{ doc("col_user_identifier") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
       - name: network_userid
         description: '{{ doc("col_network_userid") }}'
         tests:
@@ -41,7 +42,8 @@ models:
         description: '{{ doc("col_user_engaged_time_in_s") }}'
         tests:
           - not_null:
-              enabled: "{{ var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) }}"
+              config:
+                enabled: "{{ var('snowplow__enable_web') or var('snowplow__enable_screen_summary_context', false) }}"
       - name: first_page_title
         description: The title of the first page visited by the user '{{doc("first_user")}}'
       - name: first_page_url

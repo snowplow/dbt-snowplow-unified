@@ -85,25 +85,25 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 {% macro snowflake__get_app_error_event_fields() %}
   {% if var('snowplow__enable_app_errors', false) %}
     {% if var('snowplow__snowflake_lakeloader', false) %}
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:message::VARCHAR() AS app_error__message
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:programming_language::VARCHAR() AS app_error__programming_language
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:class_name::VARCHAR() AS app_error__class_name
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:exception_name::VARCHAR() AS app_error__exception_name
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:message::VARCHAR AS app_error__message
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:programming_language::VARCHAR AS app_error__programming_language
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:class_name::VARCHAR AS app_error__class_name
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:exception_name::VARCHAR AS app_error__exception_name
       , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:is_fatal::BOOLEAN AS app_error__is_fatal
       , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:line_number::INT AS app_error__line_number
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:stack_trace::VARCHAR() AS app_error__stack_trace
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:stack_trace::VARCHAR AS app_error__stack_trace
       , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:thread_id::INT AS app_error__thread_id
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:thread_name::VARCHAR() AS app_error__thread_name
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:thread_name::VARCHAR AS app_error__thread_name
     {% else %}
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:message::VARCHAR() AS app_error__message
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:programmingLanguage::VARCHAR() AS app_error__programming_language
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:className::VARCHAR() AS app_error__class_name
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:exceptionName::VARCHAR() AS app_error__exception_name
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:message::VARCHAR AS app_error__message
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:programmingLanguage::VARCHAR AS app_error__programming_language
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:className::VARCHAR AS app_error__class_name
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:exceptionName::VARCHAR AS app_error__exception_name
       , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:isFatal::BOOLEAN AS app_error__is_fatal
       , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:lineNumber::INT AS app_error__line_number
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:stackTrace::VARCHAR() AS app_error__stack_trace
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:stackTrace::VARCHAR AS app_error__stack_trace
       , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:threadId::INT AS app_error__thread_id
-      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:threadName::VARCHAR() AS app_error__thread_name
+      , unstruct_event_com_snowplowanalytics_snowplow_application_error_1:threadName::VARCHAR AS app_error__thread_name
     {% endif %}
 
   {% else %}

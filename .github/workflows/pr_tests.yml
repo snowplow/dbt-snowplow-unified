@@ -123,7 +123,7 @@ jobs:
       # Remove '*' and replace '.' with '_' in DBT_VERSION & set as SCHEMA_SUFFIX.
       # SCHEMA_SUFFIX allows us to run multiple versions of dbt in parallel without overwriting the output tables
       - name: Set SCHEMA_SUFFIX env
-        run: echo "SCHEMA_SUFFIX=$(echo ${DBT_VERSION%.*} | tr . _)" >> $GITHUB_ENV
+        run: echo "SCHEMA_SUFFIX=1" >> $GITHUB_ENV
         env:
           DBT_VERSION: ${{ matrix.dbt_version }}
 
@@ -134,7 +134,7 @@ jobs:
       - name: Python setup
         uses: actions/setup-python@v4
         with:
-         python-version: "3.9.x"
+         python-version: "3.10.x"
 
       - name: Pip cache
         uses: actions/cache@v3
@@ -144,20 +144,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.dbt_version }}-${{env.WAREHOUSE_PLATFORM}}
 
-      # Install latest patch version. Upgrade if cache contains old patch version.
-      - name: Install dependencies
-        run: |
-          pip install wheel setuptools
-          pip install -Iv dbt-${{env.WAREHOUSE_PLATFORM}}==${{ matrix.dbt_version }} --upgrade
-          dbt deps
-        if: ${{env.WAREHOUSE_PLATFORM != 'spark'}}
-
-      - name: Install spark dependencies
+      - name: Install dbt dependencies
         run: |
           pip install --upgrade pip wheel setuptools
-          pip install -Iv "dbt-${{ env.WAREHOUSE_PLATFORM }}[PyHive]"==${{ matrix.dbt_version }} --upgrade
+          if [ "$WAREHOUSE_PLATFORM" = "spark" ]; then
+            ADAPTER="dbt-spark[PyHive]"
+          elif [ "$WAREHOUSE_PLATFORM" = "redshift" ]; then
+            ADAPTER="dbt-redshift>=1.10.0"
+          else
+            ADAPTER="dbt-$WAREHOUSE_PLATFORM"
+          fi
+          pip install "dbt-core==${{ matrix.dbt_version }}" "$ADAPTER"
           dbt deps
-        if: ${{env.WAREHOUSE_PLATFORM == 'spark'}}
       
       - name: Install Docker Compose
         run: |
@@ -174,6 +172,7 @@ jobs:
         if: ${{env.WAREHOUSE_PLATFORM == 'spark'}}
     
       - name: "Pre-test: Drop ci schemas"
+        if: ${{ matrix.warehouse != 'bigquery' }}
         run: |
           dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}
 
@@ -181,5 +180,6 @@ jobs:
         run: ./.scripts/integration_test.sh -d ${{matrix.warehouse}}
 
       - name: "Post-test: Drop ci schemas"
+        if: ${{ matrix.warehouse != 'bigquery' }}
         run: |
           dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}
