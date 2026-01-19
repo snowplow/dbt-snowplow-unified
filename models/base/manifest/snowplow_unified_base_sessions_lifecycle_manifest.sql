@@ -5,28 +5,25 @@ and you may not use this file except in compliance with the Snowplow Personal an
 You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 at https://docs.snowplow.io/personal-and-academic-license-1.0/
 #}
 
-{{
-  config(
-    materialized='incremental',
-    unique_key='session_identifier',
-    upsert_date_key='start_tstamp',
-    sort='start_tstamp',
-    dist='session_identifier',
-    partition_by = snowplow_utils.get_value_by_target_type(bigquery_val={
+{{ config(
+    materialized="incremental", 
+    unique_key="session_identifier", 
+    sort="start_tstamp", 
+    dist="session_identifier", 
+    partition_by=snowplow_utils.get_value_by_target_type(bigquery_val={
       "field": "start_tstamp",
       "data_type": "timestamp"
-    }, databricks_val='start_tstamp_date'),
-    cluster_by=snowplow_unified.get_cluster_by_values('lifecycle_manifest'),
-    full_refresh=snowplow_unified.allow_refresh(),
-    tags=["manifest"],
-    sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt')),
+    }, databricks_val='start_tstamp_date'), 
+    cluster_by=snowplow_unified.get_cluster_by_values('lifecycle_manifest'), 
+    full_refresh=snowplow_unified.allow_refresh(), 
+    tags=["manifest"], 
+    sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt')), 
     tblproperties={
       'delta.autoOptimize.optimizeWrite' : 'true',
       'delta.autoOptimize.autoCompact' : 'true'
-    },
-    snowplow_optimize = true
-  )
-}}
+    }, 
+    meta={'upsert_date_key': 'start_tstamp', 'snowplow_optimize': true}
+) }}
 
 {% set sessions_lifecycle_manifest_query = snowplow_utils.base_create_snowplow_sessions_lifecycle_manifest(
     session_identifiers= session_identifiers(),

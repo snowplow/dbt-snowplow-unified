@@ -30,8 +30,6 @@ Check [dbt Hub](https://hub.getdbt.com/snowplow/snowplow_unified/latest/) for th
 
 We welcome all ideas, questions and contributions!
 
-For support requests, please use our community support [Discourse][discourse] forum.
-
 If you find a bug, please report an issue on GitHub.
 
 # Copyright and license
@@ -57,9 +55,6 @@ limitations under the License.
 [docs-data-models]: https://docs.snowplow.io/docs/modeling-your-data/
 [dbt-disable-model]: https://docs.getdbt.com/reference/resource-configs/enabled#disable-a-model-in-a-package-in-order-to-use-your-own-version-of-the-model
 [dbt-package-docs]: https://docs.getdbt.com/docs/building-a-dbt-project/package-management
-[discourse]: http://discourse.snowplow.io/
-[dbt-selectors]: https://docs.getdbt.com/reference/node-selection/yaml-selectors
-[selectors-yml-file]: https://github.com/snowplow/dbt-snowplow-unified/blob/main/selectors.yml
 [dbt-bq-merge-strategy]: https://docs.getdbt.com/reference/resource-configs/bigquery-configs#the-merge-strategy
 [dbt-snowflake-merge-strategy]: https://docs.getdbt.com/reference/resource-configs/snowflake-configs#merge-behavior-incremental-models
 [snowflake-merge-duplicates]: https://docs.snowflake.com/en/sql-reference/sql/merge.html#duplicate-join-behavior

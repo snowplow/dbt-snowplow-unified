@@ -6,8 +6,6 @@ models:
     columns:
       - name: event_id
         description: '{{ doc("col_event_id") }}'
-        tags:
-          - primary-key
         tests:
           - not_null:
               config:
@@ -15,6 +13,9 @@ models:
           - unique:
               config:
                 enabled: '{{var("snowplow__enable_app_errors", false)}}'
+        config:
+          tags:
+            - primary-key
       - name: app_id
         description: '{{ doc("col_app_id") }}'
       - name: user_id

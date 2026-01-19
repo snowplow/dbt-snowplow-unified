@@ -307,6 +307,23 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
         ) as contexts_com_snowplowanalytics_snowplow_browser_context_1,
         array(
             struct(
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].viewport as STRING) AS viewport,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].documentSize as STRING) AS document_size,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].resolution as STRING) AS resolution,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].colorDepth as INT) AS color_depth,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].devicePixelRatio as DOUBLE) AS device_pixel_ratio,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].cookiesEnabled as BOOLEAN) AS cookies_enabled,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].online as BOOLEAN) AS online,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].browserLanguage as STRING) AS browser_language,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].documentLanguage as STRING) AS document_language,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].webdriver as BOOLEAN) AS webdriver,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].deviceMemory as INT) AS device_memory,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].hardwareConcurrency as INT) AS hardware_concurrency,
+                cast(contexts_com_snowplowanalytics_snowplow_browser_context_1[0].tabId as STRING) AS tab_id
+            )
+        ) as contexts_com_snowplowanalytics_snowplow_browser_context_2,
+        array(
+            struct(
                 cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].deviceManufacturer as STRING) AS device_manufacturer,
                 cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].deviceModel as STRING) AS device_model,
                 cast(contexts_com_snowplowanalytics_snowplow_mobile_context_1[0].osType as STRING) AS os_type,
@@ -827,6 +844,22 @@ CAST(array() AS array<struct<
   hardwareConcurrency: int,
   tabId: string
 >>) AS contexts_com_snowplowanalytics_snowplow_browser_context_1,
+
+CAST(array() AS array<struct<
+  viewport: string,
+  documentSize: string,
+  resolution: string,
+  colorDepth: int,
+  devicePixelRatio: double,
+  cookiesEnabled: boolean,
+  online: boolean,
+  browserLanguage: string,
+  documentLanguage: string,
+  webdriver: boolean,
+  deviceMemory: int,
+  hardwareConcurrency: int,
+  tabId: string
+>>) AS contexts_com_snowplowanalytics_snowplow_browser_context_2,
 
 CAST(array() AS array<struct<
   deviceManufacturer: string,

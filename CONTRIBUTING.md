@@ -1,6 +1,6 @@
 # Contributing to `dbt-snowplow-unified`
 
-Whether you are a seasoned open source contributor or a first-time committer, we welcome and encourage you to contribute code (via Pull Request), documentation (via our docusaurus site), ideas (via Discussions for larger ideas, or issues for specific feature requests), or reporting bugs (via issues) to this project. You can also contribute via topics on our [Discourse](https://discourse.snowplow.io/).
+Whether you are a seasoned open source contributor or a first-time committer, we welcome and encourage you to contribute code (via Pull Request), documentation (via our docusaurus site), ideas (via Discussions for larger ideas, or issues for specific feature requests), or reporting bugs (via issues) to this project.
 
 Before you start a load of work, please note that all Pull Requests (apart from cosmetic fixes like typos) should be associated with an issue that has been approved for development by a maintainer. This is to stop you doing lots of development that may not be accepted into the package for a variety of reasons. Make sure to either [raise an issue](/../../issues/new) yourself or look at the existing issues before starting any development.
 

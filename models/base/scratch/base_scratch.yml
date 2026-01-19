@@ -13,11 +13,12 @@ models:
     columns:
       - name: session_identifier
         description: '{{ doc("col_session_identifier") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
       - name: user_identifier
         description: '{{ doc("col_user_identifier") }}'
       - name: start_tstamp
@@ -41,11 +42,12 @@ models:
         description: '{{ doc("col_event") }}'
       - name: event_id
         description: '{{ doc("col_event_id") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
       - name: txn_id
         description: '{{ doc("col_txn_id") }}'
       - name: name_tracker
@@ -462,11 +464,12 @@ models:
       - name: event
       - name: event_id
         description: '{{ doc("col_event_id") }}'
-        tags:
-          - primary-key
         tests:
           - unique
           - not_null
+        config:
+          tags:
+            - primary-key
       - name: txn_id
       - name: name_tracker
       - name: v_tracker
