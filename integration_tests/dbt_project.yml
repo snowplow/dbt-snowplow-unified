@@ -1,5 +1,5 @@
 name: snowplow_unified_integration_tests
-version: 0.5.5
+version: 1.0.0
 config-version: 2
 profile: integration_tests
 dispatch:
