@@ -168,8 +168,14 @@ models:
     +file_format: "{{ 'delta' if target.type not in ['spark'] else 'iceberg'}}"
     +incremental_strategy: "{{ None if target.type not in ['spark'] else 'merge' }}"
     +bind: false
+    +persist_docs:
+      relation: true
+      columns: true
     base:
       +tags: "base"
+      +persist_docs:
+        relation: false
+        columns: false
       manifest:
         +schema: "snowplow_manifest"
       scratch:
@@ -183,24 +189,36 @@ models:
         scratch:
           +schema: "scratch"
           +tags: "scratch"
+          +persist_docs:
+            relation: false
+            columns: false
       consent:
         +schema: "derived"
         +tags: ["snowplow_unified_incremental", "derived", "consent"]
         scratch:
           +schema: "scratch"
           +tags: "scratch"
+          +persist_docs:
+            relation: false
+            columns: false
       conversions:
         +schema: "derived"
         +tags: ["snowplow_unified_incremental", "derived", "conversions"]
         scratch:
           +schema: "scratch"
           +tags: "scratch"
+          +persist_docs:
+            relation: false
+            columns: false
       core_web_vitals:
         +schema: "derived"
         +tags: ["snowplow_unified_incremental", "derived", "core_web_vitals"]
         scratch:
           +schema: "scratch"
           +tags: "scratch"
+          +persist_docs:
+            relation: false
+            columns: false
 
     views:
       +schema: "derived"
@@ -208,6 +226,9 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
+        +persist_docs:
+          relation: false
+          columns: false
 
     sessions:
       +schema: "derived"
@@ -215,6 +236,9 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
+        +persist_docs:
+          relation: false
+          columns: false
 
     user_mapping:
       +schema: "derived"
@@ -226,6 +250,9 @@ models:
       scratch:
         +schema: "scratch"
         +tags: "scratch"
+        +persist_docs:
+          relation: false
+          columns: false
 
 seeds:
   snowplow_unified:
