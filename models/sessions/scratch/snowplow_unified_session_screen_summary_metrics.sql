@@ -22,7 +22,7 @@ with by_views as (
 
   where ev.view_id is not null
     and ev.platform <> 'web'
-    and ev.event_name in ('screen_end', 'application_background', 'application_foreground')
+    and ev.event_name in ('screen_end', 'screen_view_end', 'application_background', 'application_foreground')
 
   group by 1, 2
 )
