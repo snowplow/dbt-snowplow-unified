@@ -165,7 +165,7 @@ with session_firsts as (
       , min(derived_tstamp) as start_tstamp
       , max(derived_tstamp) as end_tstamp
       , count(*) as total_events
-      , count(distinct view_id) as views
+      , count(distinct case when event_name in ('page_ping', 'page_view', 'screen_view') and view_id is not null then view_id else null end) as views
 
       {%- if var('snowplow__list_event_counts', false) %}
           , {{ snowplow_unified.event_counts_string_query() }} as event_counts_string
