@@ -213,3 +213,64 @@ def test_native_comparison_resolves_fixture_without_package_scoped_vars():
     assert captured["session_timestamp"] == "load_tstamp"
     assert captured["allow_null_dvce_tstamps"] is True
     assert [identifier["field"] for identifier in captured["session_identifiers"]] == ["sessionId", "domain_sessionid"]
+
+
+@pytest.mark.parametrize("warehouse", ["snowflake", "postgres", "redshift", "bigquery", "databricks", "spark"])
+@pytest.mark.parametrize("custom_source", [False, True])
+@pytest.mark.parametrize("stage_enabled", [False, True])
+def test_base_source_routing_is_snowflake_opt_in_only(warehouse, custom_source, stage_enabled):
+    """Render the real model up to its Utils call without any warehouse APIs.
+
+    Other targets must retain their original source arguments even before the
+    config hook rejects an unsupported staging flag. Disabled staging must not
+    require a relation lookup or introduce a dependency on the staged model.
+    """
+    class CapturedQuery(Exception):
+        pass
+
+    captured, refs = {}, []
+    staged_source = SimpleNamespace(database="stage_db", schema="scratch", identifier="staged_events")
+
+    def capture_query(**kwargs):
+        captured.update(kwargs)
+        raise CapturedQuery
+
+    def ref(name):
+        refs.append(name)
+        return staged_source
+
+    variables = {
+        "snowplow__snowflake_stage_events": stage_enabled,
+        "snowplow__enable_web": False,
+        "snowplow__enable_mobile": False,
+    }
+    if custom_source:
+        variables.update({
+            "snowplow__database": "raw_db",
+            "snowplow__atomic_schema": "custom_atomic",
+            "snowplow__events_table": "custom_events",
+            "snowplow__databricks_catalog": "custom_catalog",
+        })
+    env = Environment(undefined=StrictUndefined, extensions=["jinja2.ext.do"])
+    with pytest.raises(CapturedQuery):
+        env.from_string((ROOT / "models/base/scratch/snowplow_unified_base_events_this_run.sql").read_text()).render(
+            config=lambda **kwargs: "",
+            var=lambda name, default=None: variables.get(name, default),
+            target=SimpleNamespace(type=warehouse, database="target_db"),
+            ref=ref,
+            session_identifiers=lambda: [],
+            snowplow_utils=SimpleNamespace(base_create_snowplow_events_this_run=capture_query),
+        )
+    actual = tuple(captured[key] for key in ["snowplow_events_database", "snowplow_events_schema", "snowplow_events_table"])
+    if warehouse == "snowflake" and stage_enabled:
+        assert actual == ("stage_db", "scratch", "staged_events")
+        assert refs == ["snowplow_unified_base_events_staged"]
+    else:
+        schema = "custom_atomic" if custom_source else "atomic"
+        database = "raw_db" if custom_source else "target_db"
+        if warehouse == "databricks":
+            database = "custom_catalog" if custom_source else "hive_metastore"
+        elif warehouse == "spark":
+            database = schema
+        assert actual == (database, schema, "custom_events" if custom_source else "events")
+        assert refs == []

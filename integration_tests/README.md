@@ -2,7 +2,7 @@
 
 Integration test suite for the snowplow-unified dbt package.
 
-Snowflake event staging has two additional checks:
+Snowflake event staging has three additional checks:
 
 - From the package root, run `dbt deps`, install
   `integration_tests/python/requirements.txt`, and run
@@ -11,6 +11,12 @@ Snowflake event staging has two additional checks:
   DuckDB. They cover full session windows, both timestamp settings, duplicate
   events, late/device-null events, app filters, empty runs and Lake Loader SQL
   projection. They do not validate Snowflake performance.
+- Run `bash ./.scripts/test_staged_suite.sh`
+  from this directory to run the existing integration suite with staging enabled,
+  including its expected-output checks for downstream models. Warehouse CI runs
+  the suite both with staging disabled and enabled. The wrapper temporarily
+  enables staging in this test project's configuration and restores the file
+  when the suite exits, including on failure.
 - After the standard Snowflake integration suite, run
   `bash .scripts/test_staged_events.sh` from this directory. It compares the
   staged base events with the original Utils query on Snowflake for initial and
