@@ -186,3 +186,30 @@ def test_other_warehouses_reject_staging():
     })
     with pytest.raises(ValueError, match="only supported on Snowflake"):
         module.default__config_check()
+
+
+def test_native_comparison_resolves_fixture_without_package_scoped_vars():
+    captured = {}
+
+    def original_query(**kwargs):
+        captured.update(kwargs)
+        return "select * from fixture_events"
+
+    fixture = SimpleNamespace(database="test_db", schema="fixture_schema", identifier="fixture_events")
+    env = Environment(undefined=StrictUndefined)
+    env.from_string((ROOT / "integration_tests/tests/test_snowflake_staged_events.sql").read_text()).render(
+        config=lambda **kwargs: "",
+        target=SimpleNamespace(type="snowflake"),
+        var=lambda name, default=None: {
+            "snowplow__snowflake_stage_events": True,
+            "snowplow__session_timestamp": "load_tstamp",
+        }.get(name, default),
+        ref=lambda name: fixture if name == "snowplow_unified_events_stg" else name,
+        snowplow_utils=SimpleNamespace(base_create_snowplow_events_this_run=original_query),
+    )
+    assert captured["snowplow_events_database"] == fixture.database
+    assert captured["snowplow_events_schema"] == fixture.schema
+    assert captured["snowplow_events_table"] == fixture.identifier
+    assert captured["session_timestamp"] == "load_tstamp"
+    assert captured["allow_null_dvce_tstamps"] is True
+    assert [identifier["field"] for identifier in captured["session_identifiers"]] == ["sessionId", "domain_sessionid"]
