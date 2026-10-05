@@ -18,6 +18,32 @@ This table contains the lower and upper timestamp limits for the given run of th
 {% enddocs %}
 
 
+{% docs table_base_events_staged %}
+
+Optional Snowflake transient scratch table, rebuilt each run when
+`snowplow__snowflake_stage_events: true`. It reads the configured events source
+with literal bounds on `snowplow__session_timestamp` and the configured app ID
+filter before the base-events model joins sessions or deduplicates events.
+Bounds come from the minimum session start and maximum session end in
+`snowplow_unified_base_sessions_this_run`, preserving earlier events in sessions
+being reprocessed. Lake Loader entities are converted to unstructured arrays
+and objects using the same convention as the base-events model.
+
+Use with `snowplow__session_timestamp: load_tstamp` for sources partitioned on
+load time. Staging adds a scratch-table write and read, so compare end-to-end
+runtime and source partitions scanned before enabling it routinely. This option
+does not change the session lifecycle source scan or the existing session,
+late-event and deduplication rules. It is disabled by default and supported only
+on Snowflake. Run the whole package, or include all ancestors when selecting a
+downstream model, so the staged table is rebuilt before it is consumed.
+
+Enabling staging alone does not require a full refresh. Changing the session
+timestamp is a separate change to the meaning of persisted session bounds and
+watermarks; plan their rebuild or migration before switching it on an existing
+installation.
+
+{% enddocs %}
+
 {% docs table_base_events_this_run %}
 
 For any given run, this table contains all required events to be consumed by subsequent nodes in the Snowplow dbt unified package. This is a cleaned, deduped dataset, containing all columns from the raw events table. On top, all the most common context/sde fields are also extracted if they are available, otherwise NULLs are displayed. Such fields are named with a shortened version of the field name followed by double underscores + field name (e.g. `yauaa__device_class`).

@@ -180,6 +180,10 @@ jobs:
       - name: Run tests
         run: ./.scripts/integration_test.sh -d ${{matrix.warehouse}}
 
+      - name: Compare staged and direct Snowflake events
+        if: ${{ matrix.warehouse == 'snowflake' }}
+        run: bash ./.scripts/test_staged_events.sh
+
       - name: "Post-test: Drop ci schemas"
         if: ${{ matrix.warehouse != 'bigquery' }}
         run: |

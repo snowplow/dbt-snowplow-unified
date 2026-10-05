@@ -2,6 +2,23 @@
 
 Integration test suite for the snowplow-unified dbt package.
 
+Snowflake event staging has two additional checks:
+
+- From the package root, run `dbt deps`, install
+  `integration_tests/python/requirements.txt`, and run
+  `python -m pytest -q integration_tests/python`. These warehouse-free tests
+  execute the original Utils query and the staged query on synthetic data in
+  DuckDB. They cover full session windows, both timestamp settings, duplicate
+  events, late/device-null events, app filters, empty runs and Lake Loader SQL
+  projection. They do not validate Snowflake performance.
+- After the standard Snowflake integration suite, run
+  `bash .scripts/test_staged_events.sh` from this directory. It compares the
+  staged base events with the original Utils query on Snowflake for initial and
+  incremental runs using each timestamp setting. This is included in warehouse
+  CI; it requires a dedicated integration-test profile and resets the test
+  manifests. Lake Loader structured-source execution and Iceberg scan pruning
+  still need validation on a representative Snowflake Iceberg source.
+
 The `./scripts` directory contains the following:
 
 - `integration_tests.sh`: This tests the standard modules of the snowplow-unified package:

@@ -1,3 +1,14 @@
+snowplow-unified x.x.x (xxxx-xx-xx)
+---------------------------------------
+## Features
+- Add optional Snowflake event staging before session joins and deduplication.
+
+## Upgrading
+Set `snowplow__snowflake_stage_events: true` to materialize the session event
+window before the base-events query. This is disabled by default and does not
+change the configured session timestamp. Compare the additional scratch-table
+cost with source scan savings before adopting it.
+
 snowplow-unified 1.0.0 (2026-01-20)
 ---------------------------------------
 ## Summary

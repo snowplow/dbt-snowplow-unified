@@ -8,3 +8,5 @@ dbt-service-account.json
 .vscode/settings.json
 package-lock.yml
 dbt_internal_packages/
+__pycache__/
+.pytest_cache/

@@ -87,6 +87,16 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
   {% do contexts.append({'schema': var('snowplow__yauaa_context'), 'prefix': 'yauaa_', 'single_entity': True}) %}
 {% endif -%}
 
+{% if target.type == 'snowflake' and var('snowplow__snowflake_stage_events', false) %}
+  {% set events_source = ref('snowplow_unified_base_events_staged') %}
+{% else %}
+  {% set events_source = api.Relation.create(
+      database=var('snowplow__database', target.database) if target.type not in ['databricks', 'spark'] else var('snowplow__databricks_catalog', 'hive_metastore') if target.type in ['databricks'] else var('snowplow__atomic_schema', 'atomic'),
+      schema=var('snowplow__atomic_schema', 'atomic'),
+      identifier=var('snowplow__events_table', 'events')
+  ) %}
+{% endif %}
+
 {% set base_events_query = snowplow_utils.base_create_snowplow_events_this_run(
                               sessions_this_run_table='snowplow_unified_base_sessions_this_run',
                               session_identifiers= session_identifiers(),
@@ -96,9 +106,9 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
                               days_late_allowed=var('snowplow__days_late_allowed', 3),
                               max_session_days=var('snowplow__max_session_days', 3),
                               app_ids=var('snowplow__app_id', []),
-                              snowplow_events_database=var('snowplow__database', target.database) if target.type not in ['databricks', 'spark'] else var('snowplow__databricks_catalog', 'hive_metastore') if target.type in ['databricks'] else var('snowplow__atomic_schema', 'atomic'),
-                              snowplow_events_schema=var('snowplow__atomic_schema', 'atomic'),
-                              snowplow_events_table=var('snowplow__events_table', 'events'),
+                              snowplow_events_database=events_source.database,
+                              snowplow_events_schema=events_source.schema,
+                              snowplow_events_table=events_source.identifier,
                               entities_or_sdes=contexts,
                               custom_sql=var('snowplow__custom_sql', none),
                               allow_null_dvce_tstamps=var('snowplow__allow_null_dvce_tstamps', false)

@@ -1,0 +1,22 @@
+name: staged_events_tests
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  local_sql_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install test dependencies
+        run: pip install 'dbt-core>=1.10.6,<2' -r integration_tests/python/requirements.txt
+      - name: Install package dependencies
+        run: dbt deps
+      - name: Check staging semantics
+        run: python -m pytest -q integration_tests/python

@@ -1,6 +1,8 @@
 version: 2
 
 models:
+  - name: snowplow_unified_base_events_staged
+    description: '{{ doc("table_base_events_staged") }}'
   - name: snowplow_unified_base_new_event_limits
     description: '{{ doc("table_base_new_event_limits") }}'
     columns:

@@ -11,6 +11,12 @@ You may obtain a copy of the Snowplow Personal and Academic License Version 1.0 
 
 {% macro default__config_check() %}
 
+  {% if var('snowplow__snowflake_stage_events', false) and target.type != 'snowflake' %}
+    {{ exceptions.raise_compiler_error(
+      "Snowplow Error: snowplow__snowflake_stage_events is only supported on Snowflake."
+    ) }}
+  {% endif %}
+
   {% if not var('snowplow__enable_web') and not var('snowplow__enable_mobile') %}
     {{ exceptions.raise_compiler_error(
       "Snowplow Error: No platform to process. Please set at least one of the variables `snowplow__enable_web` or `snowplow__enable_mobile` to true."
