@@ -2,6 +2,7 @@ name: Temporary CWV version comparison
 
 on:
   pull_request:
+    types: [opened]
 
 # Keep the existing group so other Unified CI runs cannot clear schemas mid-test.
 concurrency: dbt_integration_tests
