@@ -43,7 +43,3 @@ There are certain exceptions to how different warehouses process data and in pla
 - rotating domain_userid per session is hard-coded in the integration test expectations, when run in one batch the user_identifier differs: 2e340eb6e94820ea8369c0174c612260d1cfe9d41f0fe46268994e28d9c0bbf17
 0e9ab97b5d9d9a174112df13fe9c44788af3ac9088a8b41e0998d92a8b4b5a4fc
 - same with the number of quarantined sessions
-
-### Databricks Core Web Vitals precision
-
-The normal CWV test selection runs `test_databricks_cwv_percentile_precision` on Databricks. It covers binary floating-point tails, genuine fractional ceilings, classification boundaries, nulls, duplicates, large values, and the 75th and 95th percentiles.
