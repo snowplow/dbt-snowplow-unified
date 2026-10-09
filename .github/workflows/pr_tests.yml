@@ -137,6 +137,10 @@ jobs:
         with:
          python-version: "3.10.x"
 
+      - name: Verify Databricks CWV fixture with exact decimal arithmetic
+        if: ${{ matrix.warehouse == 'databricks' }}
+        run: python -m unittest discover -s python -p 'test_databricks_cwv_fixture.py'
+
       - name: Pip cache
         uses: actions/cache@v3
         with:
