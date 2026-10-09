@@ -46,6 +46,4 @@ There are certain exceptions to how different warehouses process data and in pla
 
 ### Databricks Core Web Vitals precision
 
-Run `python -m unittest discover -s integration_tests/python -p 'test_databricks_cwv_fixture.py'` from the repository root to verify all 209 Databricks summary groups against exact decimal percentiles of the source fixture. This uses only Python's standard library and runs in the Databricks CI job.
-
-The normal CWV test selection also runs `test_databricks_cwv_percentile_precision` on Databricks. It covers binary floating-point tails, genuine fractional ceilings, classification boundaries, nulls, duplicates, large values, and the 75th and 95th percentiles.
+The normal CWV test selection runs `test_databricks_cwv_percentile_precision` on Databricks. It covers binary floating-point tails, genuine fractional ceilings, classification boundaries, nulls, duplicates, large values, and the 75th and 95th percentiles.
