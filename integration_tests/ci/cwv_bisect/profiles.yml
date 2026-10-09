@@ -1,0 +1,11 @@
+integration_tests:
+  target: databricks
+  outputs:
+    databricks:
+      type: databricks
+      catalog: hive_metastore
+      schema: "{{ env_var('CWV_SCHEMA') }}"
+      host: "{{ env_var('DATABRICKS_TEST_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_TEST_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TEST_TOKEN') }}"
+      threads: 4
