@@ -1,3 +1,9 @@
+snowplow-unified x.x.x (xxxx-xx-xx)
+---------------------------------------
+
+## Fixes
+- Prevent floating-point percentile artefacts from adding an extra 0.001 to Databricks Core Web Vitals summary metrics (#131).
+
 snowplow-unified 1.0.0 (2026-01-20)
 ---------------------------------------
 ## Summary
