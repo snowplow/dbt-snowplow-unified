@@ -21,11 +21,11 @@ with measurements as (
     cast( {{ dbt.date_trunc('day', 'derived_tstamp') }} as {{ dbt.type_string() }}) as time_period,
     count(*) as view_count,
     grouping_id() as grouping_ids,
-    percentile_cont(0.{{ var('snowplow__cwv_percentile') }}) within group (order by lcp) as lcp_{{ var('snowplow__cwv_percentile') }}p,
-    percentile_cont(0.{{ var('snowplow__cwv_percentile') }}) within group (order by fid) as fid_{{ var('snowplow__cwv_percentile') }}p,
-    percentile_cont(0.{{ var('snowplow__cwv_percentile') }}) within group (order by cls) as cls_{{ var('snowplow__cwv_percentile') }}p,
-    percentile_cont(0.{{ var('snowplow__cwv_percentile') }}) within group (order by ttfb) as ttfb_{{ var('snowplow__cwv_percentile') }}p,
-    percentile_cont(0.{{ var('snowplow__cwv_percentile') }}) within group (order by inp) as inp_{{ var('snowplow__cwv_percentile') }}p
+    {{ snowplow_unified.databricks_cwv_percentile('lcp') }} as lcp_{{ var('snowplow__cwv_percentile') }}p,
+    {{ snowplow_unified.databricks_cwv_percentile('fid') }} as fid_{{ var('snowplow__cwv_percentile') }}p,
+    {{ snowplow_unified.databricks_cwv_percentile('cls') }} as cls_{{ var('snowplow__cwv_percentile') }}p,
+    {{ snowplow_unified.databricks_cwv_percentile('ttfb') }} as ttfb_{{ var('snowplow__cwv_percentile') }}p,
+    {{ snowplow_unified.databricks_cwv_percentile('inp') }} as inp_{{ var('snowplow__cwv_percentile') }}p
   from {{ ref('snowplow_unified_web_vitals') }}
 
   where cast(derived_tstamp as date) >= {{ dbt.dateadd('day', '-'+var('snowplow__cwv_days_to_measure')|string, dbt.date_trunc('day', snowplow_utils.current_timestamp_in_utc())) }}
@@ -61,11 +61,11 @@ with measurements as (
     coalesce(g.name, 'all') as country,
     coalesce(m.time_period, 'last {{var("snowplow__cwv_days_to_measure")|string }} days') as time_period,
     m.view_count,
-    ceil(m.lcp_{{ var('snowplow__cwv_percentile') }}p, 3) as lcp_{{ var('snowplow__cwv_percentile') }}p,
-    ceil(m.fid_{{ var('snowplow__cwv_percentile') }}p, 3) as fid_{{ var('snowplow__cwv_percentile') }}p,
-    ceil(m.cls_{{ var('snowplow__cwv_percentile') }}p, 3) as cls_{{ var('snowplow__cwv_percentile') }}p,
-    ceil(m.ttfb_{{ var('snowplow__cwv_percentile') }}p, 3) as ttfb_{{ var('snowplow__cwv_percentile') }}p,
-    ceil(m.inp_{{ var('snowplow__cwv_percentile') }}p, 3) as inp_{{ var('snowplow__cwv_percentile') }}p,
+    cast(ceil(m.lcp_{{ var('snowplow__cwv_percentile') }}p, 3) as decimal(19,3)) as lcp_{{ var('snowplow__cwv_percentile') }}p,
+    cast(ceil(m.fid_{{ var('snowplow__cwv_percentile') }}p, 3) as decimal(19,3)) as fid_{{ var('snowplow__cwv_percentile') }}p,
+    cast(ceil(m.cls_{{ var('snowplow__cwv_percentile') }}p, 3) as decimal(19,3)) as cls_{{ var('snowplow__cwv_percentile') }}p,
+    cast(ceil(m.ttfb_{{ var('snowplow__cwv_percentile') }}p, 3) as decimal(19,3)) as ttfb_{{ var('snowplow__cwv_percentile') }}p,
+    cast(ceil(m.inp_{{ var('snowplow__cwv_percentile') }}p, 3) as decimal(19,3)) as inp_{{ var('snowplow__cwv_percentile') }}p,
     m.lcp_result,
     m.fid_result,
     m.cls_result,

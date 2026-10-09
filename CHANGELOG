@@ -1,3 +1,12 @@
+snowplow-unified x.x.x (xxxx-xx-xx)
+---------------------------------------
+
+## Fixes
+- Prevent floating-point percentile artefacts from adding an extra 0.001 to Databricks Core Web Vitals summary metrics (#131).
+
+## Upgrading
+- After upgrading the package, affected Databricks Core Web Vitals summary values are corrected on the next normal run of `snowplow_unified_web_vital_measurements`. This table is rebuilt for the configured reporting window on each run; no migration or full refresh of upstream incremental models is required.
+
 snowplow-unified 1.0.0 (2026-01-20)
 ---------------------------------------
 ## Summary
