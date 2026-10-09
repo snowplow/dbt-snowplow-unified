@@ -1,21 +1,66 @@
--- Two groups from the public CWV fixture. No dbt, tables, or mutable state.
--- Mirror the fixture's FLOAT -> DECIMAL(14,4) -> CEIL(...,3) input path.
-with input(group_name, raw_fid) as (
-  values ('march20_desktop', '278.1'), ('march20_desktop', '15.2'),
-         ('arm_any_road_mobile', '53.2999999999999'),
-         ('arm_any_road_mobile', '93.2'), ('arm_any_road_mobile', '295')
-), prepared as (
-  select group_name, ceil(cast(cast(raw_fid as float) as decimal(14,4)), 3) as fid
+-- Rendered from production macro and regression test at 2267a2e. Literal-only; no tables.
+
+
+-- Associate this literal-only regression with the existing CWV test selection.
+-- depends_on: snowplow_unified_web_vital_measurements_actual
+
+with input(case_name, value) as (
+  select case_name, cast(value as decimal(14,3))
+  from values
+    ('floating_tail', 53.3), ('floating_tail', 93.2), ('floating_tail', 295),
+    ('historical_fixture', 15.2), ('historical_fixture', 278.1),
+    ('real_fraction', 1.000), ('real_fraction', 1.001),
+    ('below_threshold', 99.999), ('below_threshold', 100.000),
+    ('exact_threshold', 99.700), ('exact_threshold', 100.100),
+    ('all_null', null), ('all_null', null),
+    ('with_null', null), ('with_null', 10), ('with_null', 20),
+    ('singleton', 1.001),
+    ('duplicates', 1), ('duplicates', 1), ('duplicates', 1), ('duplicates', 2),
+    ('large', 9999999999.997), ('large', 9999999999.999),
+    ('negative', -1.001), ('negative', -1.000)
+  as fixture(case_name, value)
+), actual as (
+  select case_name,
+    
+  
+  
+  
+  cast(
+    percentile_cont(0.75) within group (order by value)
+    as decimal(38, 5)
+  )
+ as p75,
+    
+  
+  
+  
+  cast(
+    percentile_cont(0.95) within group (order by value)
+    as decimal(38, 5)
+  )
+ as p95
   from input
-), percentiles as (
-  select group_name, percentile_cont(0.75) within group (order by fid) as p75
-  from prepared
-  group by group_name
+  group by case_name
+), expected(case_name, p75, rounded_p75, p95) as (
+  values
+    ('floating_tail', 194.10000, 194.100, 274.82000),
+    ('historical_fixture', 212.37500, 212.375, 264.95500),
+    ('real_fraction', 1.00075, 1.001, 1.00095),
+    ('below_threshold', 99.99975, 100.000, 99.99995),
+    ('exact_threshold', 100.00000, 100.000, 100.08000),
+    ('all_null', null, null, null),
+    ('with_null', 17.50000, 17.500, 19.50000),
+    ('singleton', 1.00100, 1.001, 1.00100),
+    ('duplicates', 1.25000, 1.250, 1.85000),
+    ('large', 9999999999.99850, 9999999999.999, 9999999999.99890),
+    ('negative', -1.00025, -1.000, -1.00005)
 )
-select group_name, typeof(p75) as percentile_type,
-       format_string('%.17f', p75) as percentile_high_precision,
-       ceil(p75, 3) as current_model_result,
-       ceil(cast(p75 as decimal(24,5)), 3) as decimal_before_ceiling,
-       case group_name when 'march20_desktop' then 212.375 else 194.100 end as exact_decimal_result
-from percentiles
-order by group_name
+select a.case_name
+from actual a
+full outer join expected e on a.case_name = e.case_name
+where a.case_name is null or e.case_name is null
+  or not (a.p75 <=> e.p75)
+  or not (a.p95 <=> e.p95)
+  or not (cast(ceil(a.p75, 3) as decimal(19,3)) <=> e.rounded_p75)
+  -- Classification uses the unrounded percentile, not the displayed ceiling.
+  or not ((a.p75 < 100) <=> (e.p75 < 100))

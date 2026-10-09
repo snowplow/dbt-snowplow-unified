@@ -1,4 +1,4 @@
-"""Read-only percentile/ceiling reproduction without dbt installed."""
+"""Read-only boundary regression for fix 2267a2e, without dbt installed."""
 import json
 import os
 from pathlib import Path
@@ -15,3 +15,7 @@ with sql.connect(server_hostname=os.environ['DATABRICKS_TEST_HOST'],
 payload = json.dumps({'sql': statement, 'results': rows}, default=str, indent=2)
 Path('cwv-numeric-probe.json').write_text(payload)
 print(payload)
+
+if rows:
+    raise SystemExit(f"Native percentile regression failed: {len(rows)} mismatched cases")
+print("All 11 native percentile boundary cases pass at p75 and p95.")

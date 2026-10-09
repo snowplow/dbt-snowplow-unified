@@ -2,7 +2,8 @@ name: Temporary CWV SQL numeric probe
 on:
   pull_request:
     types: [synchronize]
-concurrency: dbt_integration_tests
+# Literal-only SELECT has no shared schemas or mutations.
+concurrency: cwv_literal_numeric_probe
 permissions:
   contents: read
 jobs:
@@ -21,7 +22,7 @@ jobs:
           python-version: '3.10.x'
       - name: Install SQL connector without dbt
         run: python -m pip install databricks-sql-connector==4.4.0 -c integration_tests/ci/cwv_bisect/october.txt
-      - name: Execute literal-only SQL reproduction
+      - name: Execute candidate precision boundary regression
         run: python integration_tests/ci/cwv_bisect/numeric_probe.py
       - uses: actions/upload-artifact@v4
         with:
