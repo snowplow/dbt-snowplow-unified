@@ -1,0 +1,85 @@
+name: Identities native validation
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/identities_native_validation.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: identities_native_validation
+  cancel-in-progress: false
+
+jobs:
+  integration:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'diagnose/identities-native-ci' }}
+    name: Identities (${{ matrix.warehouse }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        warehouse: [databricks, snowflake, bigquery]
+    defaults:
+      run:
+        working-directory: identities/integration_tests
+    env:
+      DBT_PROFILES_DIR: ./ci
+      DBT_SEND_ANONYMOUS_USAGE_STATS: "false"
+      DEFAULT_TARGET: ${{ matrix.warehouse }}
+      SCHEMA_SUFFIX: ${{ github.run_id }}_${{ github.run_attempt }}_${{ matrix.warehouse }}
+      DATABRICKS_TEST_CATALOG: hive_metastore
+      DATABRICKS_TEST_HOST: ${{ secrets.DATABRICKS_TEST_HOST }}
+      DATABRICKS_TEST_HTTP_PATH: ${{ secrets.DATABRICKS_TEST_HTTP_PATH }}
+      DATABRICKS_TEST_TOKEN: ${{ secrets.DATABRICKS_TEST_TOKEN }}
+      SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.SNOWFLAKE_TEST_ACCOUNT }}
+      SNOWFLAKE_TEST_USER: ${{ secrets.SNOWFLAKE_TEST_USER }}
+      SNOWFLAKE_TEST_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_TEST_PRIVATE_KEY }}
+      SNOWFLAKE_TEST_ROLE: ${{ secrets.SNOWFLAKE_TEST_ROLE }}
+      SNOWFLAKE_TEST_DATABASE: ${{ secrets.SNOWFLAKE_TEST_DATABASE }}
+      SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.SNOWFLAKE_TEST_WAREHOUSE }}
+      BIGQUERY_TEST_DATABASE: ${{ secrets.BIGQUERY_TEST_DATABASE }}
+      BIGQUERY_LOCATION: ${{ secrets.BIGQUERY_LOCATION }}
+      BIGQUERY_SERVICE_TYPE: ${{ secrets.BIGQUERY_SERVICE_TYPE }}
+      BIGQUERY_SERVICE_PROJECT_ID: ${{ secrets.BIGQUERY_SERVICE_PROJECT_ID }}
+      BIGQUERY_SERVICE_PRIVATE_KEY_ID: ${{ secrets.BIGQUERY_SERVICE_PRIVATE_KEY_ID }}
+      BIGQUERY_SERVICE_PRIVATE_KEY: ${{ secrets.BIGQUERY_SERVICE_PRIVATE_KEY }}
+      BIGQUERY_SERVICE_CLIENT_EMAIL: ${{ secrets.BIGQUERY_SERVICE_CLIENT_EMAIL }}
+      BIGQUERY_SERVICE_CLIENT_ID: ${{ secrets.BIGQUERY_SERVICE_CLIENT_ID }}
+      BIGQUERY_SERVICE_AUTH_URI: ${{ secrets.BIGQUERY_SERVICE_AUTH_URI }}
+      BIGQUERY_SERVICE_TOKEN_URI: ${{ secrets.BIGQUERY_SERVICE_TOKEN_URI }}
+      BIGQUERY_SERVICE_AUTH_PROVIDER_X509_CERT_URL: ${{ secrets.BIGQUERY_SERVICE_AUTH_PROVIDER_X509_CERT_URL }}
+      BIGQUERY_SERVICE_CLIENT_X509_CERT_URL: ${{ secrets.BIGQUERY_SERVICE_CLIENT_X509_CERT_URL }}
+    steps:
+      - name: Check out Identities candidate
+        uses: actions/checkout@v4
+        with:
+          repository: snowplow-incubator/dbt-snowplow-identities
+          ref: 3591f3a7756c233684ecf2927b850db2fed861fa
+          path: identities
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install latest dbt 1.x dependencies
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m pip install 'dbt-core==1.*' 'dbt-${{ matrix.warehouse }}==1.*'
+          dbt --version
+          dbt deps
+
+      - name: Check warehouse connection
+        id: connection
+        run: dbt debug --target "$DEFAULT_TARGET"
+
+      - name: Run existing full and incremental integration tests
+        run: bash ./.scripts/integration_test.sh -d "$DEFAULT_TARGET"
+
+      - name: Clean isolated test schemas
+        if: ${{ always() && steps.connection.outcome == 'success' }}
+        run: dbt run-operation post_ci_cleanup --target "$DEFAULT_TARGET"
