@@ -122,9 +122,7 @@ models:
       - name: expired
         description: Total number of users whose last consent event sent from the latest consent version has type expired
       - name: implicit_consent
-        config:
-          meta:
-            describtion: Total number of users whose last consent event sent from the latest consent version has type implicit_consent
+        description: Total number of users whose last consent event sent from the latest consent version has type implicit_consent
       - name: withdrawn
         description: Total number of users whose last consent event sent from the latest consent version has type withdrawn
       - name: expires_in_six_months
