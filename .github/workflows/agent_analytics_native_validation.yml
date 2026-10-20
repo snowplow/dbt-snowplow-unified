@@ -1,0 +1,92 @@
+name: Agent Analytics native validation
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/agent_analytics_native_validation.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agent_analytics_native_validation
+  cancel-in-progress: false
+
+jobs:
+  validation:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'diagnose/agent-analytics-native-ci' }}
+    name: Agent Analytics (${{ matrix.mode }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [integration, docs]
+    defaults:
+      run:
+        working-directory: agent_analytics/integration_tests
+    env:
+      DBT_PROFILES_DIR: ./ci
+      DBT_SEND_ANONYMOUS_USAGE_STATS: "false"
+      DEFAULT_TARGET: snowflake
+      SCHEMA_SUFFIX: native_${{ github.run_id }}_${{ github.run_attempt }}_${{ matrix.mode }}
+      SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.SNOWFLAKE_TEST_ACCOUNT }}
+      SNOWFLAKE_TEST_USER: ${{ secrets.SNOWFLAKE_TEST_USER }}
+      SNOWFLAKE_TEST_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_TEST_PRIVATE_KEY }}
+      SNOWFLAKE_TEST_ROLE: ${{ secrets.SNOWFLAKE_TEST_ROLE }}
+      SNOWFLAKE_TEST_DATABASE: ${{ secrets.SNOWFLAKE_TEST_DATABASE }}
+      SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.SNOWFLAKE_TEST_WAREHOUSE }}
+    steps:
+      - name: Check out reviewed Agent Analytics candidate
+        uses: actions/checkout@v4
+        with:
+          repository: teodorionita/dbt-snowplow-agent-analytics
+          ref: 1dcad9b232fd4321925db374440081ff1034465f
+          path: agent_analytics
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install latest dbt 1.x dependencies
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m pip install --upgrade 'dbt-core==1.*' 'dbt-snowflake==1.*'
+          dbt --version
+          dbt deps
+
+      - name: Check warehouse connection
+        id: connection
+        run: dbt debug --target snowflake
+
+      - name: Run existing full and incremental integration tests
+        if: matrix.mode == 'integration'
+        run: bash .scripts/integration_tests.sh -d snowflake
+
+      - name: Validate docs build without publishing
+        if: matrix.mode == 'docs'
+        run: |
+          dbt seed --target snowflake --full-refresh
+          dbt run --target snowflake --select snowplow_agent_analytics_events_stg
+          dbt run --target snowflake --full-refresh --exclude snowplow_agent_analytics_events_stg --vars '{snowplow__backfill_limit_days: 120}'
+          dbt docs generate --target snowflake --vars '{snowplow__backfill_limit_days: 120}'
+          jq 'walk(if type == "object" then with_entries(select(.key | contains("snowplow_agent_analytics_integration_tests") | not)) else . end)' target/manifest.json > target/new_manifest.json
+          jq 'walk(if type == "object" then with_entries(select(.key | contains("snowplow_agent_analytics_integration_tests") | not)) else . end)' target/catalog.json > target/new_catalog.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path('target/new_manifest.json').read_text())
+          catalog = json.loads(Path('target/new_catalog.json').read_text())
+          assert catalog['nodes'], 'Empty package catalog'
+          assert not catalog.get('errors'), 'Catalog generation errors'
+          assert all('snowplow_agent_analytics_integration_tests' not in key for key in manifest['nodes'])
+          assert all(node.get('columns') for node in catalog['nodes'].values()), 'Missing column metadata'
+          assert Path('target/index.html').stat().st_size > 0
+          print(f"Validated package documentation: {len(catalog['nodes'])} catalog nodes")
+          PY
+
+      - name: Clean isolated test schemas
+        if: ${{ always() && steps.connection.outcome == 'success' }}
+        run: dbt run-operation post_ci_cleanup --target snowflake
