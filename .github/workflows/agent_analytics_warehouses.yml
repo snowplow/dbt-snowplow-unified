@@ -88,7 +88,8 @@ jobs:
         run: bash .scripts/integration_tests.sh -d ${{ matrix.warehouse }}
       - name: Build portable dimensions
         if: matrix.warehouse != 'snowflake'
-        run: dbt run --target ${{ matrix.warehouse }} --select dim_date dim_page dim_operator --vars '{enable_semantic_views: true}'
+        run: |
+          dbt run --target ${{ matrix.warehouse }} --select dim_date dim_page dim_operator --vars '{enable_semantic_views: true}'
       - name: Generate dbt docs without publishing
         run: dbt docs generate --target ${{ matrix.warehouse }}
       - name: Clean isolated schemas
