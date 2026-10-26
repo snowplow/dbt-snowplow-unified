@@ -26,6 +26,12 @@ for db in ${DATABASES[@]}; do
   echo "Snowplow unified integration tests: Seeding data"
   eval "dbt seed --full-refresh --target $db" || exit 1;
 
+  if [[ $db == "spark_iceberg" ]]; then
+    echo "Snowplow unified integration tests: Generate Spark catalog"
+    # Exercise source/model database consistency without compiling unbuilt models.
+    dbt docs generate --no-compile --target "$db" || exit 1
+  fi
+
   echo "Snowplow unified integration tests: Try run without data"
   eval "dbt run --full-refresh --vars '{snowplow__allow_refresh: true, snowplow__backfill_limit_days: 1, snowplow__enable_cwv: false, snowplow__start_date: 2010-01-01}' --target $db" || exit 1;
 

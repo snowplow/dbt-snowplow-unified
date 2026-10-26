@@ -1,3 +1,15 @@
+snowplow-unified x.x.x (xxxx-xx-xx)
+---------------------------------------
+
+## Fixes
+- Leave source databases unset for the Spark adapter so `dbt docs generate` can build the catalog (#117). Databricks catalog configuration and other adapters are unchanged.
+
+## Under the hood
+- Check Spark catalog generation in the existing integration test flow.
+
+## Upgrading
+- No full refresh or data migration is required.
+
 snowplow-unified 1.0.1 (2026-10-13)
 ---------------------------------------
 
