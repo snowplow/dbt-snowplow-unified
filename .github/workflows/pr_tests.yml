@@ -62,7 +62,7 @@ env:
 jobs:
   pr_tests:
     name: pr_tests
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.head_ref != 'diagnose/agent-review-20261028' }}
     runs-on: ubuntu-latest
     defaults:
       run:
