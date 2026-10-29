@@ -1,0 +1,73 @@
+name: Agent Analytics Snowflake migration validation
+on:
+  pull_request:
+    paths:
+      - .github/workflows/agent_analytics_migration.yml
+      - .github/scripts/validate_agent_migration.py
+permissions:
+  contents: read
+concurrency:
+  group: agent_analytics_migration_validation
+  cancel-in-progress: false
+jobs:
+  validation:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'diagnose/agent-migration-20261029' }}
+    name: Snowflake in-place migration
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: agent_analytics/integration_tests
+    env:
+      DBT_PROFILES_DIR: ./ci
+      DBT_SEND_ANONYMOUS_USAGE_STATS: "false"
+      DEFAULT_TARGET: snowflake
+      SCHEMA_SUFFIX: migration_${{ github.run_id }}_${{ github.run_attempt }}
+      SNOWFLAKE_TEST_ACCOUNT: ${{ secrets.SNOWFLAKE_TEST_ACCOUNT }}
+      SNOWFLAKE_TEST_USER: ${{ secrets.SNOWFLAKE_TEST_USER }}
+      SNOWFLAKE_TEST_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_TEST_PRIVATE_KEY }}
+      SNOWFLAKE_TEST_ROLE: ${{ secrets.SNOWFLAKE_TEST_ROLE }}
+      SNOWFLAKE_TEST_DATABASE: ${{ secrets.SNOWFLAKE_TEST_DATABASE }}
+      SNOWFLAKE_TEST_WAREHOUSE: ${{ secrets.SNOWFLAKE_TEST_WAREHOUSE }}
+      MIGRATION_GUIDE: ${{ github.workspace }}/migration_docs/docs/modeling-your-data/modeling-your-data-with-dbt/migration-guides/agent-analytics/index.md
+    steps:
+      - name: Check out validation runner
+        uses: actions/checkout@v4
+        with:
+          path: validation
+          persist-credentials: false
+      - name: Check out package candidate
+        uses: actions/checkout@v4
+        with:
+          repository: teodorionita/dbt-snowplow-agent-analytics
+          ref: 1aff414a1b3ea69f92e4470acdd6c3339bda5845
+          path: agent_analytics
+          persist-credentials: false
+      - name: Check out migration guide
+        uses: actions/checkout@v4
+        with:
+          repository: snowplow/documentation
+          ref: 8374a530ae38745ddfcdb3798e99f51707c6663b
+          path: migration_docs
+          persist-credentials: false
+          sparse-checkout: docs/modeling-your-data/modeling-your-data-with-dbt/migration-guides/agent-analytics
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install latest dbt 1.x
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          python -m pip install 'dbt-core==1.*' 'dbt-snowflake==1.*'
+          dbt --version
+          dbt deps
+      - name: Check warehouse connection
+        id: connection
+        run: dbt debug --target snowflake
+      - name: Validate documented migration and incremental continuation
+        run: python ../../validation/.github/scripts/validate_agent_migration.py
+      - name: Build and test Snowflake semantic layer
+        run: |
+          dbt build --target snowflake --select dim_date dim_page dim_operator agent_analytics_semantic_view --vars '{enable_semantic_views: true}'
+      - name: Clean isolated schemas
+        if: ${{ always() && steps.connection.outcome == 'success' }}
+        run: dbt run-operation post_ci_cleanup --target snowflake
