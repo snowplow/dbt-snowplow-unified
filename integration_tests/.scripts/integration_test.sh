@@ -28,8 +28,11 @@ for db in ${DATABASES[@]}; do
 
   if [[ $db == "spark_iceberg" ]]; then
     echo "Snowplow unified integration tests: Generate Spark catalog"
+    # Catalog metadata does not render the nested Jinja in the fixture's atomic schema variable.
+    catalog_vars=$(dbt --quiet ls --target "$db" --resource-type seed --select snowplow_unified_events --output json --output-keys schema |
+      python -c 'import json, sys; print(json.dumps({"snowplow__atomic_schema": json.load(sys.stdin)["schema"]}))') || exit 1
     # Exercise source/model database consistency without compiling unbuilt models.
-    dbt docs generate --no-compile --target "$db" || exit 1
+    dbt docs generate --no-compile --target "$db" --vars "$catalog_vars" || exit 1
   fi
 
   echo "Snowplow unified integration tests: Try run without data"
