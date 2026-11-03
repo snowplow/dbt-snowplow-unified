@@ -168,9 +168,37 @@ jobs:
         working-directory: .github/workflows/spark_deployment
         run: |
           docker-compose up -d
-          echo "Waiting for Spark services to start..."
-          sleep 90
         if: ${{env.WAREHOUSE_PLATFORM == 'spark'}}
+
+      - name: Wait for Spark SQL
+        if: ${{ env.WAREHOUSE_PLATFORM == 'spark' }}
+        run: |
+          for attempt in {1..12}; do
+            if timeout --kill-after=5s 15s python - <<'PY'
+          import os
+          from pyhive import hive
+
+          connection = hive.connect(
+              host=os.environ.get('SPARK_MASTER_HOST', 'localhost'),
+              port=10000,
+              username=os.environ.get('SPARK_USER', 'spark'),
+          )
+          try:
+              cursor = connection.cursor()
+              cursor.execute('SELECT 1')
+              assert cursor.fetchone() == (1,)
+          finally:
+              connection.close()
+          PY
+            then
+              echo "Spark SQL is ready."
+              exit 0
+            fi
+            echo "Waiting for Spark SQL (attempt ${attempt}/12)..."
+            sleep 5
+          done
+          echo "Spark SQL did not become ready."
+          exit 1
     
       - name: "Pre-test: Drop ci schemas"
         if: ${{ matrix.warehouse != 'bigquery' }}
@@ -184,3 +212,10 @@ jobs:
         if: ${{ matrix.warehouse != 'bigquery' }}
         run: |
           dbt run-operation post_ci_cleanup --target ${{matrix.warehouse}}
+
+      - name: Spark logs on failure
+        if: ${{ failure() && env.WAREHOUSE_PLATFORM == 'spark' }}
+        working-directory: .github/workflows/spark_deployment
+        run: |
+          docker-compose ps
+          docker-compose logs --no-color --tail=200
