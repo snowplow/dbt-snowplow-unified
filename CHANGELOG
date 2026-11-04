@@ -1,4 +1,4 @@
-snowplow-unified x.x.x (xxxx-xx-xx)
+snowplow-unified 1.0.2 (2026-11-05)
 ---------------------------------------
 
 ## Fixes
@@ -8,6 +8,7 @@ snowplow-unified x.x.x (xxxx-xx-xx)
 - Check Spark catalog generation in the existing integration test flow.
 
 ## Upgrading
+- Update the snowplow-unified version in your `packages.yml` file and run `dbt deps`.
 - No full refresh or data migration is required.
 
 snowplow-unified 1.0.1 (2026-10-13)
