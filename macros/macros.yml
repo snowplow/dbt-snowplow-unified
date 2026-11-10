@@ -45,6 +45,12 @@ macros:
     description: '{{ doc("macro_field_extractions") }}'
   - name: get_yauaa_context_fields
     description: '{{ doc("macro_field_extractions") }}'
+  - name: json_text
+    description: Returns an array or object property of a shredded table as JSON text. On Redshift the column can be either a VARCHAR holding JSON text or a SUPER, depending on the RDB Loader version that created the table, and the macro works for both.
+    arguments:
+      - name: column
+        type: string
+        description: The column to return as JSON text
   - name: allow_refresh
     description: '{{ doc("macro_allow_refresh") }}'
   - name: channel_group_query
